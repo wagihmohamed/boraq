@@ -1,10 +1,12 @@
+import toast from 'react-hot-toast';
 import './App.css';
 import { Button } from './components/ui/button';
 
 function App() {
+  const notify = () => toast.success('Here is your toast.');
   return (
     <div>
-      <Button>Hi</Button>
+      <Button onClick={notify}>Hi</Button>
     </div>
   );
 }
