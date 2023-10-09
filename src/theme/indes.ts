@@ -17,4 +17,5 @@ export const theme = createTheme({
   colors: {
     myColor,
   },
+  primaryColor: 'myColor',
 });

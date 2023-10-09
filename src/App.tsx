@@ -1,12 +1,10 @@
-import toast from 'react-hot-toast';
 import './App.css';
-import { Button } from './components/ui/button';
+import { Button } from '@mantine/core';
 
 function App() {
-  const notify = () => toast.success('Here is your toast.');
   return (
     <div>
-      <Button onClick={notify}>Hi</Button>
+      <Button>Hi</Button>
     </div>
   );
 }
