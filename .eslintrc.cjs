@@ -37,5 +37,6 @@ module.exports = {
     'import/extensions': 'off',
     'import/order': 'off',
     'import/prefer-default-export': 'off',
+    'react/function-component-definition': 'off',
   },
 };

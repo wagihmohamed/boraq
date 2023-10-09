@@ -1,11 +1,12 @@
 import './App.css';
-import { Button } from '@mantine/core';
+import { Routes, Route } from 'react-router-dom';
+import { LoginScreen } from './screens/Login';
 
 function App() {
   return (
-    <div>
-      <Button>Hi</Button>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginScreen />} />
+    </Routes>
   );
 }
 
