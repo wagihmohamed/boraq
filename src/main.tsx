@@ -22,7 +22,7 @@ const colorSchemeManager = localStorageColorSchemeManager({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <DirectionProvider>
+    <DirectionProvider initialDirection="rtl" detectDirection>
       <MantineProvider
         theme={theme}
         defaultColorScheme="dark"
