@@ -1,29 +1,62 @@
-import { Paper, TextInput, PasswordInput, Button, Title } from '@mantine/core';
-import classes from './AuthenticationImage.module.css';
+import { TextInput, PasswordInput, Title, Button } from '@mantine/core';
+import Logo from '@/assets/auth-image.png';
+import { z } from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
+
+const schema = z.object({
+  email: z.string().email({ message: 'البريد الالكتروني غير صحيح' }),
+  password: z
+    .string()
+    .min(6, { message: 'كلمة المرور يجب ان تكون اكثر من 6 احرف' }),
+});
 
 export const LoginScreen = () => {
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const handleSubmit = (values: z.infer<typeof schema>) => {
+    console.log(values);
+  };
+
   return (
-    <div className={classes.wrapper}>
-      <Paper pt={150} className={classes.form} radius={0} p={30}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+    <div className="h-screen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <form
+        onSubmit={form.onSubmit(handleSubmit)}
+        className="flex flex-col justify-center items-center px-10 bg-background border-l border-border"
+      >
+        <Title order={2} ta="center" mt="md" mb={50}>
           مرحبا بك لوحة التحكم!
         </Title>
 
         <TextInput
           label="البريد الالكتروني"
-          placeholder="hello@gmail.com"
+          placeholder=""
           size="md"
+          className="w-full"
+          {...form.getInputProps('email')}
         />
         <PasswordInput
           label="كلمة المرور"
-          placeholder="******"
+          placeholder=""
           mt="md"
           size="md"
+          className="w-full"
+          {...form.getInputProps('password')}
         />
-        <Button fullWidth mt="xl" size="md">
+        <Button type="submit" fullWidth mt="xl" size="md">
           تسجيل الدخول
         </Button>
-      </Paper>
+      </form>
+      <img
+        src={Logo}
+        alt="logo"
+        className="hidden md:block h-full object-contain md:col-span-1 lg:col-span-2 aspect-auto"
+      />
     </div>
   );
 };

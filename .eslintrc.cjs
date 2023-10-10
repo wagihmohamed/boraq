@@ -38,5 +38,8 @@ module.exports = {
     'import/order': 'off',
     'import/prefer-default-export': 'off',
     'react/function-component-definition': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
+    '@typescript-eslint/no-shadow': 'off',
   },
 };
