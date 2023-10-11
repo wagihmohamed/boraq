@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
             size: 'sm',
             className: 'flex items-center gap-2',
           })}
-          to="/"
+          to="/employees/add"
         >
           اضافه موظف
         </Link>
