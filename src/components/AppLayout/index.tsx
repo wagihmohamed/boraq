@@ -21,8 +21,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
       data-active={item.label === active || undefined}
       to={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
+      onClick={() => {
         setActive(item.label);
       }}
     >
