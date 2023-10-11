@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/DataTablePagination';
 import { DataTableViewOptions } from '@/components/DataTableViewOptions';
+import { Link } from 'react-router-dom';
+import { buttonVariants } from '@/components/ui/button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,10 +37,22 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="mt-5">
-      <DataTableViewOptions table={table} />
+      <div className="flex gap-4 justify-between">
+        <Link
+          className={buttonVariants({
+            variant: 'outlineMain',
+            size: 'sm',
+            className: 'flex items-center gap-2',
+          })}
+          to="/"
+        >
+          اضافه موظف
+        </Link>
+        <DataTableViewOptions table={table} />
+      </div>
       <div className="rounded-md border mt-3 relative">
         <Table>
-          <TableHeader className="bg-primary/70">
+          <TableHeader className="bg-background">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

@@ -21,11 +21,7 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="lg"
-          className="ml-auto hidden h-8 lg:flex"
-        >
+        <Button variant="outline" size="lg" className=" hidden h-8 md:flex">
           <MixerHorizontalIcon className="ml-2 h-4 w-4" />
           اظهار
         </Button>
