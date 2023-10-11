@@ -46,9 +46,8 @@ export const columns: ColumnDef<Employee>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
             <DropdownMenuItem>عرض</DropdownMenuItem>
-            <DropdownMenuItem className="bg-destructive my-3">
-              مسح
-            </DropdownMenuItem>
+            <DropdownMenuItem className="my-3">تعديل</DropdownMenuItem>
+            <DropdownMenuItem className="bg-destructive ">مسح</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
