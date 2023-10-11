@@ -2,7 +2,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger, Group, ScrollArea } from '@mantine/core';
 import { navSections } from '@/mockup/navSections';
 import classes from './NavbarNested.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { UserNavCard } from '../UserNavCard';
 
@@ -14,7 +14,10 @@ interface Props {
 
 export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const [opened, { toggle }] = useDisclosure();
-  const [active, setActive] = useState('الطلبات');
+  const pathName = useLocation().pathname;
+  const [active, setActive] = useState(
+    navSections.find((item) => item.link === pathName)?.label || ''
+  );
   const links = navSections.map((item) => (
     <Link
       className={classes.link}
