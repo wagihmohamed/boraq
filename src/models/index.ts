@@ -6,3 +6,9 @@ export interface Employee {
   location: string;
   phone: string;
 }
+
+export interface Repository {
+  id: number;
+  name: string;
+  branch: string;
+}
