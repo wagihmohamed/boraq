@@ -1,6 +1,6 @@
-# Talabatk
+# Boraq
 
-This the super admin dashboard for Talabatak
+This the super admin dashboard for Boraq shipping company
 
 ## Project structure
 
