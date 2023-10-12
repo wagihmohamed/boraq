@@ -10,6 +10,8 @@ import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { addEmployeeSchema } from './schema';
+import { employeePermissions, employeeRoles } from '@/mockup/employees';
+import { repositoriesBranches } from '@/mockup/repositories';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
@@ -80,63 +82,25 @@ export const AddEmployee = () => {
         <Autocomplete
           label="المخزن"
           placeholder="اختار المخزن"
-          data={['مخزن البصرة', 'مخزن النجف', 'مخزن بغداد', 'مخزن الكرخ']}
+          data={repositoriesBranches}
           {...form.getInputProps('store')}
         />
         <Autocomplete
           label="الوظيفة"
           placeholder="اختار الوظيفة"
-          data={[
-            'مدير الشركة',
-            'مدير فرع',
-            'مدير حسابات',
-            'محاسب',
-            'موظف طوارئ',
-            'مدخل بيانات',
-            'موظف مخازن',
-            'موظف استعلامات',
-            'مندوب استلام',
-          ]}
+          data={employeeRoles}
           {...form.getInputProps('job')}
         />
         <MultiSelect
           label="الادوار"
           placeholder="اختار الادوار"
-          data={[
-            'مدير الشركة',
-            'مدير فرع',
-            'مدير حسابات',
-            'محاسب',
-            'موظف طوارئ',
-            'مدخل بيانات',
-            'موظف مخازن',
-            'موظف استعلامات',
-            'مندوب استلام',
-          ]}
+          data={employeeRoles}
           {...form.getInputProps('roles')}
         />
         <MultiSelect
           label="الصلاحيات"
           placeholder="اختار الصلاحيات"
-          data={[
-            'احالة الطلبات الي مندوب',
-            'اضافة صفحة',
-            'اضافة طلبات',
-            'اضافة عميل',
-            'تعديل اسم عميل',
-            'تعديل المبلغ الكلي للطلبية',
-            'تغير الحالة',
-            'تغير حالة الطلبية المغلقة',
-            'قفل حالة الطلبية',
-            'مسح الاشعارات',
-            'مسح الطلبيات',
-            'مسح الكشوفات',
-            'مسح كشوفات الشركات',
-            'مسح كشوفات المخازن',
-            'مسح كشوفات العملاء',
-            'مسح كشوفات محافظة',
-            'مسح كشوفات مندوبين',
-          ]}
+          data={employeePermissions}
           {...form.getInputProps('permissions')}
         />
         <PasswordInput
@@ -158,7 +122,16 @@ export const AddEmployee = () => {
         <Button type="submit" fullWidth mt="xl" size="md">
           اضافة
         </Button>
-        <Button type="reset" fullWidth mt="xl" size="md" variant="outline">
+        <Button
+          type="reset"
+          fullWidth
+          mt="xl"
+          size="md"
+          variant="outline"
+          onClick={() => {
+            form.reset();
+          }}
+        >
           الغاء
         </Button>
       </form>
