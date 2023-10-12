@@ -1,12 +1,13 @@
 import { Repository } from '@/models';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Link } from 'react-router-dom';
 
 export const columns: ColumnDef<Repository>[] = [
   {
@@ -40,16 +41,16 @@ export const columns: ColumnDef<Repository>[] = [
               to="/employees/1/show"
             >
               عرض
-            </Link>
+            </Link> */}
             <Link
               className={buttonVariants({
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/employees/1/edit"
+              to="/repositories/:id/edit"
             >
               تعديل
-            </Link> */}
+            </Link>
             {/* <DeleteEmployee /> */}
           </DropdownMenuContent>
         </DropdownMenu>
