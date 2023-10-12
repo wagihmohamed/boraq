@@ -9,6 +9,7 @@ import { ShowEmployee } from './screens/ShowEmployee';
 import { RepositoriesScreen } from './screens/Repositories';
 import { AddRepositoryScreen } from './screens/AddRepository';
 import { EditRepositoryScreen } from './screens/EditRepository';
+import { ShowRepository } from './screens/ShowRepository';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/repositories" element={<RepositoriesScreen />} />
       <Route path="/repositories/add" element={<AddRepositoryScreen />} />
       <Route path="/repositories/:id/edit" element={<EditRepositoryScreen />} />
+      <Route path="/repositories/:id/show" element={<ShowRepository />} />
     </Routes>
   );
 }

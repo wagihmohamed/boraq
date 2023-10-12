@@ -33,21 +33,21 @@ export const columns: ColumnDef<Repository>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            {/* <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to="/employees/1/show"
-            >
-              عرض
-            </Link> */}
             <Link
               className={buttonVariants({
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/repositories/:id/edit"
+              to="/repositories/1/show"
+            >
+              عرض
+            </Link>
+            <Link
+              className={buttonVariants({
+                variant: 'ghost',
+                className: 'w-full',
+              })}
+              to="/repositories/1/edit"
             >
               تعديل
             </Link>
