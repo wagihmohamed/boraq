@@ -1,31 +1,24 @@
 import { AppLayout } from '@/components/AppLayout';
-import {
-  Autocomplete,
-  Button,
-  MultiSelect,
-  PasswordInput,
-  TextInput,
-} from '@mantine/core';
+import { Autocomplete, Button, MultiSelect, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { addEmployeeSchema } from './schema';
+import { editEmployeeSchema } from './schema';
 
-export const AddEmployee = () => {
+export const EditEmployee = () => {
   const navigate = useNavigate();
+
   const form = useForm({
-    validate: zodResolver(addEmployeeSchema),
+    validate: zodResolver(editEmployeeSchema),
     initialValues: {
-      name: '',
-      phone: '',
-      salary: '',
-      branch: '',
-      store: '',
-      job: '',
-      roles: [],
-      permissions: [],
-      password: '',
-      confirmPassword: '',
+      name: 'وجيه محمد',
+      phone: '07912345678',
+      salary: '1000',
+      branch: 'بغداد',
+      store: 'مخزن البصرة',
+      job: 'مدير الشركة',
+      roles: ['مدير الشركة', 'مدير فرع', 'مدير حسابات'],
+      permissions: ['اضافة صفحة', 'اضافة طلبات', 'اضافة عميل'],
     },
   });
 
@@ -38,12 +31,12 @@ export const AddEmployee = () => {
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
-          className="mt-2 cursor-pointer"
+          className="mt-3 cursor-pointer"
           onClick={() => {
             navigate('/employees');
           }}
         />
-        <h1 className="text-3xl font-semibold">اضافة موظف</h1>
+        <h1 className="text-3xl font-semibold">تعديل موظف</h1>
       </div>
       <form
         onSubmit={form.onSubmit(handleSubmit)}
@@ -138,22 +131,6 @@ export const AddEmployee = () => {
             'مسح كشوفات مندوبين',
           ]}
           {...form.getInputProps('permissions')}
-        />
-        <PasswordInput
-          label="كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('password')}
-        />
-        <PasswordInput
-          label="تأكيد كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('confirmPassword')}
         />
         <Button type="submit" fullWidth mt="xl" size="md">
           اضافة
