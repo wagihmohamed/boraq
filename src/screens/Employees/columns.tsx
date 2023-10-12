@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { DeleteEmployee } from './DeleteEmployee';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -38,7 +39,7 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'actions',
     cell: () => {
       return (
-        <DropdownMenu>
+        <DropdownMenu dir='rtl'>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
@@ -47,7 +48,7 @@ export const columns: ColumnDef<Employee>[] = [
           <DropdownMenuContent align="center">
             <DropdownMenuItem>عرض</DropdownMenuItem>
             <DropdownMenuItem className="my-3">تعديل</DropdownMenuItem>
-            <DropdownMenuItem className="bg-destructive ">مسح</DropdownMenuItem>
+            <DeleteEmployee />
           </DropdownMenuContent>
         </DropdownMenu>
       );
