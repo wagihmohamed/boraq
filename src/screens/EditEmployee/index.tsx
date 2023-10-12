@@ -133,7 +133,7 @@ export const EditEmployee = () => {
           {...form.getInputProps('permissions')}
         />
         <Button type="submit" fullWidth mt="xl" size="md">
-          اضافة
+          تعديل
         </Button>
         <Button type="reset" fullWidth mt="xl" size="md" variant="outline">
           الغاء
