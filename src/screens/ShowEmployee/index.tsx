@@ -1,30 +1,22 @@
 import { AppLayout } from '@/components/AppLayout';
 import { Autocomplete, Button, MultiSelect, TextInput } from '@mantine/core';
-import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { editEmployeeSchema } from './schema';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export const EditEmployee = () => {
+export const ShowEmployee = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const form = useForm({
-    validate: zodResolver(editEmployeeSchema),
-    initialValues: {
-      name: 'وجيه محمد',
-      phone: '07912345678',
-      salary: '1000',
-      branch: 'بغداد',
-      store: 'مخزن البصرة',
-      job: 'مدير الشركة',
-      roles: ['مدير الشركة', 'مدير فرع', 'مدير حسابات'],
-      permissions: ['اضافة صفحة', 'اضافة طلبات', 'اضافة عميل'],
-    },
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // values: z.infer<typeof schema>
-  const handleSubmit = () => {};
+  const employeeData = {
+    name: 'وجيه محمد',
+    phone: '07912345678',
+    salary: '1000',
+    branch: 'بغداد',
+    store: 'مخزن البصرة',
+    job: 'مدير الشركة',
+    roles: ['مدير الشركة', 'مدير فرع', 'مدير حسابات'],
+    permissions: ['اضافة صفحة', 'اضافة طلبات', 'اضافة عميل'],
+  };
 
   return (
     <AppLayout>
@@ -36,25 +28,24 @@ export const EditEmployee = () => {
             navigate('/employees');
           }}
         />
-        <h1 className="text-3xl font-semibold">تعديل موظف</h1>
+        <h1 className="text-3xl font-semibold">بيانات موظف</h1>
       </div>
-      <form
-        onSubmit={form.onSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
         <TextInput
           label="الاسم"
           placeholder=""
           size="md"
           className="w-full"
-          {...form.getInputProps('name')}
+          value={employeeData.name}
+          disabled
         />
         <TextInput
           label="رقم الهاتف"
           placeholder=""
           size="md"
           className="w-full"
-          {...form.getInputProps('phone')}
+          value={employeeData.phone}
+          disabled
         />
         <TextInput
           label="الأجرة"
@@ -62,19 +53,22 @@ export const EditEmployee = () => {
           placeholder=""
           size="md"
           className="w-full"
-          {...form.getInputProps('salary')}
+          value={employeeData.salary}
+          disabled
         />
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
           data={['بغداد', 'البصرة', 'النجف']}
-          {...form.getInputProps('branch')}
+          value={employeeData.branch}
+          disabled
         />
         <Autocomplete
           label="المخزن"
           placeholder="اختار المخزن"
           data={['مخزن البصرة', 'مخزن النجف', 'مخزن بغداد', 'مخزن الكرخ']}
-          {...form.getInputProps('store')}
+          value={employeeData.store}
+          disabled
         />
         <Autocomplete
           label="الوظيفة"
@@ -90,7 +84,8 @@ export const EditEmployee = () => {
             'موظف استعلامات',
             'مندوب استلام',
           ]}
-          {...form.getInputProps('job')}
+          value={employeeData.job}
+          disabled
         />
         <MultiSelect
           label="الادوار"
@@ -106,7 +101,8 @@ export const EditEmployee = () => {
             'موظف استعلامات',
             'مندوب استلام',
           ]}
-          {...form.getInputProps('roles')}
+          value={employeeData.roles}
+          disabled
         />
         <MultiSelect
           label="الصلاحيات"
@@ -130,15 +126,33 @@ export const EditEmployee = () => {
             'مسح كشوفات محافظة',
             'مسح كشوفات مندوبين',
           ]}
-          {...form.getInputProps('permissions')}
+          value={employeeData.permissions}
+          disabled
         />
-        <Button type="submit" fullWidth mt="xl" size="md">
+        <Button
+          type="submit"
+          onClick={() => {
+            navigate(`/employees/${id}/edit`);
+          }}
+          fullWidth
+          mt="xl"
+          size="md"
+        >
           تعديل
         </Button>
-        <Button type="reset" fullWidth mt="xl" size="md" variant="outline">
-          الغاء
+        <Button
+          onClick={() => {
+            navigate('/employees');
+          }}
+          type="submit"
+          variant="outline"
+          fullWidth
+          mt="xl"
+          size="md"
+        >
+          العودة
         </Button>
-      </form>
+      </div>
     </AppLayout>
   );
 };
