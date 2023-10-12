@@ -26,7 +26,7 @@ export const AddRepositoryScreen = () => {
           size={34}
           className="mt-2 cursor-pointer"
           onClick={() => {
-            navigate('/employees');
+            navigate('/repositories');
           }}
         />
         <h1 className="text-3xl font-semibold">اضافة مخزن</h1>

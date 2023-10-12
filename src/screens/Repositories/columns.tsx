@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
+import { DeleteRepository } from './delete-repository';
 
 export const columns: ColumnDef<Repository>[] = [
   {
@@ -51,7 +52,7 @@ export const columns: ColumnDef<Repository>[] = [
             >
               تعديل
             </Link>
-            {/* <DeleteEmployee /> */}
+            <DeleteRepository />
           </DropdownMenuContent>
         </DropdownMenu>
       );
