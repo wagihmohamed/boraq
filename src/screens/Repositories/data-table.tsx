@@ -42,7 +42,7 @@ export function DataTable<TData, TValue>({
             size: 'sm',
             className: 'flex items-center gap-2',
           })}
-          to="/employees/add"
+          to="/repositories/add"
         >
           اضافة مخزن
         </Link>
