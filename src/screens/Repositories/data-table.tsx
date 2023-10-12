@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
           })}
           to="/employees/add"
         >
-          اضافه موظف
+          اضافة مخزن
         </Link>
         <DataTableViewOptions table={table} />
       </div>

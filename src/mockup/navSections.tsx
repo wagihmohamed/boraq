@@ -19,7 +19,7 @@ export const navSections = [
     icon: IconUserCheck,
   },
   {
-    link: '/home',
+    link: '/repositories',
     label: 'المخازن',
     enLabel: 'stores',
     icon: IconBuildingStore,
