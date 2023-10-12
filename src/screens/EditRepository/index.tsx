@@ -2,18 +2,18 @@ import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { addRepositorySchema } from './schema';
+import { editRepositorySchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
 import { repositoriesBranches } from '@/mockup/repositories';
 
-export const AddRepositoryScreen = () => {
+export const EditRepositoryScreen = () => {
   const navigate = useNavigate();
 
   const form = useForm({
-    validate: zodResolver(addRepositorySchema),
+    validate: zodResolver(editRepositorySchema),
     initialValues: {
-      name: '',
-      branch: '',
+      name: 'مخزن البصرة',
+      branch: repositoriesBranches[0],
     },
   });
 
@@ -29,7 +29,7 @@ export const AddRepositoryScreen = () => {
             navigate('/employees');
           }}
         />
-        <h1 className="text-3xl font-semibold">اضافة مخزن</h1>
+        <h1 className="text-3xl font-semibold">تعديل مخزن</h1>
       </div>
       <form
         onSubmit={form.onSubmit(handleSubmit)}
@@ -49,7 +49,7 @@ export const AddRepositoryScreen = () => {
           {...form.getInputProps('branch')}
         />
         <Button type="submit" fullWidth mt="xl" size="md">
-          اضافة
+          تعديل
         </Button>
         <Button
           type="reset"
@@ -58,7 +58,7 @@ export const AddRepositoryScreen = () => {
           size="md"
           variant="outline"
           onClick={() => {
-            form.reset();
+            navigate('/repositories');
           }}
         >
           الغاء
