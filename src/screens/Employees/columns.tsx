@@ -5,7 +5,6 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DeleteEmployee } from './DeleteEmployee';
@@ -47,7 +46,15 @@ export const columns: ColumnDef<Employee>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <DropdownMenuItem>عرض</DropdownMenuItem>
+            <Link
+              className={buttonVariants({
+                variant: 'ghost',
+                className: 'w-full',
+              })}
+              to="/employees/1/show"
+            >
+              عرض
+            </Link>
             <Link
               className={buttonVariants({
                 variant: 'ghost',
