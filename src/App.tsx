@@ -12,6 +12,7 @@ import { EditRepositoryScreen } from './screens/EditRepository';
 import { ShowRepository } from './screens/ShowRepository';
 import { ClientsScreen } from './screens/Clients';
 import { AddClient } from './screens/AddClient';
+import { EditClient } from './screens/EditClient';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route path="/repositories/:id/show" element={<ShowRepository />} />
       <Route path="/clients" element={<ClientsScreen />} />
       <Route path="/clients/add" element={<AddClient />} />
+      <Route path="/clients/:id/edit" element={<EditClient />} />
     </Routes>
   );
 }

@@ -2,23 +2,23 @@ import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { addClientSchema } from './schema';
-import { Autocomplete, Button, PasswordInput, TextInput } from '@mantine/core';
+import { editClientSchema } from './schema';
+import { Autocomplete, Button, TextInput } from '@mantine/core';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
 
-export const AddClient = () => {
+export const EditClient = () => {
   const navigate = useNavigate();
   const form = useForm({
-    validate: zodResolver(addClientSchema),
+    validate: zodResolver(editClientSchema),
     initialValues: {
-      name: '',
-      phone: '',
-      branch: '',
-      type: '',
-      image: [] as FileWithPath[],
-      password: '',
-      confirmPassword: '',
+      name: 'محمد علي',
+      phone: '012190212',
+      branch: 'بغداد',
+      type: 'عميل',
+      image: [
+        'https://resources.premierleague.com/photos/2023/10/13/f9d7b29a-8366-406a-983a-60e561c39dff/I3La142d.jpg?width=642&height=362',
+      ] as unknown as FileWithPath[],
     },
   });
 
@@ -35,7 +35,7 @@ export const AddClient = () => {
             navigate('/clients');
           }}
         />
-        <h1 className="text-3xl font-semibold">اضافة عميل</h1>
+        <h1 className="text-3xl font-semibold">تعديل عميل</h1>
       </div>
       <form
         onSubmit={form.onSubmit(handleSubmit)}
@@ -82,22 +82,6 @@ export const AddClient = () => {
             <div className="text-red-500">{form.errors.image}</div>
           )}
         </div>
-        <PasswordInput
-          label="كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('password')}
-        />
-        <PasswordInput
-          label="تأكيد كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('confirmPassword')}
-        />
         <Button type="submit" fullWidth mt="xl" size="md">
           اضافة
         </Button>
