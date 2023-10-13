@@ -12,3 +12,12 @@ export interface Repository {
   name: string;
   branch: string;
 }
+
+export interface Client {
+  id: number;
+  name: string;
+  branch: string;
+  phone: string;
+  type: 'customer' | 'cleint_helper';
+  createdAt: Date;
+}
