@@ -48,7 +48,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 260, breakpoint: 'md', collapsed: { mobile: !opened } }}
+      navbar={{ width: 280, breakpoint: 'md', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>

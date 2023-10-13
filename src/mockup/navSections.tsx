@@ -10,7 +10,7 @@ import {
 export const navSections = [
   { link: '/home', label: 'الطلبات', enLabel: 'orders', icon: IconBox },
   { link: '/home', label: 'الفواتير', enLabel: 'invoices', icon: IconLicense },
-  { link: '/home', label: 'العملاء', enLabel: 'customers', icon: IconUsers },
+  { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/home', label: 'المناطق', enLabel: 'regions', icon: IconMapPins },
   {
     link: '/employees',
