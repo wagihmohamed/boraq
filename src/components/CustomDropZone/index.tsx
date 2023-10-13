@@ -23,7 +23,8 @@ export const ImageUploader = ({
 }: ImageUploaderProps) => {
   const renderedFiles = image || [];
   const previews = renderedFiles.map((file) => {
-    const imageUrl = URL.createObjectURL(file);
+    const imageUrl =
+      typeof file === 'string' ? file : URL.createObjectURL(file);
     return (
       <div key={file.path} className="relative">
         <Trash2
@@ -37,7 +38,7 @@ export const ImageUploader = ({
         <Image
           h={500}
           radius="md"
-          fit="cover"
+          fit="contain"
           src={imageUrl}
           onLoad={() => URL.revokeObjectURL(imageUrl)}
         />

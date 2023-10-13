@@ -77,7 +77,7 @@ export const columns: ColumnDef<Client>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/employees/1/edit"
+              to="/clients/1/edit"
             >
               تعديل
             </Link>
