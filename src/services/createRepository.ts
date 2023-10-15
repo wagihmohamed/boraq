@@ -3,7 +3,7 @@ import { createRepositoryendpoint } from '@/api/apisUrl';
 
 export interface CreateRepositoryPayload {
   name: string;
-  branch_id: string;
+  branchID: string;
 }
 
 export const createRepositoryService = async (
