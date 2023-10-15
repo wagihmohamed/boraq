@@ -4,10 +4,35 @@ import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { addRepositorySchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
-import { repositoriesBranches } from '@/mockup/repositories';
+import { newRepositoriesBranches } from '@/mockup/repositories';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  CreateRepositoryPayload,
+  createRepositoryService,
+} from '@/services/createRepository';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { APIError } from '@/models';
+import { z } from 'zod';
 
 export const AddRepositoryScreen = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: createRepository, isLoading } = useMutation({
+    mutationFn: ({ branchID, name }: CreateRepositoryPayload) => {
+      return createRepositoryService({ branchID, name });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['repositories'],
+      });
+      toast.success('تم اضافة المخزن بنجاح');
+      navigate('/repositories');
+    },
+    onError: (data: AxiosError<APIError>) => {
+      toast.error(data.response?.data.message || 'حدث خطأ ما');
+    },
+  });
 
   const form = useForm({
     validate: zodResolver(addRepositorySchema),
@@ -17,7 +42,16 @@ export const AddRepositoryScreen = () => {
     },
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = (values: z.infer<typeof addRepositorySchema>) => {
+    const selectedBranch = newRepositoriesBranches.find(
+      (branch) => branch.label === values.branch
+    ) || { value: '' };
+
+    createRepository({
+      branchID: selectedBranch.value,
+      name: values.name,
+    });
+  };
 
   return (
     <AppLayout>
@@ -45,10 +79,10 @@ export const AddRepositoryScreen = () => {
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={repositoriesBranches}
+          data={newRepositoriesBranches}
           {...form.getInputProps('branch')}
         />
-        <Button type="submit" fullWidth mt="xl" size="md">
+        <Button loading={isLoading} type="submit" fullWidth mt="xl" size="md">
           اضافة
         </Button>
         <Button
