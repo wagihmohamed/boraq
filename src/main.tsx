@@ -15,7 +15,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './hooks/theme-provider.tsx';
 
 export const router = createBrowserRouter([{ path: '*', element: <App /> }]);
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 const colorSchemeManager = localStorageColorSchemeManager({
   key: 'vite-ui-theme',
 });

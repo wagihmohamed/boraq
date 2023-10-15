@@ -21,3 +21,8 @@ export interface Client {
   type: 'customer' | 'cleint_helper';
   createdAt: Date;
 }
+
+export interface APIError {
+  message: string;
+  status: string;
+}

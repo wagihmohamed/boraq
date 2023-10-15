@@ -23,9 +23,11 @@ import {
 } from '@tabler/icons-react';
 import classes from './UserButton.module.css';
 import { useTheme } from '@/hooks/theme-provider';
+import { useAuth } from '@/store/authStore';
 
 export const UserNavCard = () => {
   const theme = useMantineTheme();
+  const { logout } = useAuth();
   const { theme: displayTheme, setTheme } = useTheme();
   return (
     <UnstyledButton component="a" className={classes.user}>
@@ -162,6 +164,7 @@ export const UserNavCard = () => {
                 Change account
               </Menu.Item>
               <Menu.Item
+                onClick={logout}
                 leftSection={
                   <IconLogout
                     style={{ width: rem(16), height: rem(16) }}
