@@ -26,7 +26,7 @@ export const LoginScreen = () => {
       return signInService({ password, username });
     },
     onSuccess: (data) => {
-      toast('تم تسجيل الدخول بنجاح');
+      toast.success('تم تسجيل الدخول بنجاح');
       navigate('/home');
       setAuth(data);
     },

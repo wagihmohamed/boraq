@@ -7,12 +7,6 @@ export interface Employee {
   phone: string;
 }
 
-export interface Repository {
-  id: number;
-  name: string;
-  branch: string;
-}
-
 export interface Client {
   id: number;
   name: string;
