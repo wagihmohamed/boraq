@@ -1,4 +1,3 @@
-import { Repository } from '@/models';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { DeleteRepository } from './delete-repository';
+import { Repository } from '@/services/getRepositoriesservice';
 
 export const columns: ColumnDef<Repository>[] = [
   {
