@@ -2,18 +2,20 @@ import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { addBranchSchema } from './schema';
+import { editBranchSchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
+import { fakeBranches } from '@/mockup/fakeBranches';
 
-export const AddBranch = () => {
+export const EditBranch = () => {
   const navigate = useNavigate();
+  const mockedData = fakeBranches[0];
   const form = useForm({
-    validate: zodResolver(addBranchSchema),
+    validate: zodResolver(editBranchSchema),
     initialValues: {
-      location: '',
-      name: '',
-      email: '',
-      phone: '',
+      location: mockedData.location,
+      name: mockedData.name,
+      email: mockedData.email,
+      phone: mockedData.phone,
     },
   });
 
@@ -63,7 +65,7 @@ export const AddBranch = () => {
           {...form.getInputProps('phone')}
         />
         <Button type="submit" fullWidth mt="xl" size="md">
-          اضافة
+          تعديل
         </Button>
         <Button
           type="reset"

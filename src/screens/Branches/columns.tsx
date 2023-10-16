@@ -64,7 +64,7 @@ export const columns: ColumnDef<Branch>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/clients/1/edit"
+              to="/branches/1/edit"
             >
               تعديل
             </Link>
