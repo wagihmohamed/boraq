@@ -38,7 +38,8 @@ export const columns: ColumnDef<Branch>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const branch = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -52,7 +53,7 @@ export const columns: ColumnDef<Branch>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/branches/1/show"
+              to={`/branches/${branch.id}/show`}
             >
               عرض
             </Link>
@@ -61,11 +62,11 @@ export const columns: ColumnDef<Branch>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/branches/1/edit"
+              to={`/branches/${branch.id}/edit`}
             >
               تعديل
             </Link>
-            <DeleteBranch />
+            <DeleteBranch branchId={branch.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

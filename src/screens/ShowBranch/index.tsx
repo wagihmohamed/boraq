@@ -1,21 +1,21 @@
 import { AppLayout } from '@/components/AppLayout';
 import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
-import { fakeBranches } from '@/mockup/fakeBranches';
+import { useBranchDetails } from '@/hooks/useBranchDetails';
+import { governorateArray } from '@/lib/governorateArabicNames ';
 
 export const ShowBranch = () => {
+  const { id = '' } = useParams();
   const navigate = useNavigate();
-  const mockedData = fakeBranches[0];
-  const branchDetails = {
-    location: mockedData.location,
-    name: mockedData.name,
-    email: mockedData.email,
-    phone: mockedData.phone,
-  };
+  const { data: branchDetails, isLoading, isError } = useBranchDetails(id);
+
+  const transformedLocation = governorateArray.find(
+    (item) => item.value === branchDetails?.data?.governorate
+  );
 
   return (
-    <AppLayout>
+    <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -32,14 +32,14 @@ export const ShowBranch = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={branchDetails.name}
+          value={branchDetails?.data?.name}
           disabled
         />
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={['بغداد', 'البصرة', 'النجف']}
-          value={branchDetails.location}
+          data={governorateArray}
+          value={transformedLocation?.label}
           disabled
         />
         <TextInput
@@ -47,7 +47,7 @@ export const ShowBranch = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={branchDetails.email}
+          value={branchDetails?.data?.email}
           disabled
         />
         <TextInput
@@ -55,7 +55,7 @@ export const ShowBranch = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={branchDetails.phone}
+          value={branchDetails?.data?.phone}
           disabled
         />
         <Button
@@ -64,7 +64,7 @@ export const ShowBranch = () => {
           mt="xl"
           size="md"
           onClick={() => {
-            navigate('/branches/1/edit');
+            navigate(`/branches/${id}/edit`);
           }}
         >
           تعديل
