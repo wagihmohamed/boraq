@@ -48,7 +48,7 @@ export const ShowRepository = () => {
           mt="xl"
           size="md"
           onClick={() => {
-            navigate('/repositories/1/edit');
+            navigate(`/repositories/${id}/edit`);
           }}
         >
           تعديل
