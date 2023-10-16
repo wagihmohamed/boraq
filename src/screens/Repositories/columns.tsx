@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { DeleteRepository } from './delete-repository';
-import { Repository } from '@/services/getRepositoriesService';
+import { Repository } from '@/services/getRepositoriesService.ts';
 
 export const columns: ColumnDef<Repository>[] = [
   {
