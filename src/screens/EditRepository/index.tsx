@@ -2,12 +2,11 @@ import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { editRepositorySchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
 import { useRepositoryDetails } from '@/hooks/useRepositoryDetails';
 import { useEffect } from 'react';
 import { z } from 'zod';
-import { editBranchSchema } from '../EditBranch/schema';
+import { editRepositorySchema } from './schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   EditRepositoryPayload,
@@ -64,7 +63,7 @@ export const EditRepositoryScreen = () => {
     label: branch.name,
   }));
 
-  const handleSubmit = (values: z.infer<typeof editBranchSchema>) => {
+  const handleSubmit = (values: z.infer<typeof editRepositorySchema>) => {
     const transformedBranch = transformedBranches?.find(
       (branch) => branch.label === values.branch
     );
@@ -77,8 +76,6 @@ export const EditRepositoryScreen = () => {
       branchID: transformedBranch.value,
     });
   };
-
-  console.log(form.errors);
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
