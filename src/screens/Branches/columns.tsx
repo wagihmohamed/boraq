@@ -55,7 +55,7 @@ export const columns: ColumnDef<Branch>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/employees/1/show"
+              to="/branches/1/show"
             >
               عرض
             </Link>
