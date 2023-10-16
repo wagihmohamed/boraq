@@ -1,13 +1,6 @@
 import { api } from '@/api';
 import { getRepositoriesendpoint } from '@/api/apisUrl';
 
-// {
-//     "status": "success",
-//     "page": 1,
-//     "pagesCount": 1,
-//     "data": []
-// }
-
 export interface Repository {
   id: string;
   name: string;
