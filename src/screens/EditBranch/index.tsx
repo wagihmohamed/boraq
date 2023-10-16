@@ -1,28 +1,91 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { editBranchSchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
-import { fakeBranches } from '@/mockup/fakeBranches';
+import { useBranchDetails } from '@/hooks/useBranchDetails';
+import { useEffect } from 'react';
+import { governorateArray } from '@/lib/governorateArabicNames ';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  EditBranchPayload,
+  editBranchService,
+} from '@/services/editBranchService';
+import toast from 'react-hot-toast';
+import { z } from 'zod';
 
 export const EditBranch = () => {
   const navigate = useNavigate();
-  const mockedData = fakeBranches[0];
-  const form = useForm({
-    validate: zodResolver(editBranchSchema),
-    initialValues: {
-      location: mockedData.location,
-      name: mockedData.name,
-      email: mockedData.email,
-      phone: mockedData.phone,
+  const { id = '' } = useParams();
+  const { data: branchDetails, isLoading, isError } = useBranchDetails(id);
+  const queryClient = useQueryClient();
+  const { mutate: editBranch, isLoading: isEditing } = useMutation({
+    mutationFn: ({ email, governorate, name, phone }: EditBranchPayload) =>
+      editBranchService({
+        data: {
+          email,
+          governorate,
+          name,
+          phone,
+        },
+        id,
+      }),
+    onSuccess: () => {
+      toast.success('تم تعديل الفرع بنجاح');
+      navigate('/branches');
+      queryClient.invalidateQueries({
+        queryKey: ['branches'],
+      });
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSubmit = () => {};
+  const form = useForm({
+    validate: zodResolver(editBranchSchema),
+    initialValues: {
+      location: '',
+      name: '',
+      email: '',
+      phone: '',
+    },
+  });
+
+  useEffect(() => {
+    const transformedLocation = governorateArray.find(
+      (item) => item.value === branchDetails?.data?.governorate
+    );
+    form.setValues({
+      email: branchDetails?.data?.email,
+      name: branchDetails?.data?.name,
+      phone: branchDetails?.data?.phone,
+      location: transformedLocation?.label,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    branchDetails?.data?.email,
+    branchDetails?.data?.governorate,
+    branchDetails?.data?.name,
+    branchDetails?.data?.phone,
+  ]);
+
+  const handleSubmit = (values: z.infer<typeof editBranchSchema>) => {
+    const enBranch = governorateArray.find(
+      (item) => item.label === values.location
+    );
+    if (!enBranch) {
+      form.setFieldError('location', 'الرجاء اختيار الفرع');
+      return;
+    }
+    editBranch({
+      email: values.email,
+      governorate: enBranch.value,
+      name: values.name,
+      phone: values.phone,
+    });
+  };
+
   return (
-    <AppLayout>
+    <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -47,7 +110,7 @@ export const EditBranch = () => {
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={['بغداد', 'البصرة', 'النجف']}
+          data={governorateArray}
           {...form.getInputProps('location')}
         />
         <TextInput
@@ -64,7 +127,7 @@ export const EditBranch = () => {
           className="w-full"
           {...form.getInputProps('phone')}
         />
-        <Button type="submit" fullWidth mt="xl" size="md">
+        <Button loading={isEditing} type="submit" fullWidth mt="xl" size="md">
           تعديل
         </Button>
         <Button

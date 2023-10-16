@@ -4,4 +4,7 @@ export const createRepositoryendpoint = '/repositories';
 export const updateRepositoryendpoint = '/repositories/';
 export const deleteRepositoryendpoint = '/repositories/';
 export const getBranchesendpoint = '/branches';
+export const getBranchDetailsendpoint = '/branches/';
 export const createBranchendpoint = '/branches';
+export const editBranchendpoint = '/branches/';
+export const deleteBranchendpoint = '/branches/';
