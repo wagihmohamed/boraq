@@ -31,8 +31,6 @@ export const AddEmployee = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // values: z.infer<typeof schema>
   const handleSubmit = () => {};
 
   return (

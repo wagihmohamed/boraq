@@ -49,7 +49,6 @@ export const AddBranch = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmit = (values: z.infer<typeof addBranchSchema>) => {
     const enLocation = governorateArray.find(
       (governorate) => governorate.label === values.location

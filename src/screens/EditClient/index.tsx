@@ -22,7 +22,6 @@ export const EditClient = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmit = () => {};
 
   return (
