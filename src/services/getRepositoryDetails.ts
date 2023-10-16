@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { getRepositoryDetailsendpoint } from '@/api/apisUrl';
-import { Repository } from './getRepositoriesService.ts';
+import { Repository } from './getRepositoriesService';
 
 export interface GetBranchesResponse {
   status: string;
