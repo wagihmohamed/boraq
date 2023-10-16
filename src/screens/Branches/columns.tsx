@@ -1,4 +1,4 @@
-import { Branch } from '@/models';
+import { Branch } from '@/services/getBranchesService';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -8,8 +8,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
 import { DeleteBranch } from './DeleteBranch';
+import { mapEnumToArabic } from '@/lib/mapGovernateEnumToArabic';
 
 export const columns: ColumnDef<Branch>[] = [
   {
@@ -17,13 +17,17 @@ export const columns: ColumnDef<Branch>[] = [
     header: '#',
   },
   {
-    accessorKey: 'branch',
-    header: 'الفرع',
-  },
-  {
     accessorKey: 'name',
     header: 'الاسم',
   },
+  {
+    accessorFn: (row) => {
+      return mapEnumToArabic(row.governorate as keyof typeof mapEnumToArabic);
+    },
+    accessorKey: 'governorate',
+    header: 'الفرع',
+  },
+
   {
     accessorKey: 'email',
     header: 'البريد الالكتروني',
@@ -31,14 +35,6 @@ export const columns: ColumnDef<Branch>[] = [
   {
     accessorKey: 'phone',
     header: 'رقم الهاتف',
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'تاريخ الانشاء',
-    cell: ({ row }) => {
-      const { createdAt } = row.original;
-      return format(new Date(createdAt), 'yyyy-MM-dd');
-    },
   },
   {
     id: 'actions',

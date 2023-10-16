@@ -1,1 +1,1 @@
-export const iraqiPhoneRegex = /^(\+?964|0)?7[0-9]{8}$/;
+export const iraqiPhoneRegex = /^07[3-9][0-9]{8}$/;

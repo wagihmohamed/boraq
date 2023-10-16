@@ -4,9 +4,41 @@ import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { addBranchSchema } from './schema';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  CreateBranchPayload,
+  createBranchService,
+} from '@/services/createBranchService';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { APIError } from '@/models';
+import { z } from 'zod';
+import { governorateArray } from '@/lib/governorateArabicNames ';
 
 export const AddBranch = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: createBranch } = useMutation({
+    mutationFn: ({ email, governorate, name, phone }: CreateBranchPayload) => {
+      return createBranchService({
+        email,
+        governorate,
+        name,
+        phone,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['branches'],
+      });
+      toast.success('تم اضافة الفرع بنجاح');
+      navigate('/branches');
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
   const form = useForm({
     validate: zodResolver(addBranchSchema),
     initialValues: {
@@ -18,7 +50,21 @@ export const AddBranch = () => {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSubmit = () => {};
+  const handleSubmit = (values: z.infer<typeof addBranchSchema>) => {
+    const enLocation = governorateArray.find(
+      (governorate) => governorate.label === values.location
+    );
+    if (!enLocation) {
+      form.setFieldError('location', 'الرجاء اختيار الفرع');
+      return;
+    }
+    createBranch({
+      email: values.email,
+      governorate: enLocation.value,
+      name: values.name,
+      phone: values.phone,
+    });
+  };
   return (
     <AppLayout>
       <div className="flex items-center gap-4">
@@ -45,7 +91,7 @@ export const AddBranch = () => {
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={['بغداد', 'البصرة', 'النجف']}
+          data={governorateArray}
           {...form.getInputProps('location')}
         />
         <TextInput

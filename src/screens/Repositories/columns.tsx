@@ -16,12 +16,12 @@ export const columns: ColumnDef<Repository>[] = [
     header: '#',
   },
   {
-    accessorKey: 'branch',
-    header: 'الفرع',
-  },
-  {
     accessorKey: 'name',
     header: 'الاسم',
+  },
+  {
+    accessorKey: 'branch.name',
+    header: 'الفرع',
   },
   {
     id: 'actions',
