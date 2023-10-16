@@ -20,3 +20,12 @@ export interface APIError {
   message: string;
   status: string;
 }
+
+export interface Branch {
+  id: number;
+  location: string;
+  name: string;
+  email: string;
+  phone: string;
+  createdAt: Date;
+}
