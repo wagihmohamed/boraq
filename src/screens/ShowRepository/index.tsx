@@ -1,19 +1,21 @@
 import { AppLayout } from '@/components/AppLayout';
 import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
 import { repositoriesBranches } from '@/mockup/repositories';
+import { useRepositoryDetails } from '@/hooks/useRepositoryDetails';
 
 export const ShowRepository = () => {
+  const { id = '' } = useParams();
   const navigate = useNavigate();
-
-  const repositoryData = {
-    name: 'مخزن البصرة',
-    branch: repositoriesBranches[0],
-  };
+  const {
+    data: repositoryDetails,
+    isLoading,
+    isError,
+  } = useRepositoryDetails(id);
 
   return (
-    <AppLayout>
+    <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -22,7 +24,7 @@ export const ShowRepository = () => {
             navigate('/repositories');
           }}
         />
-        <h1 className="text-3xl font-semibold">تعديل مخزن</h1>
+        <h1 className="text-3xl font-semibold">بيانات مخزن</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
         <TextInput
@@ -30,14 +32,14 @@ export const ShowRepository = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={repositoryData.name}
+          value={repositoryDetails?.data?.name}
           disabled
         />
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
           data={repositoriesBranches}
-          value={repositoryData.branch}
+          value={repositoryDetails?.data?.branch.name}
           disabled
         />
         <Button
