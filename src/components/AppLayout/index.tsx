@@ -47,7 +47,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: 1 }}
       navbar={{ width: 280, breakpoint: 'md', collapsed: { mobile: !opened } }}
       padding="md"
     >
@@ -56,7 +56,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p="md" mt={20} py={30}>
         <AppShell.Section grow my="lg" component={ScrollArea}>
           <div className={classes.linksInner}>{links}</div>
         </AppShell.Section>
@@ -64,7 +64,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
           <UserNavCard />
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main>{handleRender()}</AppShell.Main>
+      <AppShell.Main pt={40}>{handleRender()}</AppShell.Main>
     </AppShell>
   );
 };
