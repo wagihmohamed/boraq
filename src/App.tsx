@@ -15,6 +15,7 @@ import { AddClient } from './screens/AddClient';
 import { EditClient } from './screens/EditClient';
 import { BranchesScreen } from './screens/Branches';
 import { AddBranch } from './screens/AddBranch';
+import { EditBranch } from './screens/EditBranch';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Route path="/clients/:id/edit" element={<EditClient />} />
       <Route path="/branches" element={<BranchesScreen />} />
       <Route path="/branches/add" element={<AddBranch />} />
+      <Route path="/branches/:id/edit" element={<EditBranch />} />
     </Routes>
   );
 }
