@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getRepositoriesService } from '@/services/getRepositoriesservice';
+import { getRepositoriesService } from '@/services/getRepositoriesService';
 
 export function useRepositories() {
   return useQuery({

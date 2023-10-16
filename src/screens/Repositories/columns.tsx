@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { DeleteRepository } from './delete-repository';
-import { Repository } from '@/services/getRepositoriesservice';
+import { Repository } from '@/services/getRepositoriesService';
 
 export const columns: ColumnDef<Repository>[] = [
   {
@@ -25,7 +25,8 @@ export const columns: ColumnDef<Repository>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const { id } = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -39,7 +40,7 @@ export const columns: ColumnDef<Repository>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/repositories/1/show"
+              to={`/repositories/${id}/show`}
             >
               عرض
             </Link>
@@ -48,11 +49,11 @@ export const columns: ColumnDef<Repository>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/repositories/1/edit"
+              to={`/repositories/${id}/edit`}
             >
               تعديل
             </Link>
-            <DeleteRepository />
+            <DeleteRepository repositoryId={id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

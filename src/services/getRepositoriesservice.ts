@@ -11,7 +11,15 @@ import { getRepositoriesendpoint } from '@/api/apisUrl';
 export interface Repository {
   id: string;
   name: string;
-  branch: string;
+  branch: {
+    id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    email: string;
+    phone: string;
+    governorate: string;
+  };
 }
 
 export interface GetRepositoriesResponse {

@@ -14,12 +14,12 @@ export const DeleteBranch = ({ branchId }: { branchId: string }) => {
       queryClient.invalidateQueries({
         queryKey: ['branches'],
       });
+      close();
     },
   });
 
   const handleDelete = () => {
     deleteBranch({ id: branchId });
-    close();
   };
 
   return (
