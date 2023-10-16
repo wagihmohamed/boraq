@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { DeleteBranch } from './DeleteBranch';
 
 export const columns: ColumnDef<Branch>[] = [
   {
@@ -68,6 +69,7 @@ export const columns: ColumnDef<Branch>[] = [
             >
               تعديل
             </Link>
+            <DeleteBranch />
           </DropdownMenuContent>
         </DropdownMenu>
       );
