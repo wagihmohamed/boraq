@@ -35,20 +35,21 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: 'branch',
     header: 'الفرع',
     accessorFn: ({ branch }) => {
-      return branch ?? 'لا يوجد';
+      return branch?.name ?? 'لا يوجد';
     },
   },
   {
     accessorKey: 'repository',
     header: 'المخزن',
     accessorFn: ({ repository }) => {
-      return repository ?? 'لا يوجد';
+      return repository?.name ?? 'لا يوجد';
     },
   },
 
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const employee = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -75,7 +76,7 @@ export const columns: ColumnDef<Employee>[] = [
             >
               تعديل
             </Link>
-            <DeleteEmployee />
+            <DeleteEmployee id={employee.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

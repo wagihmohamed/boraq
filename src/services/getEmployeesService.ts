@@ -10,8 +10,22 @@ export interface Employee {
   salary: string;
   role: keyof typeof rolesArabicNames;
   persmission: string[];
-  branch: string | null;
-  repository: string | null;
+  branch: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    governorate: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  repository: {
+    id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    branchId: string;
+  };
 }
 
 export interface GetEmployeesResponse {
