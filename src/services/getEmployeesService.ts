@@ -9,7 +9,7 @@ export interface Employee {
   phone: string;
   salary: string;
   role: keyof typeof rolesArabicNames;
-  persmission: string[];
+  permissions: string[];
   branch: {
     id: string;
     name: string;
