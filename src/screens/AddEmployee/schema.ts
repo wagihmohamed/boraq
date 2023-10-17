@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const addEmployeeSchema = z
   .object({
+    username: z.string().min(3, { message: 'اسم المستخدم يجب ان يكون 3 احرف' }),
     name: z.string().min(3, { message: 'الاسم يجب ان يكون اكثر من 3 احرف' }),
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
@@ -16,29 +17,14 @@ export const addEmployeeSchema = z
       }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     store: z.string().min(1, { message: 'الرجاء اختيار المخزن' }),
-    job: z
-      .string({
-        required_error: 'الرجاء اختيار الوظيفة',
-      })
-      .min(1, { message: 'الرجاء اختيار الوظيفة' }),
     roles: z
-      .array(
-        z.string({
-          required_error: 'الرجاء اختيار الادوار',
-        })
-      )
+      .string({
+        required_error: 'الرجاء اختيار الادوار',
+      })
+
       .min(1, { message: 'الرجاء اختيار الادوار' }),
     permissions: z
-      .array(
-        z.object({
-          label: z.string({
-            required_error: 'الرجاء اختيار الصلاحيات',
-          }),
-          value: z.string({
-            required_error: 'الرجاء اختيار الصلاحيات',
-          }),
-        })
-      )
+      .array(z.string({ required_error: 'الرجاء اختيار الصلاحيات' }))
       .min(1, { message: 'الرجاء اختيار الصلاحيات' }),
     password: z.string().min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     confirmPassword: z
