@@ -92,8 +92,6 @@ export const AddEmployee = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof addEmployeeSchema>) => {
-    console.log(values);
-
     const selectedBranch = branches.data?.find(
       (branch) => branch.name === values.branch
     );
@@ -113,12 +111,11 @@ export const AddEmployee = () => {
       branchID: selectedBranch.id,
       name: values.name,
       password: values.password,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      permissions: values.permissions as any,
+      permissions:
+        values.permissions as unknown as CreateEmployeePayload['permissions'],
       phone: values.phone,
       repositoryID: selectedRepository.id,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      role: values.roles as any,
+      role: values.roles as unknown as CreateEmployeePayload['role'],
       salary: parseInt(values.salary, 10),
       username: values.username,
     });
