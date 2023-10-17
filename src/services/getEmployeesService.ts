@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { getEmployeesendpoint } from '@/api/apisUrl';
+import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
 export interface Employee {
@@ -9,7 +10,7 @@ export interface Employee {
   phone: string;
   salary: string;
   role: keyof typeof rolesArabicNames;
-  permissions: string[];
+  permissions: (typeof permissionsArabicNames)[];
   branch: {
     id: string;
     name: string;
