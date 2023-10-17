@@ -1,4 +1,4 @@
-import { Employee } from '@/models';
+import { Employee } from '@/services/getEmployeesService';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -9,32 +9,43 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DeleteEmployee } from './DeleteEmployee';
 import { Link } from 'react-router-dom';
+import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
 export const columns: ColumnDef<Employee>[] = [
-  {
-    accessorKey: 'id',
-    header: '#',
-  },
   {
     accessorKey: 'name',
     header: 'الاسم',
   },
   {
-    accessorKey: 'role',
-    header: 'الوظيفة',
-  },
-  {
-    accessorKey: 'branch',
-    header: 'الفرع',
-  },
-  {
-    accessorKey: 'location',
-    header: 'المخزن',
+    accessorKey: 'username',
+    header: 'اسم المستخدم',
   },
   {
     accessorKey: 'phone',
     header: 'رقم الهاتف',
   },
+  {
+    accessorKey: 'role',
+    header: 'الوظيفة',
+    accessorFn: ({ role }) => {
+      return rolesArabicNames[role];
+    },
+  },
+  {
+    accessorKey: 'branch',
+    header: 'الفرع',
+    accessorFn: ({ branch }) => {
+      return branch ?? 'لا يوجد';
+    },
+  },
+  {
+    accessorKey: 'repository',
+    header: 'المخزن',
+    accessorFn: ({ repository }) => {
+      return repository ?? 'لا يوجد';
+    },
+  },
+
   {
     id: 'actions',
     cell: () => {
