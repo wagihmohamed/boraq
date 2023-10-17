@@ -1,25 +1,28 @@
 import { AppLayout } from '@/components/AppLayout';
+import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
+import { permissionsArray } from '@/lib/persmissionArabicNames';
+import { rolesArabicNames } from '@/lib/rolesArabicNames';
 import { Autocomplete, Button, MultiSelect, TextInput } from '@mantine/core';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShowEmployee = () => {
-  const { id } = useParams();
+  const { id = '' } = useParams();
   const navigate = useNavigate();
+  const { data: employeeData, isError, isLoading } = useEmployeeDetails(id);
 
-  const employeeData = {
-    name: 'وجيه محمد',
-    phone: '07912345678',
-    salary: '1000',
-    branch: 'بغداد',
-    store: 'مخزن البصرة',
-    job: 'مدير الشركة',
-    roles: ['مدير الشركة', 'مدير فرع', 'مدير حسابات'],
-    permissions: ['اضافة صفحة', 'اضافة طلبات', 'اضافة عميل'],
-  };
+  const userRoles = employeeData?.data.role
+    ? rolesArabicNames[employeeData?.data.role]
+    : 'لا يوجد';
+
+  const userPermissions = permissionsArray
+    .filter(
+      (permission) => employeeData?.data.permissions?.includes(permission.value)
+    )
+    .map((permission) => permission.label);
 
   return (
-    <AppLayout>
+    <AppLayout isError={isError} isLoading={isLoading}>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -36,7 +39,15 @@ export const ShowEmployee = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={employeeData.name}
+          value={employeeData?.data.name}
+          disabled
+        />
+        <TextInput
+          label="اسم المستخدم"
+          placeholder=""
+          size="md"
+          className="w-full"
+          value={employeeData?.data.username}
           disabled
         />
         <TextInput
@@ -44,7 +55,7 @@ export const ShowEmployee = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={employeeData.phone}
+          value={employeeData?.data.phone}
           disabled
         />
         <TextInput
@@ -53,80 +64,31 @@ export const ShowEmployee = () => {
           placeholder=""
           size="md"
           className="w-full"
-          value={employeeData.salary}
+          value={employeeData?.data.salary}
           disabled
         />
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={['بغداد', 'البصرة', 'النجف']}
-          value={employeeData.branch}
+          value={employeeData?.data.branch.name || ''}
           disabled
         />
         <Autocomplete
           label="المخزن"
           placeholder="اختار المخزن"
-          data={['مخزن البصرة', 'مخزن النجف', 'مخزن بغداد', 'مخزن الكرخ']}
-          value={employeeData.store}
+          value={employeeData?.data.repository.name || ''}
           disabled
         />
         <Autocomplete
           label="الوظيفة"
           placeholder="اختار الوظيفة"
-          data={[
-            'مدير الشركة',
-            'مدير فرع',
-            'مدير حسابات',
-            'محاسب',
-            'موظف طوارئ',
-            'مدخل بيانات',
-            'موظف مخازن',
-            'موظف استعلامات',
-            'مندوب استلام',
-          ]}
-          value={employeeData.job}
-          disabled
-        />
-        <MultiSelect
-          label="الادوار"
-          placeholder="اختار الادوار"
-          data={[
-            'مدير الشركة',
-            'مدير فرع',
-            'مدير حسابات',
-            'محاسب',
-            'موظف طوارئ',
-            'مدخل بيانات',
-            'موظف مخازن',
-            'موظف استعلامات',
-            'مندوب استلام',
-          ]}
-          value={employeeData.roles}
+          value={userRoles}
           disabled
         />
         <MultiSelect
           label="الصلاحيات"
+          value={userPermissions}
           placeholder="اختار الصلاحيات"
-          data={[
-            'احالة الطلبات الي مندوب',
-            'اضافة صفحة',
-            'اضافة طلبات',
-            'اضافة عميل',
-            'تعديل اسم عميل',
-            'تعديل المبلغ الكلي للطلبية',
-            'تغير الحالة',
-            'تغير حالة الطلبية المغلقة',
-            'قفل حالة الطلبية',
-            'مسح الاشعارات',
-            'مسح الطلبيات',
-            'مسح الكشوفات',
-            'مسح كشوفات الشركات',
-            'مسح كشوفات المخازن',
-            'مسح كشوفات العملاء',
-            'مسح كشوفات محافظة',
-            'مسح كشوفات مندوبين',
-          ]}
-          value={employeeData.permissions}
           disabled
         />
         <Button
