@@ -17,7 +17,8 @@ export const ShowEmployee = () => {
 
   const userPermissions = permissionsArray
     .filter(
-      (permission) => employeeData?.data.permissions?.includes(permission.value)
+      (permission) =>
+        employeeData?.data.permissions?.includes(permission.value as never)
     )
     .map((permission) => permission.label);
 
