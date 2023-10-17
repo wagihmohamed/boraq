@@ -8,7 +8,7 @@ enum Role {
   BRANCH_MANAGER = 'مدير فرع',
   EMERGENCY_EMPLOYEE = 'موظف طوارئ',
   DATA_ENTRY = 'مدخل بيانات',
-  STORE_EMPLOYEE = 'موظف مخزن',
+  REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف استفسارات',
 }
 
@@ -22,7 +22,7 @@ export const rolesArabicNames = {
   BRANCH_MANAGER: 'مدير فرع',
   EMERGENCY_EMPLOYEE: 'موظف طوارئ',
   DATA_ENTRY: 'مدخل بيانات',
-  STORE_EMPLOYEE: 'موظف مخزن',
+  REPOSITORIY_EMPLOYEE: 'موظف مخزن',
   INQUIRY_EMPLOYEE: 'موظف استفسارات',
 };
 
