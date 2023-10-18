@@ -1,12 +1,13 @@
 import { api } from '@/api';
 import { getBranchesendpoint } from '@/api/apisUrl';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface Branch {
   id: string;
   name: string;
   email: string;
   phone: string;
-  governorate: string;
+  governorate: keyof typeof governorateArabicNames;
 }
 
 export interface GetRepositoriesResponse {

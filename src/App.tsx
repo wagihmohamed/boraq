@@ -17,6 +17,7 @@ import { BranchesScreen } from './screens/Branches';
 import { AddBranch } from './screens/AddBranch';
 import { EditBranch } from './screens/EditBranch';
 import { ShowBranch } from './screens/ShowBranch';
+import { LocationsScreen } from './screens/Locations';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
       <Route path="/branches/add" element={<AddBranch />} />
       <Route path="/branches/:id/edit" element={<EditBranch />} />
       <Route path="/branches/:id/show" element={<ShowBranch />} />
+      <Route path="/locations" element={<LocationsScreen />} />
     </Routes>
   );
 }
