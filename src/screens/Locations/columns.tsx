@@ -6,10 +6,10 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-// import { DeleteEmployee } from './DeleteEmployee';
 import { Link } from 'react-router-dom';
 import { Location } from '@/services/getLocations';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { DeleteLocation } from './delete-location';
 
 export const columns: ColumnDef<Location>[] = [
   {
@@ -57,7 +57,7 @@ export const columns: ColumnDef<Location>[] = [
             >
               تعديل
             </Link>
-            {/* <DeleteEmployee id={employee.id} /> */}
+            <DeleteLocation id={location.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
