@@ -1,4 +1,3 @@
-import { Client } from '@/models';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -9,19 +8,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { Badge } from '@mantine/core';
-import { format } from 'date-fns';
+import { Client } from '@/services/getClients';
 
 export const columns: ColumnDef<Client>[] = [
-  {
-    accessorKey: 'id',
-    header: '#',
-  },
   {
     accessorKey: 'name',
     header: 'الاسم',
   },
   {
-    accessorKey: 'branch',
+    accessorKey: 'branch.name',
     header: 'الفرع',
   },
   {
@@ -29,27 +24,19 @@ export const columns: ColumnDef<Client>[] = [
     header: 'رقم الهاتف',
   },
   {
-    accessorKey: 'type',
+    accessorKey: 'accountType',
     header: 'نوع الحساب',
     cell: ({ row }) => {
-      const { type } = row.original;
+      const { accountType } = row.original;
       return (
         <div>
-          {type === 'customer' ? (
+          {accountType === 'CLIENT' ? (
             <Badge>عميل</Badge>
           ) : (
             <Badge color="red">مساعد عميل</Badge>
           )}
         </div>
       );
-    },
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'تاريخ الانشاء',
-    cell: ({ row }) => {
-      const { createdAt } = row.original;
-      return format(new Date(createdAt), 'yyyy-MM-dd');
     },
   },
   {
