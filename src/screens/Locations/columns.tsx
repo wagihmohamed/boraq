@@ -44,7 +44,7 @@ export const columns: ColumnDef<Location>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/employees/${location.id}/show`}
+              to={`/locations/${location.id}/show`}
             >
               عرض
             </Link>
@@ -53,7 +53,7 @@ export const columns: ColumnDef<Location>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/employees/${location.id}/edit`}
+              to={`/locations/${location.id}/edit`}
             >
               تعديل
             </Link>
