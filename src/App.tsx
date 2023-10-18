@@ -20,6 +20,7 @@ import { ShowBranch } from './screens/ShowBranch';
 import { LocationsScreen } from './screens/Locations';
 import { ShowLocation } from './screens/ShowLocation';
 import { AddLocation } from './screens/AddLocation';
+import { EditLocation } from './screens/EditLocation';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
       <Route path="/branches/:id/show" element={<ShowBranch />} />
       <Route path="/locations" element={<LocationsScreen />} />
       <Route path="/locations/add" element={<AddLocation />} />
+      <Route path="/locations/:id/edit" element={<EditLocation />} />
       <Route path="/locations/:id/show" element={<ShowLocation />} />
     </Routes>
   );
