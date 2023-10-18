@@ -1,5 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Group, ScrollArea } from '@mantine/core';
+import { AppShell, Burger, Group, ScrollArea, Loader } from '@mantine/core';
 import { navSections } from '@/mockup/navSections';
 import classes from './NavbarNested.module.css';
 import { Link, useLocation } from 'react-router-dom';
@@ -35,11 +35,21 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
 
   const handleRender = () => {
     if (isLoading) {
-      return <div>Loading...</div>;
+      return (
+        <div className="w-full h-[80vh] flex justify-center items-center">
+          <Loader />
+        </div>
+      );
     }
 
     if (isError) {
-      return <div>Error</div>;
+      return (
+        <div className="w-full h-[80vh] flex justify-center items-center">
+          <h1 className="text-primary text-3xl">
+            حدث خطأ ما، يرجى المحاولة مرة أخرى
+          </h1>
+        </div>
+      );
     }
 
     return children;
