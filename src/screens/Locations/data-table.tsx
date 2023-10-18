@@ -42,9 +42,9 @@ export function DataTable<TData, TValue>({
             size: 'sm',
             className: 'flex items-center gap-2',
           })}
-          to="/employees/add"
+          to="/locations/add"
         >
-          اضافه موظف
+          اضافه منطقة
         </Link>
         <DataTableViewOptions table={table} />
       </div>
