@@ -6,11 +6,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+// import { DeleteEmployee } from './DeleteEmployee';
 import { Link } from 'react-router-dom';
-import { DeleteRepository } from './delete-repository';
-import { Repository } from '@/services/getRepositoriesService';
+import { Location } from '@/services/getLocations';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
-export const columns: ColumnDef<Repository>[] = [
+export const columns: ColumnDef<Location>[] = [
   {
     accessorKey: 'name',
     header: 'الاسم',
@@ -20,9 +21,16 @@ export const columns: ColumnDef<Repository>[] = [
     header: 'الفرع',
   },
   {
+    accessorKey: 'governorate',
+    header: 'المحافظة',
+    accessorFn: ({ governorate }) => {
+      return governorateArabicNames[governorate] ?? 'لا يوجد';
+    },
+  },
+  {
     id: 'actions',
     cell: ({ row }) => {
-      const { id } = row.original;
+      const location = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -36,7 +44,7 @@ export const columns: ColumnDef<Repository>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/repositories/${id}/show`}
+              to={`/locations/${location.id}/show`}
             >
               عرض
             </Link>
@@ -45,11 +53,11 @@ export const columns: ColumnDef<Repository>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/repositories/${id}/edit`}
+              to={`/locations/${location.id}/edit`}
             >
               تعديل
             </Link>
-            <DeleteRepository repositoryId={id} />
+            {/* <DeleteEmployee id={employee.id} /> */}
           </DropdownMenuContent>
         </DropdownMenu>
       );
