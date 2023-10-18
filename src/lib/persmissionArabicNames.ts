@@ -1,5 +1,5 @@
 enum Permission {
-  ADD_ORDER_TO_DRIVER = 'اضافة طلب للسائق',
+  ADD_ORDER_TO_DELIVERY_AGENT = 'اضافة طلب للسائق',
   ADD_PAGE = 'اضافة صفحة',
   ADD_ORDER = 'اضافة طلب',
   ADD_CLIENT = 'اضافة عميل',
@@ -14,7 +14,7 @@ enum Permission {
   DELETE_COMPANY_REPORTS = 'حذف تقارير الشركة',
   DELETE_REPOSITORIES_REPORTS = 'حذف تقارير المستودعات',
   DELETE_GOVERNMENT_REPORTS = 'حذف تقارير الحكومة',
-  DELETE_DRIVER_REPORTS = 'حذف تقارير السائق',
+  DELETE_DELIVERY_AGENT_REPORTS = 'حذف تقارير السائق',
 }
 
 export const permissionsArabicNames = {
