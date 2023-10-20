@@ -22,6 +22,7 @@ import { ShowLocation } from './screens/ShowLocation';
 import { AddLocation } from './screens/AddLocation';
 import { EditLocation } from './screens/EditLocation';
 import { ShowClient } from './screens/ShowClients';
+import { TenantsScreen } from './screens/Tenants';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
       <Route path="/locations/add" element={<AddLocation />} />
       <Route path="/locations/:id/edit" element={<EditLocation />} />
       <Route path="/locations/:id/show" element={<ShowLocation />} />
+      <Route path="/tenants" element={<TenantsScreen />} />
     </Routes>
   );
 }

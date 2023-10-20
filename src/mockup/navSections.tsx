@@ -5,6 +5,7 @@ import {
   IconUserCheck,
   IconBuildingStore,
   IconMapPins,
+  IconBuildingCommunity,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -12,6 +13,12 @@ export const navSections = [
   { link: '/home', label: 'الفواتير', enLabel: 'invoices', icon: IconLicense },
   { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },
+  {
+    link: '/tenants',
+    label: 'الشركات',
+    enLabel: 'tenants',
+    icon: IconBuildingCommunity,
+  },
   {
     link: '/locations',
     label: 'المناطق',
