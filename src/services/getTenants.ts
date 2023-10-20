@@ -14,7 +14,7 @@ export interface Tenant {
   additionalPriceForEvery500000IraqiDinar: string;
   additionalPriceForEveryKilogram: string;
   additionalPriceForRemoteAreas: string;
-  orderStatusAutomaticUpdate: string;
+  orderStatusAutomaticUpdate: boolean;
 }
 
 export interface GetTenantsResponse {

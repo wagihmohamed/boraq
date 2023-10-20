@@ -10,6 +10,7 @@ import {
   rem,
 } from '@mantine/core';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
 
 interface CustomTenantCardProps extends Tenant {}
 
@@ -19,7 +20,12 @@ export const CustomTenantCard = ({
   registrationText,
   website,
   phone,
+  id,
 }: CustomTenantCardProps) => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(`/tenants/${id}/show`);
+  };
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a" href={website}>
@@ -69,7 +75,13 @@ export const CustomTenantCard = ({
         {registrationText}
       </Text>
 
-      <Button variant="outline" fullWidth mt="md" radius="md">
+      <Button
+        variant="outline"
+        onClick={handleNavigate}
+        fullWidth
+        mt="md"
+        radius="md"
+      >
         عرض التفاصيل
       </Button>
     </Card>
