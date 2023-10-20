@@ -1,6 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useTenants } from '@/hooks/useTenants';
-import { CustomTenantCard } from './custom-tenant-card';
+import { CustomTenantCard } from './tenant-card';
 import { Grid } from '@mantine/core';
 
 export const TenantsScreen = () => {
