@@ -21,6 +21,7 @@ import { LocationsScreen } from './screens/Locations';
 import { ShowLocation } from './screens/ShowLocation';
 import { AddLocation } from './screens/AddLocation';
 import { EditLocation } from './screens/EditLocation';
+import { ShowClient } from './screens/ShowClients';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Route path="/repositories/:id/show" element={<ShowRepository />} />
       <Route path="/clients" element={<ClientsScreen />} />
       <Route path="/clients/add" element={<AddClient />} />
+      <Route path="/clients/:id/show" element={<ShowClient />} />
       <Route path="/clients/:id/edit" element={<EditClient />} />
       <Route path="/branches" element={<BranchesScreen />} />
       <Route path="/branches/add" element={<AddBranch />} />
