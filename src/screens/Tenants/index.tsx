@@ -1,12 +1,14 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useTenants } from '@/hooks/useTenants';
 import { CustomTenantCard } from './tenant-card';
-import { Grid } from '@mantine/core';
+import { Grid, Pagination } from '@mantine/core';
 
 export const TenantsScreen = () => {
   const {
     data: tenants = {
       data: [],
+      pagesCount: 0,
+      page: 0,
     },
     isError,
     isLoading,
@@ -21,6 +23,9 @@ export const TenantsScreen = () => {
           </Grid.Col>
         ))}
       </Grid>
+      <div className="flex justify-center mt-10">
+        <Pagination total={tenants.pagesCount} value={tenants.page} />
+      </div>
     </AppLayout>
   );
 };
