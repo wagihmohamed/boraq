@@ -43,7 +43,7 @@ export const columns: ColumnDef<Client>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const client = row.original;
+      const { id } = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -57,7 +57,7 @@ export const columns: ColumnDef<Client>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/employees/1/show"
+              to={`/clients/${id}/show`}
             >
               عرض
             </Link>
@@ -66,11 +66,11 @@ export const columns: ColumnDef<Client>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to="/clients/1/edit"
+              to={`/clients/${id}/edit`}
             >
               تعديل
             </Link>
-            <DeleteClient clientId={client.id} />
+            <DeleteClient clientId={id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
