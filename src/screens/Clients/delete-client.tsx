@@ -1,31 +1,31 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteBranchService } from '@/services/deleteBranchService';
 import toast from 'react-hot-toast';
+import { deleteClientService } from '@/services/deleteClient';
 
-export const DeleteBranch = ({ branchId }: { branchId: string }) => {
+export const DeleteClient = ({ clientId }: { clientId: string }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteBranch, isLoading } = useMutation({
-    mutationFn: ({ id }: { id: string }) => deleteBranchService({ id }),
+    mutationFn: ({ id }: { id: string }) => deleteClientService({ id }),
     onSuccess: () => {
-      toast.success('تم مسح الفرع بنجاح');
+      toast.success('تم مسح العميل بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['branches'],
+        queryKey: ['clients'],
       });
       close();
     },
   });
 
   const handleDelete = () => {
-    deleteBranch({ id: branchId });
+    deleteBranch({ id: clientId });
   };
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="مسح الموظف" centered>
-        هل انت متأكد من مسح الفرع؟ لا يمكن التراجع عن هذا الإجراء
+        هل انت متأكد من مسح العميل؟ لا يمكن التراجع عن هذا الإجراء
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}

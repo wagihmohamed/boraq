@@ -9,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Badge } from '@mantine/core';
 import { Client } from '@/services/getClients';
+import { DeleteClient } from './delete-client';
 
 export const columns: ColumnDef<Client>[] = [
   {
@@ -41,7 +42,8 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const client = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -68,6 +70,7 @@ export const columns: ColumnDef<Client>[] = [
             >
               تعديل
             </Link>
+            <DeleteClient clientId={client.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
