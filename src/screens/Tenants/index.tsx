@@ -1,9 +1,11 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useTenants } from '@/hooks/useTenants';
 import { CustomTenantCard } from './tenant-card';
-import { Grid, Pagination } from '@mantine/core';
+import { Button, Grid, Pagination } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 export const TenantsScreen = () => {
+  const navigate = useNavigate();
   const {
     data: tenants = {
       data: [],
@@ -15,7 +17,18 @@ export const TenantsScreen = () => {
   } = useTenants();
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <h1 className="mb-6">الشركات</h1>
+      <div className="flex mb-6 items-center gap-6">
+        <h1 className="text-2xl md:text-4xl">الشركات</h1>
+        <Button
+          onClick={() => {
+            navigate('/tenants/add');
+          }}
+          size="lg"
+          variant="outline"
+        >
+          اضافة شركة
+        </Button>
+      </div>
       <Grid gutter="md">
         {tenants.data.map((tenant) => (
           <Grid.Col key={tenant.id} span={{ base: 12, md: 6, lg: 4 }}>

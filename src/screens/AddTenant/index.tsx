@@ -1,5 +1,4 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useTenantDetails } from '@/hooks/useTenantDetails';
 import {
   Button,
   Grid,
@@ -10,29 +9,29 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { editTenantSchema } from './schema';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { addTenantSchema } from './schema';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EditTenantPayload, editTenantService } from '@/services/editTenant';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import {
+  CreateTenantPayload,
+  createTenantService,
+} from '@/services/createTenant';
 
-export const EditTenant = () => {
-  const { id = '' } = useParams();
+export const AddTenant = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: tenantDetails, isLoading, isError } = useTenantDetails(id);
 
   const form = useForm({
-    validate: zodResolver(editTenantSchema),
+    validate: zodResolver(addTenantSchema),
     initialValues: {
       name: '',
       phone: '',
       website: '',
-      logo: '',
+      logo: 'https://private-publicity.name/',
       registrationText: '',
       governoratePrice: '',
       deliveryAgentFee: '',
@@ -43,30 +42,6 @@ export const EditTenant = () => {
       orderStatusAutomaticUpdate: false,
     },
   });
-
-  useEffect(() => {
-    if (tenantDetails) {
-      form.setValues({
-        name: tenantDetails.data.name,
-        phone: tenantDetails.data.phone,
-        website: tenantDetails.data.website,
-        logo: tenantDetails.data.logo,
-        registrationText: tenantDetails.data.registrationText,
-        governoratePrice: tenantDetails.data.governoratePrice,
-        deliveryAgentFee: tenantDetails.data.deliveryAgentFee,
-        baghdadPrice: tenantDetails.data.baghdadPrice,
-        additionalPriceForEvery500000IraqiDinar:
-          tenantDetails.data.additionalPriceForEvery500000IraqiDinar,
-        additionalPriceForEveryKilogram:
-          tenantDetails.data.additionalPriceForEveryKilogram,
-        additionalPriceForRemoteAreas:
-          tenantDetails.data.additionalPriceForRemoteAreas,
-        orderStatusAutomaticUpdate:
-          tenantDetails.data.orderStatusAutomaticUpdate,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tenantDetails]);
 
   const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
     mutationFn: ({
@@ -82,27 +57,24 @@ export const EditTenant = () => {
       phone,
       registrationText,
       website,
-    }: EditTenantPayload) => {
-      return editTenantService({
-        data: {
-          additionalPriceForEvery500000IraqiDinar,
-          additionalPriceForEveryKilogram,
-          additionalPriceForRemoteAreas,
-          baghdadPrice,
-          deliveryAgentFee,
-          governoratePrice,
-          logo,
-          name,
-          orderStatusAutomaticUpdate,
-          phone,
-          registrationText,
-          website,
-        },
-        id,
+    }: CreateTenantPayload) => {
+      return createTenantService({
+        additionalPriceForEvery500000IraqiDinar,
+        additionalPriceForEveryKilogram,
+        additionalPriceForRemoteAreas,
+        baghdadPrice,
+        deliveryAgentFee,
+        governoratePrice,
+        logo,
+        name,
+        orderStatusAutomaticUpdate,
+        phone,
+        registrationText,
+        website,
       });
     },
     onSuccess: () => {
-      toast.success('تم تعديل الشركة بنجاح');
+      toast.success('تم انشاء الشركة بنجاح');
       queryClient.invalidateQueries({
         queryKey: ['tenantDetails'],
       });
@@ -113,7 +85,7 @@ export const EditTenant = () => {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof editTenantSchema>) => {
+  const handleSubmit = (values: z.infer<typeof addTenantSchema>) => {
     editTenantAction({
       additionalPriceForEvery500000IraqiDinar: parseInt(
         values.additionalPriceForEvery500000IraqiDinar,
@@ -140,7 +112,7 @@ export const EditTenant = () => {
   };
 
   return (
-    <AppLayout isLoading={isLoading} isError={isError}>
+    <AppLayout>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -149,7 +121,7 @@ export const EditTenant = () => {
             navigate('/tenants');
           }}
         />
-        <h1 className="text-3xl font-semibold">تعديل الشركة</h1>
+        <h1 className="text-3xl font-semibold">اضافة الشركة</h1>
       </div>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="lg">
@@ -211,13 +183,7 @@ export const EditTenant = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Switch
               className="mt-8"
-              checked={form.values.orderStatusAutomaticUpdate}
-              onChange={(event) => {
-                form.setFieldValue(
-                  'orderStatusAutomaticUpdate',
-                  event.currentTarget.checked
-                );
-              }}
+              {...form.getInputProps('orderStatusAutomaticUpdate')}
               label="تحديث حالة الطلب تلقائيا"
             />
           </Grid.Col>
@@ -226,7 +192,7 @@ export const EditTenant = () => {
               className="w-64 h-[390px]"
               fit="cover"
               radius="lg"
-              src={tenantDetails?.data.logo}
+              src="a"
               fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
             />
           </Grid.Col>
@@ -247,7 +213,7 @@ export const EditTenant = () => {
               loading={isEditting}
               disabled={isEditting}
             >
-              تعديل
+              اضافة
             </Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

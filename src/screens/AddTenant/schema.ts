@@ -1,7 +1,7 @@
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
 
-export const editTenantSchema = z.object({
+export const addTenantSchema = z.object({
   name: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 حروف' }),
   phone: z.string().refine(isValidIraqiPhoneNumber, {
     message: 'رقم الهاتف يجب ان يكون رقم عراقي',
