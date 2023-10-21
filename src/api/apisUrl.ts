@@ -29,3 +29,5 @@ export const getTenantDetailsendpoint = '/tenants/';
 export const createTenantendpoint = '/tenants';
 export const editTenantendpoint = '/tenants/';
 export const deleteTenantendpoint = '/tenants/';
+export const getNotificationsendpoint = '/notifications';
+export const markNotificationAsReadendpoint = '/notifications/';

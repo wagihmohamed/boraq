@@ -5,6 +5,7 @@ import classes from './NavbarNested.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { UserNavCard } from '../UserNavCard';
+import { NotificationsList } from '../NotificationsList';
 
 interface Props {
   children: React.ReactNode;
@@ -57,16 +58,19 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
 
   return (
     <AppShell
-      header={{ height: 1 }}
+      header={{ height: 60, offset: true }}
       navbar={{ width: 280, breakpoint: 'md', collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
+          <div className="mr-auto ml-6">
+            <NotificationsList />
+          </div>
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md" mt={20} py={30}>
+      <AppShell.Navbar p="md" mt={0} py={30}>
         <AppShell.Section grow my="lg" component={ScrollArea}>
           <div className={classes.linksInner}>{links}</div>
         </AppShell.Section>
@@ -74,7 +78,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
           <UserNavCard />
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main pt={40}>{handleRender()}</AppShell.Main>
+      <AppShell.Main pt={100}>{handleRender()}</AppShell.Main>
     </AppShell>
   );
 };
