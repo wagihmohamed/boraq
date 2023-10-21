@@ -1,3 +1,5 @@
+import { APIError } from '@/models';
+import { deleteTenantService } from '@/services/deleteTenant';
 import { Tenant } from '@/services/getTenants';
 import {
   Card,
@@ -10,6 +12,9 @@ import {
   rem,
 } from '@mantine/core';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 interface CustomTenantCardProps extends Tenant {}
@@ -23,15 +28,32 @@ export const CustomTenantCard = ({
   id,
 }: CustomTenantCardProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const handleNavigate = () => {
     navigate(`/tenants/${id}/show`);
   };
+  const { mutate: deleteTenant } = useMutation({
+    mutationFn: (id: string) => deleteTenantService({ id }),
+    onSuccess: () => {
+      toast.success('تم مسح المستأجر بنجاح');
+      queryClient.invalidateQueries({
+        queryKey: ['tenants'],
+      });
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
+  const handleDelete = () => {
+    deleteTenant(id);
+  };
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a" href={website}>
         <Image
           src={logo}
-          //   src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
           height={160}
           fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
           alt={name}
@@ -61,6 +83,7 @@ export const CustomTenantCard = ({
                 <IconTrash style={{ width: rem(14), height: rem(14) }} />
               }
               color="red"
+              onClick={handleDelete}
             >
               مسح
             </Menu.Item>
