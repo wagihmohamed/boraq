@@ -75,6 +75,9 @@ export const CustomTenantCard = ({
               leftSection={
                 <IconEdit style={{ width: rem(14), height: rem(14) }} />
               }
+              onClick={() => {
+                navigate(`/tenants/${id}/edit`);
+              }}
             >
               تعديل
             </Menu.Item>
