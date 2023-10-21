@@ -1,11 +1,17 @@
 import { useNotifications } from '@/hooks/useNotifications';
 import { cn } from '@/lib/utils';
+import { APIError } from '@/models';
+import { markNotificationAsSeenService } from '@/services/markNotificationAsSeen';
 import { Button, Loader, Menu, ScrollArea, Text, rem } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { IconBell } from '@tabler/icons-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 export const NotificationsList = () => {
+  const queryClient = useQueryClient();
   const {
     data: notifications,
     fetchNextPage,
@@ -15,6 +21,18 @@ export const NotificationsList = () => {
     ?.map((item) => item.data)
     ?.flat();
   const isUnsean = flattenNotifications?.some((item) => !item);
+
+  const { mutate: markMessageAsRead } = useMutation({
+    mutationFn: (id: string) => markNotificationAsSeenService({ id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['notifications'],
+      });
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
 
   const thirdLastNotificationRef = useRef<HTMLDivElement>(null);
   const { entry, ref } = useIntersection({
@@ -27,6 +45,11 @@ export const NotificationsList = () => {
       fetchNextPage();
     }
   }, [entry, fetchNextPage]);
+
+  const handleMarkAsRead = (id: string, isSeen: boolean) => {
+    if (isSeen) return;
+    markMessageAsRead(id);
+  };
 
   return (
     <Menu position="bottom-end" shadow="md" width={rem(338)}>
@@ -42,7 +65,13 @@ export const NotificationsList = () => {
           {flattenNotifications?.map((item, index) => {
             if (index === flattenNotifications.length - 3) {
               return (
-                <Menu.Item key={item.id} ref={ref}>
+                <Menu.Item
+                  onClick={() => {
+                    handleMarkAsRead(item.id, item.seen);
+                  }}
+                  key={item.id}
+                  ref={ref}
+                >
                   <div
                     className={cn(
                       'flex flex-col border border-primary rounded p-1 gap-3 mb-2',
@@ -56,7 +85,12 @@ export const NotificationsList = () => {
               );
             }
             return (
-              <Menu.Item key={item.id}>
+              <Menu.Item
+                onClick={() => {
+                  handleMarkAsRead(item.id, item.seen);
+                }}
+                key={item.id}
+              >
                 <div
                   className={cn(
                     'flex flex-col border border-primary rounded p-1 gap-3 mb-2 w-72',
