@@ -4,34 +4,34 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import toast from 'react-hot-toast';
-import { deleteSizeService } from '@/services/deleteSize';
 import { IconTrash } from '@tabler/icons-react';
+import { deleteColorService } from '@/services/deleteColor';
 
-export const DeleteSize = ({ sizeId }: { sizeId: string }) => {
+export const DeleteColor = ({ colorId }: { colorId: string }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteSize, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteSizeService({ id }),
+    mutationFn: (id: string) => deleteColorService({ id }),
     onSuccess: () => {
-      toast.success('تم حذف الحجم بنجاح');
+      toast.success('تم حذف اللون بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['sizes'],
+        queryKey: ['colors'],
       });
       close();
     },
     onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ أثناء حذف الحجم');
+      toast.error(error.response?.data.message || 'حدث خطأ أثناء حذف اللون');
     },
   });
 
   const handleDelete = () => {
-    deleteSize(sizeId);
+    deleteSize(colorId);
   };
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="مسح المخزن" centered>
-        هل انت متأكد من مسح الحجم؟ لا يمكن التراجع عن هذا الإجراء
+        هل انت متأكد من مسح اللون؟ لا يمكن التراجع عن هذا الإجراء
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}

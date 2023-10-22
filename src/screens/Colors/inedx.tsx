@@ -4,6 +4,7 @@ import { useColors } from '@/hooks/useColors';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
 import { AddColor } from './add-color';
+import { DeleteColor } from './delete-color';
 
 export const Colors = () => {
   const [page, setPage] = useState(1);
@@ -21,12 +22,15 @@ export const Colors = () => {
     <AppLayout isLoading={isLoading} isError={isError}>
       <AddColor />
       <Grid gutter="lg">
-        {colors.data.map((size) => (
+        {colors.data.map((color) => (
           <Grid.Col
-            key={size.id}
+            key={color.id}
             span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
           >
-            <SimpleCard {...size} />
+            <SimpleCard
+              {...color}
+              cardDeleteChildren={<DeleteColor colorId={color.id} />}
+            />
           </Grid.Col>
         ))}
       </Grid>
