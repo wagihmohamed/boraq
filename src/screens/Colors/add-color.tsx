@@ -35,7 +35,7 @@ export const AddColor = () => {
   return (
     <>
       <Modal opened={opened} onClose={close} title="اضافة لون" centered>
-        <form onSubmit={(e) => handleDelete(e)}>
+        <form onSubmit={handleDelete}>
           <TextInput
             label="اسم اللون"
             placeholder="اسم اللون"
