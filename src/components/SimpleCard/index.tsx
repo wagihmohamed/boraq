@@ -1,14 +1,14 @@
+import { DeleteSize } from '@/screens/Sizes/delete-size';
 import { Card, Text } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
 import { parseISO, format } from 'date-fns';
 
 interface SimpleCardProps {
   title: string;
   createdAt: string;
-  onDelete: () => void;
+  id: string;
 }
 
-export const SimpleCard = ({ createdAt, onDelete, title }: SimpleCardProps) => {
+export const SimpleCard = ({ createdAt, title, id }: SimpleCardProps) => {
   return (
     <Card shadow="sm" padding="xl" radius="md">
       <div className="flex justify-between">
@@ -19,7 +19,7 @@ export const SimpleCard = ({ createdAt, onDelete, title }: SimpleCardProps) => {
           <Text c="dimmed">{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
         </div>
         <div className="flex">
-          <IconTrash onClick={onDelete} className="text-primary" size={24} />
+          <DeleteSize sizeId={id} />
         </div>
       </div>
     </Card>

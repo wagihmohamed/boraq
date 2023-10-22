@@ -16,6 +16,7 @@ export const Sizes = () => {
     isLoading,
     isError,
   } = useSizes(page);
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <AddSize />
@@ -25,7 +26,7 @@ export const Sizes = () => {
             key={size.id}
             span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
           >
-            <SimpleCard {...size} onDelete={() => {}} />
+            <SimpleCard {...size} />
           </Grid.Col>
         ))}
       </Grid>
