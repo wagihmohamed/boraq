@@ -15,7 +15,11 @@ export interface GetSizesResponse {
   data: Size[];
 }
 
-export const getSizesService = async () => {
-  const response = await api.get<GetSizesResponse>(getSizesendpoint);
+export const getSizesService = async (page = 1) => {
+  const response = await api.get<GetSizesResponse>(getSizesendpoint, {
+    params: {
+      page,
+    },
+  });
   return response.data;
 };

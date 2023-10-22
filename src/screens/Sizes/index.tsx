@@ -1,16 +1,20 @@
 import { AppLayout } from '@/components/AppLayout';
 import { SimpleCard } from '@/components/SimpleCard';
 import { useSizes } from '@/hooks/useSizes';
-import { Grid } from '@mantine/core';
+import { Grid, Pagination } from '@mantine/core';
+import { useState } from 'react';
 
 export const Sizes = () => {
+  const [page, setPage] = useState(1);
+
   const {
     data: sizes = {
       data: [],
+      pagesCount: 1,
     },
     isLoading,
     isError,
-  } = useSizes();
+  } = useSizes(page);
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <Grid gutter="lg">
@@ -23,6 +27,9 @@ export const Sizes = () => {
           </Grid.Col>
         ))}
       </Grid>
+      <div className="flex justify-center mt-6">
+        <Pagination value={page} onChange={setPage} total={sizes.pagesCount} />
+      </div>
     </AppLayout>
   );
 };
