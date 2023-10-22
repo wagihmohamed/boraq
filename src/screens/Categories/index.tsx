@@ -4,6 +4,7 @@ import { useCategory } from '@/hooks/useCategory';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
 import { AddCategory } from './add-category';
+import { DeleteCategory } from './delete-category';
 
 export const Categories = () => {
   const [page, setPage] = useState(1);
@@ -26,7 +27,10 @@ export const Categories = () => {
             key={category.id}
             span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
           >
-            <SimpleCard {...category} />
+            <SimpleCard
+              {...category}
+              cardDeleteChildren={<DeleteCategory categoryId={category.id} />}
+            />
           </Grid.Col>
         ))}
       </Grid>
