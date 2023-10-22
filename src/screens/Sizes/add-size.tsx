@@ -26,7 +26,7 @@ export const AddSize = () => {
     },
   });
 
-  const handleDelete = (e: FormEvent<HTMLFormElement>) => {
+  const handleAdd = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     addSizeAction({ title: sizeName });
   };
@@ -34,7 +34,7 @@ export const AddSize = () => {
   return (
     <>
       <Modal opened={opened} onClose={close} title="اضافة حجم" centered>
-        <form onSubmit={(e) => handleDelete(e)}>
+        <form onSubmit={handleAdd}>
           <TextInput
             label="اسم الحجم"
             placeholder="اسم الحجم"

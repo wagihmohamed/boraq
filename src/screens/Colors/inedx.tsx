@@ -5,6 +5,7 @@ import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
 import { AddColor } from './add-color';
 import { DeleteColor } from './delete-color';
+import { EditColor } from './edit-color';
 
 export const Colors = () => {
   const [page, setPage] = useState(1);
@@ -30,6 +31,9 @@ export const Colors = () => {
             <SimpleCard
               {...color}
               cardDeleteChildren={<DeleteColor colorId={color.id} />}
+              cardEditChildren={
+                <EditColor colorId={color.id} title={color.title} />
+              }
             />
           </Grid.Col>
         ))}

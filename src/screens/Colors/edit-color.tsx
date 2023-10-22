@@ -6,57 +6,54 @@ import { APIError } from '@/models';
 import toast from 'react-hot-toast';
 import { IconPencil } from '@tabler/icons-react';
 import { FormEvent, useState } from 'react';
-import { editSizeService } from '@/services/editSize';
+import { editColorService } from '@/services/editColor';
 
-export const EditSize = ({
-  sizeId,
+export const EditColor = ({
+  colorId,
   title,
 }: {
-  sizeId: string;
+  colorId: string;
   title: string;
 }) => {
-  const [sizeTitle, setSizeTitle] = useState(title);
+  const [colorTitle, setColorTitle] = useState(title);
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
-  const { mutate: editSize, isLoading } = useMutation({
+  const { mutate: editColor, isLoading } = useMutation({
     mutationFn: ({ id, title }: { title: string; id: string }) =>
-      editSizeService({ id, title }),
+      editColorService({ id, title }),
     onSuccess: () => {
-      toast.success('تم تعديل الحجم بنجاح');
+      toast.success('تم تعديل اللون بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['sizes'],
+        queryKey: ['colors'],
       });
       close();
     },
     onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ أثناء تعديل الحجم');
+      toast.error(error.response?.data.message || 'حدث خطأ أثناء تعديل اللون');
     },
   });
 
   const handleEdit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    editSize({
-      id: sizeId,
-      title: sizeTitle,
-    });
+    editColor({ title: colorTitle, id: colorId });
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="تعديل الحجم" centered>
+      <Modal opened={opened} onClose={close} title="تعديل اللون" centered>
         <form onSubmit={handleEdit}>
           <TextInput
-            value={sizeTitle}
-            onChange={(event) => setSizeTitle(event.currentTarget.value)}
-            label="الحجم"
+            value={colorTitle}
+            onChange={(event) => setColorTitle(event.currentTarget.value)}
+            label="اللون"
             required
-            placeholder="الحجم"
+            placeholder="اللون"
             className="mb-4"
           />
           <div className="mt-4 flex items-center gap-4">
             <Button
               loading={isLoading}
-              disabled={isLoading || !sizeTitle}
+              disabled={isLoading || !colorTitle}
               variant="filled"
             >
               تعديل
