@@ -7,6 +7,7 @@ import {
   IconMapPins,
   IconBuildingCommunity,
   IconNeedle,
+  IconColorFilter,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -43,5 +44,11 @@ export const navSections = [
     label: 'الاحجام',
     enLabel: 'sizes',
     icon: IconNeedle,
+  },
+  {
+    link: '/colors',
+    label: 'الالوان',
+    enLabel: 'colors',
+    icon: IconColorFilter,
   },
 ];

@@ -11,7 +11,7 @@ interface SimpleCardProps {
 
 export const SimpleCard = ({ createdAt, title, id }: SimpleCardProps) => {
   return (
-    <Card shadow="sm" padding="xl" radius="md">
+    <Card shadow="sm" padding="xl" radius="md" withBorder>
       <div className="flex justify-between">
         <div className="flex flex-col gap-2 ">
           <Text className="w-40" truncate>

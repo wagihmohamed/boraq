@@ -27,6 +27,7 @@ import { ShowTenant } from './screens/ShowTenant';
 import { EditTenant } from './screens/EditTenant';
 import { AddTenant } from './screens/AddTenant';
 import { Sizes } from './screens/Sizes';
+import { Colors } from './screens/Colors/inedx';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
       <Route path="/tenants/:id/show" element={<ShowTenant />} />
       <Route path="/tenants/:id/edit" element={<EditTenant />} />
       <Route path="/sizes" element={<Sizes />} />
+      <Route path="/colors" element={<Colors />} />
     </Routes>
   );
 }
