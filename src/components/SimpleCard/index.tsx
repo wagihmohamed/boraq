@@ -18,7 +18,7 @@ export const SimpleCard = ({
     <Card shadow="sm" padding="xl" radius="md" withBorder>
       <div className="flex justify-between">
         <div className="flex flex-col gap-2 ">
-          <Text className="w-40" truncate>
+          <Text className="w-32" truncate>
             {title}
           </Text>
           <Text c="dimmed">{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
