@@ -5,6 +5,7 @@ import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
 import { AddCategory } from './add-category';
 import { DeleteCategory } from './delete-category';
+import { EditCategory } from './edit-category';
 
 export const Categories = () => {
   const [page, setPage] = useState(1);
@@ -30,6 +31,9 @@ export const Categories = () => {
             <SimpleCard
               {...category}
               cardDeleteChildren={<DeleteCategory categoryId={category.id} />}
+              cardEditChildren={
+                <EditCategory categoryId={category.id} title={category.title} />
+              }
             />
           </Grid.Col>
         ))}
