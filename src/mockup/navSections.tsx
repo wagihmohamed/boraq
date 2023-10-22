@@ -8,6 +8,7 @@ import {
   IconBuildingCommunity,
   IconNeedle,
   IconColorFilter,
+  IconCategoryFilled,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -38,6 +39,12 @@ export const navSections = [
     label: 'المخازن',
     enLabel: 'stores',
     icon: IconBuildingStore,
+  },
+  {
+    link: '/categories',
+    label: 'الاصناف',
+    enLabel: 'categories',
+    icon: IconCategoryFilled,
   },
   {
     link: '/sizes',
