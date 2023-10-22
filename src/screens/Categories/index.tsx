@@ -3,6 +3,7 @@ import { SimpleCard } from '@/components/SimpleCard';
 import { useCategory } from '@/hooks/useCategory';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
+import { AddCategory } from './add-category';
 
 export const Categories = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ export const Categories = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
+      <AddCategory />
       <Grid gutter="lg">
         {categories.data.map((category) => (
           <Grid.Col
