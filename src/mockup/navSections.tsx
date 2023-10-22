@@ -6,6 +6,7 @@ import {
   IconBuildingStore,
   IconMapPins,
   IconBuildingCommunity,
+  IconNeedle,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -36,5 +37,11 @@ export const navSections = [
     label: 'المخازن',
     enLabel: 'stores',
     icon: IconBuildingStore,
+  },
+  {
+    link: '/sizes',
+    label: 'الاحجام',
+    enLabel: 'sizes',
+    icon: IconNeedle,
   },
 ];

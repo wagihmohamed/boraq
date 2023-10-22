@@ -26,6 +26,7 @@ import { TenantsScreen } from './screens/Tenants';
 import { ShowTenant } from './screens/ShowTenant';
 import { EditTenant } from './screens/EditTenant';
 import { AddTenant } from './screens/AddTenant';
+import { Sizes } from './screens/Sizes';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
       <Route path="/tenants/add" element={<AddTenant />} />
       <Route path="/tenants/:id/show" element={<ShowTenant />} />
       <Route path="/tenants/:id/edit" element={<EditTenant />} />
+      <Route path="/sizes" element={<Sizes />} />
     </Routes>
   );
 }
