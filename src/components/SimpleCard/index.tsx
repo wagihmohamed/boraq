@@ -1,4 +1,5 @@
 import { DeleteSize } from '@/screens/Sizes/delete-size';
+import { EditSize } from '@/screens/Sizes/edit-size';
 import { Card, Text } from '@mantine/core';
 import { parseISO, format } from 'date-fns';
 
@@ -18,7 +19,8 @@ export const SimpleCard = ({ createdAt, title, id }: SimpleCardProps) => {
           </Text>
           <Text c="dimmed">{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
         </div>
-        <div className="flex">
+        <div className="flex items-start gap-2">
+          <EditSize sizeId={id} title={title} />
           <DeleteSize sizeId={id} />
         </div>
       </div>
