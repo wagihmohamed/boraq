@@ -1,15 +1,19 @@
-import { DeleteSize } from '@/screens/Sizes/delete-size';
-import { EditSize } from '@/screens/Sizes/edit-size';
 import { Card, Text } from '@mantine/core';
 import { parseISO, format } from 'date-fns';
 
 interface SimpleCardProps {
   title: string;
   createdAt: string;
-  id: string;
+  cardEditChildren?: React.ReactNode;
+  cardDeleteChildren?: React.ReactNode;
 }
 
-export const SimpleCard = ({ createdAt, title, id }: SimpleCardProps) => {
+export const SimpleCard = ({
+  createdAt,
+  title,
+  cardDeleteChildren,
+  cardEditChildren,
+}: SimpleCardProps) => {
   return (
     <Card shadow="sm" padding="xl" radius="md" withBorder>
       <div className="flex justify-between">
@@ -20,10 +24,12 @@ export const SimpleCard = ({ createdAt, title, id }: SimpleCardProps) => {
           <Text c="dimmed">{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
         </div>
         <div className="flex items-start gap-2">
-          <EditSize sizeId={id} title={title} />
-          <DeleteSize sizeId={id} />
+          {cardEditChildren}
+          {cardDeleteChildren}
         </div>
       </div>
     </Card>
   );
 };
+
+SimpleCard.displayName = 'SimpleCard';

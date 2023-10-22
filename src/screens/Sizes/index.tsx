@@ -4,6 +4,8 @@ import { useSizes } from '@/hooks/useSizes';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
 import { AddSize } from './add-size';
+import { EditSize } from './edit-size';
+import { DeleteSize } from './delete-size';
 
 export const Sizes = () => {
   const [page, setPage] = useState(1);
@@ -26,7 +28,13 @@ export const Sizes = () => {
             key={size.id}
             span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
           >
-            <SimpleCard {...size} />
+            <SimpleCard
+              {...size}
+              cardEditChildren={
+                <EditSize sizeId={size.id} title={size.title} />
+              }
+              cardDeleteChildren={<DeleteSize sizeId={size.id} />}
+            />
           </Grid.Col>
         ))}
       </Grid>
