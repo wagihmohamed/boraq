@@ -3,6 +3,7 @@ import { SimpleCard } from '@/components/SimpleCard';
 import { useColors } from '@/hooks/useColors';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
+import { AddColor } from './add-color';
 
 export const Colors = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ export const Colors = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
+      <AddColor />
       <Grid gutter="lg">
         {colors.data.map((size) => (
           <Grid.Col

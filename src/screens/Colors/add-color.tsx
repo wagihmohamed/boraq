@@ -3,22 +3,23 @@ import { Modal, Button, TextInput } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { IconPlus } from '@tabler/icons-react';
-import { CreateSizePayload, createSizeService } from '@/services/createSize';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { CreateColorPayload, createColorService } from '@/services/createColor';
 
-export const AddSize = () => {
+export const AddColor = () => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [sizeName, setSizeName] = useState('');
+  const [colorName, setColorName] = useState('');
   const queryClient = useQueryClient();
-  const { mutate: addSizeAction, isLoading } = useMutation({
-    mutationFn: ({ title }: CreateSizePayload) => createSizeService({ title }),
+  const { mutate: addColorAction, isLoading } = useMutation({
+    mutationFn: ({ title }: CreateColorPayload) =>
+      createColorService({ title }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['sizes'],
+        queryKey: ['colors'],
       });
-      toast.success('تم اضافة الحجم بنجاح');
+      toast.success('تم اضافة اللون بنجاح');
       close();
     },
     onError: (error: AxiosError<APIError>) => {
@@ -28,27 +29,27 @@ export const AddSize = () => {
 
   const handleDelete = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addSizeAction({ title: sizeName });
+    addColorAction({ title: colorName });
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="اضافة حجم" centered>
+      <Modal opened={opened} onClose={close} title="اضافة لون" centered>
         <form onSubmit={(e) => handleDelete(e)}>
           <TextInput
-            label="اسم الحجم"
-            placeholder="اسم الحجم"
+            label="اسم اللون"
+            placeholder="اسم اللون"
             required
             variant="filled"
             className="mb-4"
-            value={sizeName}
-            onChange={(e) => setSizeName(e.currentTarget.value)}
+            value={colorName}
+            onChange={(e) => setColorName(e.currentTarget.value)}
           />
           <div className="mt-4 flex items-center gap-4">
             <Button
               type="submit"
               loading={isLoading}
-              disabled={!sizeName || isLoading}
+              disabled={!colorName || isLoading}
               variant="filled"
             >
               اضافة
@@ -65,7 +66,7 @@ export const AddSize = () => {
         onClick={open}
         className="mb-4 md:mb-8"
       >
-        اضافة حجم جديد
+        اضافة لون جديد
       </Button>
     </>
   );
