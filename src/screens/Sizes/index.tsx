@@ -12,7 +12,11 @@ export const Sizes = () => {
             key={index}
             span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
           >
-            <SimpleCard />
+            <SimpleCard
+              createdAt="2021-10-10"
+              onDelete={() => {}}
+              title="Card Title"
+            />
           </Grid.Col>
         ))}
       </Grid>
