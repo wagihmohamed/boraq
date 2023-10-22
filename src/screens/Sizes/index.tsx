@@ -3,6 +3,7 @@ import { SimpleCard } from '@/components/SimpleCard';
 import { useSizes } from '@/hooks/useSizes';
 import { Grid, Pagination } from '@mantine/core';
 import { useState } from 'react';
+import { AddSize } from './add-size';
 
 export const Sizes = () => {
   const [page, setPage] = useState(1);
@@ -17,6 +18,7 @@ export const Sizes = () => {
   } = useSizes(page);
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
+      <AddSize />
       <Grid gutter="lg">
         {sizes.data.map((size) => (
           <Grid.Col
