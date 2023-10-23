@@ -30,6 +30,7 @@ import { Colors } from './screens/Colors/inedx';
 import { Categories } from './screens/Categories';
 import { Products } from './screens/Products';
 import { AddProduct } from './screens/AddProduct';
+import { ProductScreen } from './screens/ProductDetails';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
       <Route path="/categories" element={<Categories />} />
       <Route path="/home" element={<Products />} />
       <Route path="/home/add" element={<AddProduct />} />
+      <Route path="/home/:id/show" element={<ProductScreen />} />
     </Routes>
   );
 }

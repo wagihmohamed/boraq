@@ -15,13 +15,21 @@ export const SimpleCard = ({
   cardEditChildren,
 }: SimpleCardProps) => {
   return (
-    <Card shadow="sm" padding="xl" radius="md" withBorder>
+    <Card
+      shadow="sm"
+      padding="xl"
+      radius="md"
+      withBorder
+      style={{
+        backgroundColor: title,
+      }}
+    >
       <div className="flex justify-between">
         <div className="flex flex-col gap-2 ">
           <Text className="w-32" truncate>
             {title}
           </Text>
-          <Text c="dimmed">{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
+          <Text>{format(parseISO(createdAt), 'yyyy-MM-dd')}</Text>
         </div>
         <div className="flex items-start gap-2">
           {cardEditChildren}

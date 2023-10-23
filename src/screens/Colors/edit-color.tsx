@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { IconPencil } from '@tabler/icons-react';
 import { FormEvent, useState } from 'react';
 import { editColorService } from '@/services/editColor';
+import { SketchPicker } from 'react-color';
 
 export const EditColor = ({
   colorId,
@@ -37,11 +38,16 @@ export const EditColor = ({
     e.preventDefault();
     editColor({ title: colorTitle, id: colorId });
   };
+  console.log({ colorTitle });
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="تعديل اللون" centered>
         <form onSubmit={handleEdit}>
+          <SketchPicker
+            color={colorTitle}
+            onChangeComplete={(color) => setColorTitle(color.hex)}
+          />
           <TextInput
             value={colorTitle}
             onChange={(event) => setColorTitle(event.currentTarget.value)}
@@ -54,6 +60,7 @@ export const EditColor = ({
             <Button
               loading={isLoading}
               disabled={isLoading || !colorTitle}
+              type="submit"
               variant="filled"
             >
               تعديل
