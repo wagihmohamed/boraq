@@ -30,7 +30,7 @@ export const CustomProductCard = ({
   const handleNavigate = () => {
     navigate(`/tenants/${id}/show`);
   };
-  const { mutate: deleteTenant } = useMutation({
+  const { mutate: deleteProduct } = useMutation({
     mutationFn: (id: string) => deleteProductService({ id }),
     onSuccess: () => {
       toast.success('تم مسح المنتج بنجاح');
@@ -44,7 +44,7 @@ export const CustomProductCard = ({
   });
 
   const handleDelete = () => {
-    deleteTenant(id);
+    deleteProduct(id);
   };
 
   return (
