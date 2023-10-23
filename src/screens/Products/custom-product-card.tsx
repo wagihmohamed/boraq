@@ -1,5 +1,5 @@
 import { APIError } from '@/models';
-import { deleteTenantService } from '@/services/deleteTenant';
+import { deleteProductService } from '@/services/deleteProduct';
 import { Product } from '@/services/getProducts';
 import {
   Card,
@@ -30,12 +30,12 @@ export const CustomProductCard = ({
   const handleNavigate = () => {
     navigate(`/tenants/${id}/show`);
   };
-  const { mutate: deleteTenant } = useMutation({
-    mutationFn: (id: string) => deleteTenantService({ id }),
+  const { mutate: deleteProduct } = useMutation({
+    mutationFn: (id: string) => deleteProductService({ id }),
     onSuccess: () => {
-      toast.success('تم مسح المستأجر بنجاح');
+      toast.success('تم مسح المنتج بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['tenants'],
+        queryKey: ['products'],
       });
     },
     onError: (error: AxiosError<APIError>) => {
@@ -44,7 +44,7 @@ export const CustomProductCard = ({
   });
 
   const handleDelete = () => {
-    deleteTenant(id);
+    deleteProduct(id);
   };
 
   return (
