@@ -1,7 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { LoginScreen } from './screens/Login';
-import { Home } from './screens/Home';
 import { Employees } from './screens/Employees';
 import { AddEmployee } from './screens/AddEmployee';
 import { EditEmployee } from './screens/EditEmployee';
@@ -29,12 +28,12 @@ import { AddTenant } from './screens/AddTenant';
 import { Sizes } from './screens/Sizes';
 import { Colors } from './screens/Colors/inedx';
 import { Categories } from './screens/Categories';
+import { Products } from './screens/Products';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginScreen />} />
-      <Route path="/home" element={<Home />} />
       <Route path="/employees" element={<Employees />} />
       <Route path="/employees/add" element={<AddEmployee />} />
       <Route path="/employees/:id/show" element={<ShowEmployee />} />
@@ -62,6 +61,7 @@ function App() {
       <Route path="/sizes" element={<Sizes />} />
       <Route path="/colors" element={<Colors />} />
       <Route path="/categories" element={<Categories />} />
+      <Route path="/home" element={<Products />} />
     </Routes>
   );
 }
