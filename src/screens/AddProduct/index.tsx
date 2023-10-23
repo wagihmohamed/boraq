@@ -3,7 +3,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { addProductSchema } from './schema';
-import { Button, Grid, Select, TextInput } from '@mantine/core';
+import { Badge, Button, Grid, Select, TextInput } from '@mantine/core';
 import { useCategory } from '@/hooks/useCategory';
 import { z } from 'zod';
 import { useColors } from '@/hooks/useColors';
@@ -56,7 +56,11 @@ export const AddProduct = () => {
     return (
       <div key={color.value} className="relative">
         <TextInput
-          label={`اللون ${color.label}`}
+          label={
+            <div className="mb-2">
+              <Badge color={color.label}>{color.label}</Badge>
+            </div>
+          }
           placeholder="الكمية"
           {...form.getInputProps(`colors.${index}.quantity`)}
         />
@@ -146,8 +150,11 @@ export const AddProduct = () => {
       title: size.label,
       quantity: parseInt(size.quantity, 10),
     }));
+    const selectedCategory = categoriesOptions.find(
+      (category) => category.value === values.category
+    );
     createProductAction({
-      category: values.category,
+      category: selectedCategory?.label || '',
       colors: transformedColors,
       image: values.image,
       price: parseInt(values.price, 10),

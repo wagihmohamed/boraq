@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { CreateColorPayload, createColorService } from '@/services/createColor';
+import { SketchPicker } from 'react-color';
 
 export const AddColor = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -36,6 +37,10 @@ export const AddColor = () => {
     <>
       <Modal opened={opened} onClose={close} title="اضافة لون" centered>
         <form onSubmit={handleDelete}>
+          <SketchPicker
+            color={colorName}
+            onChangeComplete={(color) => setColorName(color.hex)}
+          />
           <TextInput
             label="اسم اللون"
             placeholder="اسم اللون"

@@ -28,7 +28,7 @@ export const CustomProductCard = ({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const handleNavigate = () => {
-    navigate(`/tenants/${id}/show`);
+    navigate(`/home/${id}/show`);
   };
   const { mutate: deleteProduct } = useMutation({
     mutationFn: (id: string) => deleteProductService({ id }),
@@ -95,7 +95,7 @@ export const CustomProductCard = ({
       </Group>
 
       <Text size="sm" c="dimmed">
-        {price}
+        السعر: {price}
       </Text>
 
       <Button
