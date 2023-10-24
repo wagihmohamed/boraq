@@ -1,6 +1,14 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useProductDetails } from '@/hooks/useProductDetails';
-import { Badge, Button, Grid, Image, Text, TextInput } from '@mantine/core';
+import {
+  Badge,
+  Button,
+  Grid,
+  Image,
+  Text,
+  TextInput,
+  rem,
+} from '@mantine/core';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -52,7 +60,12 @@ export const ProductScreen = () => {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Image radius="md" src={productDetails?.data.image} />
+          <Image
+            fit="contain"
+            mah={rem(400)}
+            radius="md"
+            src={productDetails?.data.image}
+          />
         </Grid.Col>
         <Grid.Col
           className="space-y-2"
@@ -62,13 +75,14 @@ export const ProductScreen = () => {
             <Text>الالوان:</Text>
             {productDetails?.data.ProductColors.map((color) => (
               <Badge
+                size="lg"
                 key={color.color.title}
                 className="flex flex-wrap items-center"
                 style={{
                   backgroundColor: color.color.title,
                 }}
               >
-                {color.quantity}
+                المتوفر: {color.quantity}
               </Badge>
             ))}
           </div>
@@ -76,10 +90,11 @@ export const ProductScreen = () => {
             <Text>الاحجام:</Text>
             {productDetails?.data.ProductSizes.map((size) => (
               <Badge
+                size="lg"
                 key={size.size.title}
-                className="flex flex-wrap items-center"
+                className="flex flex-wrap items-center flex-col"
               >
-                {size.size.title} {size.quantity}
+                الحجم: {size.size.title} المتوفر: {size.quantity}
               </Badge>
             ))}
           </div>
