@@ -6,18 +6,23 @@ import { useState } from 'react';
 import { AddSize } from './add-size';
 import { EditSize } from './edit-size';
 import { DeleteSize } from './delete-size';
+import { Filters } from '@/services/getEmployeesService';
 
 export const Sizes = () => {
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    size: 10,
+  });
 
   const {
     data: sizes = {
       data: [],
       pagesCount: 1,
+      page: 1,
     },
     isLoading,
     isError,
-  } = useSizes(page);
+  } = useSizes(filters);
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
@@ -39,7 +44,11 @@ export const Sizes = () => {
         ))}
       </Grid>
       <div className="flex justify-center mt-6">
-        <Pagination value={page} onChange={setPage} total={sizes.pagesCount} />
+        <Pagination
+          value={sizes.page}
+          onChange={(page) => setFilters({ ...filters, page })}
+          total={sizes.pagesCount}
+        />
       </div>
     </AppLayout>
   );

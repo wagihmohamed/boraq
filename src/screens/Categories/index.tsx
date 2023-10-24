@@ -6,18 +6,23 @@ import { useState } from 'react';
 import { AddCategory } from './add-category';
 import { DeleteCategory } from './delete-category';
 import { EditCategory } from './edit-category';
+import { Filters } from '@/services/getEmployeesService';
 
 export const Categories = () => {
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    size: 10,
+  });
 
   const {
     data: categories = {
       data: [],
       pagesCount: 1,
+      page: 1,
     },
     isLoading,
     isError,
-  } = useCategory(page);
+  } = useCategory(filters);
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
@@ -40,8 +45,8 @@ export const Categories = () => {
       </Grid>
       <div className="flex justify-center mt-6">
         <Pagination
-          value={page}
-          onChange={setPage}
+          value={categories.page}
+          onChange={(page) => setFilters({ ...filters, page })}
           total={categories.pagesCount}
         />
       </div>

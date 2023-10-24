@@ -3,9 +3,15 @@ import { useTenants } from '@/hooks/useTenants';
 import { CustomTenantCard } from './tenant-card';
 import { Button, Grid, Pagination } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { Filters } from '@/services/getEmployeesService';
+import { useState } from 'react';
 
 export const TenantsScreen = () => {
   const navigate = useNavigate();
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    size: 10,
+  });
   const {
     data: tenants = {
       data: [],
@@ -14,7 +20,7 @@ export const TenantsScreen = () => {
     },
     isError,
     isLoading,
-  } = useTenants();
+  } = useTenants(filters);
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
@@ -37,7 +43,11 @@ export const TenantsScreen = () => {
         ))}
       </Grid>
       <div className="flex justify-center mt-10">
-        <Pagination total={tenants.pagesCount} value={tenants.page} />
+        <Pagination
+          total={tenants.pagesCount}
+          value={tenants.page}
+          onChange={(page) => setFilters({ ...filters, page })}
+        />
       </div>
     </AppLayout>
   );
