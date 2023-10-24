@@ -2,6 +2,7 @@ import { api } from '@/api';
 import { getClientsendpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 import { Branch } from './getBranchesService';
+import { Filters } from './getEmployeesService';
 
 export interface Client {
   id: string;
@@ -22,7 +23,14 @@ export interface GetClientsResponse {
   data: Client[];
 }
 
-export const getClientsService = async () => {
-  const response = await api.get<GetClientsResponse>(getClientsendpoint);
+export const getClientsService = async (
+  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+) => {
+  const response = await api.get<GetClientsResponse>(getClientsendpoint, {
+    params: {
+      page,
+      size,
+    },
+  });
   return response.data;
 };

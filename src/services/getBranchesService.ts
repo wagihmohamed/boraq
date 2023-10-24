@@ -1,6 +1,7 @@
 import { api } from '@/api';
 import { getBranchesendpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { Filters } from './getEmployeesService';
 
 export interface Branch {
   id: string;
@@ -17,7 +18,14 @@ export interface GetRepositoriesResponse {
   data: Branch[];
 }
 
-export const getBranchesService = async () => {
-  const response = await api.get<GetRepositoriesResponse>(getBranchesendpoint);
+export const getBranchesService = async (
+  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+) => {
+  const response = await api.get<GetRepositoriesResponse>(getBranchesendpoint, {
+    params: {
+      page,
+      size,
+    },
+  });
   return response.data;
 };
