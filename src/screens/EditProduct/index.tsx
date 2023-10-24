@@ -1,60 +1,101 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useForm, zodResolver } from '@mantine/form';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { addProductSchema } from './schema';
-import { Badge, Button, Grid, Select, TextInput } from '@mantine/core';
 import { useCategory } from '@/hooks/useCategory';
-import { z } from 'zod';
 import { useColors } from '@/hooks/useColors';
+import { useProductDetails } from '@/hooks/useProductDetails';
 import { useSizes } from '@/hooks/useSizes';
-import { IconX } from '@tabler/icons-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  CreateProductPayload,
-  createProductService,
-} from '@/services/createProduct';
+  Badge,
+  Button,
+  Grid,
+  Image,
+  Select,
+  TextInput,
+  rem,
+} from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { IconX } from '@tabler/icons-react';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { editProductSchema } from './schema';
+import { z } from 'zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { EditProductPayload, editProductService } from '@/services/editProduct';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 
-export const AddProduct = () => {
+export const EditProductScreen = () => {
   const navigate = useNavigate();
-  const {
-    data: categories = {
-      data: [],
+  const queryClient = useQueryClient();
+  const { id = '' } = useParams();
+  const { data: productDetails, isLoading, isError } = useProductDetails(id);
+
+  const form = useForm({
+    validate: zodResolver(editProductSchema),
+    initialValues: {
+      title: '',
+      price: '',
+      stock: '',
+      category: '',
+      colors: [] as unknown as {
+        label: string;
+        value?: string;
+        quantity: string;
+      }[],
+      sizes: [] as unknown as {
+        label: string;
+        value?: string;
+        quantity: string;
+      }[],
+      image: '',
     },
-  } = useCategory();
+  });
+
+  const { data: categories } = useCategory();
+  const categoryOptions = categories?.data.map((category) => ({
+    value: category.id,
+    label: category.title,
+  }));
+
+  useEffect(() => {
+    if (productDetails) {
+      const selectedCategory = categoryOptions?.find(
+        (category) => category.label === productDetails.data.Category?.title
+      );
+      form.setValues({
+        title: productDetails.data.title,
+        price: productDetails.data.price,
+        stock: productDetails.data.stock.toString(),
+        category: selectedCategory?.value || '',
+        colors: productDetails.data.ProductColors.map((color) => ({
+          label: color.color.title,
+          quantity: color.quantity.toString(),
+        })),
+        sizes: productDetails.data.ProductSizes.map((size) => ({
+          label: size.size.title,
+          quantity: size.quantity.toString(),
+        })),
+        image: productDetails.data.image,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productDetails]);
+
   const { data: colors = { data: [] } } = useColors();
-  const { data: sizes = { data: [] } } = useSizes();
   const colorsOptions = colors.data.map((color) => ({
     value: color.id,
     label: color.title,
   }));
+  const { data: sizes = { data: [] } } = useSizes();
   const sizesOptions = sizes.data.map((size) => ({
     value: size.id,
     label: size.title,
   }));
-  const categoriesOptions = categories.data.map((category) => ({
-    value: category.id,
-    label: category.title,
-  }));
-  const form = useForm({
-    validate: zodResolver(addProductSchema),
-    initialValues: {
-      title: '',
-      price: '',
-      image: 'https://picsum.photos/200/300',
-      stock: '',
-      category: '',
-      colors: [] as unknown as { label: string; value: string; quantity: '' }[],
-      sizes: [] as unknown as { label: string; value: string; quantity: '' }[],
-    },
-  });
 
   const productColors = form.values.colors.map((color, index) => {
     return (
-      <div key={color.value} className="relative">
+      <div key={color.label} className="relative">
         <TextInput
           type="number"
           label={
@@ -78,10 +119,9 @@ export const AddProduct = () => {
 
   const productSizes = form.values.sizes.map((size, index) => {
     return (
-      <div key={size.value} className="relative">
+      <div key={size.label} className="relative">
         <TextInput
           type="number"
-          key={size.value}
           label={`الحجم ${size.label}`}
           placeholder="الكمية"
           {...form.getInputProps(`sizes.${index}.quantity`)}
@@ -96,8 +136,8 @@ export const AddProduct = () => {
       </div>
     );
   });
-  const queryClient = useQueryClient();
-  const { mutate: createProductAction, isLoading } = useMutation({
+
+  const { mutate: editProductAction, isLoading: isEdditing } = useMutation({
     mutationFn: ({
       category,
       colors,
@@ -106,30 +146,32 @@ export const AddProduct = () => {
       sizes,
       stock,
       title,
-    }: CreateProductPayload) => {
-      return createProductService({
-        category,
-        colors,
-        image,
-        price,
-        sizes,
-        stock,
-        title,
+    }: EditProductPayload) => {
+      return editProductService({
+        data: {
+          category,
+          colors,
+          image,
+          price,
+          sizes,
+          stock,
+          title,
+        },
+        id,
       });
     },
     onSuccess: () => {
-      toast.success('تم اضافة المنتج بنجاح');
+      toast.success('تم تعديل المنتج بنجاح');
+      navigate('/home');
       queryClient.invalidateQueries({
         queryKey: ['products'],
       });
-      navigate('/home');
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
     },
   });
-
-  const handleSubmit = (values: z.infer<typeof addProductSchema>) => {
+  const handleSubmit = (values: z.infer<typeof editProductSchema>) => {
     const everyColorHasQuantity = values.colors.every(
       (color) => color.quantity !== ''
     );
@@ -152,10 +194,14 @@ export const AddProduct = () => {
       title: size.label,
       quantity: parseInt(size.quantity, 10),
     }));
-    const selectedCategory = categoriesOptions.find(
+    const selectedCategory = categoryOptions?.find(
       (category) => category.value === values.category
     );
-    createProductAction({
+    console.log(values);
+    console.log({ transformedColors });
+    console.log({ transformedSizes });
+
+    editProductAction({
       category: selectedCategory?.label || '',
       colors: transformedColors,
       image: values.image,
@@ -167,45 +213,42 @@ export const AddProduct = () => {
   };
 
   return (
-    <AppLayout>
-      <div className="flex items-center gap-4">
+    <AppLayout isLoading={isLoading} isError={isError}>
+      <div className="flex items-center gap-4 mb-6">
         <ChevronRight
           size={34}
-          className="mt-3 cursor-pointer"
+          className="mt-2 cursor-pointer"
           onClick={() => {
             navigate('/home');
           }}
         />
-        <h1 className="text-3xl font-semibold">اضافة منتج</h1>
+        <h1 className="text-3xl font-semibold">
+          تعديل المنتج {productDetails?.data.title}
+        </h1>
       </div>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Grid gutter="lg">
+        <Grid gutter="md">
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput label="اسم المنتج" {...form.getInputProps('title')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="سعر المنتج"
-              type="number"
-              {...form.getInputProps('price')}
-            />
+            <TextInput label="سعر المنتج" {...form.getInputProps('price')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="الكمية"
-              type="number"
-              {...form.getInputProps('stock')}
-            />
+            <TextInput label="الكمية" {...form.getInputProps('stock')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
-              searchable
-              label="القسم"
+              key={form.values.category}
+              label="الصنف"
+              data={categoryOptions}
               {...form.getInputProps('category')}
-              data={categoriesOptions}
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <Grid.Col
+            className="space-y-2"
+            span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}
+          >
             <Select
               label="الالوان"
               data={colorsOptions}
@@ -270,27 +313,31 @@ export const AddProduct = () => {
             )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Image
+              fit="contain"
+              mah={rem(400)}
+              radius="md"
+              src={form?.values.image}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }} />
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               type="submit"
               fullWidth
-              mt="xl"
-              size="md"
-              loading={isLoading}
-              disabled={isLoading}
+              disabled={isEdditing}
+              loading={isEdditing}
             >
-              اضافة
+              تعديل
             </Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               onClick={() => {
-                navigate('/products');
+                navigate('/home');
               }}
-              type="submit"
-              variant="outline"
               fullWidth
-              mt="xl"
-              size="md"
+              variant="outline"
             >
               العودة
             </Button>

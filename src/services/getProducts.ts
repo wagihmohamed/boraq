@@ -6,6 +6,10 @@ export interface Product {
   title: string;
   price: string;
   image: string;
+  stock: number;
+  Category: {
+    title: string;
+  };
 }
 
 export interface GetProductsResponse {

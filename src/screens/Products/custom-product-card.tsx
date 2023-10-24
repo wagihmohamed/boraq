@@ -24,6 +24,8 @@ export const CustomProductCard = ({
   price,
   title,
   id,
+  Category,
+  stock,
 }: CustomTenantCardProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -52,9 +54,8 @@ export const CustomProductCard = ({
       <Card.Section>
         <Image
           src={image}
-          height={277}
-          width={300}
-          fit="contain"
+          className="aspect-square"
+          fit="cover"
           fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
           alt={title}
         />
@@ -76,7 +77,7 @@ export const CustomProductCard = ({
                 <IconEdit style={{ width: rem(14), height: rem(14) }} />
               }
               onClick={() => {
-                navigate(`/tenants/${id}/edit`);
+                navigate(`/home/${id}/edit`);
               }}
             >
               تعديل
@@ -96,6 +97,12 @@ export const CustomProductCard = ({
 
       <Text size="sm" c="dimmed">
         السعر: {price}
+      </Text>
+      <Text my={2} size="sm" c="dimmed">
+        المتوفر: {stock}
+      </Text>
+      <Text size="sm" c="dimmed">
+        الصنف: {Category.title}
       </Text>
 
       <Button
