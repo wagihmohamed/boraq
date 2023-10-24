@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { LoginScreen } from './screens/Login';
 import { Employees } from './screens/Employees';
 import { AddEmployee } from './screens/AddEmployee';
@@ -40,14 +40,17 @@ import { useEffect } from 'react';
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentUserPath = location.pathname.split('/')[1];
+
   const { isLoading, isSuccess } = useValidateToken();
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/employees');
+      navigate(currentUserPath || '/employees');
     }
-  }, [isSuccess, navigate]);
+  }, [currentUserPath, isSuccess, navigate]);
 
   if (isLoading && token) {
     return (
