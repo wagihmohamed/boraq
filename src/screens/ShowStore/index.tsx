@@ -15,7 +15,7 @@ export const StoreScreen = () => {
           size={34}
           className="mt-2 cursor-pointer"
           onClick={() => {
-            navigate('/store');
+            navigate('/stores');
           }}
         />
         <h1 className="text-3xl font-semibold">
@@ -25,7 +25,7 @@ export const StoreScreen = () => {
       <Grid gutter="md">
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <TextInput
-            label="اسم المنتج"
+            label="اسم المتجر"
             value={storeDetails?.data.name}
             disabled
           />
@@ -39,7 +39,7 @@ export const StoreScreen = () => {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
           <Textarea
-            label="العنوان"
+            label="الملاحظات"
             value={storeDetails?.data.notes}
             rows={10}
             maxRows={10}
