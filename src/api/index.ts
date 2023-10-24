@@ -1,4 +1,6 @@
+import { authStore } from '@/store/authStore';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const baseURL = import.meta.env.VITE_BASE_URL as string;
 
@@ -20,6 +22,20 @@ api.interceptors.request.use(
     return config;
   },
   async (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  async (response) => {
+    return response;
+  },
+  async (error) => {
+    if (error.response.status === 401) {
+      authStore.getState().logout();
+      toast.error('لقد انتهت صلاحية الجلسة الرجاء تسجيل الدخول مرة أخرى');
+    }
+
     return Promise.reject(error);
   }
 );

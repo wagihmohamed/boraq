@@ -2,7 +2,7 @@ import { TextInput, PasswordInput, Title, Button } from '@mantine/core';
 import Logo from '@/assets/auth-image.png';
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SignInRequest, signInService } from '@/services/signInService';
 import { useAuth } from '@/store/authStore';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const schema = z.object({
 export const LoginScreen = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ password, username }: SignInRequest) => {
@@ -27,6 +28,9 @@ export const LoginScreen = () => {
     },
     onSuccess: (data) => {
       toast.success('تم تسجيل الدخول بنجاح');
+      queryClient.invalidateQueries({
+        queryKey: ['validateToken'],
+      });
       navigate('/home');
       setAuth(data);
     },
