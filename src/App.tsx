@@ -39,6 +39,7 @@ import PrivateRoutes from './components/PrivateWrappers';
 import { useEffect } from 'react';
 import { StoreScreen } from './screens/ShowStore';
 import { AddStore } from './screens/AddStore';
+import EditStore from './screens/EditStore';
 
 function App() {
   const navigate = useNavigate();
@@ -102,6 +103,7 @@ function App() {
         <Route path="/stores" element={<Stores />} />
         <Route path="/stores/add" element={<AddStore />} />
         <Route path="/stores/:id/show" element={<StoreScreen />} />
+        <Route path="/stores/:id/edit" element={<EditStore />} />
       </Route>
     </Routes>
   );
