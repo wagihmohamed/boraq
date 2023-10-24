@@ -25,6 +25,7 @@ export const Stores = () => {
     <AppLayout isLoading={isLoading} isError={isError}>
       <DataTable
         data={sizes.data}
+        navigationURL="/stores/add"
         columns={columns}
         filters={{
           ...filters,

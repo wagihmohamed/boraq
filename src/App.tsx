@@ -38,6 +38,7 @@ import { Loader } from '@mantine/core';
 import PrivateRoutes from './components/PrivateWrappers';
 import { useEffect } from 'react';
 import { StoreScreen } from './screens/ShowStore';
+import { AddStore } from './screens/AddStore';
 
 function App() {
   const navigate = useNavigate();
@@ -99,6 +100,7 @@ function App() {
         <Route path="/home/:id/show" element={<ProductScreen />} />
         <Route path="/home/:id/edit" element={<EditProductScreen />} />
         <Route path="/stores" element={<Stores />} />
+        <Route path="/stores/add" element={<AddStore />} />
         <Route path="/stores/:id/show" element={<StoreScreen />} />
       </Route>
     </Routes>
