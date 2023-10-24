@@ -6,18 +6,23 @@ import { useState } from 'react';
 import { AddColor } from './add-color';
 import { DeleteColor } from './delete-color';
 import { EditColor } from './edit-color';
+import { Filters } from '@/services/getEmployeesService';
 
 export const Colors = () => {
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    size: 10,
+  });
 
   const {
     data: colors = {
       data: [],
       pagesCount: 1,
+      page: 1,
     },
     isLoading,
     isError,
-  } = useColors(page);
+  } = useColors(filters);
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
@@ -39,7 +44,11 @@ export const Colors = () => {
         ))}
       </Grid>
       <div className="flex justify-center mt-6">
-        <Pagination value={page} onChange={setPage} total={colors.pagesCount} />
+        <Pagination
+          value={colors.page}
+          onChange={(page) => setFilters({ ...filters, page })}
+          total={colors.pagesCount}
+        />
       </div>
     </AppLayout>
   );

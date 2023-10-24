@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { getRepositoriesendpoint } from '@/api/apisUrl';
+import { Filters } from './getEmployeesService';
 
 export interface Repository {
   id: string;
@@ -22,9 +23,17 @@ export interface GetRepositoriesResponse {
   data: Repository[];
 }
 
-export const getRepositoriesService = async () => {
+export const getRepositoriesService = async (
+  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+) => {
   const response = await api.get<GetRepositoriesResponse>(
-    getRepositoriesendpoint
+    getRepositoriesendpoint,
+    {
+      params: {
+        page,
+        size,
+      },
+    }
   );
   return response.data;
 };

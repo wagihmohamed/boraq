@@ -14,13 +14,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Dispatch } from 'react';
+import { Filters } from '@/services/getEmployeesService';
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  setFilters: Dispatch<React.SetStateAction<Filters>>;
+  filters: Filters;
 }
 
 export function DataTablePagination<TData>({
   table,
+  setFilters,
+  filters,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2 mt-3">
@@ -28,9 +34,13 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">عنصر لكل صفحة</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={filters.size.toString()}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
+              setFilters((filters) => ({
+                ...filters,
+                size: Number(value),
+              }));
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
@@ -46,39 +56,59 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          الصفحه {table.getState().pagination.pageIndex + 1} من{' '}
-          {table.getPageCount()}
+          الصفحه {filters.page} من {filters.pagesCount}
         </div>
         <div className="flex flex-row-reverse items-center space-x-2">
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              setFilters((filters) => ({
+                ...filters,
+                page: filters.pagesCount || filters.page + 1,
+              }));
+            }}
+            disabled={filters.page === filters.pagesCount}
           >
             <DoubleArrowLeftIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              setFilters((filters) => ({
+                ...filters,
+                page: filters.page + 1,
+              }));
+            }}
+            disabled={filters.page === filters.pagesCount}
           >
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              table.nextPage();
+              setFilters((filters) => ({
+                ...filters,
+                page: table.getState().pagination.pageIndex + 1,
+              }));
+            }}
+            disabled={filters.page === 1}
           >
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              setFilters((filters) => ({
+                ...filters,
+                page: 1,
+              }));
+            }}
+            disabled={filters.page === 1}
           >
             <DoubleArrowRightIcon className="h-4 w-4" />
           </Button>

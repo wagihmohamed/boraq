@@ -17,15 +17,21 @@ import { DataTablePagination } from '@/components/DataTablePagination';
 import { DataTableViewOptions } from '@/components/DataTableViewOptions';
 import { Link } from 'react-router-dom';
 import { buttonVariants } from '@/components/ui/button';
+import { Dispatch } from 'react';
+import { Filters } from '@/services/getEmployeesService';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filters: Filters;
+  setFilters: Dispatch<React.SetStateAction<Filters>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  setFilters,
+  filters,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -98,7 +104,11 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination
+        table={table}
+        setFilters={setFilters}
+        filters={filters}
+      />
     </div>
   );
 }

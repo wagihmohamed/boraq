@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { getSizesendpoint } from '@/api/apisUrl';
+import { Filters } from './getEmployeesService';
 
 export interface Size {
   id: string;
@@ -15,10 +16,13 @@ export interface GetSizesResponse {
   data: Size[];
 }
 
-export const getSizesService = async (page = 1) => {
+export const getSizesService = async (
+  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+) => {
   const response = await api.get<GetSizesResponse>(getSizesendpoint, {
     params: {
       page,
+      size,
     },
   });
   return response.data;
