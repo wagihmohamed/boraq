@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { SignInResponse } from '@/services/signInService';
 import JWTDecode from 'jwt-decode';
 
-interface AuthStore extends SignInResponse {
+interface IAuthStore extends SignInResponse {
   setAuth: (data: SignInResponse) => void;
   logout: () => void;
   id: string;
@@ -22,7 +22,7 @@ interface TokenPayload {
   iat: number;
 }
 
-const useAuthStore = create<AuthStore>()(
+export const authStore = create<IAuthStore>()(
   persist(
     (set) => ({
       status: '',
@@ -56,4 +56,4 @@ const useAuthStore = create<AuthStore>()(
   )
 );
 
-export const useAuth = () => useAuthStore((state) => state);
+export const useAuth = () => authStore((state) => state);

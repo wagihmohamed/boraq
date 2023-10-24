@@ -56,3 +56,4 @@ export const getStoreDetailsendpoint = '/stores/';
 export const createStoreendpoint = '/stores';
 export const editStoreendpoint = '/stores/';
 export const deleteStoreendpoint = '/stores/';
+export const validateTokenendpoint = '/auth/validate-token';
