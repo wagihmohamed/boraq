@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { Store } from '@/services/getStores';
+import { DeleteStore } from './delete-store';
 
 export const columns: ColumnDef<Store>[] = [
   {
@@ -35,7 +36,7 @@ export const columns: ColumnDef<Store>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const location = row.original;
+      const store = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -49,7 +50,7 @@ export const columns: ColumnDef<Store>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/stores/${location.id}/show`}
+              to={`/stores/${store.id}/show`}
             >
               عرض
             </Link>
@@ -58,11 +59,11 @@ export const columns: ColumnDef<Store>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/stores/${location.id}/edit`}
+              to={`/stores/${store.id}/edit`}
             >
               تعديل
             </Link>
-            {/* <DeleteLocation id={location.id} /> */}
+            <DeleteStore storeId={store.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
