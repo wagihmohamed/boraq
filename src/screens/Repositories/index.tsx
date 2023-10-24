@@ -24,6 +24,7 @@ export const RepositoriesScreen = () => {
       <DataTable
         columns={columns}
         data={repositories?.data}
+        navigationURL="/repositories/add"
         setFilters={setFilters}
         filters={{
           ...filters,

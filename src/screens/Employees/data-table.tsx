@@ -25,6 +25,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   filters: Filters;
   setFilters: Dispatch<React.SetStateAction<Filters>>;
+  navigationURL: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -32,6 +33,7 @@ export function DataTable<TData, TValue>({
   data,
   setFilters,
   filters,
+  navigationURL,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -48,7 +50,7 @@ export function DataTable<TData, TValue>({
             size: 'sm',
             className: 'flex items-center gap-2',
           })}
-          to="/employees/add"
+          to={navigationURL}
         >
           اضافه موظف
         </Link>

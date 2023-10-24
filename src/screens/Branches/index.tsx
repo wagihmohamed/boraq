@@ -23,6 +23,7 @@ export const BranchesScreen = () => {
       <h1>الفروع</h1>
       <DataTable
         columns={columns}
+        navigationURL="/branches/add"
         data={branches.data}
         setFilters={setFilters}
         filters={{

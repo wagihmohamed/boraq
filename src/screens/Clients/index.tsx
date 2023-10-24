@@ -24,6 +24,7 @@ export const ClientsScreen = () => {
       <DataTable
         columns={columns}
         data={clients?.data}
+        navigationURL="/clients/add"
         setFilters={setFilters}
         filters={{
           ...filters,

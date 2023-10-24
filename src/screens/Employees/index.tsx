@@ -23,6 +23,7 @@ export const Employees = () => {
     <AppLayout isError={isError} isLoading={isLoading}>
       <h1>الموظفين</h1>
       <DataTable
+        navigationURL="/employees/add"
         columns={columns}
         data={employees.data}
         setFilters={setFilters}

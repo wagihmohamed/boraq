@@ -23,6 +23,7 @@ export const LocationsScreen = () => {
       <div>المناطق</div>
       <DataTable
         columns={columns}
+        navigationURL="/locations/add"
         data={locations.data}
         setFilters={setFilters}
         filters={{
