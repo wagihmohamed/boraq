@@ -9,6 +9,7 @@ import {
   IconNeedle,
   IconColorFilter,
   IconCategoryFilled,
+  IconShoppingBag,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -37,8 +38,14 @@ export const navSections = [
   {
     link: '/repositories',
     label: 'المخازن',
-    enLabel: 'stores',
+    enLabel: 'repositories',
     icon: IconBuildingStore,
+  },
+  {
+    link: '/stores',
+    label: 'المتاجر',
+    enLabel: 'stores',
+    icon: IconShoppingBag,
   },
   {
     link: '/categories',

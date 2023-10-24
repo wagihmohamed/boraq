@@ -32,6 +32,7 @@ import { Products } from './screens/Products';
 import { AddProduct } from './screens/AddProduct';
 import { ProductScreen } from './screens/ProductDetails';
 import { EditProductScreen } from './screens/EditProduct';
+import { Stores } from './screens/Stores';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
       <Route path="/home/add" element={<AddProduct />} />
       <Route path="/home/:id/show" element={<ProductScreen />} />
       <Route path="/home/:id/edit" element={<EditProductScreen />} />
+      <Route path="/stores" element={<Stores />} />
     </Routes>
   );
 }
