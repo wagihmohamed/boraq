@@ -34,7 +34,7 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">عنصر لكل صفحة</p>
           <Select
-            value={filters.size.toString()}
+            value={filters?.size?.toString() || '10'}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
               setFilters((filters) => ({
@@ -65,7 +65,7 @@ export function DataTablePagination<TData>({
             onClick={() => {
               setFilters((filters) => ({
                 ...filters,
-                page: filters.pagesCount || filters.page + 1,
+                page: filters.pagesCount || (filters.page || 1) + 1,
               }));
             }}
             disabled={filters.page === filters.pagesCount}
@@ -78,7 +78,7 @@ export function DataTablePagination<TData>({
             onClick={() => {
               setFilters((filters) => ({
                 ...filters,
-                page: filters.page + 1,
+                page: (filters.page || 1) + 1,
               }));
             }}
             disabled={filters.page === filters.pagesCount}
