@@ -40,6 +40,7 @@ import { useEffect } from 'react';
 import { StoreScreen } from './screens/ShowStore';
 import { AddStore } from './screens/AddStore';
 import EditStore from './screens/EditStore';
+import { OrdersScreen } from './screens/Orders';
 
 function App() {
   const navigate = useNavigate();
@@ -104,6 +105,7 @@ function App() {
         <Route path="/stores/add" element={<AddStore />} />
         <Route path="/stores/:id/show" element={<StoreScreen />} />
         <Route path="/stores/:id/edit" element={<EditStore />} />
+        <Route path="/orders" element={<OrdersScreen />} />
       </Route>
     </Routes>
   );

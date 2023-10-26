@@ -1,6 +1,5 @@
 import {
   IconBox,
-  IconLicense,
   IconUsers,
   IconUserCheck,
   IconBuildingStore,
@@ -10,11 +9,17 @@ import {
   IconColorFilter,
   IconCategoryFilled,
   IconShoppingBag,
+  IconPackageExport,
 } from '@tabler/icons-react';
 
 export const navSections = [
   { link: '/home', label: 'المنتجات', enLabel: 'home', icon: IconBox },
-  { link: '/home', label: 'الفواتير', enLabel: 'invoices', icon: IconLicense },
+  {
+    link: '/orders',
+    label: 'الطلبات',
+    enLabel: 'invoices',
+    icon: IconPackageExport,
+  },
   { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },
   {
