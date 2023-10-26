@@ -1,0 +1,25 @@
+import * as z from 'zod';
+
+export const addOrderSchema = z.object({
+  totalCost: z.string().min(1, { message: 'الرجاء ادخال السعر الكلي' }),
+  paidAmount: z.string(),
+  totalCoastInUSD: z.string(),
+  paidAmountInUSD: z.string(),
+  discount: z.string(),
+  quantity: z.string(),
+  weight: z.string(),
+  recipientName: z.string(),
+  recipientPhone: z.string(),
+  recipientAddress: z.string(),
+  details: z.string(),
+  notes: z.string(),
+  status: z.string(),
+  deliveryType: z.string(),
+  clientID: z.string(),
+  deliveryAgentID: z.string(),
+  deliveryDate: z.string(),
+  governorate: z.string(),
+  locationID: z.string(),
+  storeID: z.string(),
+  products: z.array(z.unknown()),
+});

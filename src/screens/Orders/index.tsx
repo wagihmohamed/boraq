@@ -21,7 +21,7 @@ export const OrdersScreen = () => {
   return (
     <AppLayout isError={isError} isLoading={isLoading}>
       <DataTable
-        navigationURL="/orders"
+        navigationURL="/orders/add"
         columns={columns}
         data={orders.data}
         setFilters={setFilters}
