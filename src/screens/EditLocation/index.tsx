@@ -41,13 +41,13 @@ export const EditLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches();
+  } = useBranches({ size: 200 });
 
   const {
     data: employees = {
       data: [],
     },
-  } = useEmployees();
+  } = useEmployees({ size: 200 });
 
   useEffect(() => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(

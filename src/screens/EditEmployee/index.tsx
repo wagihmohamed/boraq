@@ -34,8 +34,8 @@ export const EditEmployee = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const { data: employeeDetails, isLoading, isError } = useEmployeeDetails(id);
-  const { data: repositories } = useRepositories();
-  const { data: branches } = useBranches();
+  const { data: repositories } = useRepositories({ size: 200 });
+  const { data: branches } = useBranches({ size: 200 });
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),

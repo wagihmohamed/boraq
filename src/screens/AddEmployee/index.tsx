@@ -27,8 +27,8 @@ import toast from 'react-hot-toast';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
-  const { data: branches = { data: [] } } = useBranches();
-  const { data: repositories = { data: [] } } = useRepositories();
+  const { data: branches = { data: [] } } = useBranches({ size: 200 });
+  const { data: repositories = { data: [] } } = useRepositories({ size: 200 });
   const form = useForm({
     validate: zodResolver(addEmployeeSchema),
     initialValues: {

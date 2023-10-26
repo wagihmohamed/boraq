@@ -33,13 +33,13 @@ export const AddLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches();
+  } = useBranches({ size: 200 });
 
   const {
     data: employees = {
       data: [],
     },
-  } = useEmployees();
+  } = useEmployees({ size: 200 });
 
   const deliveryAgents = employees.data
     ?.filter((employee) => employee.role === 'DELIVERY_AGENT')

@@ -22,7 +22,7 @@ import { useBranches } from '@/hooks/useBranches';
 export const AddClient = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: branches } = useBranches();
+  const { data: branches } = useBranches({ size: 200 });
 
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id,

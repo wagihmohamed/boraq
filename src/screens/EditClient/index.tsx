@@ -22,7 +22,7 @@ export const EditClient = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: branches } = useBranches();
+  const { data: branches } = useBranches({ size: 200 });
   const { data: clientDetails, isLoading, isError } = useClientDetails(id);
 
   const transformedBranches = branches?.data.map((branch) => ({

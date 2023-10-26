@@ -52,7 +52,7 @@ export const EditProductScreen = () => {
     },
   });
 
-  const { data: categories } = useCategory();
+  const { data: categories } = useCategory({ size: 200 });
   const categoryOptions = categories?.data.map((category) => ({
     value: category.id,
     label: category.title,
@@ -82,12 +82,12 @@ export const EditProductScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productDetails]);
 
-  const { data: colors = { data: [] } } = useColors();
+  const { data: colors = { data: [] } } = useColors({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
     value: color.id,
     label: color.title,
   }));
-  const { data: sizes = { data: [] } } = useSizes();
+  const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const sizesOptions = sizes.data.map((size) => ({
     value: size.id,
     label: size.title,

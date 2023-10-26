@@ -24,9 +24,9 @@ export const AddProduct = () => {
     data: categories = {
       data: [],
     },
-  } = useCategory();
-  const { data: colors = { data: [] } } = useColors();
-  const { data: sizes = { data: [] } } = useSizes();
+  } = useCategory({ size: 200 });
+  const { data: colors = { data: [] } } = useColors({ size: 200 });
+  const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
     value: color.id,
     label: color.title,
