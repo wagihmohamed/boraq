@@ -64,8 +64,9 @@ const EditStore = () => {
     editProductAction({
       id,
       data: {
-        branchID: values.client,
+        clientID: values.client,
         name: values.name,
+        notes: values.notes,
       },
     });
   };
@@ -101,7 +102,6 @@ const EditStore = () => {
             <Textarea
               label="الملاحظات"
               rows={10}
-              disabled
               maxRows={10}
               {...form.getInputProps('notes')}
             />

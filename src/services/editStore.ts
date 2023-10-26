@@ -2,8 +2,9 @@ import { api } from '@/api';
 import { editStoreendpoint } from '@/api/apisUrl';
 
 export interface EditStorePayload {
-  branchID: string;
+  clientID: string;
   name: string;
+  notes: string;
 }
 
 export const editStoreService = async ({
