@@ -17,6 +17,7 @@ import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL as string;
 interface CustomTenantCardProps extends Tenant {}
 
 export const CustomTenantCard = ({
@@ -53,7 +54,7 @@ export const CustomTenantCard = ({
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a" href={website}>
         <Image
-          src={logo}
+          src={IMAGE_BASE_URL + logo}
           height={160}
           fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
           alt={name}

@@ -1,12 +1,5 @@
 import { AppLayout } from '@/components/AppLayout';
-import {
-  Button,
-  Grid,
-  Image,
-  Switch,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
+import { Button, Grid, Switch, TextInput, Textarea } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -16,10 +9,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import {
-  CreateTenantPayload,
-  createTenantService,
-} from '@/services/createTenant';
+import { createTenantService } from '@/services/createTenant';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { FileWithPath } from '@mantine/dropzone';
 
 export const AddTenant = () => {
   const navigate = useNavigate();
@@ -31,7 +23,7 @@ export const AddTenant = () => {
       name: '',
       phone: '',
       website: '',
-      logo: 'https://private-publicity.name/',
+      logo: [] as unknown as FileWithPath[],
       registrationText: '',
       governoratePrice: '',
       deliveryAgentFee: '',
@@ -44,34 +36,8 @@ export const AddTenant = () => {
   });
 
   const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
-    mutationFn: ({
-      additionalPriceForEvery500000IraqiDinar,
-      additionalPriceForEveryKilogram,
-      additionalPriceForRemoteAreas,
-      baghdadPrice,
-      deliveryAgentFee,
-      governoratePrice,
-      logo,
-      name,
-      orderStatusAutomaticUpdate,
-      phone,
-      registrationText,
-      website,
-    }: CreateTenantPayload) => {
-      return createTenantService({
-        additionalPriceForEvery500000IraqiDinar,
-        additionalPriceForEveryKilogram,
-        additionalPriceForRemoteAreas,
-        baghdadPrice,
-        deliveryAgentFee,
-        governoratePrice,
-        logo,
-        name,
-        orderStatusAutomaticUpdate,
-        phone,
-        registrationText,
-        website,
-      });
+    mutationFn: (data: FormData) => {
+      return createTenantService(data);
     },
     onSuccess: () => {
       toast.success('تم انشاء الشركة بنجاح');
@@ -86,29 +52,32 @@ export const AddTenant = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof addTenantSchema>) => {
-    editTenantAction({
-      additionalPriceForEvery500000IraqiDinar: parseInt(
-        values.additionalPriceForEvery500000IraqiDinar,
-        10
-      ),
-      additionalPriceForEveryKilogram: parseInt(
-        values.additionalPriceForEveryKilogram,
-        10
-      ),
-      additionalPriceForRemoteAreas: parseInt(
-        values.additionalPriceForRemoteAreas,
-        10
-      ),
-      baghdadPrice: parseInt(values.baghdadPrice, 10),
-      deliveryAgentFee: parseInt(values.deliveryAgentFee, 10),
-      governoratePrice: parseInt(values.governoratePrice, 10),
-      logo: values.logo,
-      name: values.name,
-      orderStatusAutomaticUpdate: values.orderStatusAutomaticUpdate,
-      phone: values.phone,
-      registrationText: values.registrationText,
-      website: values.website,
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('phone', values.phone);
+    formData.append('website', values.website);
+    formData.append('logo', values.logo[0]);
+    formData.append('registrationText', values.registrationText);
+    formData.append('governoratePrice', values.governoratePrice);
+    formData.append('deliveryAgentFee', values.deliveryAgentFee);
+    formData.append('baghdadPrice', values.baghdadPrice);
+    formData.append(
+      'additionalPriceForEvery500000IraqiDinar',
+      values.additionalPriceForEvery500000IraqiDinar
+    );
+    formData.append(
+      'additionalPriceForEveryKilogram',
+      values.additionalPriceForEveryKilogram
+    );
+    formData.append(
+      'additionalPriceForRemoteAreas',
+      values.additionalPriceForRemoteAreas
+    );
+    formData.append(
+      'orderStatusAutomaticUpdate',
+      values.orderStatusAutomaticUpdate ? 'true' : 'false'
+    );
+    editTenantAction(formData);
   };
 
   return (
@@ -188,13 +157,19 @@ export const AddTenant = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
-            <Image
-              className="w-64 h-[390px]"
-              fit="cover"
-              radius="lg"
-              src="a"
-              fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+            <ImageUploader
+              image={form.values.logo}
+              onDrop={(files) => {
+                form.setFieldValue('logo', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('logo', []);
+              }}
+              error={!!form.errors.logo}
             />
+            {form.errors.logo && (
+              <div className="text-red-500">{form.errors.logo}</div>
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <Textarea
