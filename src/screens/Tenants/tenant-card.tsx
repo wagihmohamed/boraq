@@ -55,7 +55,6 @@ export const CustomTenantCard = ({
       <Card.Section component="a" href={website}>
         <Image
           src={IMAGE_BASE_URL + logo}
-          // crossOrigin="anonymous"
           fit="fill"
           className="w-full h-80"
           fallbackSrc="https://placehold.co/600x400?text=Placeholder"

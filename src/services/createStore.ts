@@ -7,10 +7,11 @@ export interface CreateStorePayload {
   notes: string;
 }
 
-export const createStoreService = async (data: CreateStorePayload) => {
-  const response = await api.post<CreateStorePayload>(
-    createStoreendpoint,
-    data
-  );
+export const createStoreService = async (data: FormData) => {
+  const response = await api.post<FormData>(createStoreendpoint, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

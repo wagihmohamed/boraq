@@ -1,13 +1,6 @@
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
-
-const MAX_FILE_SIZE = 3 * 1024 * 1024;
-const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-];
 
 export const addTenantSchema = z.object({
   name: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 حروف' }),
