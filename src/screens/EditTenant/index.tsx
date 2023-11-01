@@ -65,7 +65,6 @@ export const EditTenant = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tenantDetails]);
-  console.log(form.values);
 
   const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
     mutationFn: (data: FormData) => {
