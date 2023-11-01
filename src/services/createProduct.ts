@@ -4,7 +4,7 @@ import { createProductendpoint } from '@/api/apisUrl';
 export interface CreateProductPayload {
   title: string;
   price: number;
-  image: string;
+  image: File;
   stock: number;
   category: string;
   colors: {
@@ -20,7 +20,12 @@ export interface CreateProductPayload {
 export const createProductService = async (data: CreateProductPayload) => {
   const response = await api.post<CreateProductPayload>(
     createProductendpoint,
-    data
+    data,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
   );
   return response.data;
 };

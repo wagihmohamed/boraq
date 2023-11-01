@@ -1,10 +1,21 @@
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { z } from 'zod';
 
 export const addProductSchema = z
   .object({
     title: z.string().min(3, { message: 'اسم المنتج قصير جداً' }),
     price: z.string().min(0, { message: 'السعر لا يمكن ان يكون اقل من 0' }),
-    image: z.string().url(),
+    image: z
+      .any()
+      .refine((files) => files?.length === 1, 'الصوره مطلوبة')
+      .refine(
+        (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+        'الحد الاقصي 5 ميجا'
+      )
+      .refine(
+        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+        'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
+      ),
     stock: z.string(),
     category: z.string().min(3, { message: 'يجب اختيار القسم' }),
     colors: z

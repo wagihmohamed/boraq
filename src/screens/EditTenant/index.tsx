@@ -14,8 +14,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
-
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL as string;
+import { IMAGE_BASE_URL } from '@/api';
 
 export const EditTenant = () => {
   const { id = '' } = useParams();
