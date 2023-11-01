@@ -32,7 +32,10 @@ export const Products = () => {
       </div>
       <Grid gutter="md">
         {products.data.map((product) => (
-          <Grid.Col key={product.id} span={{ base: 12, md: 6, lg: 4 }}>
+          <Grid.Col
+            key={product.id}
+            span={{ base: 12, md: 6, lg: 3, sm: 4, xs: 6 }}
+          >
             <CustomProductCard {...product} />
           </Grid.Col>
         ))}
