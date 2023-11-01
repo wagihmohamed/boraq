@@ -20,12 +20,13 @@ export const editTenantService = async ({
   data,
   id,
 }: {
-  data: EditTenantPayload;
+  data: FormData;
   id: string;
 }) => {
-  const response = await api.patch<EditTenantPayload>(
-    editTenantendpoint + id,
-    data
-  );
+  const response = await api.patch<FormData>(editTenantendpoint + id, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

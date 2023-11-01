@@ -1,13 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useTenantDetails } from '@/hooks/useTenantDetails';
-import {
-  Button,
-  Grid,
-  Image,
-  Switch,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
+import { Button, Grid, Switch, TextInput, Textarea } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,10 +8,14 @@ import { editTenantSchema } from './schema';
 import { useEffect } from 'react';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EditTenantPayload, editTenantService } from '@/services/editTenant';
+import { editTenantService } from '@/services/editTenant';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { FileWithPath } from '@mantine/dropzone';
+import { ImageUploader } from '@/components/CustomDropZone';
+
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL as string;
 
 export const EditTenant = () => {
   const { id = '' } = useParams();
@@ -32,7 +29,7 @@ export const EditTenant = () => {
       name: '',
       phone: '',
       website: '',
-      logo: '',
+      logo: [] as unknown as FileWithPath[],
       registrationText: '',
       governoratePrice: '',
       deliveryAgentFee: '',
@@ -46,11 +43,12 @@ export const EditTenant = () => {
 
   useEffect(() => {
     if (tenantDetails) {
+      const imageAddress = IMAGE_BASE_URL + tenantDetails.data.logo;
       form.setValues({
         name: tenantDetails.data.name,
         phone: tenantDetails.data.phone,
         website: tenantDetails.data.website,
-        logo: tenantDetails.data.logo,
+        logo: [imageAddress] as unknown as FileWithPath[],
         registrationText: tenantDetails.data.registrationText,
         governoratePrice: tenantDetails.data.governoratePrice,
         deliveryAgentFee: tenantDetails.data.deliveryAgentFee,
@@ -67,37 +65,12 @@ export const EditTenant = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tenantDetails]);
+  console.log(form.values);
 
   const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
-    mutationFn: ({
-      additionalPriceForEvery500000IraqiDinar,
-      additionalPriceForEveryKilogram,
-      additionalPriceForRemoteAreas,
-      baghdadPrice,
-      deliveryAgentFee,
-      governoratePrice,
-      logo,
-      name,
-      orderStatusAutomaticUpdate,
-      phone,
-      registrationText,
-      website,
-    }: EditTenantPayload) => {
+    mutationFn: (data: FormData) => {
       return editTenantService({
-        data: {
-          additionalPriceForEvery500000IraqiDinar,
-          additionalPriceForEveryKilogram,
-          additionalPriceForRemoteAreas,
-          baghdadPrice,
-          deliveryAgentFee,
-          governoratePrice,
-          logo,
-          name,
-          orderStatusAutomaticUpdate,
-          phone,
-          registrationText,
-          website,
-        },
+        data,
         id,
       });
     },
@@ -114,29 +87,32 @@ export const EditTenant = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof editTenantSchema>) => {
-    editTenantAction({
-      additionalPriceForEvery500000IraqiDinar: parseInt(
-        values.additionalPriceForEvery500000IraqiDinar,
-        10
-      ),
-      additionalPriceForEveryKilogram: parseInt(
-        values.additionalPriceForEveryKilogram,
-        10
-      ),
-      additionalPriceForRemoteAreas: parseInt(
-        values.additionalPriceForRemoteAreas,
-        10
-      ),
-      baghdadPrice: parseInt(values.baghdadPrice, 10),
-      deliveryAgentFee: parseInt(values.deliveryAgentFee, 10),
-      governoratePrice: parseInt(values.governoratePrice, 10),
-      logo: values.logo,
-      name: values.name,
-      orderStatusAutomaticUpdate: values.orderStatusAutomaticUpdate,
-      phone: values.phone,
-      registrationText: values.registrationText,
-      website: values.website,
-    });
+    const formData = new FormData();
+    formData.append(
+      'additionalPriceForEvery500000IraqiDinar',
+      values.additionalPriceForEvery500000IraqiDinar
+    );
+    formData.append(
+      'additionalPriceForEveryKilogram',
+      values.additionalPriceForEveryKilogram
+    );
+    formData.append(
+      'additionalPriceForRemoteAreas',
+      values.additionalPriceForRemoteAreas
+    );
+    formData.append('baghdadPrice', values.baghdadPrice);
+    formData.append('deliveryAgentFee', values.deliveryAgentFee);
+    formData.append('governoratePrice', values.governoratePrice);
+    formData.append('logo', values.logo[0] || '');
+    formData.append('name', values.name);
+    formData.append(
+      'orderStatusAutomaticUpdate',
+      values.orderStatusAutomaticUpdate.toString()
+    );
+    formData.append('phone', values.phone);
+    formData.append('registrationText', values.registrationText);
+    formData.append('website', values.website);
+    editTenantAction(formData);
   };
 
   return (
@@ -222,13 +198,19 @@ export const EditTenant = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
-            <Image
-              className="w-64 h-[390px]"
-              fit="cover"
-              radius="lg"
-              src={tenantDetails?.data.logo}
-              fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+            <ImageUploader
+              image={form.values.logo}
+              onDrop={(files) => {
+                form.setFieldValue('logo', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('logo', []);
+              }}
+              error={!!form.errors.logo}
             />
+            {form.errors.logo && (
+              <div className="text-red-500">{form.errors.logo}</div>
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <Textarea
