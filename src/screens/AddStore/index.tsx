@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { createProductSchema } from './schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CreateStorePayload, createStoreService } from '@/services/createStore';
+import { createStoreService } from '@/services/createStore';
 import { useClients } from '@/hooks/useClients';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { FileWithPath } from '@mantine/dropzone';
 
 export const AddStore = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ export const AddStore = () => {
       name: '',
       notes: '',
       client: '',
+      logo: [] as unknown as FileWithPath[],
     },
   });
 
@@ -35,7 +38,7 @@ export const AddStore = () => {
   }));
 
   const { mutate: createStoreAction, isLoading } = useMutation({
-    mutationFn: (data: CreateStorePayload) => {
+    mutationFn: (data: FormData) => {
       return createStoreService(data);
     },
     onSuccess: () => {
@@ -51,11 +54,12 @@ export const AddStore = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof createProductSchema>) => {
-    createStoreAction({
-      clientID: values.client,
-      name: values.name,
-      notes: values.notes,
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('notes', values.notes);
+    formData.append('clientID', values.client);
+    formData.append('logo', values.logo[0]);
+    createStoreAction(formData);
   };
   return (
     <AppLayout>
@@ -72,7 +76,7 @@ export const AddStore = () => {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="md">
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput label="اسم المنتج" {...form.getInputProps('name')} />
+            <TextInput label="اسم المتجر" {...form.getInputProps('name')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
@@ -81,6 +85,21 @@ export const AddStore = () => {
               data={clientOptions}
               {...form.getInputProps('client')}
             />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.logo}
+              onDrop={(files) => {
+                form.setFieldValue('logo', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('logo', []);
+              }}
+              error={!!form.errors.logo}
+            />
+            {form.errors.logo && (
+              <div className="text-red-500">{form.errors.logo}</div>
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <Textarea
