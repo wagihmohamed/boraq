@@ -14,12 +14,14 @@ export interface ProductDetails {
     quantity: number;
     color: {
       title: string;
+      id: string;
     };
   }[];
   ProductSizes: {
     quantity: number;
     size: {
       title: string;
+      id: string;
     };
   }[];
 }
