@@ -21,12 +21,13 @@ export const editProductService = async ({
   data,
   id,
 }: {
-  data: EditProductPayload;
+  data: FormData;
   id: string;
 }) => {
-  const response = await api.patch<EditProductPayload>(
-    editProductendpoint + id,
-    data
-  );
+  const response = await api.patch<FormData>(editProductendpoint + id, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
