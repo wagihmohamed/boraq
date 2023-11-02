@@ -9,10 +9,13 @@ import { z } from 'zod';
 import { useEffect } from 'react';
 import { useClients } from '@/hooks/useClients';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EditStorePayload, editStoreService } from '@/services/editStore';
+import { editStoreService } from '@/services/editStore';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { FileWithPath } from '@mantine/dropzone';
+import { IMAGE_BASE_URL } from '@/api';
+import { ImageUploader } from '@/components/CustomDropZone';
 
 const EditStore = () => {
   const navigate = useNavigate();
@@ -30,22 +33,26 @@ const EditStore = () => {
       name: '',
       notes: '',
       client: '',
+      logo: [] as unknown as FileWithPath[],
     },
   });
 
   useEffect(() => {
     if (storeDetails) {
+      const imageAddress = IMAGE_BASE_URL + storeDetails.data.logo;
+
       form.setValues({
         name: storeDetails.data.name,
         notes: storeDetails.data.notes,
         client: storeDetails.data.client.id,
+        logo: [imageAddress] as unknown as FileWithPath[],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeDetails]);
 
   const { mutate: editProductAction, isLoading: isEditting } = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: EditStorePayload }) => {
+    mutationFn: ({ id, data }: { id: string; data: FormData }) => {
       return editStoreService({ id, data });
     },
     onSuccess: () => {
@@ -61,13 +68,14 @@ const EditStore = () => {
   });
 
   const handeSubmit = (values: z.infer<typeof editProductSchema>) => {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('notes', values.notes);
+    formData.append('clientID', values.client);
+    formData.append('logo', values.logo[0]);
     editProductAction({
       id,
-      data: {
-        clientID: values.client,
-        name: values.name,
-        notes: values.notes,
-      },
+      data: formData,
     });
   };
 
@@ -97,6 +105,21 @@ const EditStore = () => {
               data={clientOptions}
               {...form.getInputProps('client')}
             />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.logo}
+              onDrop={(files) => {
+                form.setFieldValue('logo', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('logo', []);
+              }}
+              error={!!form.errors.logo}
+            />
+            {form.errors.logo && (
+              <div className="text-red-500">{form.errors.logo}</div>
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <Textarea
