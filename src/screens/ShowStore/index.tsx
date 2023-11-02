@@ -1,6 +1,7 @@
+import { IMAGE_BASE_URL } from '@/api';
 import { AppLayout } from '@/components/AppLayout';
 import { useStoreDetails } from '@/hooks/useStoreDetails';
-import { TextInput, Grid, Textarea, Button } from '@mantine/core';
+import { TextInput, Grid, Textarea, Button, rem, Image } from '@mantine/core';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -35,6 +36,14 @@ export const StoreScreen = () => {
             label="العميل"
             value={storeDetails?.data.client.name}
             disabled
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 12, xs: 12 }}>
+          <Image
+            fit="contain"
+            mah={rem(400)}
+            radius="md"
+            src={IMAGE_BASE_URL + (storeDetails?.data.logo || '')}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
