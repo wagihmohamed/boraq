@@ -1,3 +1,4 @@
+import { IMAGE_BASE_URL } from '@/api';
 import { APIError } from '@/models';
 import { deleteTenantService } from '@/services/deleteTenant';
 import { Tenant } from '@/services/getTenants';
@@ -17,7 +18,6 @@ import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL as string;
 interface CustomTenantCardProps extends Tenant {}
 
 export const CustomTenantCard = ({

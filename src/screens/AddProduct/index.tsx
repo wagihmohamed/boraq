@@ -10,13 +10,12 @@ import { useColors } from '@/hooks/useColors';
 import { useSizes } from '@/hooks/useSizes';
 import { IconX } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  CreateProductPayload,
-  createProductService,
-} from '@/services/createProduct';
+import { createProductService } from '@/services/createProduct';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { FileWithPath } from '@mantine/dropzone';
 
 export const AddProduct = () => {
   const navigate = useNavigate();
@@ -44,7 +43,7 @@ export const AddProduct = () => {
     initialValues: {
       title: '',
       price: '',
-      image: 'https://picsum.photos/200/300',
+      image: [] as unknown as FileWithPath[],
       stock: '',
       category: '',
       colors: [] as unknown as { label: string; value: string; quantity: '' }[],
@@ -98,24 +97,8 @@ export const AddProduct = () => {
   });
   const queryClient = useQueryClient();
   const { mutate: createProductAction, isLoading } = useMutation({
-    mutationFn: ({
-      category,
-      colors,
-      image,
-      price,
-      sizes,
-      stock,
-      title,
-    }: CreateProductPayload) => {
-      return createProductService({
-        category,
-        colors,
-        image,
-        price,
-        sizes,
-        stock,
-        title,
-      });
+    mutationFn: (data: FormData) => {
+      return createProductService(data);
     },
     onSuccess: () => {
       toast.success('تم اضافة المنتج بنجاح');
@@ -146,24 +129,27 @@ export const AddProduct = () => {
     }
     const transformedColors = values.colors.map((color) => ({
       title: color.label,
+      colorId: color.value,
       quantity: parseInt(color.quantity, 10),
     }));
     const transformedSizes = values.sizes.map((size) => ({
       title: size.label,
+      sizeId: size.value,
       quantity: parseInt(size.quantity, 10),
     }));
     const selectedCategory = categoriesOptions.find(
       (category) => category.value === values.category
     );
-    createProductAction({
-      category: selectedCategory?.label || '',
-      colors: transformedColors,
-      image: values.image,
-      price: parseInt(values.price, 10),
-      sizes: transformedSizes,
-      stock: parseInt(values.stock, 10),
-      title: values.title,
-    });
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('price', values.price);
+    formData.append('stock', values.stock);
+    formData.append('category', selectedCategory?.value || '');
+    formData.append('image', values.image[0] || '');
+    formData.append('colors', JSON.stringify(transformedColors));
+    formData.append('sizes', JSON.stringify(transformedSizes));
+
+    createProductAction(formData);
   };
 
   return (
@@ -208,6 +194,7 @@ export const AddProduct = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الالوان"
+              searchable
               data={colorsOptions}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
@@ -240,6 +227,7 @@ export const AddProduct = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="المقاسات"
+              searchable
               data={sizesOptions}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(
@@ -267,6 +255,21 @@ export const AddProduct = () => {
               <div className="text-red-500 text-sm">
                 يجب اضافة المقاسات المتاحة
               </div>
+            )}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.image}
+              onDrop={(files) => {
+                form.setFieldValue('image', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('image', []);
+              }}
+              error={!!form.errors.image}
+            />
+            {form.errors.image && (
+              <div className="text-red-500">{form.errors.image}</div>
             )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
