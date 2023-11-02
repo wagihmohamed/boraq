@@ -6,6 +6,7 @@ export interface Store {
   id: string;
   name: string;
   notes: string;
+  logo: string;
   client: {
     id: string;
     name: string;
