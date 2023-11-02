@@ -10,10 +10,7 @@ import { useColors } from '@/hooks/useColors';
 import { useSizes } from '@/hooks/useSizes';
 import { IconX } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  CreateProductPayload,
-  createProductService,
-} from '@/services/createProduct';
+import { createProductService } from '@/services/createProduct';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
@@ -100,7 +97,7 @@ export const AddProduct = () => {
   });
   const queryClient = useQueryClient();
   const { mutate: createProductAction, isLoading } = useMutation({
-    mutationFn: (data: CreateProductPayload) => {
+    mutationFn: (data: FormData) => {
       return createProductService(data);
     },
     onSuccess: () => {
@@ -144,17 +141,15 @@ export const AddProduct = () => {
       (category) => category.value === values.category
     );
     const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('price', values.price);
+    formData.append('stock', values.stock);
+    formData.append('category', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
+    formData.append('colors', JSON.stringify(transformedColors));
+    formData.append('sizes', JSON.stringify(transformedSizes));
 
-    createProductAction({
-      category: selectedCategory?.label || '',
-      colors: transformedColors,
-      image: formData.get('image')?.valueOf() as File,
-      price: parseInt(values.price, 10),
-      sizes: transformedSizes,
-      stock: parseInt(values.stock, 10),
-      title: values.title,
-    });
+    createProductAction(formData);
   };
 
   return (
