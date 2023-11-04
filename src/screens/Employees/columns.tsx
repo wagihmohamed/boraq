@@ -10,8 +10,18 @@ import {
 import { DeleteEmployee } from './DeleteEmployee';
 import { Link } from 'react-router-dom';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
+import { Avatar } from '@mantine/core';
+import { IMAGE_BASE_URL } from '@/api';
 
 export const columns: ColumnDef<Employee>[] = [
+  {
+    accessorKey: 'avatar',
+    header: 'الصورة',
+    cell: ({ row }) => {
+      const employee = row.original;
+      return <Avatar src={IMAGE_BASE_URL + employee.avatar} size="lg" />;
+    },
+  },
   {
     accessorKey: 'name',
     header: 'الاسم',

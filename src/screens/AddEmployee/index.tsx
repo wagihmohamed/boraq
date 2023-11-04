@@ -1,7 +1,7 @@
 import { AppLayout } from '@/components/AppLayout';
 import {
-  Autocomplete,
   Button,
+  Grid,
   MultiSelect,
   PasswordInput,
   Select,
@@ -16,14 +16,13 @@ import { useRepositories } from '@/hooks/useRepositories';
 import { rolesArray } from '@/lib/rolesArabicNames';
 import { permissionsArray } from '@/lib/persmissionArabicNames';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  CreateEmployeePayload,
-  createEmployeeService,
-} from '@/services/createEmployee';
+import { createEmployeeService } from '@/services/createEmployee';
 import { z } from 'zod';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import toast from 'react-hot-toast';
+import { FileWithPath } from '@mantine/dropzone';
+import { ImageUploader } from '@/components/CustomDropZone';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
@@ -42,6 +41,7 @@ export const AddEmployee = () => {
       permissions: [],
       password: '',
       confirmPassword: '',
+      avatar: [] as unknown as FileWithPath[],
     },
   });
 
@@ -56,28 +56,8 @@ export const AddEmployee = () => {
   }));
   const queryClient = useQueryClient();
   const { mutate: createBranchAction, isLoading } = useMutation({
-    mutationFn: ({
-      branchID,
-      name,
-      password,
-      permissions,
-      phone,
-      repositoryID,
-      role,
-      salary,
-      username,
-    }: CreateEmployeePayload) => {
-      return createEmployeeService({
-        branchID,
-        name,
-        password,
-        permissions,
-        phone,
-        repositoryID,
-        role,
-        salary,
-        username,
-      });
+    mutationFn: (data: FormData) => {
+      return createEmployeeService(data);
     },
     onSuccess: () => {
       toast.success('تم اضافة الموظف بنجاح');
@@ -92,33 +72,18 @@ export const AddEmployee = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof addEmployeeSchema>) => {
-    const selectedBranch = branches.data?.find(
-      (branch) => branch.name === values.branch
-    );
-    const selectedRepository = repositories.data?.find(
-      (repository) => repository.name === values.store
-    );
-
-    if (!selectedBranch) {
-      form.setFieldError('branch', 'الفرع غير موجود');
-      return;
-    }
-    if (!selectedRepository) {
-      form.setFieldError('store', 'المخزن غير موجود');
-      return;
-    }
-    createBranchAction({
-      branchID: selectedBranch.id,
-      name: values.name,
-      password: values.password,
-      permissions:
-        values.permissions as unknown as CreateEmployeePayload['permissions'],
-      phone: values.phone,
-      repositoryID: selectedRepository.id,
-      role: values.roles as unknown as CreateEmployeePayload['role'],
-      salary: parseInt(values.salary, 10),
-      username: values.username,
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('username', values.username);
+    formData.append('phone', values.phone);
+    formData.append('salary', values.salary);
+    formData.append('branchID', values.branch);
+    formData.append('repositoryID', values.store);
+    formData.append('role', values.roles);
+    formData.append('password', values.password);
+    formData.append('avatar', values.avatar[0]);
+    formData.append('permissions', JSON.stringify(values.permissions));
+    createBranchAction(formData);
   };
 
   return (
@@ -133,94 +98,140 @@ export const AddEmployee = () => {
         />
         <h1 className="text-3xl font-semibold">اضافة موظف</h1>
       </div>
-      <form
-        onSubmit={form.onSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
-      >
-        <TextInput
-          label="الاسم"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('name')}
-        />
-        <TextInput
-          label="اسم المستخدم"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('username')}
-        />
-        <TextInput
-          label="رقم الهاتف"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('phone')}
-        />
-        <TextInput
-          label="الأجرة"
-          type="number"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('salary')}
-        />
-        <Autocomplete
-          label="الفرع"
-          placeholder="اختار الفرع"
-          data={transformedBranches}
-          {...form.getInputProps('branch')}
-        />
-        <Autocomplete
-          label="المخزن"
-          placeholder="اختار المخزن"
-          data={transformedRepositories}
-          {...form.getInputProps('store')}
-        />
-        <Select
-          label="الادوار"
-          placeholder="اختار الادوار"
-          data={rolesArray}
-          {...form.getInputProps('roles')}
-        />
-        <MultiSelect
-          label="الصلاحيات"
-          placeholder="اختار الصلاحيات"
-          data={permissionsArray}
-          {...form.getInputProps('permissions')}
-        />
-        <PasswordInput
-          label="كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('password')}
-        />
-        <PasswordInput
-          label="تأكيد كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('confirmPassword')}
-        />
-        <Button loading={isLoading} type="submit" fullWidth mt="xl" size="md">
-          اضافة
-        </Button>
-        <Button
-          type="reset"
-          fullWidth
-          mt="xl"
-          size="md"
-          variant="outline"
-          onClick={() => {
-            form.reset();
-          }}
-        >
-          الغاء
-        </Button>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Grid gutter="lg">
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="الاسم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('name')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="اسم المستخدم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('username')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="رقم الهاتف"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('phone')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="الأجرة"
+              type="number"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('salary')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الفرع"
+              placeholder="اختار الفرع"
+              data={transformedBranches}
+              {...form.getInputProps('branch')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المخزن"
+              placeholder="اختار المخزن"
+              data={transformedRepositories}
+              {...form.getInputProps('store')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              label="الادوار"
+              placeholder="اختار الادوار"
+              data={rolesArray}
+              {...form.getInputProps('roles')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <MultiSelect
+              label="الصلاحيات"
+              placeholder="اختار الصلاحيات"
+              data={permissionsArray}
+              {...form.getInputProps('permissions')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.avatar}
+              onDrop={(files) => {
+                form.setFieldValue('avatar', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('avatar', []);
+              }}
+              error={!!form.errors.avatar}
+            />
+            {form.errors.avatar && (
+              <div className="text-red-500">{form.errors.avatar}</div>
+            )}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('password')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="تأكيد كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('confirmPassword')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              loading={isLoading}
+              type="submit"
+              fullWidth
+              mt="xl"
+              size="md"
+            >
+              اضافة
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              type="reset"
+              fullWidth
+              mt="xl"
+              size="md"
+              variant="outline"
+              onClick={() => {
+                form.reset();
+              }}
+            >
+              الغاء
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </AppLayout>
   );

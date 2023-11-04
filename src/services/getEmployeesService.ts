@@ -10,6 +10,7 @@ export interface Employee {
   phone: string;
   salary: string;
   role: keyof typeof rolesArabicNames;
+  avatar: string | null;
   permissions: (typeof permissionsArabicNames)[];
   branch: {
     id: string;
