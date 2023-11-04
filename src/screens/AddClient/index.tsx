@@ -3,21 +3,20 @@ import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { addClientSchema } from './schema';
-import { Button, PasswordInput, Select, TextInput } from '@mantine/core';
+import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
 import {
   clientTypeArabicNames,
   clientTypeArray,
 } from '@/lib/clientTypeArabicNames';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  CreateClientPayload,
-  createClientsService,
-} from '@/services/createClients';
+import { createClientsService } from '@/services/createClients';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { z } from 'zod';
 import { useBranches } from '@/hooks/useBranches';
+import { FileWithPath } from '@mantine/dropzone';
+import { ImageUploader } from '@/components/CustomDropZone';
 
 export const AddClient = () => {
   const navigate = useNavigate();
@@ -36,29 +35,15 @@ export const AddClient = () => {
       phone: '',
       branch: '',
       type: '' as (typeof clientTypeArabicNames)['CLIENT'],
-      // image: [] as FileWithPath[],
+      avatar: [] as unknown as FileWithPath[],
       password: '',
       confirmPassword: '',
     },
   });
 
   const { mutate: createClientAction, isLoading } = useMutation({
-    mutationFn: ({
-      accountType,
-      branchID,
-      name,
-      password,
-      phone,
-      token,
-    }: CreateClientPayload) => {
-      return createClientsService({
-        accountType,
-        branchID,
-        name,
-        password,
-        phone,
-        token,
-      });
+    mutationFn: (data: FormData) => {
+      return createClientsService(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -73,14 +58,14 @@ export const AddClient = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof addClientSchema>) => {
-    createClientAction({
-      accountType: values.type as keyof typeof clientTypeArabicNames,
-      branchID: values.branch,
-      name: values.name,
-      password: values.password,
-      phone: values.phone,
-      token: 'hi',
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('phone', values.phone);
+    formData.append('branchID', values.branch);
+    formData.append('accountType', values.type);
+    formData.append('password', values.password);
+    formData.append('avatar', values?.avatar[0] || '');
+    createClientAction(formData);
   };
 
   return (
@@ -95,90 +80,105 @@ export const AddClient = () => {
         />
         <h1 className="text-3xl font-semibold">اضافة عميل</h1>
       </div>
-      <form
-        onSubmit={form.onSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
-      >
-        <Select
-          searchable
-          label="الفرع"
-          placeholder="اختار الفرع"
-          data={transformedBranches}
-          {...form.getInputProps('branch')}
-        />
-        <TextInput
-          label="الاسم"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('name')}
-        />
-        <Select
-          label="نوع الحساب"
-          placeholder="اختار النوع"
-          data={clientTypeArray}
-          {...form.getInputProps('type')}
-        />
-        <TextInput
-          label="رقم الهاتف"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('phone')}
-        />
-        {/* <div className="col-span-2">
-          <ImageUploader
-            onDrop={(files) => {
-              form.setFieldValue('image', files);
-            }}
-            image={form.values.image || []}
-            onDelete={() => {
-              form.setFieldValue('image', []);
-            }}
-            error={!!form.errors.image}
-          />
-          {form.errors.image && (
-            <div className="text-red-500">{form.errors.image}</div>
-          )}
-        </div> */}
-        <PasswordInput
-          label="كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('password')}
-        />
-        <PasswordInput
-          label="تأكيد كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('confirmPassword')}
-        />
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          type="submit"
-          fullWidth
-          mt="xl"
-          size="md"
-        >
-          اضافة
-        </Button>
-        <Button
-          type="reset"
-          fullWidth
-          mt="xl"
-          size="md"
-          variant="outline"
-          onClick={() => {
-            form.reset();
-          }}
-        >
-          الغاء
-        </Button>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Grid gutter="lg">
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الفرع"
+              placeholder="اختار الفرع"
+              data={transformedBranches}
+              {...form.getInputProps('branch')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="الاسم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('name')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              label="نوع الحساب"
+              placeholder="اختار النوع"
+              data={clientTypeArray}
+              {...form.getInputProps('type')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="رقم الهاتف"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('phone')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.avatar}
+              onDrop={(files) => {
+                form.setFieldValue('avatar', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('avatar', []);
+              }}
+              error={!!form.errors.avatar}
+            />
+            {form.errors.avatar && (
+              <div className="text-red-500">{form.errors.avatar}</div>
+            )}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('password')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="تأكيد كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('confirmPassword')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              loading={isLoading}
+              disabled={isLoading}
+              type="submit"
+              fullWidth
+              mt="xl"
+              size="md"
+            >
+              اضافة
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              type="reset"
+              fullWidth
+              mt="xl"
+              size="md"
+              variant="outline"
+              onClick={() => {
+                form.reset();
+              }}
+            >
+              الغاء
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </AppLayout>
   );
