@@ -7,11 +7,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
-import { Badge } from '@mantine/core';
+import { Avatar, Badge } from '@mantine/core';
 import { Client } from '@/services/getClients';
 import { DeleteClient } from './delete-client';
+import { IMAGE_BASE_URL } from '@/api';
 
 export const columns: ColumnDef<Client>[] = [
+  {
+    accessorKey: 'avatar',
+    header: 'الصورة',
+    cell: ({ row }) => {
+      const { avatar } = row.original;
+      return <Avatar src={IMAGE_BASE_URL + avatar} alt="avatar" size="lg" />;
+    },
+  },
   {
     accessorKey: 'name',
     header: 'الاسم',

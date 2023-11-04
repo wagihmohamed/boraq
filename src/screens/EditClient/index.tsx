@@ -3,20 +3,20 @@ import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editClientSchema } from './schema';
-import { Button, PasswordInput, Select, TextInput } from '@mantine/core';
+import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
 import { useBranches } from '@/hooks/useBranches';
 import { useClientDetails } from '@/hooks/useClientDetails';
 import { useEffect } from 'react';
-import {
-  clientTypeArabicNames,
-  clientTypeArray,
-} from '@/lib/clientTypeArabicNames';
+import { clientTypeArray } from '@/lib/clientTypeArabicNames';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { EditClientPayload, editClientService } from '@/services/editClient';
+import { editClientService } from '@/services/editClient';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { FileWithPath } from '@mantine/dropzone';
+import { IMAGE_BASE_URL } from '@/api';
 
 export const EditClient = () => {
   const { id = '' } = useParams();
@@ -39,44 +39,27 @@ export const EditClient = () => {
       type: '',
       password: '',
       confirmPassword: '',
-      // image: [
-      //   'https://resources.premierleague.com/photos/2023/10/13/f9d7b29a-8366-406a-983a-60e561c39dff/I3La142d.jpg?width=642&height=362',
-      // ] as unknown as FileWithPath[],
+      avatar: [] as unknown as FileWithPath[],
     },
   });
 
   useEffect(() => {
     if (clientDetails) {
+      const avatarAddress = IMAGE_BASE_URL + clientDetails.data.avatar;
       form.setValues({
         name: clientDetails.data.name,
         phone: clientDetails.data.phone,
         branch: clientDetails.data.branch.id,
         type: clientDetails.data.accountType,
+        avatar: [avatarAddress] as unknown as FileWithPath[],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientDetails]);
 
   const { mutate: editClientAction, isLoading: isEditting } = useMutation({
-    mutationFn: ({
-      accountType,
-      branchID,
-      name,
-      password,
-      phone,
-      token,
-    }: EditClientPayload) => {
-      return editClientService({
-        data: {
-          accountType,
-          branchID,
-          name,
-          password,
-          phone,
-          token,
-        },
-        id,
-      });
+    mutationFn: (data: FormData) => {
+      return editClientService({ id, data });
     },
     onSuccess: () => {
       toast.success('تم تعديل العميل بنجاح');
@@ -91,17 +74,17 @@ export const EditClient = () => {
   });
 
   const handleSubmit = (values: z.infer<typeof editClientSchema>) => {
-    editClientAction({
-      accountType: values.type as keyof typeof clientTypeArabicNames,
-      branchID: values.branch,
-      name: values.name,
-      password:
-        values.password && values.password.length > 5
-          ? values.password
-          : undefined,
-      phone: values.phone,
-      token: '',
-    });
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('phone', values.phone);
+    formData.append('branchID', values.branch);
+    formData.append('accountType', values.type);
+    if (values.password) {
+      formData.append('password', values.password);
+    }
+    formData.append('avatar', values?.avatar[0] || '');
+    formData.append('token', '');
+    editClientAction(formData);
   };
 
   return (
@@ -116,91 +99,107 @@ export const EditClient = () => {
         />
         <h1 className="text-3xl font-semibold">تعديل عميل</h1>
       </div>
-      <form
-        onSubmit={form.onSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
-      >
-        <Select
-          searchable
-          label="الفرع"
-          placeholder="اختار الفرع"
-          data={transformedBranches}
-          {...form.getInputProps('branch')}
-        />
-        <TextInput
-          label="الاسم"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('name')}
-        />
-        <Select
-          searchable
-          label="نوع الحساب"
-          placeholder="اختار النوع"
-          data={clientTypeArray}
-          {...form.getInputProps('type')}
-        />
-        <TextInput
-          label="رقم الهاتف"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('phone')}
-        />
-        {/* <div className="col-span-2">
-          <ImageUploader
-            onDrop={(files) => {
-              form.setFieldValue('image', files);
-            }}
-            image={form.values.image || []}
-            onDelete={() => {
-              form.setFieldValue('image', []);
-            }}
-            error={!!form.errors.image}
-          />
-          {form.errors.image && (
-            <div className="text-red-500">{form.errors.image}</div>
-          )}
-        </div> */}
-        <PasswordInput
-          label="كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('password')}
-        />
-        <PasswordInput
-          label="تأكيد كلمة المرور"
-          placeholder="*******"
-          mt="md"
-          size="md"
-          className="w-full"
-          {...form.getInputProps('confirmPassword')}
-        />
-        <Button
-          loading={isEditting}
-          disabled={isEditting}
-          type="submit"
-          fullWidth
-          mt="xl"
-          size="md"
-        >
-          تعديل
-        </Button>
-        <Button
-          type="reset"
-          fullWidth
-          mt="xl"
-          size="md"
-          variant="outline"
-          onClick={() => {
-            form.reset();
-          }}
-        >
-          الغاء
-        </Button>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Grid gutter="md">
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الفرع"
+              placeholder="اختار الفرع"
+              data={transformedBranches}
+              {...form.getInputProps('branch')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="الاسم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('name')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="نوع الحساب"
+              placeholder="اختار النوع"
+              data={clientTypeArray}
+              {...form.getInputProps('type')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="رقم الهاتف"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('phone')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.avatar}
+              onDrop={(files) => {
+                form.setFieldValue('avatar', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('avatar', []);
+              }}
+              error={!!form.errors.avatar}
+            />
+            {form.errors.avatar && (
+              <div className="text-red-500">{form.errors.avatar}</div>
+            )}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('password')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="تأكيد كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('confirmPassword')}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              loading={isEditting}
+              disabled={isEditting}
+              type="submit"
+              fullWidth
+              mt="xl"
+              size="md"
+            >
+              تعديل
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Button
+              type="reset"
+              fullWidth
+              mt="xl"
+              size="md"
+              variant="outline"
+              onClick={() => {
+                form.reset();
+              }}
+            >
+              الغاء
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </AppLayout>
   );

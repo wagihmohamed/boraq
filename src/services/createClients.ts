@@ -11,10 +11,11 @@ export interface CreateClientPayload {
   branchID: string;
 }
 
-export const createClientsService = async (data: CreateClientPayload) => {
-  const response = await api.post<CreateClientPayload>(
-    createClientendpoint,
-    data
-  );
+export const createClientsService = async (data: FormData) => {
+  const response = await api.post<FormData>(createClientendpoint, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

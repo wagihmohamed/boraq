@@ -13,6 +13,7 @@ import { Toaster } from 'react-hot-toast';
 import { theme } from './theme/indes.ts';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './hooks/theme-provider.tsx';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const router = createBrowserRouter([{ path: '*', element: <App /> }]);
 export const queryClient = new QueryClient();
@@ -31,6 +32,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <ThemeProvider storageKey="vite-ui-theme" defaultTheme="dark">
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
+            <ReactQueryDevtools
+              initialIsOpen={false}
+              position="bottom"
+              buttonPosition="bottom-left"
+            />
           </QueryClientProvider>
         </ThemeProvider>
       </MantineProvider>

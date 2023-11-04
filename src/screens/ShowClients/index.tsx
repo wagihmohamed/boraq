@@ -1,10 +1,11 @@
 import { AppLayout } from '@/components/AppLayout';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Select, TextInput } from '@mantine/core';
+import { Button, Image, Select, TextInput, rem } from '@mantine/core';
 import { clientTypeArray } from '@/lib/clientTypeArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { useClientDetails } from '@/hooks/useClientDetails';
+import { IMAGE_BASE_URL } from '@/api';
 
 export const ShowClient = () => {
   const { id = '' } = useParams();
@@ -60,21 +61,14 @@ export const ShowClient = () => {
           value={clientDetails?.data.phone}
           disabled
         />
-        {/* <div className="col-span-2">
-          <ImageUploader
-            onDrop={(files) => {
-              form.setFieldValue('image', files);
-            }}
-            image={form.values.image || []}
-            onDelete={() => {
-              form.setFieldValue('image', []);
-            }}
-            error={!!form.errors.image}
+        <div className="col-span-2">
+          <Image
+            fit="contain"
+            mah={rem(400)}
+            radius="md"
+            src={IMAGE_BASE_URL + (clientDetails?.data.avatar || '')}
           />
-          {form.errors.image && (
-            <div className="text-red-500">{form.errors.image}</div>
-          )}
-        </div> */}
+        </div>
         <Button
           fullWidth
           mt="xl"
@@ -83,7 +77,7 @@ export const ShowClient = () => {
             navigate(`/clients/${id}/edit`);
           }}
         >
-          اضافة
+          تعديل
         </Button>
         <Button
           fullWidth

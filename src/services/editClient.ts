@@ -15,12 +15,13 @@ export const editClientService = async ({
   data,
   id,
 }: {
-  data: EditClientPayload;
+  data: FormData;
   id: string;
 }) => {
-  const response = await api.patch<EditClientPayload>(
-    editClientendpoint + id,
-    data
-  );
+  const response = await api.patch<FormData>(editClientendpoint + id, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
