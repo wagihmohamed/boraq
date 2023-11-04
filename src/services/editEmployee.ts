@@ -19,12 +19,13 @@ export const editEmployeeService = async ({
   data,
   id,
 }: {
-  data: EditEmployeePayload;
+  data: FormData;
   id: string;
 }) => {
-  const response = await api.patch<EditEmployeePayload>(
-    editEmployeeendpoint + id,
-    data
-  );
+  const response = await api.patch<FormData>(editEmployeeendpoint + id, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

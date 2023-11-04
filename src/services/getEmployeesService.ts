@@ -11,7 +11,7 @@ export interface Employee {
   salary: string;
   role: keyof typeof rolesArabicNames;
   avatar: string | null;
-  permissions: (typeof permissionsArabicNames)[];
+  permissions: (keyof typeof permissionsArabicNames)[];
   branch: {
     id: string;
     name: string;

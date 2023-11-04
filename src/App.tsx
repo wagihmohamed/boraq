@@ -45,14 +45,14 @@ import { OrdersScreen } from './screens/Orders';
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUserPath = location.pathname.split('/')[1];
+  const currentUserPath = location.pathname;
 
   const { isLoading, isSuccess } = useValidateToken();
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(currentUserPath || '/employees');
+      navigate(currentUserPath || '/home');
     }
   }, [currentUserPath, isSuccess, navigate]);
 
