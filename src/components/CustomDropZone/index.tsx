@@ -48,7 +48,8 @@ export const ImageUploader = ({
 
   return (
     <div>
-      {image?.length ? (
+      {renderedFiles.length > 0 &&
+      !renderedFiles[0]?.toString()?.endsWith('.app') ? (
         <div>{previews}</div>
       ) : (
         <Dropzone

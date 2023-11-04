@@ -15,10 +15,11 @@ export interface CreateEmployeePayload {
   permissions: keyof (typeof permissionsArabicNames)[];
 }
 
-export const createEmployeeService = async (data: CreateEmployeePayload) => {
-  const response = await api.post<CreateEmployeePayload>(
-    createEmployeeendpoint,
-    data
-  );
+export const createEmployeeService = async (data: FormData) => {
+  const response = await api.post<FormData>(createEmployeeendpoint, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
