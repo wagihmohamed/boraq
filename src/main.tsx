@@ -14,9 +14,16 @@ import { theme } from './theme/indes.ts';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './hooks/theme-provider.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import '@mantine/dates/styles.css';
 
 export const router = createBrowserRouter([{ path: '*', element: <App /> }]);
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 const colorSchemeManager = localStorageColorSchemeManager({
   key: 'vite-ui-theme',
 });
