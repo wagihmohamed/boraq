@@ -250,7 +250,7 @@ export const CustomOrdersFilter = ({
             shadow="md"
           >
             <Popover.Target>
-              <Button className="mt-6">بداية ونهاية فترة التوصيل</Button>
+              <Button className="mt-6">بداية ونهاية تاريخ عمل الطلب</Button>
             </Popover.Target>
             <Popover.Dropdown>
               <DatePicker

@@ -3,9 +3,9 @@ import { createOrderendpoint } from '@/api/apisUrl';
 
 export interface CreateOrderPayload {
   withProducts: boolean;
-  totalCost: number;
-  quantity: number;
-  weight: number;
+  totalCost?: number;
+  quantity?: number;
+  weight?: number;
   recipientName: string;
   recipientPhone: string;
   recipientAddress: string;
@@ -15,6 +15,12 @@ export interface CreateOrderPayload {
   governorate: string;
   locationID: string;
   storeID: string;
+  products?: {
+    productID: string;
+    quantity: number;
+    colorID: string;
+    sizeID: string;
+  }[];
 }
 
 export const createOrderService = async (data: CreateOrderPayload) => {

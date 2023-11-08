@@ -1,11 +1,7 @@
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import * as z from 'zod';
 
-export const addOrderSchema = z.object({
-  withProducts: z.boolean().default(false),
-  totalCost: z.string().min(1, { message: 'الرجاء ادخال السعر الكلي' }),
-  quantity: z.string().min(1, { message: 'الرجاء ادخال الكمية' }),
-  weight: z.string().min(1, { message: 'الرجاء ادخال الوزن' }),
+const bseSchema = z.object({
   recipientName: z.string().min(1, { message: 'الرجاء ادخال اسم المستلم' }),
   recipientPhone: z.string().refine(isValidIraqiPhoneNumber, {
     message: 'رقم الهاتف يجب ان يكون رقم عراقي',
@@ -20,3 +16,34 @@ export const addOrderSchema = z.object({
   locationID: z.string().min(1, { message: 'الرجاء اختيار الموقع' }),
   storeID: z.string().min(1, { message: 'الرجاء اختيار المتجر' }),
 });
+
+export const addOrderSchema = z
+  .discriminatedUnion('withProducts', [
+    z.object({
+      withProducts: z.literal(true),
+      products: z
+        .array(
+          z.object({
+            productID: z.string().min(1, { message: 'الرجاء اختيار المنتج' }),
+            quantity: z.string().min(1, { message: 'الرجاء ادخال الكمية' }),
+            colorID: z.string().min(1, { message: 'الرجاء اختيار اللون' }),
+            sizeID: z.string().min(1, { message: 'الرجاء اختيار المقاس' }),
+          })
+        )
+        .min(1, { message: 'الرجاء اختيار المنتجات' })
+        .optional(),
+    }),
+    z.object({
+      withProducts: z.literal(false),
+      totalCost: z
+        .string()
+        .min(1, { message: 'الرجاء ادخال السعر' })
+        .optional(),
+      quantity: z
+        .string()
+        .min(1, { message: 'الرجاء ادخال الكمية' })
+        .optional(),
+      weight: z.string().min(1, { message: 'الرجاء ادخال الوزن' }).optional(),
+    }),
+  ])
+  .and(bseSchema);
