@@ -6,6 +6,7 @@ import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
 export interface Order {
+  id: string;
   totalCost: number;
   paidAmount: number;
   totalCostInUSD: number;
