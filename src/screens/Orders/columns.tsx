@@ -11,6 +11,10 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { ActionIcon, HoverCard, Text, rem } from '@mantine/core';
+import { IconFileTypePdf } from '@tabler/icons-react';
+import { useOrderReceipt } from '@/hooks/useOrderReceipt';
+import toast from 'react-hot-toast';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -82,7 +86,18 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { receiptNumber } = row.original;
+      const { receiptNumber, id } = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutateAsync: getReceipt } = useOrderReceipt();
+
+      const handleDownload = () => {
+        toast.promise(getReceipt(id), {
+          loading: 'جاري تحميل الفاتورة...',
+          success: 'تم تحميل الفاتورة بنجاح',
+          error: 'فشل في تحميل الفاتورة',
+        });
+      };
+
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -109,7 +124,18 @@ export const columns: ColumnDef<Order>[] = [
             >
               تعديل
             </Link>
-            {/* <DeleteEmployee id={employee.id} /> */}
+            <div className="flex justify-center">
+              <HoverCard width={rem(120)} shadow="md">
+                <HoverCard.Target>
+                  <ActionIcon variant="filled" onClick={handleDownload}>
+                    <IconFileTypePdf />
+                  </ActionIcon>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <Text size="sm">تحميل الفاتورة</Text>
+                </HoverCard.Dropdown>
+              </HoverCard>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       );
