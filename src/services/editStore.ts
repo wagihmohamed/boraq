@@ -11,12 +11,16 @@ export const editStoreService = async ({
   data,
   id,
 }: {
-  data: EditStorePayload;
+  data: FormData;
   id: string;
 }) => {
   const response = await api.patch<{
     title: string;
     id: string;
-  }>(editStoreendpoint + id, data);
+  }>(editStoreendpoint + id, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

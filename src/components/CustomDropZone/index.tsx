@@ -26,7 +26,7 @@ export const ImageUploader = ({
     const imageUrl =
       typeof file === 'string' ? file : URL.createObjectURL(file);
     return (
-      <div key={file.path} className="relative">
+      <div key={file.path || file.toString()} className="relative">
         <Trash2
           color="red"
           className="absolute top-0 right-0 cursor-pointer"
@@ -48,7 +48,8 @@ export const ImageUploader = ({
 
   return (
     <div>
-      {image?.length ? (
+      {renderedFiles.length > 0 &&
+      !renderedFiles[0]?.toString()?.endsWith('.app') ? (
         <div>{previews}</div>
       ) : (
         <Dropzone

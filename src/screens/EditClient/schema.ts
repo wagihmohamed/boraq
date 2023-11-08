@@ -1,13 +1,6 @@
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
-
-// const MAX_FILE_SIZE = 3 * 1024 * 1024;
-// const ACCEPTED_IMAGE_TYPES = [
-//   'image/jpeg',
-//   'image/jpg',
-//   'image/png',
-//   'image/webp',
-// ];
 
 export const editClientSchema = z
   .object({
@@ -16,17 +9,22 @@ export const editClientSchema = z
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
-    // image: z
-    //   .any()
-    //   .refine((files) => files?.length === 1, 'الصوره مطلوبة')
-    //   .refine(
-    //     (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-    //     'الحد الاقصي 5 ميجا'
-    //   )
-    //   .refine(
-    //     (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-    //     'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
-    //   ),
+    avatar: z
+      .any()
+      .refine((files) => {
+        if (files && Array.isArray(files) && files.length > 0) {
+          const file = files[0];
+          return !file.type || ACCEPTED_IMAGE_TYPES.includes(file.type);
+        }
+        return true;
+      }, 'يجب أن تكون الصورة من نوع .jpg, .jpeg, .png أو .webp')
+      .refine((files) => {
+        if (files && Array.isArray(files) && files.length > 0) {
+          const file = files[0];
+          return !file.size || file.size <= MAX_FILE_SIZE;
+        }
+        return true;
+      }, 'الحد الأقصى 5 ميجا'),
     type: z.string().min(1, { message: 'الرجاء اختيار نوع الحساب' }),
     password: z
       .string()

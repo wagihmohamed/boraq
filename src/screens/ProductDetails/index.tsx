@@ -1,3 +1,4 @@
+import { IMAGE_BASE_URL } from '@/api';
 import { AppLayout } from '@/components/AppLayout';
 import { useProductDetails } from '@/hooks/useProductDetails';
 import {
@@ -64,7 +65,7 @@ export const ProductScreen = () => {
             fit="contain"
             mah={rem(400)}
             radius="md"
-            src={productDetails?.data.image}
+            src={IMAGE_BASE_URL + (productDetails?.data.image || '')}
           />
         </Grid.Col>
         <Grid.Col

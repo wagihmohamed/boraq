@@ -37,7 +37,10 @@ export const TenantsScreen = () => {
       </div>
       <Grid gutter="md">
         {tenants.data.map((tenant) => (
-          <Grid.Col key={tenant.id} span={{ base: 12, md: 6, lg: 4 }}>
+          <Grid.Col
+            key={tenant.id}
+            span={{ base: 12, md: 6, lg: 4, xs: 12, xl: 3, sm: 6 }}
+          >
             <CustomTenantCard {...tenant} />
           </Grid.Col>
         ))}

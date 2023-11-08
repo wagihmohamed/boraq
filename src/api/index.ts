@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const baseURL = import.meta.env.VITE_BASE_URL as string;
+export const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL as string;
 
 export const api = axios.create({
   baseURL,

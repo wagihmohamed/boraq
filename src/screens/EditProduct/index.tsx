@@ -1,17 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useCategory } from '@/hooks/useCategory';
 import { useColors } from '@/hooks/useColors';
 import { useProductDetails } from '@/hooks/useProductDetails';
 import { useSizes } from '@/hooks/useSizes';
-import {
-  Badge,
-  Button,
-  Grid,
-  Image,
-  Select,
-  TextInput,
-  rem,
-} from '@mantine/core';
+import { Badge, Button, Grid, Select, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconX } from '@tabler/icons-react';
 import { ChevronRight } from 'lucide-react';
@@ -20,10 +14,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { editProductSchema } from './schema';
 import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EditProductPayload, editProductService } from '@/services/editProduct';
+import { editProductService } from '@/services/editProduct';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { FileWithPath } from '@mantine/dropzone';
+import { IMAGE_BASE_URL } from '@/api';
 
 export const EditProductScreen = () => {
   const navigate = useNavigate();
@@ -40,15 +37,15 @@ export const EditProductScreen = () => {
       category: '',
       colors: [] as unknown as {
         label: string;
-        value?: string;
+        value: string;
         quantity: string;
       }[],
       sizes: [] as unknown as {
         label: string;
-        value?: string;
+        value: string;
         quantity: string;
       }[],
-      image: '',
+      image: [] as unknown as FileWithPath[],
     },
   });
 
@@ -63,6 +60,7 @@ export const EditProductScreen = () => {
       const selectedCategory = categoryOptions?.find(
         (category) => category.label === productDetails.data.Category?.title
       );
+      const imageAddress = IMAGE_BASE_URL + productDetails.data.image;
       form.setValues({
         title: productDetails.data.title,
         price: productDetails.data.price,
@@ -71,12 +69,14 @@ export const EditProductScreen = () => {
         colors: productDetails.data.ProductColors.map((color) => ({
           label: color.color.title,
           quantity: color.quantity.toString(),
+          value: color.color.id,
         })),
         sizes: productDetails.data.ProductSizes.map((size) => ({
           label: size.size.title,
+          value: size.size.id,
           quantity: size.quantity.toString(),
         })),
-        image: productDetails.data.image,
+        image: [imageAddress] as unknown as FileWithPath[],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,25 +138,9 @@ export const EditProductScreen = () => {
   });
 
   const { mutate: editProductAction, isLoading: isEdditing } = useMutation({
-    mutationFn: ({
-      category,
-      colors,
-      image,
-      price,
-      sizes,
-      stock,
-      title,
-    }: EditProductPayload) => {
+    mutationFn: (data: FormData) => {
       return editProductService({
-        data: {
-          category,
-          colors,
-          image,
-          price,
-          sizes,
-          stock,
-          title,
-        },
+        data,
         id,
       });
     },
@@ -186,30 +170,30 @@ export const EditProductScreen = () => {
       form.setFieldError('sizes', 'يجب اضافة الكمية المتاحة');
       return;
     }
+
     const transformedColors = values.colors.map((color) => ({
+      colorID: color.value,
       title: color.label,
-      quantity: parseInt(color.quantity, 10),
+      quantity: parseInt(color.quantity),
     }));
     const transformedSizes = values.sizes.map((size) => ({
+      sizeID: size.value,
       title: size.label,
-      quantity: parseInt(size.quantity, 10),
+      quantity: parseInt(size.quantity),
     }));
     const selectedCategory = categoryOptions?.find(
       (category) => category.value === values.category
     );
-    console.log(values);
-    console.log({ transformedColors });
-    console.log({ transformedSizes });
 
-    editProductAction({
-      category: selectedCategory?.label || '',
-      colors: transformedColors,
-      image: values.image,
-      price: parseInt(values.price, 10),
-      sizes: transformedSizes,
-      stock: parseInt(values.stock, 10),
-      title: values.title,
-    });
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('price', values.price);
+    formData.append('stock', values.stock);
+    formData.append('category', selectedCategory?.label || '');
+    formData.append('image', values.image[0] || '');
+    formData.append('colors', JSON.stringify(transformedColors));
+    formData.append('sizes', JSON.stringify(transformedSizes));
+    editProductAction(formData);
   };
 
   return (
@@ -312,15 +296,21 @@ export const EditProductScreen = () => {
               </div>
             )}
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Image
-              fit="contain"
-              mah={rem(400)}
-              radius="md"
-              src={form?.values.image}
+          <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+            <ImageUploader
+              image={form.values.image}
+              onDrop={(files) => {
+                form.setFieldValue('image', files);
+              }}
+              onDelete={() => {
+                form.setFieldValue('image', []);
+              }}
+              error={!!form.errors.image}
             />
+            {form.errors.image && (
+              <div className="text-red-500">{form.errors.image}</div>
+            )}
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }} />
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               type="submit"
