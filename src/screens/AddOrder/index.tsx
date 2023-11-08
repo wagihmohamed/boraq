@@ -310,7 +310,6 @@ export const AddOrder = () => {
           {hasProducts && (
             <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
               <MultiSelect
-                // {...form.getInputProps('products')}
                 searchable
                 label="المنتجات"
                 placeholder="اختار المنتجات"
