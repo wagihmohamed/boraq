@@ -60,7 +60,7 @@ export const OrdersScreen = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
-          navigationURL="/orders"
+          navigationURL="/orders/add"
           columns={columns}
           data={orders.data}
           setFilters={setFilters}

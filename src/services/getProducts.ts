@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { getProductsendpoint } from '@/api/apisUrl';
+import { Filters } from './getEmployeesService';
 
 export interface Product {
   id: string;
@@ -19,10 +20,13 @@ export interface GetProductsResponse {
   data: Product[];
 }
 
-export const getProductsService = async (page = 1) => {
+export const getProductsService = async (
+  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+) => {
   const response = await api.get<GetProductsResponse>(getProductsendpoint, {
     params: {
       page,
+      size,
     },
   });
   return response.data;

@@ -4,18 +4,23 @@ import { CustomProductCard } from './custom-product-card';
 import { useState } from 'react';
 import { useProducts } from '@/hooks/useProducts';
 import { useNavigate } from 'react-router-dom';
+import { Filters } from '@/services/getEmployeesService';
 
 export const Products = () => {
   const navigation = useNavigate();
-  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<Filters>({
+    page: 1,
+    size: 10,
+  });
   const {
     data: products = {
       data: [],
-      pagesCount: 0,
+      pagesCount: 1,
+      page: 1,
     },
     isLoading,
     isError,
-  } = useProducts(page);
+  } = useProducts(filters);
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
@@ -43,8 +48,10 @@ export const Products = () => {
       <div className="flex justify-center mt-10">
         <Pagination
           total={products.pagesCount}
-          value={page}
-          onChange={setPage}
+          value={products.page}
+          onChange={(page) => {
+            setFilters({ ...filters, page });
+          }}
         />
       </div>
     </AppLayout>
