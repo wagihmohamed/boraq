@@ -9,6 +9,7 @@ import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
 import { Button, Grid, Popover, Select, TextInput, rem } from '@mantine/core';
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -61,15 +62,6 @@ export const CustomOrdersFilter = ({
       return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     }
     return null;
-  };
-
-  const selectOptions = <T extends { id: string; name: string }>(
-    data: T[]
-  ): { value: string; label: string }[] => {
-    return data.map((item) => ({
-      value: item.id,
-      label: item.name,
-    }));
   };
 
   return (
@@ -149,7 +141,7 @@ export const CustomOrdersFilter = ({
             });
           }}
           placeholder="اختر العميل"
-          data={selectOptions(clientsData.data)}
+          data={getSelectOptions(clientsData.data)}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
@@ -166,7 +158,7 @@ export const CustomOrdersFilter = ({
             });
           }}
           placeholder="اختر المتجر"
-          data={selectOptions(storesData.data)}
+          data={getSelectOptions(storesData.data)}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
@@ -183,7 +175,7 @@ export const CustomOrdersFilter = ({
             });
           }}
           placeholder="اختر المنطقة"
-          data={selectOptions(locationsData.data)}
+          data={getSelectOptions(locationsData.data)}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>

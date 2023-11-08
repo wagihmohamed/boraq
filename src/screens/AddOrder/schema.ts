@@ -1,25 +1,22 @@
+import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import * as z from 'zod';
 
 export const addOrderSchema = z.object({
+  withProducts: z.boolean().default(false),
   totalCost: z.string().min(1, { message: 'الرجاء ادخال السعر الكلي' }),
-  paidAmount: z.string(),
-  totalCoastInUSD: z.string(),
-  paidAmountInUSD: z.string(),
-  discount: z.string(),
-  quantity: z.string(),
-  weight: z.string(),
-  recipientName: z.string(),
-  recipientPhone: z.string(),
-  recipientAddress: z.string(),
-  details: z.string(),
-  notes: z.string(),
-  status: z.string(),
-  deliveryType: z.string(),
-  clientID: z.string(),
-  deliveryAgentID: z.string(),
-  deliveryDate: z.string(),
-  governorate: z.string(),
-  locationID: z.string(),
-  storeID: z.string(),
-  products: z.array(z.unknown()),
+  quantity: z.string().min(1, { message: 'الرجاء ادخال الكمية' }),
+  weight: z.string().min(1, { message: 'الرجاء ادخال الوزن' }),
+  recipientName: z.string().min(1, { message: 'الرجاء ادخال اسم المستلم' }),
+  recipientPhone: z.string().refine(isValidIraqiPhoneNumber, {
+    message: 'رقم الهاتف يجب ان يكون رقم عراقي',
+  }),
+  recipientAddress: z
+    .string()
+    .min(1, { message: 'الرجاء ادخال عنوان المستلم' }),
+  notes: z.string().optional(),
+  details: z.string().optional(),
+  deliveryType: z.string().min(1, { message: 'الرجاء اختيار نوع التوصيل' }),
+  governorate: z.string().min(1, { message: 'الرجاء اختيار المحافظة' }),
+  locationID: z.string().min(1, { message: 'الرجاء اختيار الموقع' }),
+  storeID: z.string().min(1, { message: 'الرجاء اختيار المتجر' }),
 });
