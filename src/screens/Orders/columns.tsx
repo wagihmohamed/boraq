@@ -11,6 +11,7 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { DeleteOrder } from './components/DeleteOrder';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -82,7 +83,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { receiptNumber } = row.original;
+      const { receiptNumber, id } = row.original;
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -109,7 +110,7 @@ export const columns: ColumnDef<Order>[] = [
             >
               تعديل
             </Link>
-            {/* <DeleteEmployee id={employee.id} /> */}
+            <DeleteOrder id={id} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
