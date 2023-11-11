@@ -42,6 +42,7 @@ import { AddStore } from './screens/AddStore';
 import EditStore from './screens/EditStore';
 import { OrdersScreen } from './screens/Orders';
 import { AddOrder } from './screens/AddOrder';
+import { ShowOrder } from './screens/ShowOrder';
 
 function App() {
   const navigate = useNavigate();
@@ -108,6 +109,7 @@ function App() {
         <Route path="/stores/:id/edit" element={<EditStore />} />
         <Route path="/orders" element={<OrdersScreen />} />
         <Route path="/orders/add" element={<AddOrder />} />
+        <Route path="/orders/:id/show" element={<ShowOrder />} />
       </Route>
     </Routes>
   );

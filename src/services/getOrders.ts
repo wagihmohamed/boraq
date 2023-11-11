@@ -24,7 +24,7 @@ export interface Order {
   deliveryType: keyof typeof deliveryTypesArabicNames;
   clientID: string;
   deliveryAgentID: string;
-  deliveryDate: string;
+  deliveryDate: string | null;
   governorate: keyof typeof governorateArabicNames;
   locationID: string;
   storeID: string;
