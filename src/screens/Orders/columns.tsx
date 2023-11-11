@@ -86,7 +86,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { receiptNumber, id } = row.original;
+      const { id } = row.original;
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutateAsync: getReceipt } = useOrderReceipt();
 
@@ -111,7 +111,7 @@ export const columns: ColumnDef<Order>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/employees/${receiptNumber}/show`}
+              to={`/orders/${id}/show`}
             >
               عرض
             </Link>
@@ -120,7 +120,7 @@ export const columns: ColumnDef<Order>[] = [
                 variant: 'ghost',
                 className: 'w-full',
               })}
-              to={`/employees/${receiptNumber}/edit`}
+              to={`/orders/${id}/edit`}
             >
               تعديل
             </Link>
