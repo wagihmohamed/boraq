@@ -42,6 +42,7 @@ import { AddStore } from './screens/AddStore';
 import EditStore from './screens/EditStore';
 import { OrdersScreen } from './screens/Orders';
 import { AddOrder } from './screens/AddOrder';
+import { ShowOrder } from './screens/ShowOrder';
 import { EditOrder } from './screens/EditOrder';
 
 function App() {
@@ -111,6 +112,7 @@ function App() {
         <Route path="/stores/:id/edit" element={<EditStore />} />
         <Route path="/orders" element={<OrdersScreen />} />
         <Route path="/orders/add" element={<AddOrder />} />
+        <Route path="/orders/:id/show" element={<ShowOrder />} />
         <Route path="/orders/:id/edit" element={<EditOrder />} />
       </Route>
     </Routes>
