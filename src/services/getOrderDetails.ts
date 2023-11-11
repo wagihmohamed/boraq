@@ -1,5 +1,7 @@
 import { api } from '@/api';
 import { getOrderDetailsendpoint } from '@/api/apisUrl';
+import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface OrderDetails {
   id: string;
@@ -17,7 +19,7 @@ export interface OrderDetails {
   notes: string;
   details: string;
   status: string;
-  deliveryType: string;
+  deliveryType: keyof typeof deliveryTypesArabicNames;
   deliveryDate: null;
   createdAt: Date;
   updatedAt: Date;
@@ -29,7 +31,7 @@ export interface OrderDetails {
     color: Color;
     size: Color;
   }[];
-  governorate: string;
+  governorate: keyof typeof governorateArabicNames;
   location: Location;
   store: Location;
 }
