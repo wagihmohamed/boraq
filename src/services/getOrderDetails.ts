@@ -20,11 +20,19 @@ export interface OrderDetails {
   details: string;
   status: string;
   deliveryType: keyof typeof deliveryTypesArabicNames;
-  deliveryDate: null;
+  deliveryDate: string | null;
   createdAt: Date;
   updatedAt: Date;
-  client: null;
-  deliveryAgent: null;
+  client: {
+    id: string;
+    name: string;
+    phone: string;
+  } | null;
+  deliveryAgent: {
+    id: string;
+    name: string;
+    phone: string;
+  } | null;
   OrderProducts: {
     quantity: number;
     product: Product;

@@ -43,20 +43,23 @@ import EditStore from './screens/EditStore';
 import { OrdersScreen } from './screens/Orders';
 import { AddOrder } from './screens/AddOrder';
 import { ShowOrder } from './screens/ShowOrder';
+import { EditOrder } from './screens/EditOrder';
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUserPath = location.pathname;
 
   const { isLoading, isSuccess } = useValidateToken();
   const token = localStorage.getItem('token');
 
+  const isBaseRoute = location.pathname === '/';
+
   useEffect(() => {
     if (isSuccess) {
-      navigate(currentUserPath || '/home');
+      const navigateTo = isBaseRoute ? '/home' : location.pathname;
+      navigate(navigateTo || '/home');
     }
-  }, [currentUserPath, isSuccess, navigate]);
+  }, [isSuccess, navigate, isBaseRoute, location.pathname]);
 
   if (isLoading && token) {
     return (
@@ -110,6 +113,7 @@ function App() {
         <Route path="/orders" element={<OrdersScreen />} />
         <Route path="/orders/add" element={<AddOrder />} />
         <Route path="/orders/:id/show" element={<ShowOrder />} />
+        <Route path="/orders/:id/edit" element={<EditOrder />} />
       </Route>
     </Routes>
   );
