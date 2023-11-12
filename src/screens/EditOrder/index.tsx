@@ -506,7 +506,7 @@ export const EditOrder = () => {
               size="md"
               variant="outline"
               onClick={() => {
-                form.reset();
+                navigate('/orders');
               }}
             >
               الغاء

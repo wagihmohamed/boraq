@@ -2,6 +2,7 @@ import { api } from '@/api';
 import { getOrderDetailsendpoint } from '@/api/apisUrl';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
 export interface OrderDetails {
   id: string;
@@ -18,7 +19,7 @@ export interface OrderDetails {
   recipientAddress: string;
   notes: string;
   details: string;
-  status: string;
+  status: keyof typeof orderStatusArabicNames;
   deliveryType: keyof typeof deliveryTypesArabicNames;
   deliveryDate: string | null;
   createdAt: Date;

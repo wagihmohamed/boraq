@@ -2,10 +2,13 @@ import { AppLayout } from '@/components/AppLayout';
 import { useOrderDetails } from '@/hooks/useOrderDetails';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { OrderDetails } from '@/services/getOrderDetails';
 import { Button, Grid, TextInput, Textarea } from '@mantine/core';
+import { format, parseISO } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+import EgyptianArabic from 'date-fns/locale/ar-EG';
 
 export const ShowOrder = () => {
   const { id = '' } = useParams();
@@ -18,7 +21,15 @@ export const ShowOrder = () => {
   } = useOrderDetails(id);
 
   const hasProducts = orederDetails?.data?.OrderProducts?.length > 0;
-
+  const convertDateFormat = (date: Date | null): string | null => {
+    if (date) {
+      const parsedDate = parseISO(date.toISOString());
+      return format(parsedDate, 'HH:mm - dd/MM/yyyy', {
+        locale: EgyptianArabic,
+      });
+    }
+    return null;
+  };
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4 mb-4">
@@ -76,6 +87,59 @@ export const ShowOrder = () => {
             size="md"
             className="w-full"
             value={orederDetails.data?.recipientName}
+            disabled
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <TextInput
+            label="المبلغ المدفوع"
+            placeholder=""
+            type="number"
+            size="md"
+            className="w-full"
+            value={orederDetails?.data?.paidAmount}
+            disabled
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <TextInput
+            label="حالة الطلب"
+            size="md"
+            className="w-full"
+            value={orderStatusArabicNames[orederDetails.data?.status]}
+            disabled
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <TextInput
+            label="مندوب التوصيل"
+            size="md"
+            className="w-full"
+            value={orederDetails.data?.deliveryAgent?.name}
+            disabled
+          />
+        </Grid.Col>
+        {orederDetails.data?.deliveryDate && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="تاريخ التوصيل"
+              size="md"
+              className="w-full"
+              value={convertDateFormat(
+                new Date(orederDetails.data?.deliveryDate || '')
+              )?.toString()}
+              disabled
+            />
+          </Grid.Col>
+        )}
+        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <TextInput
+            label="الخصم"
+            placeholder=""
+            type="number"
+            size="md"
+            className="w-full"
+            value={orederDetails?.data?.discount}
             disabled
           />
         </Grid.Col>
@@ -197,7 +261,15 @@ export const ShowOrder = () => {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Button type="submit" fullWidth mt="xl" size="md">
+          <Button
+            type="submit"
+            fullWidth
+            mt="xl"
+            size="md"
+            onClick={() => {
+              navigate(`/orders/${id}/edit`);
+            }}
+          >
             تعديل
           </Button>
         </Grid.Col>
