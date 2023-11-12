@@ -86,9 +86,9 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { id } = row.original;
+      const { id, recipientName } = row.original;
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { mutateAsync: getReceipt } = useOrderReceipt();
+      const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
         toast.promise(getReceipt(id), {
