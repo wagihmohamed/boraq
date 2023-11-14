@@ -50,18 +50,6 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المبلغ المدفوع بالدولار',
   },
   {
-    accessorKey: 'discount',
-    header: 'الخصم',
-  },
-  {
-    accessorKey: 'quantity',
-    header: 'الكمية',
-  },
-  {
-    accessorKey: 'weight',
-    header: 'الوزن',
-  },
-  {
     accessorKey: 'status',
     header: 'الحالة',
     accessorFn: ({ status }) => {
