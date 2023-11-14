@@ -85,8 +85,9 @@ export interface GetReportsResponse {
   data: Report[];
 }
 
-interface ReportsFilters extends Filters {
+export interface ReportsFilters extends Filters {
   start_date?: Date | string | null;
+  sort?: string;
   end_date?: Date | string | null;
   client_id?: string;
   store_id?: string;

@@ -44,6 +44,7 @@ import { OrdersScreen } from './screens/Orders';
 import { AddOrder } from './screens/AddOrder';
 import { ShowOrder } from './screens/ShowOrder';
 import { EditOrder } from './screens/EditOrder';
+import { ReportsScreen } from './screens/Reports';
 
 function App() {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ function App() {
         <Route path="/orders/add" element={<AddOrder />} />
         <Route path="/orders/:id/show" element={<ShowOrder />} />
         <Route path="/orders/:id/edit" element={<EditOrder />} />
+        <Route path="/reports" element={<ReportsScreen />} />
       </Route>
     </Routes>
   );

@@ -10,6 +10,7 @@ import {
   IconCategoryFilled,
   IconShoppingBag,
   IconPackageExport,
+  IconFileTypePdf,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -27,6 +28,12 @@ export const navSections = [
     label: 'الشركات',
     enLabel: 'tenants',
     icon: IconBuildingCommunity,
+  },
+  {
+    link: '/reports',
+    label: 'الكشوفات',
+    enLabel: 'reports',
+    icon: IconFileTypePdf,
   },
   {
     link: '/locations',
