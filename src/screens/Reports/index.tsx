@@ -50,7 +50,6 @@ export const ReportsScreen = () => {
             pagesCount: reports.pagesCount,
           }}
           setFilters={setFilters}
-          navigationURL="/reports"
         />
       </div>
     </AppLayout>

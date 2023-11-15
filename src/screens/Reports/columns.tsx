@@ -13,10 +13,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useReportsPDF } from '@/hooks/useReportsPDF';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { DeleteReport } from './components/DeleteReport';
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -127,7 +127,6 @@ export const columns: ColumnDef<IReport>[] = [
       } as const;
 
       const pdfTitle = `${reportNameMap[type]} - ${reportTypeArabicNames[type]}`;
-      console.log({ pdfTitle });
 
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutateAsync: getReportPDF } = useReportsPDF(pdfTitle);
@@ -148,24 +147,7 @@ export const columns: ColumnDef<IReport>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/orders/${id}/show`}
-            >
-              عرض
-            </Link>
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/orders/${id}/edit`}
-            >
-              تعديل
-            </Link>
+            <DeleteReport id={id} />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>
