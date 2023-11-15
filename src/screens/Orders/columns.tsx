@@ -79,7 +79,7 @@ export const columns: ColumnDef<Order>[] = [
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
-        toast.promise(getReceipt(id), {
+        toast.promise(getReceipt([id]), {
           loading: 'جاري تحميل الفاتورة...',
           success: 'تم تحميل الفاتورة بنجاح',
           error: 'فشل في تحميل الفاتورة',

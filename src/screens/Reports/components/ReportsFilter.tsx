@@ -197,7 +197,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
             shadow="md"
           >
             <Popover.Target>
-              <Button className="mt-6">بداية ونهاية تاريخ عمل الطلب</Button>
+              <Button className="mt-6">بداية ونهاية تاريخ الكشف </Button>
             </Popover.Target>
             <Popover.Dropdown>
               <DatePicker
