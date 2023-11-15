@@ -39,14 +39,12 @@ export const AddLocation = () => {
     data: employees = {
       data: [],
     },
-  } = useEmployees({ size: 200 });
+  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
-  const deliveryAgents = employees.data
-    ?.filter((employee) => employee.role === 'DELIVERY_AGENT')
-    .map((employee) => ({
-      value: employee.id,
-      label: employee.name,
-    }));
+  const deliveryAgents = employees.data.map((employee) => ({
+    value: employee.id,
+    label: employee.name,
+  }));
 
   const transformedBranches = branches.data?.map((branch) => ({
     value: branch.id,

@@ -4,6 +4,8 @@ import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
+import { ReportsFilter } from './components/ReportsFilter';
+import { LoadingOverlay } from '@mantine/core';
 
 export const reportsFilterInitialState: ReportsFilters = {
   page: 1,
@@ -35,18 +37,22 @@ export const ReportsScreen = () => {
   } = useReports(filters);
 
   return (
-    <AppLayout isLoading={isInitialLoading} isError={isError}>
+    <AppLayout isError={isError}>
       <h1>الكشوفات</h1>
-      <DataTable
-        data={reports.data}
-        columns={columns}
-        filters={{
-          ...filters,
-          pagesCount: reports.pagesCount,
-        }}
-        setFilters={setFilters}
-        navigationURL="/reports"
-      />
+      <ReportsFilter filters={filters} setFilters={setFilters} />
+      <div className="relative mt-12">
+        <LoadingOverlay visible={isInitialLoading} />
+        <DataTable
+          data={reports.data}
+          columns={columns}
+          filters={{
+            ...filters,
+            pagesCount: reports.pagesCount,
+          }}
+          setFilters={setFilters}
+          navigationURL="/reports"
+        />
+      </div>
     </AppLayout>
   );
 };
