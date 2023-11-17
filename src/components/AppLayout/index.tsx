@@ -1,5 +1,12 @@
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Group, ScrollArea, Loader } from '@mantine/core';
+import {
+  AppShell,
+  Burger,
+  Group,
+  ScrollArea,
+  Loader,
+  rem,
+} from '@mantine/core';
 import { navSections } from '@/mockup/navSections';
 import classes from './NavbarNested.module.css';
 import { Link, useLocation } from 'react-router-dom';
@@ -58,8 +65,12 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
 
   return (
     <AppShell
-      header={{ height: 60, offset: true }}
-      navbar={{ width: 280, breakpoint: 'md', collapsed: { mobile: !opened } }}
+      header={{ height: rem(60), offset: true }}
+      navbar={{
+        width: rem(230),
+        breakpoint: 'md',
+        collapsed: { mobile: !opened },
+      }}
       padding="md"
     >
       <AppShell.Header>
@@ -70,7 +81,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
           </div>
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md" mt={0} py={30}>
+      <AppShell.Navbar p="md" mt={0} py={rem(30)}>
         <AppShell.Section grow my="lg" component={ScrollArea}>
           <div className={classes.linksInner}>{links}</div>
         </AppShell.Section>
@@ -78,7 +89,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
           <UserNavCard />
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main pt={100}>{handleRender()}</AppShell.Main>
+      <AppShell.Main pt={rem(100)}>{handleRender()}</AppShell.Main>
     </AppShell>
   );
 };

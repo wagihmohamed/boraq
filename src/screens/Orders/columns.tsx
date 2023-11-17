@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -11,12 +12,59 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, HoverCard, Text, rem } from '@mantine/core';
+import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
 import { IconFileTypePdf } from '@tabler/icons-react';
 import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import toast from 'react-hot-toast';
+import { useOrdersStore } from '@/store/ordersStore';
 
 export const columns: ColumnDef<Order>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => {
+      const { deleteAllOrders, setAllOrders } = useOrdersStore();
+      return (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={(event) => {
+            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
+              id: row.original.id,
+              name: row.original.recipientName,
+            }));
+
+            const isAllSelected = event.currentTarget.checked;
+
+            if (isAllSelected) {
+              setAllOrders(allTableRowsIds);
+              table.toggleAllPageRowsSelected(true);
+            } else {
+              table.toggleAllPageRowsSelected(false);
+              deleteAllOrders();
+            }
+          }}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const { addOrder, deleteOrder } = useOrdersStore();
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onChange={(value) => {
+            const isChecked = value.currentTarget.checked;
+            const { id, recipientName } = row.original;
+            if (isChecked) {
+              addOrder({ id, name: recipientName });
+              row.toggleSelected(true);
+            } else {
+              row.toggleSelected(false);
+              deleteOrder(id);
+            }
+          }}
+        />
+      );
+    },
+  },
   {
     accessorKey: 'receiptNumber',
     header: 'رقم الفاتورة',

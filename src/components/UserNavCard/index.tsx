@@ -48,7 +48,7 @@ export const UserNavCard = () => {
         <Group justify="center">
           <Menu
             withArrow
-            width={300}
+            width={250}
             position="bottom"
             transitionProps={{ transition: 'pop' }}
             withinPortal
@@ -149,7 +149,7 @@ export const UserNavCard = () => {
                   )
                 }
               >
-                Display Mode
+                وضع {displayTheme === 'dark' ? 'النهاري' : 'الليلي'}
               </Menu.Item>
               <Menu.Item
                 leftSection={
