@@ -15,6 +15,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './hooks/theme-provider.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@mantine/dates/styles.css';
+import { Analytics } from '@vercel/analytics/react';
 
 export const router = createBrowserRouter([{ path: '*', element: <App /> }]);
 export const queryClient = new QueryClient({
@@ -49,5 +50,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </MantineProvider>
       <Toaster position="top-center" reverseOrder={false} />
     </DirectionProvider>
+    <Analytics />
   </React.StrictMode>
 );
