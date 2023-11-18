@@ -19,7 +19,7 @@ export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
   return (
-    <DropdownMenu>
+    <DropdownMenu dir="rtl">
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="lg" className=" hidden h-8 md:flex">
           <MixerHorizontalIcon className="ml-2 h-4 w-4" />
@@ -39,7 +39,6 @@ export function DataTableViewOptions<TData>({
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="flex flex-row-reverse"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >

@@ -2,7 +2,6 @@ import { AppLayout } from '@/components/AppLayout';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Autocomplete, Button, TextInput } from '@mantine/core';
-import { repositoriesBranches } from '@/mockup/repositories';
 import { useRepositoryDetails } from '@/hooks/useRepositoryDetails';
 
 export const ShowRepository = () => {
@@ -38,7 +37,6 @@ export const ShowRepository = () => {
         <Autocomplete
           label="الفرع"
           placeholder="اختار الفرع"
-          data={repositoriesBranches}
           value={repositoryDetails?.data?.branch.name}
           disabled
         />

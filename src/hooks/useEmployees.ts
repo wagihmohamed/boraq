@@ -2,7 +2,7 @@ import { rolesArabicNames } from '@/lib/rolesArabicNames';
 import { Filters, getEmployeesService } from '@/services/getEmployeesService';
 import { useQuery } from '@tanstack/react-query';
 
-interface EmployeesFilters extends Filters {
+export interface EmployeesFilters extends Filters {
   roles?: (keyof typeof rolesArabicNames)[];
 }
 

@@ -26,6 +26,7 @@ interface DataTableProps<TData, TValue> {
   filters: Filters;
   setFilters: Dispatch<React.SetStateAction<Filters>>;
   navigationURL?: string;
+  navButtonTitle?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -34,6 +35,7 @@ export function DataTable<TData, TValue>({
   setFilters,
   filters,
   navigationURL,
+  navButtonTitle,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -44,7 +46,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="mt-5">
       <div className="flex gap-4 justify-between">
-        {navigationURL && (
+        {navigationURL && navButtonTitle && (
           <Link
             className={buttonVariants({
               variant: 'outlineMain',
@@ -53,7 +55,7 @@ export function DataTable<TData, TValue>({
             })}
             to={navigationURL}
           >
-            اضافه موظف
+            {navButtonTitle}
           </Link>
         )}
         <DataTableViewOptions table={table} />

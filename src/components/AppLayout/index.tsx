@@ -21,7 +21,6 @@ interface Props {
 }
 
 export const AppLayout = ({ children, isLoading, isError }: Props) => {
-  const [opened, { toggle }] = useDisclosure();
   const pathName = useLocation().pathname;
   const [active, setActive] = useState(
     navSections.find((item) => item.link === pathName)?.label || ''
@@ -62,20 +61,32 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
 
     return children;
   };
-
+  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   return (
     <AppShell
       header={{ height: rem(60), offset: true }}
       navbar={{
         width: rem(230),
-        breakpoint: 'md',
-        collapsed: { mobile: !opened },
+        breakpoint: 'sm',
+        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
       padding="md"
     >
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
+          <Burger
+            opened={mobileOpened}
+            onClick={toggleMobile}
+            hiddenFrom="sm"
+            size="sm"
+          />
+          <Burger
+            opened={desktopOpened}
+            onClick={toggleDesktop}
+            visibleFrom="sm"
+            size="sm"
+          />
           <div className="mr-auto ml-6">
             <NotificationsList />
           </div>

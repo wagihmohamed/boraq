@@ -4,18 +4,17 @@ import {
   Group,
   Text,
   Avatar,
-  useMantineTheme,
   ActionIcon,
   rem,
 } from '@mantine/core';
 
 import {
   IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconSwitchHorizontal,
+  // IconHeart,
+  // IconStar,
+  // IconMessage,
+  // IconSettings,
+  // IconSwitchHorizontal,
   IconDots,
   IconChevronLeft,
   IconSunHigh,
@@ -26,7 +25,6 @@ import { useTheme } from '@/hooks/theme-provider';
 import { useAuth } from '@/store/authStore';
 
 export const UserNavCard = () => {
-  const theme = useMantineTheme();
   const { logout, name, username } = useAuth();
   const { theme: displayTheme, setTheme } = useTheme();
   return (
@@ -84,7 +82,7 @@ export const UserNavCard = () => {
                 </Group>
               </Menu.Item>
 
-              <Menu.Divider />
+              {/* <Menu.Divider />
 
               <Menu.Item
                 leftSection={
@@ -118,9 +116,9 @@ export const UserNavCard = () => {
                 }
               >
                 Your comments
-              </Menu.Item>
+              </Menu.Item> */}
 
-              <Menu.Label>Settings</Menu.Label>
+              {/* <Menu.Label>Settings</Menu.Label>
               <Menu.Item
                 leftSection={
                   <IconSettings
@@ -130,7 +128,7 @@ export const UserNavCard = () => {
                 }
               >
                 Account settings
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
                 onClick={() => {
                   setTheme(displayTheme === 'dark' ? 'light' : 'dark');
@@ -151,7 +149,7 @@ export const UserNavCard = () => {
               >
                 وضع {displayTheme === 'dark' ? 'النهاري' : 'الليلي'}
               </Menu.Item>
-              <Menu.Item
+              {/* <Menu.Item
                 leftSection={
                   <IconSwitchHorizontal
                     style={{ width: rem(16), height: rem(16) }}
@@ -160,7 +158,7 @@ export const UserNavCard = () => {
                 }
               >
                 Change account
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
                 onClick={logout}
                 leftSection={
@@ -170,7 +168,7 @@ export const UserNavCard = () => {
                   />
                 }
               >
-                Logout
+                تسجيل الخروج
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>

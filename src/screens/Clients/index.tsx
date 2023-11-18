@@ -30,6 +30,7 @@ export const ClientsScreen = () => {
           ...filters,
           pagesCount: clients.pagesCount,
         }}
+        navButtonTitle="إضافة عميل"
       />
     </AppLayout>
   );

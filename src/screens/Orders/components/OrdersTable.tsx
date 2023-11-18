@@ -56,7 +56,7 @@ export function OrdersTable<TValue>({
             })}
             to={navigationURL}
           >
-            اضافه موظف
+            اضافة طلب
           </Link>
         )}
         <DataTableViewOptions table={table} />
