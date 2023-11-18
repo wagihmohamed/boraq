@@ -1,12 +1,12 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useOrders } from '@/hooks/useOrders';
 import { useState } from 'react';
-import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
 import { OrdersFilter } from '@/services/getOrders';
 import { LoadingOverlay } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { CustomOrdersFilter } from './components/OrdersFilter';
+import { OrdersTable } from './components/OrdersTable';
 
 export const ordersFilterInitialState: OrdersFilter = {
   page: 1,
@@ -59,7 +59,7 @@ export const OrdersScreen = () => {
       />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
-        <DataTable
+        <OrdersTable
           navigationURL="/orders/add"
           columns={columns}
           data={orders.data}

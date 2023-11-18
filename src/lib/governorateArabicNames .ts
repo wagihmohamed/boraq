@@ -19,7 +19,7 @@ export const governorateArabicNames = {
   WASIT: 'واسط',
 };
 
-enum Governorate {
+export enum GovernorateEnum {
   AL_ANBAR = 'الأنبار',
   BABIL = 'بابل',
   BAGHDAD = 'بغداد',
@@ -41,7 +41,7 @@ enum Governorate {
 }
 
 export const governorateArray: { label: string; value: string }[] =
-  Object.entries(Governorate).map(([value, label]) => ({
+  Object.entries(GovernorateEnum).map(([value, label]) => ({
     label,
     value,
   }));

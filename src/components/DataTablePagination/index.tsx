@@ -63,10 +63,10 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => {
-              setFilters((filters) => ({
+              setFilters({
                 ...filters,
-                page: filters.pagesCount || (filters.page || 1) + 1,
-              }));
+                page: filters.pagesCount,
+              });
             }}
             disabled={filters.page === filters.pagesCount}
           >
@@ -92,7 +92,7 @@ export function DataTablePagination<TData>({
               table.nextPage();
               setFilters((filters) => ({
                 ...filters,
-                page: table.getState().pagination.pageIndex + 1,
+                page: Number(filters?.page) - 1 || 1,
               }));
             }}
             disabled={filters.page === 1}

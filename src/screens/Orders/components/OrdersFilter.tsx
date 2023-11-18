@@ -10,6 +10,7 @@ import { parseISO, format } from 'date-fns';
 import { Button, Grid, Popover, Select, TextInput, rem } from '@mantine/core';
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
+import { ExportReportModal } from './ExportReportModa';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -285,6 +286,9 @@ export const CustomOrdersFilter = ({
             </Popover.Dropdown>
           </Popover>
         </div>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+        <ExportReportModal />
       </Grid.Col>
     </Grid>
   );

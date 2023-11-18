@@ -14,6 +14,7 @@ type Actions = {
   deleteOrder: (id: string) => void;
   setAllOrders: (orders: { id: string; name: string }[]) => void;
   deleteAllOrders: () => void;
+  isOrderExist: (id: string) => boolean;
 };
 
 const ordersStore = create<IOrdersStore & Actions>()(
@@ -39,6 +40,14 @@ const ordersStore = create<IOrdersStore & Actions>()(
       set((state) => {
         state.orders = [];
       });
+    },
+    isOrderExist: (id) => {
+      let isOrderExist = false;
+      set((state) => {
+        const order = state.orders.find((order) => order.id === id);
+        isOrderExist = !!order;
+      });
+      return isOrderExist;
     },
   }))
 );

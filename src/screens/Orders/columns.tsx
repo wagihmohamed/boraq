@@ -22,10 +22,16 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const { deleteAllOrders, setAllOrders } = useOrdersStore();
+      const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
+
       return (
         <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
+          checked={
+            table.getRowModel().rows.length > 0 &&
+            table
+              .getRowModel()
+              .rows.every((row) => isOrderExist(row.original.id))
+          }
           onChange={(event) => {
             const allTableRowsIds = table.getRowModel().rows.map((row) => ({
               id: row.original.id,
@@ -46,10 +52,10 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
     cell: ({ row }) => {
-      const { addOrder, deleteOrder } = useOrdersStore();
+      const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
       return (
         <Checkbox
-          checked={row.getIsSelected()}
+          checked={isOrderExist(row.original.id)}
           onChange={(value) => {
             const isChecked = value.currentTarget.checked;
             const { id, recipientName } = row.original;
