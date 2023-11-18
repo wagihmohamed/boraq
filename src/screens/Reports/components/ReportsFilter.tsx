@@ -1,30 +1,22 @@
-import { governorateArray } from '@/lib/governorateArabicNames ';
-import { orderStatusArray } from '@/lib/orderStatusArabicNames';
-import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { useClients } from '@/hooks/useClients';
+import { useEmployees } from '@/hooks/useEmployees';
+import { useRepositories } from '@/hooks/useRepositories';
 import { useStores } from '@/hooks/useStores';
-import { useLocations } from '@/hooks/useLocations';
-import { DatePicker } from '@mantine/dates';
-import 'dayjs/locale/ar';
-import { parseISO, format } from 'date-fns';
-import { Button, Grid, Popover, Select, TextInput, rem } from '@mantine/core';
-import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { ExportReportModal } from './ExportReportModa';
+import { governorateArray } from '@/lib/governorateArabicNames ';
+import { reportStatusArray } from '@/lib/reportStatusArabicNames';
+import { ReportsFilters as IReportsFilters } from '@/services/getReports';
+import { Button, Grid, Popover, Select, rem } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
+import { format, parseISO } from 'date-fns';
+import 'dayjs/locale/ar';
 
-interface OrdersFilter {
-  filters: IOrdersFilter;
-  setFilters: React.Dispatch<React.SetStateAction<IOrdersFilter>>;
-  search: string;
-  setSearch: (newValue: string) => void;
+interface IReportsFilter {
+  filters: IReportsFilters;
+  setFilters: React.Dispatch<React.SetStateAction<IReportsFilters>>;
 }
 
-export const CustomOrdersFilter = ({
-  filters,
-  setFilters,
-  search,
-  setSearch,
-}: OrdersFilter) => {
+export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
   const {
     data: clientsData = {
       data: [],
@@ -38,17 +30,17 @@ export const CustomOrdersFilter = ({
   } = useStores({ size: 500 });
 
   const {
-    data: locationsData = {
+    data: repositoriesData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
+  } = useRepositories({ size: 500 });
 
-  const handleResetDate = () => {
-    setFilters({
-      ...filters,
-      delivery_date: null,
-    });
-  };
+  const {
+    data: employeesData = {
+      data: [],
+    },
+  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
+
   const handleResetRangeDate = () => {
     setFilters({
       ...filters,
@@ -67,16 +59,6 @@ export const CustomOrdersFilter = ({
 
   return (
     <Grid align="center" gutter="lg">
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <TextInput
-          placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
-          defaultValue={search}
-          label="بحث"
-          onChange={(e) => {
-            setSearch(e.currentTarget.value);
-          }}
-        />
-      </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.governorate}
@@ -108,24 +90,7 @@ export const CustomOrdersFilter = ({
             });
           }}
           placeholder="اختر الحالة"
-          data={orderStatusArray}
-        />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <Select
-          value={filters.delivery_type}
-          allowDeselect
-          label="نوع التوصيل"
-          searchable
-          clearable
-          onChange={(e) => {
-            setFilters({
-              ...filters,
-              delivery_type: e || '',
-            });
-          }}
-          placeholder="اختر نوع التوصيل"
-          data={deliveryTypesArray}
+          data={reportStatusArray}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
@@ -147,6 +112,23 @@ export const CustomOrdersFilter = ({
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
         <Select
+          value={filters.repository_id}
+          allowDeselect
+          label="المخزن"
+          searchable
+          clearable
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              repository_id: e || '',
+            });
+          }}
+          placeholder="اختر المخزن"
+          data={getSelectOptions(repositoriesData.data)}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+        <Select
           value={filters.store_id}
           allowDeselect
           label="المتجر"
@@ -164,19 +146,19 @@ export const CustomOrdersFilter = ({
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
         <Select
-          value={filters.location_id}
+          value={filters.delivery_agent_id}
           allowDeselect
-          label="المناطق"
+          label="المندوب"
           searchable
           clearable
           onChange={(e) => {
             setFilters({
               ...filters,
-              location_id: e || '',
+              delivery_agent_id: e || '',
             });
           }}
-          placeholder="اختر المنطقة"
-          data={getSelectOptions(locationsData.data)}
+          placeholder="اختر المندوب"
+          data={getSelectOptions(employeesData.data)}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
@@ -215,43 +197,7 @@ export const CustomOrdersFilter = ({
             shadow="md"
           >
             <Popover.Target>
-              <Button className="mt-6">اختيار تاريخ التوصيل</Button>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <DatePicker
-                locale="ar"
-                value={
-                  filters.delivery_date ? new Date(filters.delivery_date) : null
-                }
-                onChange={(date) => {
-                  const newDeliveryDate = convertDateFormat(date);
-                  setFilters({
-                    ...filters,
-                    delivery_date: newDeliveryDate,
-                  });
-                }}
-              />
-              {filters.delivery_date && (
-                <Button
-                  onClick={handleResetDate}
-                  fullWidth
-                  className="mt-3"
-                  variant="outline"
-                >
-                  الحذف
-                </Button>
-              )}
-            </Popover.Dropdown>
-          </Popover>
-          <Popover
-            width={rem(300)}
-            trapFocus
-            position="bottom"
-            withArrow
-            shadow="md"
-          >
-            <Popover.Target>
-              <Button className="mt-6">بداية ونهاية تاريخ عمل الطلب</Button>
+              <Button className="mt-6">بداية ونهاية تاريخ الكشف </Button>
             </Popover.Target>
             <Popover.Dropdown>
               <DatePicker
@@ -286,9 +232,6 @@ export const CustomOrdersFilter = ({
             </Popover.Dropdown>
           </Popover>
         </div>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <ExportReportModal />
       </Grid.Col>
     </Grid>
   );

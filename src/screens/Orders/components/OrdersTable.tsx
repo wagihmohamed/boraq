@@ -19,27 +19,30 @@ import { Link } from 'react-router-dom';
 import { buttonVariants } from '@/components/ui/button';
 import { Dispatch } from 'react';
 import { Filters } from '@/services/getEmployeesService';
+import { useOrdersStore } from '@/store/ordersStore';
+import { Order } from '@/services/getOrders';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<Order, TValue>[];
+  data: Order[];
   filters: Filters;
   setFilters: Dispatch<React.SetStateAction<Filters>>;
   navigationURL?: string;
 }
 
-export function DataTable<TData, TValue>({
+export function OrdersTable<TValue>({
   columns,
   data,
   setFilters,
   filters,
   navigationURL,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  const { isOrderExist } = useOrdersStore();
 
   return (
     <div className="mt-5">
@@ -83,7 +86,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={isOrderExist(row.original.id) && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

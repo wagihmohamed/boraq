@@ -47,7 +47,7 @@ export const EditLocation = () => {
     data: employees = {
       data: [],
     },
-  } = useEmployees({ size: 200 });
+  } = useEmployees({ size: 200, roles: ['DELIVERY_AGENT'] });
 
   useEffect(() => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(
@@ -62,12 +62,10 @@ export const EditLocation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationDetails]);
 
-  const deliveryAgents = employees.data
-    ?.filter((employee) => employee.role === 'DELIVERY_AGENT')
-    .map((employee) => ({
-      value: employee.id,
-      label: employee.name,
-    }));
+  const deliveryAgents = employees.data.map((employee) => ({
+    value: employee.id,
+    label: employee.name,
+  }));
 
   const transformedBranches = branches.data?.map((branch) => ({
     value: branch.id,

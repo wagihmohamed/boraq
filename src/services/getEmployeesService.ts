@@ -41,15 +41,17 @@ export interface Filters {
   page?: number;
   size?: number;
   pagesCount?: number;
+  roles?: (keyof typeof rolesArabicNames)[];
 }
 
 export const getEmployeesService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, roles }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetEmployeesResponse>(getEmployeesendpoint, {
     params: {
       page,
       size,
+      roles: roles?.join(',') || undefined,
     },
   });
   return response.data;
