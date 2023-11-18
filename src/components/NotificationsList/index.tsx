@@ -1,6 +1,7 @@
 import { useNotifications } from '@/hooks/useNotifications';
 import { cn } from '@/lib/utils';
 import { APIError } from '@/models';
+import { markAllNotificationsAsReadService } from '@/services/markAllNotificationsAsRead';
 import { markNotificationAsSeenService } from '@/services/markNotificationAsSeen';
 import { Button, Loader, Menu, ScrollArea, Text, rem } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
@@ -20,10 +21,22 @@ export const NotificationsList = () => {
   const flattenNotifications = notifications?.pages
     ?.map((item) => item.data)
     ?.flat();
-  const isUnsean = flattenNotifications?.some((item) => !item);
+  const isUnsean = flattenNotifications?.some((item) => !item.seen);
 
   const { mutate: markMessageAsRead } = useMutation({
     mutationFn: (id: string) => markNotificationAsSeenService({ id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['notifications'],
+      });
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
+  const { mutate: markAllNotificationsAsRead } = useMutation({
+    mutationFn: () => markAllNotificationsAsReadService(),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['notifications'],
@@ -54,13 +67,30 @@ export const NotificationsList = () => {
   return (
     <Menu position="bottom-end" shadow="md" width={rem(338)}>
       <Menu.Target>
-        <Button variant="subtle">
-          <IconBell className={isUnsean ? 'text-primary' : ''} />
+        <Button variant="subtle" className="relative">
+          <IconBell className="text-white" />
+          {isUnsean && (
+            <div className="absolute top-0 right-2 w-3 h-3 bg-primary rounded-full animate-pulse" />
+          )}
         </Button>
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>اخر الاشعارات</Menu.Label>
+        <Menu.Label>
+          <div className="flex justify-between items-center">
+            <p>اخر الاشعارات</p>
+            <Menu.Item
+              onClick={() => {
+                markAllNotificationsAsRead();
+              }}
+              disabled={!isUnsean}
+              variant="transparent"
+              style={{ width: rem(130) }}
+            >
+              <p className="text-left">تحديد الكل كمقروء</p>
+            </Menu.Item>
+          </div>
+        </Menu.Label>
         <ScrollArea h={rem(300)}>
           {flattenNotifications?.map((item, index) => {
             if (index === flattenNotifications.length - 3) {
@@ -74,12 +104,12 @@ export const NotificationsList = () => {
                 >
                   <div
                     className={cn(
-                      'flex flex-col border border-primary rounded p-1 gap-3 mb-2',
+                      'flex flex-col border border-primary rounded p-1 gap-2 mb-2',
                       !item.seen && 'bg-primary/30'
                     )}
                   >
-                    <p className="truncate">{item.title}</p>
-                    <p className="truncate">{item.content}</p>
+                    <p>{item.title}</p>
+                    <p>{item.content}</p>
                   </div>
                 </Menu.Item>
               );
@@ -93,18 +123,12 @@ export const NotificationsList = () => {
               >
                 <div
                   className={cn(
-                    'flex flex-col border border-primary rounded p-1 gap-3 mb-2 w-72',
+                    'flex flex-col border border-primary rounded p-1 gap-2 mb-2 w-72',
                     !item.seen && 'bg-primary/30'
                   )}
                 >
                   <p>{item.title}</p>
-                  <Text truncate="end">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolore nemo exercitationem excepturi fugit perspiciatis hic
-                    consectetur eius aut at iste, tempore incidunt totam
-                    voluptatum corrupti inventore, sed explicabo ullam
-                    blanditiis?
-                  </Text>
+                  <Text>{item.content}</Text>
                 </div>
               </Menu.Item>
             );

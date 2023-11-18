@@ -32,6 +32,7 @@ export const Stores = () => {
           pagesCount: sizes.pagesCount,
         }}
         setFilters={setFilters}
+        navButtonTitle="إضافة متجر"
       />
     </AppLayout>
   );

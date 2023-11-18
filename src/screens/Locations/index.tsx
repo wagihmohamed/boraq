@@ -30,6 +30,7 @@ export const LocationsScreen = () => {
           ...filters,
           pagesCount: locations.pagesCount,
         }}
+        navButtonTitle="إضافة منطقة"
       />
     </AppLayout>
   );

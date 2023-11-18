@@ -30,6 +30,7 @@ export const BranchesScreen = () => {
           ...filters,
           pagesCount: branches.pagesCount,
         }}
+        navButtonTitle="إضافة فرع"
       />
     </AppLayout>
   );

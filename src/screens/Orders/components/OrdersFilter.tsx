@@ -67,7 +67,7 @@ export const CustomOrdersFilter = ({
 
   return (
     <Grid align="center" gutter="lg">
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <TextInput
           placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
           defaultValue={search}
@@ -77,7 +77,7 @@ export const CustomOrdersFilter = ({
           }}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.governorate}
           allowDeselect
@@ -94,7 +94,7 @@ export const CustomOrdersFilter = ({
           data={governorateArray}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.status}
           allowDeselect
@@ -111,7 +111,7 @@ export const CustomOrdersFilter = ({
           data={orderStatusArray}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.delivery_type}
           allowDeselect
@@ -128,7 +128,7 @@ export const CustomOrdersFilter = ({
           data={deliveryTypesArray}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.client_id}
           allowDeselect
@@ -145,7 +145,7 @@ export const CustomOrdersFilter = ({
           data={getSelectOptions(clientsData.data)}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.store_id}
           allowDeselect
@@ -162,7 +162,7 @@ export const CustomOrdersFilter = ({
           data={getSelectOptions(storesData.data)}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.location_id}
           allowDeselect
@@ -179,7 +179,7 @@ export const CustomOrdersFilter = ({
           data={getSelectOptions(locationsData.data)}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.sort}
           allowDeselect
@@ -205,8 +205,11 @@ export const CustomOrdersFilter = ({
           ]}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <div className="flex items-center gap-4 flex-wrap">
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+        <ExportReportModal />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 12, sm: 12, xs: 12 }}>
+        <div className="flex items-center gap-2 flex-wrap">
           <Popover
             width={rem(300)}
             trapFocus
@@ -286,9 +289,6 @@ export const CustomOrdersFilter = ({
             </Popover.Dropdown>
           </Popover>
         </div>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <ExportReportModal />
       </Grid.Col>
     </Grid>
   );
