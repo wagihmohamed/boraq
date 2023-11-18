@@ -133,9 +133,9 @@ export const columns: ColumnDef<IReport>[] = [
 
       const handleDownload = () => {
         toast.promise(getReportPDF(id), {
-          loading: 'جاري تحميل الفاتورة...',
-          success: 'تم تحميل الفاتورة بنجاح',
-          error: 'فشل في تحميل الفاتورة',
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: 'فشل في تحميل الكشف',
         });
       };
 
