@@ -25,7 +25,7 @@ import { useEffect } from 'react';
 
 export const ExportReportModal = () => {
   const [opened, { open, close }] = useDisclosure(false);
-  const { orders: selectedOrders } = useOrdersStore();
+  const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
 
   const form = useForm({
     validate: zodResolver(createReportSchema),
@@ -76,11 +76,7 @@ export const ExportReportModal = () => {
     },
   } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
-  const { mutateAsync, isLoading } = useCreateReport({
-    onSuccess: () => {
-      close();
-    },
-  });
+  const { mutateAsync, isLoading } = useCreateReport();
 
   useEffect(() => {
     form.setFieldValue(
@@ -137,11 +133,20 @@ export const ExportReportModal = () => {
       default:
         break;
     }
-    toast.promise(mutateAsync(mutationParams), {
-      loading: 'جاري تصدير الكشف',
-      error: 'حدث خطأ أثناء تصدير الكشف',
-      success: 'تم تصدير الكشف بنجاح',
-    });
+    toast.promise(
+      mutateAsync(mutationParams, {
+        onSuccess: () => {
+          close();
+          form.reset();
+          deleteAllOrders();
+        },
+      }),
+      {
+        loading: 'جاري تصدير الكشف',
+        success: 'تم تصدير الكشف بنجاح',
+        error: (error) => error.response?.data.message || 'حدث خطأ ما',
+      }
+    );
   };
 
   const reportType = form.values.type;
