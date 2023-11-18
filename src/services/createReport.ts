@@ -21,10 +21,7 @@ export const createReportService = async (data: CreateReportPayload) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
     createReportendpoint,
-    data,
-    {
-      responseType: 'arraybuffer',
-    }
+    data
   );
   const blob = new Blob([response.data], { type: 'application/pdf' });
   FileSaver.saveAs(blob, `تقرير.pdf`);

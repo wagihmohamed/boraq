@@ -136,7 +136,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReceipt([id]), {
           loading: 'جاري تحميل الفاتورة...',
           success: 'تم تحميل الفاتورة بنجاح',
-          error: 'فشل في تحميل الفاتورة',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
         });
       };
 
