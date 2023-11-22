@@ -34,7 +34,7 @@ export const AddStore = () => {
   } = useClients({ size: 100 });
   const clientOptions = clients.data.map((client) => ({
     label: client.name,
-    value: client.id,
+    value: client.id.toString(),
   }));
 
   const { mutate: createStoreAction, isLoading } = useMutation({

@@ -1,4 +1,3 @@
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { addOrderSchema } from './schema';
@@ -138,16 +137,16 @@ export const AddOrder = () => {
 
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
-    value: product.id,
+    value: product.id.toString(),
     label: product.title,
   }));
 
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -319,7 +318,7 @@ export const AddOrder = () => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
                       const product = productsData.data.find(
-                        (product) => product.id === productID
+                        (product) => product.id.toString() === productID
                       );
                       return {
                         label: product?.title,

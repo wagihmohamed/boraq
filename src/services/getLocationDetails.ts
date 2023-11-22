@@ -7,7 +7,7 @@ export interface GetLocationDetailsResponse {
   data: Location;
 }
 
-export const getLocationDetailsService = async (id: string) => {
+export const getLocationDetailsService = async (id: number) => {
   const response = await api.get<GetLocationDetailsResponse>(
     getLocationDetailsendpoint + id
   );

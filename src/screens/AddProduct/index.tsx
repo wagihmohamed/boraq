@@ -27,15 +27,15 @@ export const AddProduct = () => {
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
   const categoriesOptions = categories.data.map((category) => ({
-    value: category.id,
+    value: category.id.toString(),
     label: category.title,
   }));
   const form = useForm({
@@ -138,7 +138,7 @@ export const AddProduct = () => {
       quantity: parseInt(size.quantity, 10),
     }));
     const selectedCategory = categoriesOptions.find(
-      (category) => category.value === values.category
+      (category) => category.value.toString() === values.category
     );
     const formData = new FormData();
     formData.append('title', values.title);

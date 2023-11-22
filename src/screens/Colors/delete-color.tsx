@@ -7,11 +7,11 @@ import toast from 'react-hot-toast';
 import { IconTrash } from '@tabler/icons-react';
 import { deleteColorService } from '@/services/deleteColor';
 
-export const DeleteColor = ({ colorId }: { colorId: string }) => {
+export const DeleteColor = ({ colorId }: { colorId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteSize, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteColorService({ id }),
+    mutationFn: (id: number) => deleteColorService({ id }),
     onSuccess: () => {
       toast.success('تم حذف اللون بنجاح');
       queryClient.invalidateQueries({

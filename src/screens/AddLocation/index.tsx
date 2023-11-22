@@ -42,12 +42,12 @@ export const AddLocation = () => {
   } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
   const deliveryAgents = employees.data.map((employee) => ({
-    value: employee.id,
+    value: employee.id.toString(),
     label: employee.name,
   }));
 
   const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 

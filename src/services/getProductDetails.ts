@@ -2,7 +2,7 @@ import { api } from '@/api';
 import { getProductDetailsendpoint } from '@/api/apisUrl';
 
 export interface ProductDetails {
-  id: string;
+  id: number;
   title: string;
   price: string;
   image: string;
@@ -14,14 +14,14 @@ export interface ProductDetails {
     quantity: number;
     color: {
       title: string;
-      id: string;
+      id: number;
     };
   }[];
   ProductSizes: {
     quantity: number;
     size: {
       title: string;
-      id: string;
+      id: number;
     };
   }[];
 }
@@ -31,7 +31,7 @@ export interface GetProductsResponse {
   data: ProductDetails;
 }
 
-export const getProductDetailsService = async (id: string) => {
+export const getProductDetailsService = async (id: number) => {
   const response = await api.get<GetProductsResponse>(
     getProductDetailsendpoint + id
   );

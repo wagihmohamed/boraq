@@ -1,7 +1,7 @@
 import { api } from '@/api';
 import FileSaver from 'file-saver';
 
-export const getOrderReceipt = async (ordersIDs: string[], name: string) => {
+export const getOrderReceipt = async (ordersIDs: number[], name: string) => {
   const response = await api.post('/orders/receipts', { ordersIDs });
 
   const blob = new Blob([response.data], { type: 'application/pdf' });

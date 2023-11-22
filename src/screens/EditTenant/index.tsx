@@ -20,7 +20,11 @@ export const EditTenant = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: tenantDetails, isLoading, isError } = useTenantDetails(id);
+  const {
+    data: tenantDetails,
+    isLoading,
+    isError,
+  } = useTenantDetails(parseInt(id));
 
   const form = useForm({
     validate: zodResolver(editTenantSchema),
@@ -69,7 +73,7 @@ export const EditTenant = () => {
     mutationFn: (data: FormData) => {
       return editTenantService({
         data,
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {

@@ -3,7 +3,7 @@ import { getCategoriesendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Category {
-  id: string;
+  id: number;
   title: string;
   createdAt: string;
   updatedAt: string;

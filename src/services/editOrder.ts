@@ -20,7 +20,7 @@ export const editOrderService = async ({
   id,
 }: {
   data: EditOrderPayload;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<EditOrderPayload>(
     editOrderendpoint + id,

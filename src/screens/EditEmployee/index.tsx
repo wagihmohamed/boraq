@@ -30,7 +30,11 @@ import { IMAGE_BASE_URL } from '@/api';
 export const EditEmployee = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: employeeDetails, isLoading, isError } = useEmployeeDetails(id);
+  const {
+    data: employeeDetails,
+    isLoading,
+    isError,
+  } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({ size: 200 });
   const { data: branches } = useBranches({ size: 200 });
 
@@ -59,8 +63,8 @@ export const EditEmployee = () => {
         name: employeeDetails.data.name,
         phone: employeeDetails.data.phone,
         salary: employeeDetails.data.salary,
-        branch: employeeDetails.data.branch.id,
-        repository: employeeDetails.data.repository.id,
+        branch: employeeDetails.data.branch.id.toString(),
+        repository: employeeDetails.data.repository.id.toString(),
         role: employeeDetails.data.role,
         permissions: employeeDetails.data.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
@@ -70,12 +74,12 @@ export const EditEmployee = () => {
   }, [employeeDetails]);
 
   const transformedRepositories = repositories?.data?.map((repository) => ({
-    value: repository.id,
+    value: repository.id.toString(),
     label: repository.name,
   }));
 
   const transformedBranches = branches?.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
@@ -84,7 +88,7 @@ export const EditEmployee = () => {
     mutationFn: (data: FormData) => {
       return editEmployeeService({
         data,
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { editOrderSchema } from './schema';
@@ -53,7 +51,7 @@ export const EditOrder = () => {
     },
     isLoading: isFetchingProduct,
     isError,
-  } = useOrderDetails(id);
+  } = useOrderDetails(parseInt(id));
 
   const form = useForm({
     validate: zodResolver(editOrderSchema),
@@ -92,8 +90,8 @@ export const EditOrder = () => {
         discount: orderDetails?.data?.discount?.toString(),
         status: orderDetails?.data?.status,
         deliveryAgentID:
-          orderDetails?.data?.deliveryAgent?.id &&
-          (orderDetails?.data?.deliveryAgent.id || ''),
+          orderDetails?.data?.deliveryAgent?.id.toString() &&
+          (orderDetails?.data?.deliveryAgent.id.toString() || ''),
         withProducts: orderDetails.data.OrderProducts?.length > 0,
         deliveryDate: orderDetails?.data?.deliveryDate || '',
         totalCost: orderDetails?.data?.totalCost?.toString(),
@@ -106,14 +104,14 @@ export const EditOrder = () => {
         details: orderDetails?.data?.details || '',
         deliveryType: orderDetails?.data?.deliveryType,
         governorate: orderDetails?.data?.governorate,
-        locationID: orderDetails?.data?.location?.id,
-        storeID: orderDetails?.data?.store?.id,
+        locationID: orderDetails?.data?.location?.id.toString(),
+        storeID: orderDetails?.data?.store?.id.toString(),
         products: orderDetails?.data?.OrderProducts?.map((product) => ({
           label: product.product?.title,
-          productID: product.product?.id,
+          productID: product.product?.id.toString(),
           quantity: product.quantity?.toString(),
-          colorID: product?.color?.id,
-          sizeID: product?.size?.id,
+          colorID: product?.color?.id.toString(),
+          sizeID: product?.size?.id.toString(),
         })),
       });
     }
@@ -135,7 +133,7 @@ export const EditOrder = () => {
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: (data: EditOrderPayload) => {
       return editOrderService({
-        id,
+        id: parseInt(id),
         data,
       });
     },
@@ -158,7 +156,6 @@ export const EditOrder = () => {
     },
   } = useProducts({ size: 500 });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({
       deliveryAgentID: values.deliveryAgentID,
@@ -176,16 +173,16 @@ export const EditOrder = () => {
 
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
-    value: product.id,
+    value: product.id.toString(),
     label: product.title,
   }));
 
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -452,7 +449,7 @@ export const EditOrder = () => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
                       const product = productsData.data.find(
-                        (product) => product.id === productID
+                        (product) => product.id.toString() === productID
                       );
                       return {
                         label: product?.title,

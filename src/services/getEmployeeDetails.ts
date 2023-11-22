@@ -7,7 +7,7 @@ export interface GetEmployeeDetailsResponse {
   data: Employee;
 }
 
-export const getEmployeeDetailsService = async (id: string) => {
+export const getEmployeeDetailsService = async (id: number) => {
   const response = await api.get<GetEmployeeDetailsResponse>(
     getEmployeeDetailsendpoint + id
   );

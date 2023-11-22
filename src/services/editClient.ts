@@ -16,7 +16,7 @@ export const editClientService = async ({
   id,
 }: {
   data: FormData;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<FormData>(editClientendpoint + id, data, {
     headers: {

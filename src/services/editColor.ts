@@ -6,11 +6,11 @@ export const editColorService = async ({
   id,
 }: {
   title: string;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<{
     title: string;
-    id: string;
+    id: number;
   }>(editColorendpoint + id, { title });
   return response.data;
 };

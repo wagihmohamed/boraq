@@ -7,7 +7,7 @@ export interface GetBranchesResponse {
   data: Repository;
 }
 
-export const getRepositoryDetailsService = async (id: string) => {
+export const getRepositoryDetailsService = async (id: number) => {
   const response = await api.get<GetBranchesResponse>(
     getRepositoryDetailsendpoint + id
   );

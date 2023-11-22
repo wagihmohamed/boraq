@@ -5,7 +5,7 @@ import { Branch } from './getBranchesService';
 import { Employee, Filters } from './getEmployeesService';
 
 export interface Location {
-  id: string;
+  id: number;
   name: string;
   governorate: keyof typeof governorateArabicNames;
   branch: Branch;

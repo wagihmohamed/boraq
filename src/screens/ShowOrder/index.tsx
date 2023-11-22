@@ -18,7 +18,7 @@ export const ShowOrder = () => {
     data: orederDetails = { data: {} as OrderDetails },
     isLoading,
     isError,
-  } = useOrderDetails(id);
+  } = useOrderDetails(parseInt(id));
 
   const hasProducts = orederDetails?.data?.OrderProducts?.length > 0;
   const convertDateFormat = (date: Date | null): string | null => {

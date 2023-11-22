@@ -29,7 +29,7 @@ export const EditBranch = () => {
           name,
           phone,
         },
-        id,
+        id: parseInt(id),
       }),
     onSuccess: () => {
       toast.success('تم تعديل الفرع بنجاح');

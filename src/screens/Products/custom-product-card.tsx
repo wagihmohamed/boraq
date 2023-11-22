@@ -34,7 +34,7 @@ export const CustomProductCard = ({
     navigate(`/home/${id}/show`);
   };
   const { mutate: deleteProduct } = useMutation({
-    mutationFn: (id: string) => deleteProductService({ id }),
+    mutationFn: (id: number) => deleteProductService({ id }),
     onSuccess: () => {
       toast.success('تم مسح المنتج بنجاح');
       queryClient.invalidateQueries({

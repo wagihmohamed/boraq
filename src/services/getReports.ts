@@ -6,10 +6,10 @@ import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { Filters } from './getEmployeesService';
 
 export interface Report {
-  id: string;
+  id: number;
   status: keyof typeof reportStatusArabicNames;
   createdBy: {
-    id: string;
+    id: number;
     name: string;
   };
   type: keyof typeof reportTypeArabicNames;
@@ -18,15 +18,15 @@ export interface Report {
   ClientReport: {
     reportNumber: string;
     client: {
-      id: string;
+      id: number;
       name: string;
     };
     store: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       clientReportReportNumber: string;
     }[];
@@ -34,11 +34,11 @@ export interface Report {
   RepositoryReport: {
     reportNumber: string;
     repository: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       repositoryReportReportNumber: string;
     }[];
@@ -46,11 +46,11 @@ export interface Report {
   BranchReport: {
     reportNumber: string;
     branch: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       branchReportReportNumber: string;
     }[];
@@ -59,7 +59,7 @@ export interface Report {
     reportNumber: string;
     governorate: keyof typeof governorateArabicNames;
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       governorateReportReportNumber: string;
     }[];
@@ -67,11 +67,11 @@ export interface Report {
   DeliveryAgentReport: {
     reportNumber: string;
     deliveryAgent: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       deliveryAgentReportReportNumber: string;
     }[];

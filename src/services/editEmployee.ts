@@ -20,7 +20,7 @@ export const editEmployeeService = async ({
   id,
 }: {
   data: FormData;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<FormData>(editEmployeeendpoint + id, data, {
     headers: {

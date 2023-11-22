@@ -46,12 +46,12 @@ export const AddEmployee = () => {
   });
 
   const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
   const transformedRepositories = repositories.data?.map((repository) => ({
-    value: repository.id,
+    value: repository.id.toString(),
     label: repository.name,
   }));
   const queryClient = useQueryClient();

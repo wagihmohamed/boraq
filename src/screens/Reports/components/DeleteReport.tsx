@@ -6,11 +6,11 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { deleteReportService } from '@/services/deleteReport';
 
-export const DeleteReport = ({ id }: { id: string }) => {
+export const DeleteReport = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteReport, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteReportService({ id }),
+    mutationFn: (id: number) => deleteReportService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['reports'],

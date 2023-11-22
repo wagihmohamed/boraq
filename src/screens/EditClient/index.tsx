@@ -26,7 +26,7 @@ export const EditClient = () => {
   const { data: clientDetails, isLoading, isError } = useClientDetails(id);
 
   const transformedBranches = branches?.data.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
@@ -49,7 +49,7 @@ export const EditClient = () => {
       form.setValues({
         name: clientDetails.data.name,
         phone: clientDetails.data.phone,
-        branch: clientDetails.data.branch.id,
+        branch: clientDetails.data.branch.id.toString(),
         type: clientDetails.data.accountType,
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
@@ -59,7 +59,7 @@ export const EditClient = () => {
 
   const { mutate: editClientAction, isLoading: isEditting } = useMutation({
     mutationFn: (data: FormData) => {
-      return editClientService({ id, data });
+      return editClientService({ id: parseInt(id), data });
     },
     onSuccess: () => {
       toast.success('تم تعديل العميل بنجاح');

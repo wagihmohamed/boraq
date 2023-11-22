@@ -11,7 +11,7 @@ export const ShowRepository = () => {
     data: repositoryDetails,
     isLoading,
     isError,
-  } = useRepositoryDetails(id);
+  } = useRepositoryDetails(parseInt(id));
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>

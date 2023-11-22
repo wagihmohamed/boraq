@@ -30,11 +30,11 @@ export const columns: ColumnDef<Order>[] = [
             table.getRowModel().rows.length > 0 &&
             table
               .getRowModel()
-              .rows.every((row) => isOrderExist(row.original.id))
+              .rows.every((row) => isOrderExist(row.original.id.toString()))
           }
           onChange={(event) => {
             const allTableRowsIds = table.getRowModel().rows.map((row) => ({
-              id: row.original.id,
+              id: row.original.id.toString(),
               name: row.original.recipientName,
             }));
 
@@ -55,16 +55,16 @@ export const columns: ColumnDef<Order>[] = [
       const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
       return (
         <Checkbox
-          checked={isOrderExist(row.original.id)}
+          checked={isOrderExist(row.original.id.toString())}
           onChange={(value) => {
             const isChecked = value.currentTarget.checked;
             const { id, recipientName } = row.original;
             if (isChecked) {
-              addOrder({ id, name: recipientName });
+              addOrder({ id: id.toString(), name: recipientName });
               row.toggleSelected(true);
             } else {
               row.toggleSelected(false);
-              deleteOrder(id);
+              deleteOrder(id.toString());
             }
           }}
         />
@@ -129,7 +129,6 @@ export const columns: ColumnDef<Order>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const { id, recipientName } = row.original;
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {

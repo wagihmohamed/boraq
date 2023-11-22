@@ -5,14 +5,14 @@ import { Branch } from './getBranchesService';
 import { Filters } from './getEmployeesService';
 
 export interface Client {
-  id: string;
+  id: number;
   name: string;
   phone: string;
   avatar: string | null;
   accountType: keyof typeof clientTypeArabicNames;
   branch: Branch;
   createdBy: {
-    id: string;
+    id: number;
     name: string;
   };
 }

@@ -18,7 +18,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const ShowEmployee = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: employeeData, isError, isLoading } = useEmployeeDetails(id);
+  const {
+    data: employeeData,
+    isError,
+    isLoading,
+  } = useEmployeeDetails(parseInt(id));
 
   const userRoles = employeeData?.data.role
     ? rolesArabicNames[employeeData?.data.role]

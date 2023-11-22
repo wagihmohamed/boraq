@@ -13,7 +13,7 @@ export const editBranchService = async ({
   id,
 }: {
   data: EditBranchPayload;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<EditBranchPayload>(
     editBranchendpoint + id,

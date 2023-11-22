@@ -24,9 +24,13 @@ const EditStore = () => {
   const { data: clients } = useClients({ size: 200 });
   const clientOptions = clients?.data.map((client) => ({
     label: client.name,
-    value: client.id,
+    value: client.id.toString(),
   }));
-  const { data: storeDetails, isLoading, isError } = useStoreDetails(id);
+  const {
+    data: storeDetails,
+    isLoading,
+    isError,
+  } = useStoreDetails(parseInt(id));
   const form = useForm({
     validate: zodResolver(editProductSchema),
     initialValues: {
@@ -44,7 +48,7 @@ const EditStore = () => {
       form.setValues({
         name: storeDetails.data.name,
         notes: storeDetails.data.notes,
-        client: storeDetails.data.client.id,
+        client: storeDetails.data.client.id.toString(),
         logo: [imageAddress] as unknown as FileWithPath[],
       });
     }
@@ -52,7 +56,7 @@ const EditStore = () => {
   }, [storeDetails]);
 
   const { mutate: editProductAction, isLoading: isEditting } = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: FormData }) => {
+    mutationFn: ({ id, data }: { id: number; data: FormData }) => {
       return editStoreService({ id, data });
     },
     onSuccess: () => {
@@ -74,7 +78,7 @@ const EditStore = () => {
     formData.append('clientID', values.client);
     formData.append('logo', values.logo[0]);
     editProductAction({
-      id,
+      id: parseInt(id),
       data: formData,
     });
   };

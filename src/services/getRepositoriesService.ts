@@ -3,10 +3,10 @@ import { getRepositoriesendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Repository {
-  id: string;
+  id: number;
   name: string;
   branch: {
-    id: string;
+    id: number;
     name: string;
     createdAt: string;
     updatedAt: string;

@@ -2,7 +2,7 @@ import { api } from '@/api';
 import { getNotificationsendpoint } from '@/api/apisUrl';
 
 export interface Notification {
-  id: string;
+  id: number;
   title: string;
   content: string;
   seen: boolean;

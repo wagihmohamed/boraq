@@ -6,11 +6,11 @@ import { APIError } from '@/models';
 import toast from 'react-hot-toast';
 import { deleteStoreService } from '@/services/deleteStore';
 
-export const DeleteStore = ({ storeId }: { storeId: string }) => {
+export const DeleteStore = ({ storeId }: { storeId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteStore, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteStoreService({ id }),
+    mutationFn: (id: number) => deleteStoreService({ id }),
     onSuccess: () => {
       toast.success('تم حذف المتجر بنجاح');
       queryClient.invalidateQueries({

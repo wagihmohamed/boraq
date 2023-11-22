@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useCategory } from '@/hooks/useCategory';
 import { useColors } from '@/hooks/useColors';
@@ -26,7 +24,11 @@ export const EditProductScreen = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id = '' } = useParams();
-  const { data: productDetails, isLoading, isError } = useProductDetails(id);
+  const {
+    data: productDetails,
+    isLoading,
+    isError,
+  } = useProductDetails(parseInt(id));
 
   const form = useForm({
     validate: zodResolver(editProductSchema),
@@ -51,7 +53,7 @@ export const EditProductScreen = () => {
 
   const { data: categories } = useCategory({ size: 200 });
   const categoryOptions = categories?.data.map((category) => ({
-    value: category.id,
+    value: category.id.toString(),
     label: category.title,
   }));
 
@@ -65,15 +67,15 @@ export const EditProductScreen = () => {
         title: productDetails.data.title,
         price: productDetails.data.price,
         stock: productDetails.data.stock.toString(),
-        category: selectedCategory?.value || '',
+        category: selectedCategory?.value.toString() || '',
         colors: productDetails.data.ProductColors.map((color) => ({
           label: color.color.title,
           quantity: color.quantity.toString(),
-          value: color.color.id,
+          value: color.color.id.toString(),
         })),
         sizes: productDetails.data.ProductSizes.map((size) => ({
           label: size.size.title,
-          value: size.size.id,
+          value: size.size.id.toString(),
           quantity: size.quantity.toString(),
         })),
         image: [imageAddress] as unknown as FileWithPath[],
@@ -84,12 +86,12 @@ export const EditProductScreen = () => {
 
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -141,7 +143,7 @@ export const EditProductScreen = () => {
     mutationFn: (data: FormData) => {
       return editProductService({
         data,
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {
@@ -238,7 +240,7 @@ export const EditProductScreen = () => {
               data={colorsOptions}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
-                  (color) => color.value === value
+                  (color) => color.value.toString() === value
                 );
                 const isColorAdded = form.values.colors.find(
                   (color) => color.value === value
@@ -270,7 +272,7 @@ export const EditProductScreen = () => {
               data={sizesOptions}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(
-                  (size) => size.value === value
+                  (size) => size.value.toString() === value
                 );
                 const isSizeAdded = form.values.sizes.find(
                   (size) => size.value === value

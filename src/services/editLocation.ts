@@ -14,7 +14,7 @@ export const editLocationService = async ({
   id,
 }: {
   data: EditLocationPayload;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<EditLocationPayload>(
     editEmployeeendpoint + id,

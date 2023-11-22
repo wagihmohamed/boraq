@@ -6,11 +6,11 @@ export const editSizeService = async ({
   id,
 }: {
   title: string;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<{
     title: string;
-    id: string;
+    id: number;
   }>(editSizeendpoint + id, { title });
   return response.data;
 };

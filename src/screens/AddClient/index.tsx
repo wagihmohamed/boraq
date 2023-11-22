@@ -24,7 +24,7 @@ export const AddClient = () => {
   const { data: branches } = useBranches({ size: 200 });
 
   const transformedBranches = branches?.data.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 

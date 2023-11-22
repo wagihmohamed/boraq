@@ -14,7 +14,7 @@ export const ShowClient = () => {
   const { data: clientDetails, isLoading, isError } = useClientDetails(id);
 
   const transformedBranches = branches?.data.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
   return (
@@ -35,7 +35,7 @@ export const ShowClient = () => {
           label="الفرع"
           placeholder="اختار الفرع"
           data={transformedBranches}
-          value={clientDetails?.data.branch.id}
+          value={clientDetails?.data.branch.id.toString()}
           disabled
         />
         <TextInput

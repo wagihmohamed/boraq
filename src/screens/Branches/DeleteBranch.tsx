@@ -4,11 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteBranchService } from '@/services/deleteBranchService';
 import toast from 'react-hot-toast';
 
-export const DeleteBranch = ({ branchId }: { branchId: string }) => {
+export const DeleteBranch = ({ branchId }: { branchId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteBranch, isLoading } = useMutation({
-    mutationFn: ({ id }: { id: string }) => deleteBranchService({ id }),
+    mutationFn: ({ id }: { id: number }) => deleteBranchService({ id }),
     onSuccess: () => {
       toast.success('تم مسح الفرع بنجاح');
       queryClient.invalidateQueries({

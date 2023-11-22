@@ -63,7 +63,7 @@ export const AddRepositoryScreen = () => {
 
   const transformedBranches = branches.data.map((branch) => ({
     label: branch.name,
-    value: branch.id,
+    value: branch.id.toString(),
   }));
 
   return (

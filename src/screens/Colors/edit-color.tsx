@@ -13,14 +13,14 @@ export const EditColor = ({
   colorId,
   title,
 }: {
-  colorId: string;
+  colorId: number;
   title: string;
 }) => {
   const [colorTitle, setColorTitle] = useState(title);
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: editColor, isLoading } = useMutation({
-    mutationFn: ({ id, title }: { title: string; id: string }) =>
+    mutationFn: ({ id, title }: { title: string; id: number }) =>
       editColorService({ id, title }),
     onSuccess: () => {
       toast.success('تم تعديل اللون بنجاح');
@@ -38,7 +38,6 @@ export const EditColor = ({
     e.preventDefault();
     editColor({ title: colorTitle, id: colorId });
   };
-  console.log({ colorTitle });
 
   return (
     <>
