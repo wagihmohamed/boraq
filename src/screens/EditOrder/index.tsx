@@ -92,7 +92,7 @@ export const EditOrder = () => {
         deliveryAgentID:
           orderDetails?.data?.deliveryAgent?.id.toString() &&
           (orderDetails?.data?.deliveryAgent.id.toString() || ''),
-        withProducts: orderDetails.data.OrderProducts?.length > 0,
+        withProducts: orderDetails.data.orderProducts?.length > 0,
         deliveryDate: orderDetails?.data?.deliveryDate || '',
         totalCost: orderDetails?.data?.totalCost?.toString(),
         quantity: orderDetails?.data?.quantity?.toString(),
@@ -106,7 +106,7 @@ export const EditOrder = () => {
         governorate: orderDetails?.data?.governorate,
         locationID: orderDetails?.data?.location?.id.toString(),
         storeID: orderDetails?.data?.store?.id.toString(),
-        products: orderDetails?.data?.OrderProducts?.map((product) => ({
+        products: orderDetails?.data?.orderProducts?.map((product) => ({
           label: product.product?.title,
           productID: product.product?.id.toString(),
           quantity: product.quantity?.toString(),

@@ -34,7 +34,7 @@ export interface OrderDetails {
     name: string;
     phone: string;
   } | null;
-  OrderProducts: {
+  orderProducts: {
     quantity: number;
     product: Product;
     color: Color;
