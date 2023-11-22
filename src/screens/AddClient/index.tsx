@@ -62,7 +62,7 @@ export const AddClient = () => {
     formData.append('name', values.name);
     formData.append('phone', values.phone);
     formData.append('branchID', values.branch);
-    formData.append('accountType', values.type);
+    formData.append('role', values.type);
     formData.append('password', values.password);
     formData.append('avatar', values?.avatar[0] || '');
     createClientAction(formData);

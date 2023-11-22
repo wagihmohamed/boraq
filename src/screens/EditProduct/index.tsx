@@ -60,7 +60,7 @@ export const EditProductScreen = () => {
   useEffect(() => {
     if (productDetails) {
       const selectedCategory = categoryOptions?.find(
-        (category) => category.label === productDetails.data.Category?.title
+        (category) => category.label === productDetails.data.category?.title
       );
       const imageAddress = IMAGE_BASE_URL + productDetails.data.image;
       form.setValues({
@@ -68,12 +68,12 @@ export const EditProductScreen = () => {
         price: productDetails.data.price,
         stock: productDetails.data.stock.toString(),
         category: selectedCategory?.value.toString() || '',
-        colors: productDetails.data.ProductColors.map((color) => ({
+        colors: productDetails.data.productColors.map((color) => ({
           label: color.color.title,
           quantity: color.quantity.toString(),
           value: color.color.id.toString(),
         })),
-        sizes: productDetails.data.ProductSizes.map((size) => ({
+        sizes: productDetails.data.productSizes.map((size) => ({
           label: size.size.title,
           value: size.size.id.toString(),
           quantity: size.quantity.toString(),

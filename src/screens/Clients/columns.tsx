@@ -34,13 +34,13 @@ export const columns: ColumnDef<Client>[] = [
     header: 'رقم الهاتف',
   },
   {
-    accessorKey: 'accountType',
+    accessorKey: 'role',
     header: 'نوع الحساب',
     cell: ({ row }) => {
-      const { accountType } = row.original;
+      const { role } = row.original;
       return (
         <div>
-          {accountType === 'CLIENT' ? (
+          {role === 'CLIENT' ? (
             <Badge>عميل</Badge>
           ) : (
             <Badge color="red">مساعد عميل</Badge>

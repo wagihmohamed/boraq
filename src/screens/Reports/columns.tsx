@@ -47,58 +47,58 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
-    accessorKey: 'RepositoryReport',
+    accessorKey: 'repositoryReport',
     header: 'المخزن',
     cell: ({ row }) => {
-      const { RepositoryReport } = row.original;
-      if (!RepositoryReport) {
+      const { repositoryReport } = row.original;
+      if (!repositoryReport) {
         return 'لا يوجد';
       }
-      return RepositoryReport.repository.name;
+      return repositoryReport.repository.name;
     },
   },
   {
-    accessorKey: 'BranchReport',
+    accessorKey: 'branchReport',
     header: 'الفرع',
     cell: ({ row }) => {
-      const { BranchReport } = row.original;
-      if (!BranchReport) {
+      const { branchReport } = row.original;
+      if (!branchReport) {
         return 'لا يوجد';
       }
-      return BranchReport.branch.name;
+      return branchReport.branch.name;
     },
   },
   {
-    accessorKey: 'ClientReport',
+    accessorKey: 'clientReport',
     header: 'العميل',
     cell: ({ row }) => {
-      const { ClientReport } = row.original;
-      if (!ClientReport) {
+      const { clientReport } = row.original;
+      if (!clientReport) {
         return 'لا يوجد';
       }
-      return ClientReport.client.name;
+      return clientReport.client.name;
     },
   },
   {
-    accessorKey: 'GovernorateReport',
+    accessorKey: 'governorateReport',
     header: 'المحافظة',
     cell: ({ row }) => {
-      const { GovernorateReport } = row.original;
-      if (!GovernorateReport) {
+      const { governorateReport } = row.original;
+      if (!governorateReport) {
         return 'لا يوجد';
       }
-      return governorateArabicNames[GovernorateReport.governorate];
+      return governorateArabicNames[governorateReport.governorate];
     },
   },
   {
-    accessorKey: 'DeliveryAgentReport',
+    accessorKey: 'deliveryAgentReport',
     header: 'المندوب',
     cell: ({ row }) => {
-      const { DeliveryAgentReport } = row.original;
-      if (!DeliveryAgentReport) {
+      const { deliveryAgentReport } = row.original;
+      if (!deliveryAgentReport) {
         return 'لا يوجد';
       }
-      return DeliveryAgentReport.deliveryAgent.name;
+      return deliveryAgentReport.deliveryAgent.name;
     },
   },
   {
@@ -106,22 +106,22 @@ export const columns: ColumnDef<IReport>[] = [
     cell: ({ row }) => {
       const {
         id,
-        BranchReport,
-        ClientReport,
-        DeliveryAgentReport,
-        GovernorateReport,
-        RepositoryReport,
+        branchReport,
+        clientReport,
+        deliveryAgentReport,
+        governorateReport,
+        repositoryReport,
         type,
       } = row.original;
 
       const reportNameMap: Record<IReport['type'], string> = {
-        REPOSITORY: RepositoryReport?.repository.name || '',
-        BRANCH: BranchReport?.branch.name || '',
-        CLIENT: ClientReport?.client.name || '',
-        DELIVERY_AGENT: DeliveryAgentReport?.deliveryAgent.name || '',
+        REPOSITORY: repositoryReport?.repository.name || '',
+        BRANCH: branchReport?.branch.name || '',
+        CLIENT: clientReport?.client.name || '',
+        DELIVERY_AGENT: deliveryAgentReport?.deliveryAgent.name || '',
         GOVERNORATE:
-          (GovernorateReport &&
-            governorateArabicNames[GovernorateReport?.governorate]) ||
+          (governorateReport &&
+            governorateArabicNames[governorateReport?.governorate]) ||
           '',
         COMPANY: '',
       } as const;

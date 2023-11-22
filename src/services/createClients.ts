@@ -5,7 +5,7 @@ import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 export interface CreateClientPayload {
   name: string;
   phone: string;
-  accountType: keyof typeof clientTypeArabicNames;
+  role: keyof typeof clientTypeArabicNames;
   token: string;
   password: string;
   branchID: string;

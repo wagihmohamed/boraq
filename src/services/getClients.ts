@@ -9,7 +9,7 @@ export interface Client {
   name: string;
   phone: string;
   avatar: string | null;
-  accountType: keyof typeof clientTypeArabicNames;
+  role: keyof typeof clientTypeArabicNames;
   branch: Branch;
   createdBy: {
     id: number;

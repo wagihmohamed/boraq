@@ -7,17 +7,17 @@ export interface ProductDetails {
   price: string;
   image: string;
   stock: number;
-  Category: {
+  category: {
     title: string;
   };
-  ProductColors: {
+  productColors: {
     quantity: number;
     color: {
       title: string;
       id: number;
     };
   }[];
-  ProductSizes: {
+  productSizes: {
     quantity: number;
     size: {
       title: string;
