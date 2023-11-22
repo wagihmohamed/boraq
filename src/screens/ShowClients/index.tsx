@@ -54,7 +54,7 @@ export const ShowClient = () => {
           label="نوع الحساب"
           placeholder="اختار النوع"
           data={clientTypeArray}
-          value={clientDetails?.data.accountType}
+          value={clientDetails?.data.role}
           disabled
         />
         <TextInput
