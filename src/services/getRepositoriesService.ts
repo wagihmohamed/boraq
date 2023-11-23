@@ -13,6 +13,11 @@ export interface Repository {
     email: string;
     phone: string;
     governorate: string;
+    companyId: number;
+  };
+  company: {
+    id: number;
+    name: string;
   };
 }
 

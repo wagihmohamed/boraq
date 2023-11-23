@@ -8,10 +8,15 @@ export interface Client {
   id: number;
   name: string;
   phone: string;
+  username: string; // add username to the payload
   avatar: string | null;
   role: keyof typeof clientTypeArabicNames;
   branch: Branch;
   createdBy: {
+    id: number;
+    name: string;
+  };
+  company: {
     id: number;
     name: string;
   };

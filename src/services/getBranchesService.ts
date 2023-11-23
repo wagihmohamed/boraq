@@ -9,6 +9,10 @@ export interface Branch {
   email: string;
   phone: string;
   governorate: keyof typeof governorateArabicNames;
+  company: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface GetRepositoriesResponse {

@@ -30,6 +30,10 @@ export const columns: ColumnDef<Client>[] = [
     header: 'الفرع',
   },
   {
+    accessorKey: 'company.name',
+    header: 'الشركة',
+  },
+  {
     accessorKey: 'phone',
     header: 'رقم الهاتف',
   },

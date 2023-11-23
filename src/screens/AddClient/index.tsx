@@ -34,6 +34,7 @@ export const AddClient = () => {
       name: '',
       phone: '',
       branch: '',
+      username: '',
       type: '' as (typeof clientTypeArabicNames)['CLIENT'],
       avatar: [] as unknown as FileWithPath[],
       password: '',
@@ -64,6 +65,7 @@ export const AddClient = () => {
     formData.append('branchID', values.branch);
     formData.append('role', values.type);
     formData.append('password', values.password);
+    formData.append('username', values.username);
     formData.append('avatar', values?.avatar[0] || '');
     createClientAction(formData);
   };
@@ -98,6 +100,15 @@ export const AddClient = () => {
               size="md"
               className="w-full"
               {...form.getInputProps('name')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="اسم المستخدم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('username')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

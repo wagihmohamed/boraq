@@ -9,6 +9,7 @@ export interface CreateClientPayload {
   token: string;
   password: string;
   branchID: string;
+  username: string;
 }
 
 export const createClientsService = async (data: FormData) => {

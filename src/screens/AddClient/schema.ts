@@ -8,6 +8,9 @@ export const addClientSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
+    username: z
+      .string()
+      .min(3, { message: 'يجب ان يكون اسم المستخدم اكثر من 3 حروف' }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     avatar: z
       .any()
