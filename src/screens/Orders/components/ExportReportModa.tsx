@@ -31,13 +31,13 @@ export const ExportReportModal = () => {
     validate: zodResolver(createReportSchema),
     initialValues: {
       type: '' as z.infer<typeof createReportSchema>['type'],
-      clientID: '',
-      storeID: '',
-      branchID: '',
-      repositoryID: '',
+      clientID: 0,
+      storeID: 0,
+      branchID: 0,
+      repositoryID: 0,
       governorate: '',
-      deliveryAgentID: '',
-      companyID: '',
+      deliveryAgentID: 0,
+      companyID: 0,
       ordersIDs: selectedOrders.map((order) => order.id),
     },
   });
@@ -88,7 +88,7 @@ export const ExportReportModal = () => {
   const handleCreateReport = (values: z.infer<typeof createReportSchema>) => {
     let mutationParams: CreateReportPayload = {
       type: values.type,
-      ordersIDs: selectedOrders.map((order) => order.id),
+      ordersIDs: selectedOrders.map((order) => Number(order.id)),
     };
 
     switch (values.type) {

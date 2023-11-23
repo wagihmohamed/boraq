@@ -4,7 +4,7 @@ export const createReportSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('COMPANY'),
     companyID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
@@ -13,7 +13,7 @@ export const createReportSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('DELIVERY_AGENT'),
     deliveryAgentID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
@@ -31,7 +31,7 @@ export const createReportSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('BRANCH'),
     branchID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
@@ -40,13 +40,13 @@ export const createReportSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('CLIENT'),
     clientID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
       .min(1, { message: 'الرجاء اختيار عميل' }),
     storeID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
@@ -55,7 +55,7 @@ export const createReportSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('REPOSITORY'),
     repositoryID: z
-      .string({
+      .number({
         required_error: 'مطلوب',
         invalid_type_error: 'مطلوب',
       })
