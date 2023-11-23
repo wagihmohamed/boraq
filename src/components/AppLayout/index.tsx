@@ -87,7 +87,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
             visibleFrom="sm"
             size="sm"
           />
-          <div className="mr-auto ml-6">
+          <div className="mr-auto -ml-2">
             <NotificationsList />
           </div>
         </Group>
