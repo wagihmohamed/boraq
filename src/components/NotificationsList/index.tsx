@@ -108,8 +108,8 @@ export const NotificationsList = () => {
                       !item.seen && 'bg-primary/30'
                     )}
                   >
-                    <p>{item.title}</p>
-                    <p>{item.content}</p>
+                    <p>{item.title || 'لا يوجد'}</p>
+                    <p>{item.content || 'لايوجد'}</p>
                   </div>
                 </Menu.Item>
               );

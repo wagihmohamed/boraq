@@ -25,7 +25,7 @@ export const CustomProductCard = ({
   price,
   title,
   id,
-  Category,
+  category,
   stock,
 }: CustomTenantCardProps) => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ export const CustomProductCard = ({
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>{title}</Text>
+        <Text fw={500}>{title || 'لا يوجد'}</Text>
 
         <Menu withinPortal position="bottom-end" shadow="sm">
           <Menu.Target>
@@ -103,7 +103,7 @@ export const CustomProductCard = ({
         المتوفر: {stock}
       </Text>
       <Text size="sm" c="dimmed">
-        الصنف: {Category.title}
+        الصنف: {category.title}
       </Text>
 
       <Button
