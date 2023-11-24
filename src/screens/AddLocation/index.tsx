@@ -79,8 +79,8 @@ export const AddLocation = () => {
 
   const handleSubmit = (values: z.infer<typeof adddLocationSchema>) => {
     createLocationAction({
-      branchID: values.branch,
-      deliveryAgentsIDs: values.deliveryAgentsIDs,
+      branchID: Number(values.branch),
+      deliveryAgentsIDs: values.deliveryAgentsIDs.map(Number),
       governorate: values.governorate,
       name: values.name,
     });

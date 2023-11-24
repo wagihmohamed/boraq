@@ -9,8 +9,8 @@ export interface CreateEmployeePayload {
   password: string;
   phone: string;
   salary: number;
-  repositoryID: string;
-  branchID: string;
+  repositoryID: number;
+  branchID: number;
   role: keyof typeof rolesArabicNames;
   permissions: keyof (typeof permissionsArabicNames)[];
 }

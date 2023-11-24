@@ -8,7 +8,7 @@ export interface CreateClientPayload {
   role: keyof typeof clientTypeArabicNames;
   token: string;
   password: string;
-  branchID: string;
+  branchID: number;
   username: string;
 }
 

@@ -22,14 +22,14 @@ export interface Order {
   notes: string;
   status: keyof typeof orderStatusArabicNames;
   deliveryType: keyof typeof deliveryTypesArabicNames;
-  clientID: string;
-  deliveryAgentID: string;
+  clientID: number;
+  deliveryAgentID: number;
   deliveryDate: string | null;
   governorate: keyof typeof governorateArabicNames;
-  locationID: string;
-  storeID: string;
+  locationID: number;
+  storeID: number;
   products: {
-    productID: string;
+    productID: number;
     quantity: number;
     color: string;
     size: string;

@@ -2,7 +2,7 @@ import { api } from '@/api';
 import { editStoreendpoint } from '@/api/apisUrl';
 
 export interface EditStorePayload {
-  clientID: string;
+  clientID: number;
   name: string;
   notes: string;
 }

@@ -8,7 +8,7 @@ export interface EditClientPayload {
   role: keyof typeof clientTypeArabicNames;
   token: string;
   password?: string;
-  branchID: string;
+  branchID: number;
 }
 
 export const editClientService = async ({

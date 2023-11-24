@@ -158,7 +158,7 @@ export const EditOrder = () => {
 
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({
-      deliveryAgentID: values.deliveryAgentID,
+      deliveryAgentID: Number(values.deliveryAgentID),
       deliveryDate: values.deliveryDate,
       details: values.details || '',
       discount: parseInt(values.discount),

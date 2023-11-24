@@ -13,13 +13,13 @@ export interface CreateOrderPayload {
   details?: string;
   deliveryType: string;
   governorate: string;
-  locationID: string;
-  storeID: string;
+  locationID: number;
+  storeID: number;
   products?: {
-    productID: string;
+    productID: number;
     quantity: number;
-    colorID: string;
-    sizeID: string;
+    colorID: number;
+    sizeID: number;
   }[];
 }
 

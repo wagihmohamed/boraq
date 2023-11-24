@@ -106,8 +106,8 @@ export const EditLocation = () => {
 
   const handleSubmit = (values: z.infer<typeof editLocationSchema>) => {
     editLocationAction({
-      branchID: values.branch,
-      deliveryAgentsIDs: values.deliveryAgentsIDs,
+      branchID: Number(values.branch),
+      deliveryAgentsIDs: values.deliveryAgentsIDs.map((id) => Number(id)),
       governorate: values.governorate as keyof typeof governorateArabicNames,
       name: values.name,
     });

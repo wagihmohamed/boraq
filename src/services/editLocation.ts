@@ -5,8 +5,8 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 export interface EditLocationPayload {
   name: string;
   governorate: keyof typeof governorateArabicNames;
-  branchID: string;
-  deliveryAgentsIDs: string[];
+  branchID: number;
+  deliveryAgentsIDs: number[];
 }
 
 export const editLocationService = async ({
