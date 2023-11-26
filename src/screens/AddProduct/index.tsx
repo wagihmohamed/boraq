@@ -45,7 +45,7 @@ export const AddProduct = () => {
       price: '',
       image: [] as unknown as FileWithPath[],
       stock: '',
-      category: '',
+      categoryID: '',
       colors: [] as unknown as { label: string; value: string; quantity: '' }[],
       sizes: [] as unknown as { label: string; value: string; quantity: '' }[],
     },
@@ -138,13 +138,13 @@ export const AddProduct = () => {
       quantity: parseInt(size.quantity, 10),
     }));
     const selectedCategory = categoriesOptions.find(
-      (category) => category.value.toString() === values.category
+      (category) => category.value.toString() === values.categoryID
     );
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
-    formData.append('category', selectedCategory?.value || '');
+    formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));
@@ -187,7 +187,7 @@ export const AddProduct = () => {
             <Select
               searchable
               label="القسم"
-              {...form.getInputProps('category')}
+              {...form.getInputProps('categoryID')}
               data={categoriesOptions}
             />
           </Grid.Col>

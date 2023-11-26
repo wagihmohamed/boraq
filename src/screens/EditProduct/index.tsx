@@ -36,7 +36,7 @@ export const EditProductScreen = () => {
       title: '',
       price: '',
       stock: '',
-      category: '',
+      categoryID: '',
       colors: [] as unknown as {
         label: string;
         value: string;
@@ -67,7 +67,7 @@ export const EditProductScreen = () => {
         title: productDetails.data.title,
         price: productDetails.data.price,
         stock: productDetails.data.stock.toString(),
-        category: selectedCategory?.value.toString() || '',
+        categoryID: selectedCategory?.value.toString() || '',
         colors: productDetails.data.productColors.map((color) => ({
           label: color.color.title,
           quantity: color.quantity.toString(),
@@ -184,14 +184,14 @@ export const EditProductScreen = () => {
       quantity: parseInt(size.quantity),
     }));
     const selectedCategory = categoryOptions?.find(
-      (category) => category.value === values.category
+      (category) => category.value === values.categoryID
     );
 
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
-    formData.append('category', selectedCategory?.label || '');
+    formData.append('categoryID', selectedCategory?.label || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));
@@ -225,10 +225,10 @@ export const EditProductScreen = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
-              key={form.values.category}
+              key={form.values.categoryID}
               label="الصنف"
               data={categoryOptions}
-              {...form.getInputProps('category')}
+              {...form.getInputProps('categoryID')}
             />
           </Grid.Col>
           <Grid.Col

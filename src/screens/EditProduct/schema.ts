@@ -26,7 +26,7 @@ export const editProductSchema = z
     //   return true;
     // }, 'الحد الأقصى 5 ميجا'),
     stock: z.string(),
-    category: z.string().min(1, { message: 'يجب اختيار القسم' }),
+    categoryID: z.string().min(1, { message: 'يجب اختيار القسم' }),
     colors: z
       .array(
         z.object({
