@@ -24,15 +24,15 @@ export const addTenantSchema = z.object({
   deliveryAgentFee: z
     .string()
     .min(2, { message: 'يجب ان يكون اكثر من 2 حروف' }),
-  baghdadPrice: z.string().min(2, { message: 'يجب ان يكون اكثر من 2 حروف' }),
+  baghdadPrice: z.string().min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForEvery500000IraqiDinar: z
     .string()
-    .min(2, { message: 'يجب ان يكون اكثر من 2 حروف' }),
+    .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForEveryKilogram: z
     .string()
-    .min(2, { message: 'يجب ان يكون اكثر من 2 حروف' }),
+    .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForRemoteAreas: z
     .string()
-    .min(2, { message: 'يجب ان يكون اكثر من 2 حروف' }),
+    .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   orderStatusAutomaticUpdate: z.boolean(),
 });

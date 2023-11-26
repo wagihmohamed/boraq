@@ -31,13 +31,13 @@ export const ExportReportModal = () => {
     validate: zodResolver(createReportSchema),
     initialValues: {
       type: '' as z.infer<typeof createReportSchema>['type'],
-      clientID: 0,
-      storeID: 0,
-      branchID: 0,
-      repositoryID: 0,
+      clientID: '',
+      storeID: '',
+      branchID: '',
+      repositoryID: '',
       governorate: '',
-      deliveryAgentID: 0,
-      companyID: 0,
+      deliveryAgentID: '',
+      companyID: '',
       ordersIDs: selectedOrders.map((order) => order.id),
     },
   });
@@ -102,32 +102,32 @@ export const ExportReportModal = () => {
       case 'BRANCH':
         mutationParams = {
           ...mutationParams,
-          branchID: values.branchID,
+          branchID: Number(values.branchID),
         };
         break;
       case 'CLIENT':
         mutationParams = {
           ...mutationParams,
-          clientID: values.clientID,
-          storeID: values.storeID,
+          clientID: Number(values.clientID),
+          storeID: Number(values.storeID),
         };
         break;
       case 'REPOSITORY':
         mutationParams = {
           ...mutationParams,
-          repositoryID: values.repositoryID,
+          repositoryID: Number(values.repositoryID),
         };
         break;
       case 'DELIVERY_AGENT':
         mutationParams = {
           ...mutationParams,
-          deliveryAgentID: values.deliveryAgentID,
+          deliveryAgentID: Number(values.deliveryAgentID),
         };
         break;
       case 'COMPANY':
         mutationParams = {
           ...mutationParams,
-          companyID: values.companyID,
+          companyID: Number(values.companyID),
         };
         break;
       default:

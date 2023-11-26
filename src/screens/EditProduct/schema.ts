@@ -4,7 +4,12 @@ import { z } from 'zod';
 export const editProductSchema = z
   .object({
     title: z.string().min(3, { message: 'اسم المنتج قصير جداً' }),
-    price: z.string().min(0, { message: 'السعر لا يمكن ان يكون اقل من 0' }),
+    price: z
+      .string()
+      .min(0, { message: 'السعر لا يمكن ان يكون اقل من 0' })
+      .refine((value) => Number(value) > 0 || Number(value) === 0, {
+        message: 'السعر لا يمكن ان يكون اقل من 0',
+      }),
     image: z.any(),
     // .refine((files) => {
     //   if (files && Array.isArray(files) && files.length > 0) {
@@ -21,7 +26,7 @@ export const editProductSchema = z
     //   return true;
     // }, 'الحد الأقصى 5 ميجا'),
     stock: z.string(),
-    category: z.string().min(3, { message: 'يجب اختيار القسم' }),
+    category: z.string().min(1, { message: 'يجب اختيار القسم' }),
     colors: z
       .array(
         z.object({
