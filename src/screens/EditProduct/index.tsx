@@ -120,7 +120,6 @@ export const EditProductScreen = () => {
       </div>
     );
   });
-  console.log(form.values);
 
   const productSizes = form.values.sizes.map((size, index) => {
     return (
