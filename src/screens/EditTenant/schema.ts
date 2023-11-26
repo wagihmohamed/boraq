@@ -3,7 +3,7 @@ import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
 
 export const editTenantSchema = z.object({
-  name: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 حروف' }),
+  name: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
   phone: z.string().refine(isValidIraqiPhoneNumber, {
     message: 'رقم الهاتف يجب ان يكون رقم عراقي',
   }),
@@ -23,13 +23,9 @@ export const editTenantSchema = z.object({
   //   }
   //   return true;
   // }, 'الحد الأقصى 5 ميجا'),
-  registrationText: z
-    .string()
-    .min(3, { message: 'يجب ان يكون اكثر من 3 حروف' }),
-  governoratePrice: z
-    .string()
-    .min(3, { message: 'يجب ان يكون اكثر من 3 حروف' }),
-  deliveryAgentFee: z.string().min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
+  registrationText: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
+  governoratePrice: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
+  deliveryAgentFee: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
   baghdadPrice: z.string().min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForEvery500000IraqiDinar: z
     .string()
