@@ -25,6 +25,15 @@ interface Props {
 export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const { companyName } = useAuth();
   const pathName = useLocation().pathname;
+
+  const renderActiveLinkArabicName = () => {
+    const activeLink = navSections.find((item) => item.link === pathName);
+    if (activeLink) {
+      return activeLink.label;
+    }
+    return '';
+  };
+
   const [active, setActive] = useState(
     navSections.find((item) => item.link === pathName)?.label || ''
   );
@@ -90,11 +99,11 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
             visibleFrom="sm"
             size="sm"
           />
-          {companyName && (
-            <Text ta="center" size="xl" fw={700}>
-              {companyName}
-            </Text>
-          )}
+
+          <Text ta="center" size="md" fw={700}>
+            {companyName && `${companyName} / `} {renderActiveLinkArabicName()}
+          </Text>
+
           <div className="-ml-2">
             <NotificationsList />
           </div>

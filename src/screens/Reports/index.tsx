@@ -38,7 +38,6 @@ export const ReportsScreen = () => {
 
   return (
     <AppLayout isError={isError}>
-      <h1>الكشوفات</h1>
       <ReportsFilter filters={filters} setFilters={setFilters} />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />

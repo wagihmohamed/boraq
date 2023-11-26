@@ -20,7 +20,6 @@ export const RepositoriesScreen = () => {
   } = useRepositories(filters);
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <h1>المخازن</h1>
       <DataTable
         columns={columns}
         data={repositories?.data}

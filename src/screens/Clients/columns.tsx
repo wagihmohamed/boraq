@@ -28,6 +28,10 @@ export const columns: ColumnDef<Client>[] = [
   {
     accessorKey: 'branch.name',
     header: 'الفرع',
+    cell: ({ row }) => {
+      const { branch } = row.original;
+      return <div>{branch?.name || 'لا يوجد'}</div>;
+    },
   },
   {
     accessorKey: 'company.name',
