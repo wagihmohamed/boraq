@@ -4,12 +4,7 @@ import { z } from 'zod';
 export const addProductSchema = z
   .object({
     title: z.string().min(3, { message: 'اسم المنتج قصير جداً' }),
-    price: z
-      .string()
-      .min(0, { message: 'السعر لا يمكن ان يكون اقل من 0' })
-      .refine((value) => Number(value) > 0 || Number(value) === 0, {
-        message: 'السعر لا يمكن ان يكون اقل من 0',
-      }),
+    price: z.string(),
     image: z.any(),
     // .refine((files) => files?.length === 1, 'الصوره مطلوبة')
     // .refine(

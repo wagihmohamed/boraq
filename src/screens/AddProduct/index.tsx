@@ -128,14 +128,12 @@ export const AddProduct = () => {
       return;
     }
     const transformedColors = values.colors.map((color) => ({
-      title: color.label,
-      colorId: color.value,
-      quantity: parseInt(color.quantity, 10),
+      colorID: color.value,
+      quantity: Number(color.quantity),
     }));
     const transformedSizes = values.sizes.map((size) => ({
-      title: size.label,
-      sizeId: size.value,
-      quantity: parseInt(size.quantity, 10),
+      sizeID: size.value,
+      quantity: Number(size.quantity),
     }));
     const selectedCategory = categoriesOptions.find(
       (category) => category.value.toString() === values.categoryID
@@ -144,6 +142,7 @@ export const AddProduct = () => {
     formData.append('title', values.title);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
+    formData.append('price', values.price);
     formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
