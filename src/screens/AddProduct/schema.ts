@@ -16,7 +16,7 @@ export const addProductSchema = z
     //   'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
     // ),
     stock: z.string(),
-    category: z.string().min(3, { message: 'يجب اختيار القسم' }),
+    category: z.string().min(1, { message: 'يجب اختيار القسم' }),
     colors: z
       .array(
         z.object({
