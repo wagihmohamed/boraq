@@ -56,7 +56,7 @@ export const AddStore = () => {
   const handleSubmit = (values: z.infer<typeof createProductSchema>) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('notes', values.notes);
+    formData.append('notes', values.notes || '');
     formData.append('clientID', values.client);
     formData.append('logo', values.logo[0]);
     createStoreAction(formData);
