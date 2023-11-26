@@ -7,7 +7,7 @@ import { Badge, Button, Grid, Select, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconX } from '@tabler/icons-react';
 import { ChevronRight } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editProductSchema } from './schema';
 import { z } from 'zod';
@@ -52,10 +52,12 @@ export const EditProductScreen = () => {
   });
 
   const { data: categories } = useCategory({ size: 200 });
-  const categoryOptions = categories?.data.map((category) => ({
-    value: category.id.toString(),
-    label: category.title,
-  }));
+  const categoryOptions = useMemo(() => {
+    return categories?.data.map((category) => ({
+      value: category.id.toString(),
+      label: category.title,
+    }));
+  }, [categories]);
 
   useEffect(() => {
     if (productDetails) {
@@ -82,7 +84,7 @@ export const EditProductScreen = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productDetails]);
+  }, [categoryOptions, productDetails]);
 
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
@@ -118,6 +120,7 @@ export const EditProductScreen = () => {
       </div>
     );
   });
+  console.log(form.values);
 
   const productSizes = form.values.sizes.map((size, index) => {
     return (
@@ -175,12 +178,10 @@ export const EditProductScreen = () => {
 
     const transformedColors = values.colors.map((color) => ({
       colorID: color.value,
-      title: color.label,
       quantity: parseInt(color.quantity),
     }));
     const transformedSizes = values.sizes.map((size) => ({
       sizeID: size.value,
-      title: size.label,
       quantity: parseInt(size.quantity),
     }));
     const selectedCategory = categoryOptions?.find(
@@ -191,7 +192,7 @@ export const EditProductScreen = () => {
     formData.append('title', values.title);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
-    formData.append('categoryID', selectedCategory?.label || '');
+    formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));

@@ -140,7 +140,6 @@ export const AddProduct = () => {
     );
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('price', values.price);
     formData.append('stock', values.stock);
     formData.append('price', values.price);
     formData.append('categoryID', selectedCategory?.value || '');
