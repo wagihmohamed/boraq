@@ -60,7 +60,7 @@ export const EditClient = () => {
       form.setValues({
         name: clientDetails.data.name,
         phone: clientDetails.data.phone,
-        branch: clientDetails.data.branch.id.toString(),
+        branch: clientDetails.data.branch?.id.toString(),
         type: clientDetails.data.role,
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
