@@ -17,11 +17,12 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DeleteReport } from './components/DeleteReport';
+import { ChangeReportStatus } from './components/ChangeReportStatus';
 
 export const columns: ColumnDef<IReport>[] = [
   {
     accessorKey: 'createdBy.name',
-    header: 'الموظف',
+    header: 'الناشئ',
   },
   {
     accessorKey: 'status',
@@ -112,6 +113,7 @@ export const columns: ColumnDef<IReport>[] = [
         governorateReport,
         repositoryReport,
         type,
+        status,
       } = row.original;
 
       const reportNameMap: Record<IReport['type'], string> = {
@@ -148,6 +150,7 @@ export const columns: ColumnDef<IReport>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
             <DeleteReport id={id} />
+            <ChangeReportStatus initialStatus={status} id={id} />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>

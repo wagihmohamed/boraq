@@ -27,6 +27,7 @@ export const addEmployeeSchema = z
     //   'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
     // ),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
+    companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     store: z.string().min(1, { message: 'الرجاء اختيار المخزن' }),
     roles: z
       .string({

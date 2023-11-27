@@ -11,6 +11,7 @@ export const editEmployeeSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
+    companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     avatar: z.any(),
     // .refine((files) => {
     //   if (files && Array.isArray(files) && files.length > 0) {

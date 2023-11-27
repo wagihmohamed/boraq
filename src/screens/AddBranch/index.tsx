@@ -118,6 +118,7 @@ export const AddBranch = () => {
           variant="outline"
           onClick={() => {
             form.reset();
+            navigate('/branches');
           }}
         >
           الغاء

@@ -26,6 +26,7 @@ import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
 import { IMAGE_BASE_URL } from '@/api';
+import { useTenants } from '@/hooks/useTenants';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
@@ -37,6 +38,7 @@ export const EditEmployee = () => {
   } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({ size: 200 });
   const { data: branches } = useBranches({ size: 200 });
+  const { data: tenants = { data: [] } } = useTenants({ size: 200 });
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -51,6 +53,7 @@ export const EditEmployee = () => {
       permissions: [] as string[],
       password: '',
       confirmPassword: '',
+      companyID: '',
       avatar: [] as unknown as FileWithPath[],
     },
   });
@@ -83,6 +86,11 @@ export const EditEmployee = () => {
     label: branch.name,
   }));
 
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
+
   const queryClient = useQueryClient();
   const { mutate: editEmployeeAction, isLoading: isEditing } = useMutation({
     mutationFn: (data: FormData) => {
@@ -112,6 +120,7 @@ export const EditEmployee = () => {
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
+    formData.append('companyID', values.companyID);
     formData.append('permissions', JSON.stringify(values.permissions));
     if (values.password) {
       formData.append('password', values.password);
@@ -187,6 +196,15 @@ export const EditEmployee = () => {
               placeholder="اختار المخزن"
               data={transformedRepositories}
               {...form.getInputProps('repository')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الشركة"
+              placeholder="اختار الشركة"
+              data={transformedTenants}
+              {...form.getInputProps('companyID')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
