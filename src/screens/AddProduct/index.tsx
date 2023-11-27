@@ -288,7 +288,7 @@ export const AddProduct = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               onClick={() => {
-                navigate('/products');
+                navigate('/home');
               }}
               type="submit"
               variant="outline"
