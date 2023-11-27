@@ -17,12 +17,18 @@ import { z } from 'zod';
 import { useBranches } from '@/hooks/useBranches';
 import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
+import { useTenants } from '@/hooks/useTenants';
 
 export const AddClient = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: branches } = useBranches({ size: 200 });
+  const { data: branches } = useBranches({ size: 500 });
+  const { data: tenants = { data: [] } } = useTenants({ size: 500 });
 
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id.toString(),
     label: branch.name,
@@ -39,6 +45,7 @@ export const AddClient = () => {
       avatar: [] as unknown as FileWithPath[],
       password: '',
       confirmPassword: '',
+      companyID: '',
     },
   });
 
@@ -67,6 +74,7 @@ export const AddClient = () => {
     formData.append('password', values.password);
     formData.append('username', values.username);
     formData.append('avatar', values?.avatar[0] || '');
+    formData.append('companyID', values.companyID);
     createClientAction(formData);
   };
 
@@ -90,6 +98,7 @@ export const AddClient = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -127,6 +136,16 @@ export const AddClient = () => {
               className="w-full"
               {...form.getInputProps('phone')}
             />
+            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+              <Select
+                searchable
+                label="الشركة"
+                placeholder="اختار الشركة"
+                data={transformedTenants}
+                limit={100}
+                {...form.getInputProps('companyID')}
+              />
+            </Grid.Col>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <ImageUploader
@@ -184,6 +203,7 @@ export const AddClient = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/clients');
               }}
             >
               الغاء

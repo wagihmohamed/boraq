@@ -152,6 +152,7 @@ export const AddEmployee = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -161,6 +162,7 @@ export const AddEmployee = () => {
               label="المخزن"
               placeholder="اختار المخزن"
               data={transformedRepositories}
+              limit={100}
               {...form.getInputProps('store')}
             />
           </Grid.Col>
@@ -170,6 +172,7 @@ export const AddEmployee = () => {
               label="الشركة"
               placeholder="اختار الشركة"
               data={transformedTenants}
+              limit={100}
               {...form.getInputProps('companyID')}
             />
           </Grid.Col>
@@ -244,6 +247,7 @@ export const AddEmployee = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/employees');
               }}
             >
               الغاء

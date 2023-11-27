@@ -83,6 +83,7 @@ export const AddStore = () => {
               searchable
               label="العميل"
               data={clientOptions}
+              limit={100}
               {...form.getInputProps('client')}
             />
           </Grid.Col>

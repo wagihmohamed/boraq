@@ -107,6 +107,7 @@ export const EditRepositoryScreen = () => {
           label="الفرع"
           placeholder="اختار الفرع"
           data={transformedBranches}
+          limit={100}
           {...form.getInputProps('branch')}
         />
         <Button

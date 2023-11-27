@@ -142,6 +142,7 @@ export const EditBranch = () => {
           variant="outline"
           onClick={() => {
             form.reset();
+            navigate('/branches');
           }}
         >
           الغاء

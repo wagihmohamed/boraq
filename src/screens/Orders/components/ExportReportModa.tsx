@@ -176,6 +176,7 @@ export const ExportReportModal = () => {
                 searchable
                 clearable
                 placeholder="اختر العميل"
+                limit={100}
                 data={getSelectOptions(clientsData.data)}
                 {...form.getInputProps('clientID')}
               />
@@ -185,6 +186,7 @@ export const ExportReportModal = () => {
                 searchable
                 clearable
                 placeholder="اختر المتجر"
+                limit={100}
                 data={getSelectOptions(storesData.data)}
                 {...form.getInputProps('storeID')}
               />
@@ -197,6 +199,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر الفرع"
+              limit={100}
               data={getSelectOptions(branchesData.data)}
               {...form.getInputProps('branchID')}
             />
@@ -208,6 +211,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر المخزن"
+              limit={100}
               data={getSelectOptions(repositoriesData.data)}
               {...form.getInputProps('repositoryID')}
             />
@@ -230,6 +234,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر مندوب التوصيل"
+              limit={100}
               data={getSelectOptions(deliveryAgentsData.data)}
               {...form.getInputProps('deliveryAgentID')}
             />
@@ -241,6 +246,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر الشركة"
+              limit={100}
               data={getSelectOptions(tenantsData.data)}
               {...form.getInputProps('companyID')}
             />

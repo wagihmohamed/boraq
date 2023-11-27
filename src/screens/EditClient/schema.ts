@@ -25,6 +25,7 @@ export const editClientSchema = z
     //   return true;
     // }, 'الحد الأقصى 5 ميجا'),
     type: z.string().min(1, { message: 'الرجاء اختيار نوع الحساب' }),
+    companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     password: z
       .string()
       .refine((password) => !password || password.length >= 6, {

@@ -186,6 +186,7 @@ export const AddProduct = () => {
               searchable
               label="القسم"
               {...form.getInputProps('categoryID')}
+              limit={100}
               data={categoriesOptions}
             />
           </Grid.Col>
@@ -194,6 +195,7 @@ export const AddProduct = () => {
               label="الالوان"
               searchable
               data={colorsOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
                   (color) => color.value === value
@@ -226,6 +228,7 @@ export const AddProduct = () => {
             <Select
               label="المقاسات"
               searchable
+              limit={100}
               data={sizesOptions}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(

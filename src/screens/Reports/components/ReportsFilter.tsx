@@ -107,6 +107,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
             });
           }}
           placeholder="اختر العميل"
+          limit={100}
           data={getSelectOptions(clientsData.data)}
         />
       </Grid.Col>
@@ -124,6 +125,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
             });
           }}
           placeholder="اختر المخزن"
+          limit={100}
           data={getSelectOptions(repositoriesData.data)}
         />
       </Grid.Col>
@@ -141,6 +143,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
             });
           }}
           placeholder="اختر المتجر"
+          limit={100}
           data={getSelectOptions(storesData.data)}
         />
       </Grid.Col>
@@ -158,6 +161,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
             });
           }}
           placeholder="اختر المندوب"
+          limit={100}
           data={getSelectOptions(employeesData.data)}
         />
       </Grid.Col>

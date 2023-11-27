@@ -17,23 +17,29 @@ import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
 import { IMAGE_BASE_URL } from '@/api';
+import { useTenants } from '@/hooks/useTenants';
 
 export const EditClient = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: branches } = useBranches({ size: 200 });
+  const { data: branches } = useBranches({ size: 500 });
   const {
     data: clientDetails,
     isLoading,
     isError,
   } = useClientDetails(parseInt(id));
+  const { data: tenants = { data: [] } } = useTenants({ size: 500 });
 
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id.toString(),
     label: branch.name,
   }));
 
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
   const form = useForm({
     validate: zodResolver(editClientSchema),
     initialValues: {
@@ -44,6 +50,7 @@ export const EditClient = () => {
       password: '',
       confirmPassword: '',
       avatar: [] as unknown as FileWithPath[],
+      companyID: '',
     },
   });
 
@@ -88,6 +95,8 @@ export const EditClient = () => {
     }
     formData.append('avatar', values?.avatar[0] || '');
     formData.append('token', '');
+    formData.append('companyID', values.companyID);
+
     editClientAction(formData);
   };
 
@@ -111,6 +120,7 @@ export const EditClient = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -139,6 +149,16 @@ export const EditClient = () => {
               size="md"
               className="w-full"
               {...form.getInputProps('phone')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الشركة"
+              placeholder="اختار الشركة"
+              data={transformedTenants}
+              limit={100}
+              {...form.getInputProps('companyID')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
@@ -198,6 +218,7 @@ export const EditClient = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/clients');
               }}
             >
               الغاء

@@ -24,6 +24,7 @@ export const addClientSchema = z
     //   'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
     // ),
     type: z.string().min(1, { message: 'الرجاء اختيار نوع الحساب' }),
+    companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     password: z.string().min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     confirmPassword: z
       .string()

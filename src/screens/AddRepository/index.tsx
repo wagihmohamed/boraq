@@ -93,6 +93,7 @@ export const AddRepositoryScreen = () => {
           label="الفرع"
           placeholder="اختار الفرع"
           data={transformedBranches}
+          limit={100}
           {...form.getInputProps('branch')}
         />
         <Button loading={isLoading} type="submit" fullWidth mt="xl" size="md">
@@ -106,6 +107,7 @@ export const AddRepositoryScreen = () => {
           variant="outline"
           onClick={() => {
             form.reset();
+            navigate('/repositories');
           }}
         >
           الغاء

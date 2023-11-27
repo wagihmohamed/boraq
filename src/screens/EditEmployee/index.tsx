@@ -186,6 +186,7 @@ export const EditEmployee = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -195,6 +196,7 @@ export const EditEmployee = () => {
               label="المخزن"
               placeholder="اختار المخزن"
               data={transformedRepositories}
+              limit={100}
               {...form.getInputProps('repository')}
             />
           </Grid.Col>
@@ -204,6 +206,7 @@ export const EditEmployee = () => {
               label="الشركة"
               placeholder="اختار الشركة"
               data={transformedTenants}
+              limit={100}
               {...form.getInputProps('companyID')}
             />
           </Grid.Col>
@@ -271,7 +274,17 @@ export const EditEmployee = () => {
             </Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Button type="reset" fullWidth mt="xl" size="md" variant="outline">
+            <Button
+              onClick={() => {
+                form.reset();
+                navigate('/employees');
+              }}
+              type="reset"
+              fullWidth
+              mt="xl"
+              size="md"
+              variant="outline"
+            >
               الغاء
             </Button>
           </Grid.Col>

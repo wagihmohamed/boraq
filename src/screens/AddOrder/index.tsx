@@ -177,6 +177,7 @@ export const AddOrder = () => {
           label="اللون"
           placeholder="اختار اللون"
           data={colorsOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.colorID`)}
         />
         <Select
@@ -184,6 +185,7 @@ export const AddOrder = () => {
           label="المقاس"
           placeholder="اختار المقاس"
           data={sizesOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.sizeID`)}
         />
       </div>
@@ -275,6 +277,7 @@ export const AddOrder = () => {
               searchable
               label="المتجر"
               placeholder="اختار المتجر"
+              limit={100}
               data={getSelectOptions(storesData.data)}
               {...form.getInputProps('storeID')}
             />
@@ -283,6 +286,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="المناطق"
+              limit={100}
               placeholder="اختار المنطقة"
               data={getSelectOptions(locationsData.data)}
               {...form.getInputProps('locationID')}
@@ -292,6 +296,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="نوع التوصيل"
+              limit={100}
               placeholder="اختار نوع التوصيل"
               data={deliveryTypesArray}
               {...form.getInputProps('deliveryType')}
@@ -302,6 +307,7 @@ export const AddOrder = () => {
               searchable
               label="المحافظة"
               placeholder="اختار المحافظة"
+              limit={100}
               data={governorateArray}
               {...form.getInputProps('governorate')}
             />
@@ -314,6 +320,7 @@ export const AddOrder = () => {
                 label="المنتجات"
                 placeholder="اختار المنتجات"
                 data={productsOptions}
+                limit={100}
                 onChange={(selectedProductsIds) => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
@@ -373,6 +380,7 @@ export const AddOrder = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/orders');
               }}
             >
               الغاء

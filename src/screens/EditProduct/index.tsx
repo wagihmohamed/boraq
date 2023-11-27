@@ -227,6 +227,7 @@ export const EditProductScreen = () => {
             <Select
               key={form.values.categoryID}
               label="الصنف"
+              limit={100}
               data={categoryOptions}
               {...form.getInputProps('categoryID')}
             />
@@ -238,6 +239,7 @@ export const EditProductScreen = () => {
             <Select
               label="الالوان"
               data={colorsOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
                   (color) => color.value.toString() === value
@@ -270,6 +272,7 @@ export const EditProductScreen = () => {
             <Select
               label="المقاسات"
               data={sizesOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(
                   (size) => size.value.toString() === value

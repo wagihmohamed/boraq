@@ -118,11 +118,13 @@ export const AddLocation = () => {
           label="الفرع"
           searchable
           {...form.getInputProps('branch')}
+          limit={100}
           data={transformedBranches}
         />
         <MultiSelect
           label="المندوبين"
           data={deliveryAgents}
+          limit={100}
           searchable
           {...form.getInputProps('deliveryAgentsIDs')}
         />

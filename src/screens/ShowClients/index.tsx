@@ -47,6 +47,7 @@ export const ShowClient = () => {
           label="الفرع"
           placeholder="اختار الفرع"
           data={transformedBranches}
+          limit={100}
           value={clientDetails?.data.branch?.id.toString()}
           disabled
         />
@@ -55,6 +56,7 @@ export const ShowClient = () => {
           label="الشركة"
           placeholder="اختار الشركة"
           data={transformedTenants}
+          limit={100}
           value={clientDetails?.data.company?.id.toString()}
           disabled
         />

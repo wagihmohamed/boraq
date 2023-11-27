@@ -214,6 +214,7 @@ export const EditOrder = () => {
           label="اللون"
           placeholder="اختار اللون"
           data={colorsOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.colorID`)}
           disabled
         />
@@ -222,6 +223,7 @@ export const EditOrder = () => {
           label="المقاس"
           placeholder="اختار المقاس"
           data={sizesOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.sizeID`)}
           disabled
         />
@@ -322,6 +324,7 @@ export const EditOrder = () => {
               size="md"
               className="w-full"
               data={getSelectOptions(employeesData?.data || [])}
+              limit={100}
               {...form.getInputProps('deliveryAgentID')}
             />
           </Grid.Col>
@@ -402,6 +405,7 @@ export const EditOrder = () => {
               placeholder="اختار المتجر"
               disabled
               data={getSelectOptions(storesData.data)}
+              limit={100}
               {...form.getInputProps('storeID')}
             />
           </Grid.Col>
@@ -411,6 +415,7 @@ export const EditOrder = () => {
               label="المناطق"
               placeholder="اختار المنطقة"
               disabled
+              limit={100}
               data={getSelectOptions(locationsData.data)}
               {...form.getInputProps('locationID')}
             />

@@ -107,6 +107,7 @@ const EditStore = () => {
               label="العميل"
               searchable
               data={clientOptions}
+              limit={100}
               {...form.getInputProps('client')}
             />
           </Grid.Col>
