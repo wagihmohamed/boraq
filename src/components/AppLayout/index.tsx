@@ -27,7 +27,11 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const pathName = useLocation().pathname;
 
   const renderActiveLinkArabicName = () => {
-    const activeLink = navSections.find((item) => item.link === pathName);
+    const trimmedPathName = pathName.split('/')[1];
+    const activeLink = navSections.find(
+      (item) => item.link === `/${trimmedPathName}`
+    );
+
     if (activeLink) {
       return activeLink.label;
     }
