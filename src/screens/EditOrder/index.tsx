@@ -42,7 +42,10 @@ export const EditOrder = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: employeesData } = useEmployees({ size: 200 });
+  const { data: employeesData } = useEmployees({
+    size: 200,
+    roles: ['DELIVERY_AGENT'],
+  });
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const {
