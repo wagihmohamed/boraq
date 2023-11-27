@@ -32,7 +32,7 @@ export const Employees = () => {
       <MultiSelect
         className="mt-4 my-10"
         label="الدور"
-        data={rolesArray}
+        data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
         clearable
         placeholder="الدور"
         value={filters.roles}
