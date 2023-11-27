@@ -66,10 +66,10 @@ export const EditEmployee = () => {
         name: employeeDetails.data.name,
         phone: employeeDetails.data.phone,
         salary: employeeDetails.data.salary,
-        branch: employeeDetails.data.branch.id.toString(),
-        repository: employeeDetails.data.repository.id.toString(),
+        branch: employeeDetails.data.branch?.id.toString(),
+        repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
-        permissions: employeeDetails.data.permissions,
+        permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
     }

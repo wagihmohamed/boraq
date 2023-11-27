@@ -105,7 +105,14 @@ export const ProductScreen = () => {
           </div>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Button fullWidth>تعديل</Button>
+          <Button
+            fullWidth
+            onClick={() => {
+              navigate(`/home/${id}/edit`);
+            }}
+          >
+            تعديل
+          </Button>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <Button

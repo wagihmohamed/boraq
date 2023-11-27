@@ -93,7 +93,7 @@ export const ShowEmployee = () => {
           <Autocomplete
             label="الفرع"
             placeholder="اختار الفرع"
-            value={employeeData?.data.branch.name || ''}
+            value={employeeData?.data.branch?.name || ''}
             disabled
           />
         </Grid.Col>
@@ -101,7 +101,7 @@ export const ShowEmployee = () => {
           <Autocomplete
             label="المخزن"
             placeholder="اختار المخزن"
-            value={employeeData?.data.repository.name || ''}
+            value={employeeData?.data.repository?.name || ''}
             disabled
           />
         </Grid.Col>
