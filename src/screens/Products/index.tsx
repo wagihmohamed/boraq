@@ -21,6 +21,7 @@ export const Products = () => {
     isLoading,
     isError,
   } = useProducts(filters);
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
