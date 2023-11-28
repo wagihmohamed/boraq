@@ -22,7 +22,7 @@ export const editProductService = async ({
   id,
 }: {
   data: FormData;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<FormData>(editProductendpoint + id, data, {
     headers: {

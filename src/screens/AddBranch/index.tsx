@@ -88,8 +88,8 @@ export const AddBranch = () => {
           {...form.getInputProps('name')}
         />
         <Autocomplete
-          label="الفرع"
-          placeholder="اختار الفرع"
+          label="المحافظة"
+          placeholder="اختار المحافظة"
           data={governorateArray}
           {...form.getInputProps('location')}
         />
@@ -118,6 +118,7 @@ export const AddBranch = () => {
           variant="outline"
           onClick={() => {
             form.reset();
+            navigate('/branches');
           }}
         >
           الغاء

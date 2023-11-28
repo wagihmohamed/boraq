@@ -34,7 +34,7 @@ export const CustomTenantCard = ({
     navigate(`/tenants/${id}/show`);
   };
   const { mutate: deleteTenant } = useMutation({
-    mutationFn: (id: string) => deleteTenantService({ id }),
+    mutationFn: (id: number) => deleteTenantService({ id }),
     onSuccess: () => {
       toast.success('تم مسح المستأجر بنجاح');
       queryClient.invalidateQueries({

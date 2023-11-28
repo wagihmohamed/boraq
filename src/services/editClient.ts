@@ -5,10 +5,10 @@ import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 export interface EditClientPayload {
   name: string;
   phone: string;
-  accountType: keyof typeof clientTypeArabicNames;
+  role: keyof typeof clientTypeArabicNames;
   token: string;
   password?: string;
-  branchID: string;
+  branchID: number;
 }
 
 export const editClientService = async ({
@@ -16,7 +16,7 @@ export const editClientService = async ({
   id,
 }: {
   data: FormData;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<FormData>(editClientendpoint + id, data, {
     headers: {

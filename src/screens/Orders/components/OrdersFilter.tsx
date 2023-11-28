@@ -143,6 +143,7 @@ export const CustomOrdersFilter = ({
           }}
           placeholder="اختر العميل"
           data={getSelectOptions(clientsData.data)}
+          limit={100}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
@@ -160,6 +161,7 @@ export const CustomOrdersFilter = ({
           }}
           placeholder="اختر المتجر"
           data={getSelectOptions(storesData.data)}
+          limit={100}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
@@ -177,6 +179,7 @@ export const CustomOrdersFilter = ({
           }}
           placeholder="اختر المنطقة"
           data={getSelectOptions(locationsData.data)}
+          limit={100}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>

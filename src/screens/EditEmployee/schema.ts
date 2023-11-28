@@ -1,4 +1,4 @@
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
+// import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
 
@@ -11,22 +11,22 @@ export const editEmployeeSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
-    avatar: z
-      .any()
-      .refine((files) => {
-        if (files && Array.isArray(files) && files.length > 0) {
-          const file = files[0];
-          return !file.type || ACCEPTED_IMAGE_TYPES.includes(file.type);
-        }
-        return true;
-      }, 'يجب أن تكون الصورة من نوع .jpg, .jpeg, .png أو .webp')
-      .refine((files) => {
-        if (files && Array.isArray(files) && files.length > 0) {
-          const file = files[0];
-          return !file.size || file.size <= MAX_FILE_SIZE;
-        }
-        return true;
-      }, 'الحد الأقصى 5 ميجا'),
+    companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
+    avatar: z.any(),
+    // .refine((files) => {
+    //   if (files && Array.isArray(files) && files.length > 0) {
+    //     const file = files[0];
+    //     return !file.type || ACCEPTED_IMAGE_TYPES.includes(file.type);
+    //   }
+    //   return true;
+    // }, 'يجب أن تكون الصورة من نوع .jpg, .jpeg, .png أو .webp')
+    // .refine((files) => {
+    //   if (files && Array.isArray(files) && files.length > 0) {
+    //     const file = files[0];
+    //     return !file.size || file.size <= MAX_FILE_SIZE;
+    //   }
+    //   return true;
+    // }, 'الحد الأقصى 5 ميجا'),
     salary: z
       .string({
         required_error: 'الرجاء ادخال الأجرة',

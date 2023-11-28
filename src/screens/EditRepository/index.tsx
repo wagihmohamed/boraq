@@ -24,7 +24,7 @@ export const EditRepositoryScreen = () => {
     data: repositoryDetails,
     isLoading,
     isError,
-  } = useRepositoryDetails(id);
+  } = useRepositoryDetails(parseInt(id));
   const { data: branches } = useBranches({ size: 200 });
   const form = useForm({
     validate: zodResolver(editRepositorySchema),
@@ -44,7 +44,10 @@ export const EditRepositoryScreen = () => {
   const queryClient = useQueryClient();
   const { mutate: editRepositoryAction, isLoading: isEditing } = useMutation({
     mutationFn: ({ branchID, name }: EditRepositoryPayload) => {
-      return editRepositoryService({ data: { branchID, name }, id });
+      return editRepositoryService({
+        data: { branchID, name },
+        id: parseInt(id),
+      });
     },
     onSuccess: () => {
       toast.success('تم تعديل المخزن بنجاح');
@@ -59,7 +62,7 @@ export const EditRepositoryScreen = () => {
   });
 
   const transformedBranches = branches?.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
@@ -73,7 +76,7 @@ export const EditRepositoryScreen = () => {
     }
     editRepositoryAction({
       name: values.name,
-      branchID: transformedBranch.value,
+      branchID: parseInt(transformedBranch.value),
     });
   };
 
@@ -104,6 +107,7 @@ export const EditRepositoryScreen = () => {
           label="الفرع"
           placeholder="اختار الفرع"
           data={transformedBranches}
+          limit={100}
           {...form.getInputProps('branch')}
         />
         <Button

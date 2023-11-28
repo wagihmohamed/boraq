@@ -4,7 +4,7 @@ import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
 export interface Employee {
-  id: string;
+  id: number;
   name: string;
   username: string;
   phone: string;
@@ -13,7 +13,7 @@ export interface Employee {
   avatar: string | null;
   permissions: (keyof typeof permissionsArabicNames)[];
   branch: {
-    id: string;
+    id: number;
     name: string;
     email: string;
     phone: string;
@@ -22,7 +22,7 @@ export interface Employee {
     updatedAt: string;
   };
   repository: {
-    id: string;
+    id: number;
     name: string;
     createdAt: string;
     updatedAt: string;

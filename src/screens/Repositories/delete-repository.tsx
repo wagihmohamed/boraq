@@ -9,12 +9,12 @@ import toast from 'react-hot-toast';
 export const DeleteRepository = ({
   repositoryId,
 }: {
-  repositoryId: string;
+  repositoryId: number;
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteRepositoryAction, isLoading } = useMutation({
-    mutationFn: ({ id }: { id: string }) => deleteRepositoryService({ id }),
+    mutationFn: ({ id }: { id: number }) => deleteRepositoryService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['repositories'],

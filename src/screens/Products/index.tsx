@@ -21,10 +21,10 @@ export const Products = () => {
     isLoading,
     isError,
   } = useProducts(filters);
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
-        <h1 className="text-2xl md:text-4xl">المنتجات</h1>
         <Button
           onClick={() => {
             navigation('/home/add');

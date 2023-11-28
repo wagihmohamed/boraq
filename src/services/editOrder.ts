@@ -6,13 +6,15 @@ export interface EditOrderPayload {
   paidAmount: number;
   discount: number;
   status: keyof typeof orderStatusArabicNames;
-  deliveryAgentID: string;
+  deliveryAgentID: number;
   deliveryDate: string;
   recipientName: string;
   recipientPhone: string;
   recipientAddress: string;
   notes: string;
   details: string;
+  repositoryID?: number;
+  branchID?: number;
 }
 
 export const editOrderService = async ({
@@ -20,7 +22,7 @@ export const editOrderService = async ({
   id,
 }: {
   data: EditOrderPayload;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<EditOrderPayload>(
     editOrderendpoint + id,

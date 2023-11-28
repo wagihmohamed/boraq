@@ -8,7 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const StoreScreen = () => {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { data: storeDetails, isLoading, isError } = useStoreDetails(id);
+  const {
+    data: storeDetails,
+    isLoading,
+    isError,
+  } = useStoreDetails(parseInt(id));
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4 mb-6">

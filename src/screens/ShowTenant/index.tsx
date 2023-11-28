@@ -15,7 +15,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const ShowTenant = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: tenantDetails, isLoading, isError } = useTenantDetails(id);
+  const {
+    data: tenantDetails,
+    isLoading,
+    isError,
+  } = useTenantDetails(parseInt(id));
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4">

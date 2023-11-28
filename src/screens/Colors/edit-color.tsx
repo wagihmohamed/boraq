@@ -12,16 +12,26 @@ import { SketchPicker } from 'react-color';
 export const EditColor = ({
   colorId,
   title,
+  code,
 }: {
-  colorId: string;
+  colorId: number;
   title: string;
+  code: string;
 }) => {
-  const [colorTitle, setColorTitle] = useState(title);
+  const [colorCode, setColorCode] = useState(code);
+  const [colorName, setColorName] = useState(title);
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: editColor, isLoading } = useMutation({
-    mutationFn: ({ id, title }: { title: string; id: string }) =>
-      editColorService({ id, title }),
+    mutationFn: ({
+      id,
+      title,
+      code,
+    }: {
+      title: string;
+      id: number;
+      code: string;
+    }) => editColorService({ id, title, code }),
     onSuccess: () => {
       toast.success('تم تعديل اللون بنجاح');
       queryClient.invalidateQueries({
@@ -36,21 +46,22 @@ export const EditColor = ({
 
   const handleEdit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    editColor({ title: colorTitle, id: colorId });
+    editColor({ title: colorName, id: colorId, code: colorCode });
   };
-  console.log({ colorTitle });
+
+  const isDirty = colorName !== title || colorCode !== code;
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="تعديل اللون" centered>
         <form onSubmit={handleEdit}>
           <SketchPicker
-            color={colorTitle}
-            onChangeComplete={(color) => setColorTitle(color.hex)}
+            color={colorCode}
+            onChangeComplete={(color) => setColorCode(color.hex)}
           />
           <TextInput
-            value={colorTitle}
-            onChange={(event) => setColorTitle(event.currentTarget.value)}
+            value={colorName}
+            onChange={(event) => setColorName(event.currentTarget.value)}
             label="اللون"
             required
             placeholder="اللون"
@@ -59,7 +70,7 @@ export const EditColor = ({
           <div className="mt-4 flex items-center gap-4">
             <Button
               loading={isLoading}
-              disabled={isLoading || !colorTitle}
+              disabled={isLoading || !colorName || !isDirty}
               type="submit"
               variant="filled"
             >

@@ -3,7 +3,7 @@ import { createStoreendpoint } from '@/api/apisUrl';
 
 export interface CreateStorePayload {
   name: string;
-  clientID: string;
+  clientID: number;
   notes: string;
 }
 

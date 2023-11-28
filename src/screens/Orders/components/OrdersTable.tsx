@@ -86,7 +86,9 @@ export function OrdersTable<TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={isOrderExist(row.original.id) && 'selected'}
+                  data-state={
+                    isOrderExist(row.original.id.toString()) && 'selected'
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

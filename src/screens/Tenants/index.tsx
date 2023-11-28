@@ -24,7 +24,6 @@ export const TenantsScreen = () => {
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
-        <h1 className="text-2xl md:text-4xl">الشركات</h1>
         <Button
           onClick={() => {
             navigate('/tenants/add');

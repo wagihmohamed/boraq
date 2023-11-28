@@ -5,14 +5,19 @@ import { Branch } from './getBranchesService';
 import { Filters } from './getEmployeesService';
 
 export interface Client {
-  id: string;
+  id: number;
   name: string;
   phone: string;
+  username: string; // add username to the payload
   avatar: string | null;
-  accountType: keyof typeof clientTypeArabicNames;
+  role: keyof typeof clientTypeArabicNames;
   branch: Branch;
   createdBy: {
-    id: string;
+    id: number;
+    name: string;
+  };
+  company: {
+    id: number;
     name: string;
   };
 }

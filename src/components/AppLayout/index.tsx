@@ -6,6 +6,7 @@ import {
   ScrollArea,
   Loader,
   rem,
+  Text,
 } from '@mantine/core';
 import { navSections } from '@/mockup/navSections';
 import classes from './NavbarNested.module.css';
@@ -13,6 +14,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { UserNavCard } from '../UserNavCard';
 import { NotificationsList } from '../NotificationsList';
+import { useAuth } from '@/store/authStore';
 
 interface Props {
   children: React.ReactNode;
@@ -21,7 +23,21 @@ interface Props {
 }
 
 export const AppLayout = ({ children, isLoading, isError }: Props) => {
+  const { companyName } = useAuth();
   const pathName = useLocation().pathname;
+
+  const renderActiveLinkArabicName = () => {
+    const trimmedPathName = pathName.split('/')[1];
+    const activeLink = navSections.find(
+      (item) => item.link === `/${trimmedPathName}`
+    );
+
+    if (activeLink) {
+      return activeLink.label;
+    }
+    return '';
+  };
+
   const [active, setActive] = useState(
     navSections.find((item) => item.link === pathName)?.label || ''
   );
@@ -74,7 +90,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
+        <Group h="100%" w="100%" px="md" justify="space-between">
           <Burger
             opened={mobileOpened}
             onClick={toggleMobile}
@@ -87,7 +103,12 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
             visibleFrom="sm"
             size="sm"
           />
-          <div className="mr-auto ml-6">
+
+          <Text ta="center" size="md" fw={700}>
+            {companyName && `${companyName} / `} {renderActiveLinkArabicName()}
+          </Text>
+
+          <div className="-ml-2">
             <NotificationsList />
           </div>
         </Group>

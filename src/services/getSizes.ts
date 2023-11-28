@@ -3,7 +3,7 @@ import { getSizesendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Size {
-  id: string;
+  id: number;
   title: string;
   createdAt: string;
   updatedAt: string;

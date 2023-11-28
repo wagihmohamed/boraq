@@ -5,7 +5,7 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
 export interface OrderDetails {
-  id: string;
+  id: number;
   totalCost: string;
   paidAmount: string;
   totalCostInUSD: string;
@@ -25,16 +25,16 @@ export interface OrderDetails {
   createdAt: Date;
   updatedAt: Date;
   client: {
-    id: string;
+    id: number;
     name: string;
     phone: string;
   } | null;
   deliveryAgent: {
-    id: string;
+    id: number;
     name: string;
     phone: string;
   } | null;
-  OrderProducts: {
+  orderProducts: {
     quantity: number;
     product: Product;
     color: Color;
@@ -43,17 +43,25 @@ export interface OrderDetails {
   governorate: keyof typeof governorateArabicNames;
   location: Location;
   store: Location;
+  branch: {
+    id: number;
+    name: string;
+  } | null;
+  repository: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface Color {
-  id: string;
+  id: number;
   title: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Product {
-  id: string;
+  id: number;
   title: string;
   price: string;
   createdAt: Date;
@@ -65,7 +73,7 @@ export interface Product {
 }
 
 export interface Location {
-  id: string;
+  id: number;
   name: string;
 }
 export interface GetOrderDetailsResponse {
@@ -73,7 +81,7 @@ export interface GetOrderDetailsResponse {
   data: OrderDetails;
 }
 
-export const getOrderDetailsService = async (id: string) => {
+export const getOrderDetailsService = async (id: number) => {
   const response = await api.get<GetOrderDetailsResponse>(
     getOrderDetailsendpoint + id
   );

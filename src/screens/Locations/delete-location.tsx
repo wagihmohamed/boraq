@@ -6,11 +6,11 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { deleteLocationService } from '@/services/deleteLocation';
 
-export const DeleteLocation = ({ id }: { id: string }) => {
+export const DeleteLocation = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteLocation, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteLocationService({ id }),
+    mutationFn: (id: number) => deleteLocationService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['locations'],

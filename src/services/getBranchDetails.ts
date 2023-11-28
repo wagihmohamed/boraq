@@ -2,7 +2,7 @@ import { api } from '@/api';
 import { getBranchDetailsendpoint } from '@/api/apisUrl';
 
 export interface Branch {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone: string;
@@ -14,7 +14,7 @@ export interface GetBranchesResponse {
   data: Branch;
 }
 
-export const getBranchDetails = async (id: string) => {
+export const getBranchDetails = async (id: number) => {
   const response = await api.get<GetBranchesResponse>(
     getBranchDetailsendpoint + id
   );

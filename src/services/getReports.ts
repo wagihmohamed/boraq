@@ -6,72 +6,72 @@ import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { Filters } from './getEmployeesService';
 
 export interface Report {
-  id: string;
+  id: number;
   status: keyof typeof reportStatusArabicNames;
   createdBy: {
-    id: string;
+    id: number;
     name: string;
   };
   type: keyof typeof reportTypeArabicNames;
   createdAt: string;
   updatedAt: string;
-  ClientReport: {
+  clientReport: {
     reportNumber: string;
     client: {
-      id: string;
+      id: number;
       name: string;
     };
     store: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       clientReportReportNumber: string;
     }[];
   } | null;
-  RepositoryReport: {
+  repositoryReport: {
     reportNumber: string;
     repository: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       repositoryReportReportNumber: string;
     }[];
   } | null;
-  BranchReport: {
+  branchReport: {
     reportNumber: string;
     branch: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       branchReportReportNumber: string;
     }[];
   } | null;
-  GovernorateReport: {
+  governorateReport: {
     reportNumber: string;
     governorate: keyof typeof governorateArabicNames;
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       governorateReportReportNumber: string;
     }[];
   } | null;
-  DeliveryAgentReport: {
+  deliveryAgentReport: {
     reportNumber: string;
     deliveryAgent: {
-      id: string;
+      id: number;
       name: string;
     };
     orders: {
-      id: string;
+      id: number;
       receiptNumber: string;
       deliveryAgentReportReportNumber: string;
     }[];

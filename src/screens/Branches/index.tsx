@@ -20,7 +20,6 @@ export const BranchesScreen = () => {
   } = useBranches(filters);
   return (
     <AppLayout isError={isError} isLoading={isLoading}>
-      <h1>الفروع</h1>
       <DataTable
         columns={columns}
         navigationURL="/branches/add"

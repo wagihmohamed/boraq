@@ -27,15 +27,15 @@ export const AddProduct = () => {
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
   const categoriesOptions = categories.data.map((category) => ({
-    value: category.id,
+    value: category.id.toString(),
     label: category.title,
   }));
   const form = useForm({
@@ -45,7 +45,7 @@ export const AddProduct = () => {
       price: '',
       image: [] as unknown as FileWithPath[],
       stock: '',
-      category: '',
+      categoryID: '',
       colors: [] as unknown as { label: string; value: string; quantity: '' }[],
       sizes: [] as unknown as { label: string; value: string; quantity: '' }[],
     },
@@ -128,23 +128,21 @@ export const AddProduct = () => {
       return;
     }
     const transformedColors = values.colors.map((color) => ({
-      title: color.label,
-      colorId: color.value,
-      quantity: parseInt(color.quantity, 10),
+      colorID: color.value,
+      quantity: Number(color.quantity),
     }));
     const transformedSizes = values.sizes.map((size) => ({
-      title: size.label,
-      sizeId: size.value,
-      quantity: parseInt(size.quantity, 10),
+      sizeID: size.value,
+      quantity: Number(size.quantity),
     }));
     const selectedCategory = categoriesOptions.find(
-      (category) => category.value === values.category
+      (category) => category.value.toString() === values.categoryID
     );
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('price', values.price);
     formData.append('stock', values.stock);
-    formData.append('category', selectedCategory?.value || '');
+    formData.append('price', values.price);
+    formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));
@@ -187,7 +185,8 @@ export const AddProduct = () => {
             <Select
               searchable
               label="القسم"
-              {...form.getInputProps('category')}
+              {...form.getInputProps('categoryID')}
+              limit={100}
               data={categoriesOptions}
             />
           </Grid.Col>
@@ -196,6 +195,7 @@ export const AddProduct = () => {
               label="الالوان"
               searchable
               data={colorsOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
                   (color) => color.value === value
@@ -228,6 +228,7 @@ export const AddProduct = () => {
             <Select
               label="المقاسات"
               searchable
+              limit={100}
               data={sizesOptions}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(
@@ -287,7 +288,7 @@ export const AddProduct = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               onClick={() => {
-                navigate('/products');
+                navigate('/home');
               }}
               type="submit"
               variant="outline"

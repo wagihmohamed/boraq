@@ -4,11 +4,15 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Filters } from './getEmployeesService';
 
 export interface Branch {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone: string;
   governorate: keyof typeof governorateArabicNames;
+  company: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface GetRepositoriesResponse {

@@ -7,11 +7,11 @@ import toast from 'react-hot-toast';
 import { IconTrash } from '@tabler/icons-react';
 import { deleteCategoryService } from '@/services/deleteCategory';
 
-export const DeleteCategory = ({ categoryId }: { categoryId: string }) => {
+export const DeleteCategory = ({ categoryId }: { categoryId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteCategory, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteCategoryService({ id }),
+    mutationFn: (id: number) => deleteCategoryService({ id }),
     onSuccess: () => {
       toast.success('تم حذف الصنف بنجاح');
       queryClient.invalidateQueries({

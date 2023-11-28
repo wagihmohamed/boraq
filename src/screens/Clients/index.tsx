@@ -20,7 +20,6 @@ export const ClientsScreen = () => {
   } = useClients(filters);
   return (
     <AppLayout isError={isError} isLoading={isLoading}>
-      <h1>العملاء</h1>
       <DataTable
         columns={columns}
         data={clients?.data}

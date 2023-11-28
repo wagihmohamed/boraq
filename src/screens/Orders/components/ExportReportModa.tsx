@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, Grid } from '@mantine/core';
+import { Modal, Button, Select, Grid, Menu } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import { useOrdersStore } from '@/store/ordersStore';
 import { reportTypeArray } from '@/lib/reportTypeArabicNames';
@@ -22,6 +22,7 @@ import {
 } from '@/lib/governorateArabicNames ';
 import { CreateReportPayload } from '@/services/createReport';
 import { useEffect } from 'react';
+import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 
 export const ExportReportModal = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -77,7 +78,7 @@ export const ExportReportModal = () => {
   } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
   const { mutateAsync, isLoading } = useCreateReport();
-
+  const { mutateAsync: exportReceipt } = useOrderReceipt('مجموعة فواتير');
   useEffect(() => {
     form.setFieldValue(
       'ordersIDs',
@@ -88,7 +89,7 @@ export const ExportReportModal = () => {
   const handleCreateReport = (values: z.infer<typeof createReportSchema>) => {
     let mutationParams: CreateReportPayload = {
       type: values.type,
-      ordersIDs: selectedOrders.map((order) => order.id),
+      ordersIDs: selectedOrders.map((order) => Number(order.id)),
     };
 
     switch (values.type) {
@@ -102,32 +103,32 @@ export const ExportReportModal = () => {
       case 'BRANCH':
         mutationParams = {
           ...mutationParams,
-          branchID: values.branchID,
+          branchID: Number(values.branchID),
         };
         break;
       case 'CLIENT':
         mutationParams = {
           ...mutationParams,
-          clientID: values.clientID,
-          storeID: values.storeID,
+          clientID: Number(values.clientID),
+          storeID: Number(values.storeID),
         };
         break;
       case 'REPOSITORY':
         mutationParams = {
           ...mutationParams,
-          repositoryID: values.repositoryID,
+          repositoryID: Number(values.repositoryID),
         };
         break;
       case 'DELIVERY_AGENT':
         mutationParams = {
           ...mutationParams,
-          deliveryAgentID: values.deliveryAgentID,
+          deliveryAgentID: Number(values.deliveryAgentID),
         };
         break;
       case 'COMPANY':
         mutationParams = {
           ...mutationParams,
-          companyID: values.companyID,
+          companyID: Number(values.companyID),
         };
         break;
       default:
@@ -150,6 +151,26 @@ export const ExportReportModal = () => {
   };
 
   const reportType = form.values.type;
+
+  const handleCreateReceipts = () => {
+    toast.promise(
+      exportReceipt(
+        selectedOrders.map((order) => Number(order.id)),
+        {
+          onSuccess: () => {
+            close();
+            form.reset();
+            deleteAllOrders();
+          },
+        }
+      ),
+      {
+        loading: 'جاري تصدير الفاتورة',
+        success: 'تم تصدير الفاتورة بنجاح',
+        error: (error) => error.response?.data.message || 'حدث خطأ ما',
+      }
+    );
+  };
 
   return (
     <>
@@ -176,6 +197,7 @@ export const ExportReportModal = () => {
                 searchable
                 clearable
                 placeholder="اختر العميل"
+                limit={100}
                 data={getSelectOptions(clientsData.data)}
                 {...form.getInputProps('clientID')}
               />
@@ -185,6 +207,7 @@ export const ExportReportModal = () => {
                 searchable
                 clearable
                 placeholder="اختر المتجر"
+                limit={100}
                 data={getSelectOptions(storesData.data)}
                 {...form.getInputProps('storeID')}
               />
@@ -197,6 +220,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر الفرع"
+              limit={100}
               data={getSelectOptions(branchesData.data)}
               {...form.getInputProps('branchID')}
             />
@@ -208,6 +232,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر المخزن"
+              limit={100}
               data={getSelectOptions(repositoriesData.data)}
               {...form.getInputProps('repositoryID')}
             />
@@ -230,6 +255,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر مندوب التوصيل"
+              limit={100}
               data={getSelectOptions(deliveryAgentsData.data)}
               {...form.getInputProps('deliveryAgentID')}
             />
@@ -241,6 +267,7 @@ export const ExportReportModal = () => {
               searchable
               clearable
               placeholder="اختر الشركة"
+              limit={100}
               data={getSelectOptions(tenantsData.data)}
               {...form.getInputProps('companyID')}
             />
@@ -271,9 +298,16 @@ export const ExportReportModal = () => {
         </form>
       </Modal>
 
-      <Button disabled={!selectedOrders.length} onClick={open}>
-        تصدير الكشف
-      </Button>
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <Button disabled={!selectedOrders.length}>تصدير</Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>نوع التصدير</Menu.Label>
+          <Menu.Item onClick={open}>كشف</Menu.Item>
+          <Menu.Item onClick={handleCreateReceipts}>فاتورة</Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
       <p>
         {selectedOrders.length
           ? `تم تحديد ${selectedOrders.length} طلب`

@@ -11,6 +11,7 @@ interface IAuthStore extends SignInResponse {
   name: string;
   username: string;
   role: string;
+  companyName: string;
 }
 
 interface TokenPayload {
@@ -20,6 +21,9 @@ interface TokenPayload {
   role: string;
   exp: number;
   iat: number;
+  companyName: string | null;
+  companyID: string | null;
+  permissions: string[] | null;
 }
 
 export const authStore = create<IAuthStore>()(
@@ -27,6 +31,7 @@ export const authStore = create<IAuthStore>()(
     (set) => ({
       status: '',
       token: '',
+      companyName: '',
       id: '',
       name: '',
       role: '',
@@ -35,6 +40,7 @@ export const authStore = create<IAuthStore>()(
         const decodedToken = JWTDecode<TokenPayload>(data.token);
         set({
           status: 'success',
+          companyName: decodedToken.companyName || '',
           token: data.token,
           id: decodedToken.id,
           name: decodedToken.name,

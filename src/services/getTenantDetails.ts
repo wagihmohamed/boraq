@@ -7,7 +7,7 @@ export interface GetTenantsResponse {
   data: Tenant;
 }
 
-export const getTenantDetailsService = async (id: string) => {
+export const getTenantDetailsService = async (id: number) => {
   const response = await api.get<GetTenantsResponse>(
     getTenantDetailsendpoint + id
   );

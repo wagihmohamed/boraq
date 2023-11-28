@@ -3,7 +3,7 @@ import { getTenantsendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Tenant {
-  id: string;
+  id: number;
   name: string;
   phone: string;
   website: string;

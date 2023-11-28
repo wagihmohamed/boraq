@@ -26,13 +26,19 @@ import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
 import { IMAGE_BASE_URL } from '@/api';
+import { useTenants } from '@/hooks/useTenants';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: employeeDetails, isLoading, isError } = useEmployeeDetails(id);
+  const {
+    data: employeeDetails,
+    isLoading,
+    isError,
+  } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({ size: 200 });
   const { data: branches } = useBranches({ size: 200 });
+  const { data: tenants = { data: [] } } = useTenants({ size: 200 });
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -47,6 +53,7 @@ export const EditEmployee = () => {
       permissions: [] as string[],
       password: '',
       confirmPassword: '',
+      companyID: '',
       avatar: [] as unknown as FileWithPath[],
     },
   });
@@ -59,10 +66,10 @@ export const EditEmployee = () => {
         name: employeeDetails.data.name,
         phone: employeeDetails.data.phone,
         salary: employeeDetails.data.salary,
-        branch: employeeDetails.data.branch.id,
-        repository: employeeDetails.data.repository.id,
+        branch: employeeDetails.data.branch?.id.toString(),
+        repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
-        permissions: employeeDetails.data.permissions,
+        permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
     }
@@ -70,13 +77,18 @@ export const EditEmployee = () => {
   }, [employeeDetails]);
 
   const transformedRepositories = repositories?.data?.map((repository) => ({
-    value: repository.id,
+    value: repository.id.toString(),
     label: repository.name,
   }));
 
   const transformedBranches = branches?.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
+  }));
+
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
   }));
 
   const queryClient = useQueryClient();
@@ -84,7 +96,7 @@ export const EditEmployee = () => {
     mutationFn: (data: FormData) => {
       return editEmployeeService({
         data,
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {
@@ -108,6 +120,7 @@ export const EditEmployee = () => {
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
+    formData.append('companyID', values.companyID);
     formData.append('permissions', JSON.stringify(values.permissions));
     if (values.password) {
       formData.append('password', values.password);
@@ -173,6 +186,7 @@ export const EditEmployee = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -182,7 +196,18 @@ export const EditEmployee = () => {
               label="المخزن"
               placeholder="اختار المخزن"
               data={transformedRepositories}
+              limit={100}
               {...form.getInputProps('repository')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الشركة"
+              placeholder="اختار الشركة"
+              data={transformedTenants}
+              limit={100}
+              {...form.getInputProps('companyID')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
@@ -249,7 +274,17 @@ export const EditEmployee = () => {
             </Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Button type="reset" fullWidth mt="xl" size="md" variant="outline">
+            <Button
+              onClick={() => {
+                form.reset();
+                navigate('/employees');
+              }}
+              type="reset"
+              fullWidth
+              mt="xl"
+              size="md"
+              variant="outline"
+            >
               الغاء
             </Button>
           </Grid.Col>

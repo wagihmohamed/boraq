@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useCategory } from '@/hooks/useCategory';
 import { useColors } from '@/hooks/useColors';
@@ -9,7 +7,7 @@ import { Badge, Button, Grid, Select, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconX } from '@tabler/icons-react';
 import { ChevronRight } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editProductSchema } from './schema';
 import { z } from 'zod';
@@ -26,7 +24,11 @@ export const EditProductScreen = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id = '' } = useParams();
-  const { data: productDetails, isLoading, isError } = useProductDetails(id);
+  const {
+    data: productDetails,
+    isLoading,
+    isError,
+  } = useProductDetails(parseInt(id));
 
   const form = useForm({
     validate: zodResolver(editProductSchema),
@@ -34,7 +36,7 @@ export const EditProductScreen = () => {
       title: '',
       price: '',
       stock: '',
-      category: '',
+      categoryID: '',
       colors: [] as unknown as {
         label: string;
         value: string;
@@ -50,46 +52,48 @@ export const EditProductScreen = () => {
   });
 
   const { data: categories } = useCategory({ size: 200 });
-  const categoryOptions = categories?.data.map((category) => ({
-    value: category.id,
-    label: category.title,
-  }));
+  const categoryOptions = useMemo(() => {
+    return categories?.data.map((category) => ({
+      value: category.id.toString(),
+      label: category.title,
+    }));
+  }, [categories]);
 
   useEffect(() => {
     if (productDetails) {
       const selectedCategory = categoryOptions?.find(
-        (category) => category.label === productDetails.data.Category?.title
+        (category) => category.label === productDetails.data.category?.title
       );
       const imageAddress = IMAGE_BASE_URL + productDetails.data.image;
       form.setValues({
         title: productDetails.data.title,
         price: productDetails.data.price,
         stock: productDetails.data.stock.toString(),
-        category: selectedCategory?.value || '',
-        colors: productDetails.data.ProductColors.map((color) => ({
+        categoryID: selectedCategory?.value.toString() || '',
+        colors: productDetails.data.productColors.map((color) => ({
           label: color.color.title,
           quantity: color.quantity.toString(),
-          value: color.color.id,
+          value: color.color.id.toString(),
         })),
-        sizes: productDetails.data.ProductSizes.map((size) => ({
+        sizes: productDetails.data.productSizes.map((size) => ({
           label: size.size.title,
-          value: size.size.id,
+          value: size.size.id.toString(),
           quantity: size.quantity.toString(),
         })),
         image: [imageAddress] as unknown as FileWithPath[],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productDetails]);
+  }, [categoryOptions, productDetails]);
 
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -100,7 +104,7 @@ export const EditProductScreen = () => {
           type="number"
           label={
             <div className="mb-2">
-              <Badge color={color.label}>{color.label}</Badge>
+              <Badge>اللون: {color.label}</Badge>
             </div>
           }
           placeholder="الكمية"
@@ -141,7 +145,7 @@ export const EditProductScreen = () => {
     mutationFn: (data: FormData) => {
       return editProductService({
         data,
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {
@@ -173,23 +177,21 @@ export const EditProductScreen = () => {
 
     const transformedColors = values.colors.map((color) => ({
       colorID: color.value,
-      title: color.label,
       quantity: parseInt(color.quantity),
     }));
     const transformedSizes = values.sizes.map((size) => ({
       sizeID: size.value,
-      title: size.label,
       quantity: parseInt(size.quantity),
     }));
     const selectedCategory = categoryOptions?.find(
-      (category) => category.value === values.category
+      (category) => category.value === values.categoryID
     );
 
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
-    formData.append('category', selectedCategory?.label || '');
+    formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));
@@ -223,10 +225,11 @@ export const EditProductScreen = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
-              key={form.values.category}
+              key={form.values.categoryID}
               label="الصنف"
+              limit={100}
               data={categoryOptions}
-              {...form.getInputProps('category')}
+              {...form.getInputProps('categoryID')}
             />
           </Grid.Col>
           <Grid.Col
@@ -236,9 +239,10 @@ export const EditProductScreen = () => {
             <Select
               label="الالوان"
               data={colorsOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedColor = colorsOptions.find(
-                  (color) => color.value === value
+                  (color) => color.value.toString() === value
                 );
                 const isColorAdded = form.values.colors.find(
                   (color) => color.value === value
@@ -268,9 +272,10 @@ export const EditProductScreen = () => {
             <Select
               label="المقاسات"
               data={sizesOptions}
+              limit={100}
               onChange={(value) => {
                 const selectedSize = sizesOptions.find(
-                  (size) => size.value === value
+                  (size) => size.value.toString() === value
                 );
                 const isSizeAdded = form.values.sizes.find(
                   (size) => size.value === value

@@ -11,7 +11,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 
 const schema = z.object({
-  usename: z.string().min(4, { message: 'البريد الالكتروني غير صحيح' }),
+  usename: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 احرف' }),
   password: z
     .string()
     .min(6, { message: 'كلمة المرور يجب ان تكون اكثر من 6 احرف' }),

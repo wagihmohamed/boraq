@@ -6,11 +6,11 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 
-export const DeleteEmployee = ({ id }: { id: string }) => {
+export const DeleteEmployee = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteEmployee, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteEmployeeService({ id }),
+    mutationFn: (id: number) => deleteEmployeeService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['employees'],

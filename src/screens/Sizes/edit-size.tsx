@@ -12,14 +12,14 @@ export const EditSize = ({
   sizeId,
   title,
 }: {
-  sizeId: string;
+  sizeId: number;
   title: string;
 }) => {
   const [sizeTitle, setSizeTitle] = useState(title);
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: editSize, isLoading } = useMutation({
-    mutationFn: ({ id, title }: { title: string; id: string }) =>
+    mutationFn: ({ id, title }: { title: string; id: number }) =>
       editSizeService({ id, title }),
     onSuccess: () => {
       toast.success('تم تعديل الحجم بنجاح');

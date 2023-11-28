@@ -18,7 +18,11 @@ import { z } from 'zod';
 export const EditBranch = () => {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { data: branchDetails, isLoading, isError } = useBranchDetails(id);
+  const {
+    data: branchDetails,
+    isLoading,
+    isError,
+  } = useBranchDetails(parseInt(id));
   const queryClient = useQueryClient();
   const { mutate: editBranch, isLoading: isEditing } = useMutation({
     mutationFn: ({ email, governorate, name, phone }: EditBranchPayload) =>
@@ -29,7 +33,7 @@ export const EditBranch = () => {
           name,
           phone,
         },
-        id,
+        id: parseInt(id),
       }),
     onSuccess: () => {
       toast.success('تم تعديل الفرع بنجاح');
@@ -138,6 +142,7 @@ export const EditBranch = () => {
           variant="outline"
           onClick={() => {
             form.reset();
+            navigate('/branches');
           }}
         >
           الغاء

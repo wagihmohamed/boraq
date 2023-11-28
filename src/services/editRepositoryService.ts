@@ -3,7 +3,7 @@ import { editRepositoryendpoint } from '@/api/apisUrl';
 
 export interface EditRepositoryPayload {
   name: string;
-  branchID: string;
+  branchID: number;
 }
 
 export const editRepositoryService = async ({
@@ -11,7 +11,7 @@ export const editRepositoryService = async ({
   id,
 }: {
   data: EditRepositoryPayload;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<EditRepositoryPayload>(
     editRepositoryendpoint + id,

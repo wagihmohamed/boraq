@@ -3,12 +3,12 @@ import { getStoresendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Store {
-  id: string;
+  id: number;
   name: string;
   notes: string;
   logo: string;
   client: {
-    id: string;
+    id: number;
     name: string;
   };
 }

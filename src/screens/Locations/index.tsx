@@ -20,7 +20,6 @@ export const LocationsScreen = () => {
   } = useLocations(filters);
   return (
     <AppLayout isError={isError} isLoading={isLoading}>
-      <div>المناطق</div>
       <DataTable
         columns={columns}
         navigationURL="/locations/add"

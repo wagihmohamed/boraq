@@ -7,21 +7,24 @@ import FileSaver from 'file-saver';
 
 export interface CreateReportPayload {
   type: keyof typeof reportTypeArabicNames;
-  companyID?: string;
-  deliveryAgentID?: string;
+  companyID?: number;
+  deliveryAgentID?: number;
   governorate?: keyof typeof governorateArabicNames;
-  branchID?: string;
-  clientID?: string;
-  storeID?: string;
-  repositoryID?: string;
-  ordersIDs: string[];
+  branchID?: number;
+  clientID?: number;
+  storeID?: number;
+  repositoryID?: number;
+  ordersIDs: number[];
 }
 
 export const createReportService = async (data: CreateReportPayload) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
     createReportendpoint,
-    data
+    data,
+    {
+      responseType: 'blob',
+    }
   );
   const blob = new Blob([response.data], { type: 'application/pdf' });
   FileSaver.saveAs(blob, `تقرير.pdf`);

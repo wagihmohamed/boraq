@@ -8,7 +8,11 @@ import { governorateArray } from '@/lib/governorateArabicNames ';
 export const ShowBranch = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: branchDetails, isLoading, isError } = useBranchDetails(id);
+  const {
+    data: branchDetails,
+    isLoading,
+    isError,
+  } = useBranchDetails(parseInt(id));
 
   const transformedLocation = governorateArray.find(
     (item) => item.value === branchDetails?.data?.governorate

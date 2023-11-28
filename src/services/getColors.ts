@@ -3,8 +3,9 @@ import { getColorsendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Color {
-  id: string;
+  id: number;
   title: string;
+  code: string;
   createdAt: string;
   updatedAt: string;
 }

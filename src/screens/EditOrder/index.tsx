@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { editOrderSchema } from './schema';
@@ -39,12 +37,17 @@ import { useEmployees } from '@/hooks/useEmployees';
 import { DatePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
+import { useRepositories } from '@/hooks/useRepositories';
+import { useBranches } from '@/hooks/useBranches';
 
 export const EditOrder = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: employeesData } = useEmployees({ size: 200 });
+  const { data: employeesData } = useEmployees({
+    size: 200,
+    roles: ['DELIVERY_AGENT'],
+  });
   const { data: colors = { data: [] } } = useColors({ size: 200 });
   const { data: sizes = { data: [] } } = useSizes({ size: 200 });
   const {
@@ -53,7 +56,7 @@ export const EditOrder = () => {
     },
     isLoading: isFetchingProduct,
     isError,
-  } = useOrderDetails(id);
+  } = useOrderDetails(parseInt(id));
 
   const form = useForm({
     validate: zodResolver(editOrderSchema),
@@ -82,6 +85,8 @@ export const EditOrder = () => {
         colorID: string;
         sizeID: string;
       }[],
+      repositoryID: '',
+      branchID: '',
     },
   });
 
@@ -92,9 +97,9 @@ export const EditOrder = () => {
         discount: orderDetails?.data?.discount?.toString(),
         status: orderDetails?.data?.status,
         deliveryAgentID:
-          orderDetails?.data?.deliveryAgent?.id &&
-          (orderDetails?.data?.deliveryAgent.id || ''),
-        withProducts: orderDetails.data.OrderProducts?.length > 0,
+          orderDetails?.data?.deliveryAgent?.id.toString() &&
+          (orderDetails?.data?.deliveryAgent.id.toString() || ''),
+        withProducts: orderDetails.data.orderProducts?.length > 0,
         deliveryDate: orderDetails?.data?.deliveryDate || '',
         totalCost: orderDetails?.data?.totalCost?.toString(),
         quantity: orderDetails?.data?.quantity?.toString(),
@@ -106,15 +111,17 @@ export const EditOrder = () => {
         details: orderDetails?.data?.details || '',
         deliveryType: orderDetails?.data?.deliveryType,
         governorate: orderDetails?.data?.governorate,
-        locationID: orderDetails?.data?.location?.id,
-        storeID: orderDetails?.data?.store?.id,
-        products: orderDetails?.data?.OrderProducts?.map((product) => ({
+        locationID: orderDetails?.data?.location?.id.toString(),
+        storeID: orderDetails?.data?.store?.id.toString(),
+        products: orderDetails?.data?.orderProducts?.map((product) => ({
           label: product.product?.title,
-          productID: product.product?.id,
+          productID: product.product?.id.toString(),
           quantity: product.quantity?.toString(),
-          colorID: product?.color?.id,
-          sizeID: product?.size?.id,
+          colorID: product?.color?.id.toString(),
+          sizeID: product?.size?.id.toString(),
         })),
+        repositoryID: orderDetails?.data?.repository?.id.toString(),
+        branchID: orderDetails?.data?.branch?.id.toString(),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,6 +133,9 @@ export const EditOrder = () => {
     },
   } = useLocations({ size: 500 });
 
+  const { data: repositories } = useRepositories({ size: 500 });
+  const { data: branches } = useBranches({ size: 500 });
+
   const {
     data: storesData = {
       data: [],
@@ -135,7 +145,7 @@ export const EditOrder = () => {
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: (data: EditOrderPayload) => {
       return editOrderService({
-        id,
+        id: parseInt(id),
         data,
       });
     },
@@ -158,10 +168,9 @@ export const EditOrder = () => {
     },
   } = useProducts({ size: 500 });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({
-      deliveryAgentID: values.deliveryAgentID,
+      deliveryAgentID: Number(values.deliveryAgentID),
       deliveryDate: values.deliveryDate,
       details: values.details || '',
       discount: parseInt(values.discount),
@@ -171,21 +180,23 @@ export const EditOrder = () => {
       recipientName: values.recipientName,
       recipientPhone: values.recipientPhone,
       status: values.status as keyof typeof orderStatusArabicNames,
+      branchID: Number(values.branchID) || undefined,
+      repositoryID: Number(values.repositoryID) || undefined,
     });
   };
 
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
-    value: product.id,
+    value: product.id.toString(),
     label: product.title,
   }));
 
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -217,6 +228,7 @@ export const EditOrder = () => {
           label="اللون"
           placeholder="اختار اللون"
           data={colorsOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.colorID`)}
           disabled
         />
@@ -225,6 +237,7 @@ export const EditOrder = () => {
           label="المقاس"
           placeholder="اختار المقاس"
           data={sizesOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.sizeID`)}
           disabled
         />
@@ -321,10 +334,29 @@ export const EditOrder = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
+              label="المخزن"
+              size="md"
+              className="w-full"
+              data={getSelectOptions(repositories?.data || [])}
+              {...form.getInputProps('repositoryID')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              label="الفرع"
+              size="md"
+              className="w-full"
+              data={getSelectOptions(branches?.data || [])}
+              {...form.getInputProps('branchID')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
               label="مندوب التوصيل"
               size="md"
               className="w-full"
               data={getSelectOptions(employeesData?.data || [])}
+              limit={100}
               {...form.getInputProps('deliveryAgentID')}
             />
           </Grid.Col>
@@ -405,6 +437,7 @@ export const EditOrder = () => {
               placeholder="اختار المتجر"
               disabled
               data={getSelectOptions(storesData.data)}
+              limit={100}
               {...form.getInputProps('storeID')}
             />
           </Grid.Col>
@@ -414,6 +447,7 @@ export const EditOrder = () => {
               label="المناطق"
               placeholder="اختار المنطقة"
               disabled
+              limit={100}
               data={getSelectOptions(locationsData.data)}
               {...form.getInputProps('locationID')}
             />
@@ -452,7 +486,7 @@ export const EditOrder = () => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
                       const product = productsData.data.find(
-                        (product) => product.id === productID
+                        (product) => product.id.toString() === productID
                       );
                       return {
                         label: product?.title,

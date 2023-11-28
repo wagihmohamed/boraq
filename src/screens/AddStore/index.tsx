@@ -31,10 +31,10 @@ export const AddStore = () => {
     data: clients = {
       data: [],
     },
-  } = useClients({ size: 100 });
+  } = useClients({ size: 500 });
   const clientOptions = clients.data.map((client) => ({
     label: client.name,
-    value: client.id,
+    value: client.id.toString(),
   }));
 
   const { mutate: createStoreAction, isLoading } = useMutation({
@@ -56,7 +56,7 @@ export const AddStore = () => {
   const handleSubmit = (values: z.infer<typeof createProductSchema>) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('notes', values.notes);
+    formData.append('notes', values.notes || '');
     formData.append('clientID', values.client);
     formData.append('logo', values.logo[0]);
     createStoreAction(formData);
@@ -83,6 +83,7 @@ export const AddStore = () => {
               searchable
               label="العميل"
               data={clientOptions}
+              limit={100}
               {...form.getInputProps('client')}
             />
           </Grid.Col>

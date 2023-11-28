@@ -16,8 +16,20 @@ import { ThemeProvider } from './hooks/theme-provider.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import '@mantine/dates/styles.css';
 import { Analytics } from '@vercel/analytics/react';
+import { ErrorScreen } from './screens/ErrorScreen/index.tsx';
+import { AppLayout } from './components/AppLayout/index.tsx';
 
-export const router = createBrowserRouter([{ path: '*', element: <App /> }]);
+export const router = createBrowserRouter([
+  {
+    path: '*',
+    element: <App />,
+    errorElement: (
+      <AppLayout>
+        <ErrorScreen />
+      </AppLayout>
+    ),
+  },
+]);
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

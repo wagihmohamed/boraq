@@ -1,4 +1,3 @@
-/* eslint-disable radix */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { addOrderSchema } from './schema';
@@ -101,13 +100,13 @@ export const AddOrder = () => {
         deliveryType: values.deliveryType,
         details: values.details,
         governorate: values.governorate,
-        locationID: values.locationID,
+        locationID: Number(values.locationID),
         notes: values.notes,
         quantity: parseInt(values.quantity || ''),
         recipientAddress: values.recipientAddress,
         recipientName: values.recipientName,
         recipientPhone: values.recipientPhone,
-        storeID: values.storeID,
+        storeID: Number(values.storeID),
         totalCost: parseInt(values.totalCost || ''),
         weight: parseInt(values.weight || ''),
         withProducts: values.withProducts,
@@ -117,20 +116,20 @@ export const AddOrder = () => {
         deliveryType: values.deliveryType,
         details: values.details,
         governorate: values.governorate,
-        locationID: values.locationID,
+        locationID: Number(values.locationID),
         notes: values.notes,
         products:
           values.products &&
           values.products.map((product) => ({
-            colorID: product.colorID,
-            productID: product.productID,
+            colorID: Number(product.colorID),
+            productID: Number(product.productID),
             quantity: parseInt(product.quantity),
-            sizeID: product.sizeID,
+            sizeID: Number(product.sizeID),
           })),
         recipientAddress: values.recipientAddress,
         recipientName: values.recipientName,
         recipientPhone: values.recipientPhone,
-        storeID: values.storeID,
+        storeID: Number(values.storeID),
         withProducts: values.withProducts,
       });
     }
@@ -138,16 +137,16 @@ export const AddOrder = () => {
 
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
-    value: product.id,
+    value: product.id.toString(),
     label: product.title,
   }));
 
   const colorsOptions = colors.data.map((color) => ({
-    value: color.id,
+    value: color.id.toString(),
     label: color.title,
   }));
   const sizesOptions = sizes.data.map((size) => ({
-    value: size.id,
+    value: size.id.toString(),
     label: size.title,
   }));
 
@@ -178,6 +177,7 @@ export const AddOrder = () => {
           label="اللون"
           placeholder="اختار اللون"
           data={colorsOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.colorID`)}
         />
         <Select
@@ -185,6 +185,7 @@ export const AddOrder = () => {
           label="المقاس"
           placeholder="اختار المقاس"
           data={sizesOptions}
+          limit={100}
           {...form.getInputProps(`products.${index}.sizeID`)}
         />
       </div>
@@ -276,6 +277,7 @@ export const AddOrder = () => {
               searchable
               label="المتجر"
               placeholder="اختار المتجر"
+              limit={100}
               data={getSelectOptions(storesData.data)}
               {...form.getInputProps('storeID')}
             />
@@ -284,6 +286,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="المناطق"
+              limit={100}
               placeholder="اختار المنطقة"
               data={getSelectOptions(locationsData.data)}
               {...form.getInputProps('locationID')}
@@ -293,6 +296,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="نوع التوصيل"
+              limit={100}
               placeholder="اختار نوع التوصيل"
               data={deliveryTypesArray}
               {...form.getInputProps('deliveryType')}
@@ -303,6 +307,7 @@ export const AddOrder = () => {
               searchable
               label="المحافظة"
               placeholder="اختار المحافظة"
+              limit={100}
               data={governorateArray}
               {...form.getInputProps('governorate')}
             />
@@ -315,11 +320,12 @@ export const AddOrder = () => {
                 label="المنتجات"
                 placeholder="اختار المنتجات"
                 data={productsOptions}
+                limit={100}
                 onChange={(selectedProductsIds) => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
                       const product = productsData.data.find(
-                        (product) => product.id === productID
+                        (product) => product.id.toString() === productID
                       );
                       return {
                         label: product?.title,
@@ -374,6 +380,7 @@ export const AddOrder = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/orders');
               }}
             >
               الغاء

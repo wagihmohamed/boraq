@@ -23,11 +23,13 @@ import { APIError } from '@/models';
 import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
+import { useTenants } from '@/hooks/useTenants';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
   const { data: branches = { data: [] } } = useBranches({ size: 200 });
   const { data: repositories = { data: [] } } = useRepositories({ size: 200 });
+  const { data: tenants = { data: [] } } = useTenants({ size: 200 });
   const form = useForm({
     validate: zodResolver(addEmployeeSchema),
     initialValues: {
@@ -41,17 +43,23 @@ export const AddEmployee = () => {
       permissions: [],
       password: '',
       confirmPassword: '',
+      companyID: '',
       avatar: [] as unknown as FileWithPath[],
     },
   });
 
   const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
+
   const transformedRepositories = repositories.data?.map((repository) => ({
-    value: repository.id,
+    value: repository.id.toString(),
     label: repository.name,
   }));
   const queryClient = useQueryClient();
@@ -82,6 +90,7 @@ export const AddEmployee = () => {
     formData.append('role', values.roles);
     formData.append('password', values.password);
     formData.append('avatar', values.avatar[0]);
+    formData.append('companyID', values.companyID);
     formData.append('permissions', JSON.stringify(values.permissions));
     createBranchAction(formData);
   };
@@ -143,6 +152,7 @@ export const AddEmployee = () => {
               label="الفرع"
               placeholder="اختار الفرع"
               data={transformedBranches}
+              limit={100}
               {...form.getInputProps('branch')}
             />
           </Grid.Col>
@@ -152,14 +162,25 @@ export const AddEmployee = () => {
               label="المخزن"
               placeholder="اختار المخزن"
               data={transformedRepositories}
+              limit={100}
               {...form.getInputProps('store')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الشركة"
+              placeholder="اختار الشركة"
+              data={transformedTenants}
+              limit={100}
+              {...form.getInputProps('companyID')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الادوار"
               placeholder="اختار الادوار"
-              data={rolesArray}
+              data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
               {...form.getInputProps('roles')}
             />
           </Grid.Col>
@@ -226,6 +247,7 @@ export const AddEmployee = () => {
               variant="outline"
               onClick={() => {
                 form.reset();
+                navigate('/employees');
               }}
             >
               الغاء

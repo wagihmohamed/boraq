@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AppLayout } from '@/components/AppLayout';
 import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
 import { ChevronRight } from 'lucide-react';
@@ -27,7 +26,11 @@ export const EditLocation = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: locationDetails, isError, isLoading } = useLocationDetails(id);
+  const {
+    data: locationDetails,
+    isError,
+    isLoading,
+  } = useLocationDetails(parseInt(id));
   const form = useForm({
     validate: zodResolver(editLocationSchema),
     initialValues: {
@@ -51,24 +54,24 @@ export const EditLocation = () => {
 
   useEffect(() => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(
-      (delivery) => delivery.id
+      (delivery) => delivery.id.toString()
     );
     form.setValues({
       name: locationDetails?.data.name || '',
       governorate: locationDetails?.data?.governorate || '',
-      branch: locationDetails?.data?.branch.id || '',
+      branch: locationDetails?.data?.branch.id.toString() || '',
       deliveryAgentsIDs: transformedDeliveries || [],
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationDetails]);
 
   const deliveryAgents = employees.data.map((employee) => ({
-    value: employee.id,
+    value: employee.id.toString(),
     label: employee.name,
   }));
 
   const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
@@ -86,7 +89,7 @@ export const EditLocation = () => {
           governorate,
           name,
         },
-        id,
+        id: parseInt(id),
       });
     },
     onSuccess: () => {
@@ -103,8 +106,8 @@ export const EditLocation = () => {
 
   const handleSubmit = (values: z.infer<typeof editLocationSchema>) => {
     editLocationAction({
-      branchID: values.branch,
-      deliveryAgentsIDs: values.deliveryAgentsIDs,
+      branchID: Number(values.branch),
+      deliveryAgentsIDs: values.deliveryAgentsIDs.map((id) => Number(id)),
       governorate: values.governorate as keyof typeof governorateArabicNames,
       name: values.name,
     });
@@ -142,11 +145,13 @@ export const EditLocation = () => {
           label="الفرع"
           searchable
           {...form.getInputProps('branch')}
+          limit={100}
           data={transformedBranches}
         />
         <MultiSelect
           label="المندوبين"
           data={deliveryAgents}
+          limit={100}
           searchable
           {...form.getInputProps('deliveryAgentsIDs')}
         />

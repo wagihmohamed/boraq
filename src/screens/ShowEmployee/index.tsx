@@ -18,7 +18,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const ShowEmployee = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: employeeData, isError, isLoading } = useEmployeeDetails(id);
+  const {
+    data: employeeData,
+    isError,
+    isLoading,
+  } = useEmployeeDetails(parseInt(id));
 
   const userRoles = employeeData?.data.role
     ? rolesArabicNames[employeeData?.data.role]
@@ -89,7 +93,7 @@ export const ShowEmployee = () => {
           <Autocomplete
             label="الفرع"
             placeholder="اختار الفرع"
-            value={employeeData?.data.branch.name || ''}
+            value={employeeData?.data.branch?.name || ''}
             disabled
           />
         </Grid.Col>
@@ -97,7 +101,7 @@ export const ShowEmployee = () => {
           <Autocomplete
             label="المخزن"
             placeholder="اختار المخزن"
-            value={employeeData?.data.repository.name || ''}
+            value={employeeData?.data.repository?.name || ''}
             disabled
           />
         </Grid.Col>

@@ -42,12 +42,12 @@ export const AddLocation = () => {
   } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
   const deliveryAgents = employees.data.map((employee) => ({
-    value: employee.id,
+    value: employee.id.toString(),
     label: employee.name,
   }));
 
   const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id,
+    value: branch.id.toString(),
     label: branch.name,
   }));
 
@@ -79,8 +79,8 @@ export const AddLocation = () => {
 
   const handleSubmit = (values: z.infer<typeof adddLocationSchema>) => {
     createLocationAction({
-      branchID: values.branch,
-      deliveryAgentsIDs: values.deliveryAgentsIDs,
+      branchID: Number(values.branch),
+      deliveryAgentsIDs: values.deliveryAgentsIDs.map(Number),
       governorate: values.governorate,
       name: values.name,
     });
@@ -118,11 +118,13 @@ export const AddLocation = () => {
           label="الفرع"
           searchable
           {...form.getInputProps('branch')}
+          limit={100}
           data={transformedBranches}
         />
         <MultiSelect
           label="المندوبين"
           data={deliveryAgents}
+          limit={100}
           searchable
           {...form.getInputProps('deliveryAgentsIDs')}
         />

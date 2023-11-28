@@ -37,7 +37,11 @@ export const Colors = () => {
               {...color}
               cardDeleteChildren={<DeleteColor colorId={color.id} />}
               cardEditChildren={
-                <EditColor colorId={color.id} title={color.title} />
+                <EditColor
+                  colorId={color.id}
+                  title={color.title}
+                  code={color.code}
+                />
               }
             />
           </Grid.Col>

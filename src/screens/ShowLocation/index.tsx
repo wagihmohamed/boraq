@@ -8,7 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const ShowLocation = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: locationDetails, isLoading, isError } = useLocationDetails(id);
+  const {
+    data: locationDetails,
+    isLoading,
+    isError,
+  } = useLocationDetails(parseInt(id));
   const locationGovernorate = locationDetails?.data?.governorate
     ? governorateArabicNames[locationDetails?.data?.governorate]
     : 'غير معروف';

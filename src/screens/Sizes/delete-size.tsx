@@ -7,11 +7,11 @@ import toast from 'react-hot-toast';
 import { deleteSizeService } from '@/services/deleteSize';
 import { IconTrash } from '@tabler/icons-react';
 
-export const DeleteSize = ({ sizeId }: { sizeId: string }) => {
+export const DeleteSize = ({ sizeId }: { sizeId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteSize, isLoading } = useMutation({
-    mutationFn: (id: string) => deleteSizeService({ id }),
+    mutationFn: (id: number) => deleteSizeService({ id }),
     onSuccess: () => {
       toast.success('تم حذف الحجم بنجاح');
       queryClient.invalidateQueries({

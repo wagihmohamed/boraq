@@ -9,8 +9,8 @@ export interface EditEmployeePayload {
   password?: string;
   phone: string;
   salary: number;
-  repositoryID: string;
-  branchID: string;
+  repositoryID: number;
+  branchID: number;
   role: keyof typeof rolesArabicNames;
   permissions: keyof (typeof permissionsArabicNames)[];
 }
@@ -20,7 +20,7 @@ export const editEmployeeService = async ({
   id,
 }: {
   data: FormData;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<FormData>(editEmployeeendpoint + id, data, {
     headers: {

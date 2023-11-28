@@ -18,9 +18,9 @@ export const ShowOrder = () => {
     data: orederDetails = { data: {} as OrderDetails },
     isLoading,
     isError,
-  } = useOrderDetails(id);
+  } = useOrderDetails(parseInt(id));
 
-  const hasProducts = orederDetails?.data?.OrderProducts?.length > 0;
+  const hasProducts = orederDetails?.data?.orderProducts?.length > 0;
   const convertDateFormat = (date: Date | null): string | null => {
     if (date) {
       const parsedDate = parseISO(date.toISOString());
@@ -200,7 +200,7 @@ export const ShowOrder = () => {
         {hasProducts && (
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <p className="text-2xl font-semibold mb-5">المنتجات</p>
-            {orederDetails?.data?.OrderProducts?.map((product) => (
+            {orederDetails?.data?.orderProducts?.map((product) => (
               <div
                 key={product.product.id}
                 className="grid grid-cols-1 md:grid-cols-2 gap-4 border-primary/60 rounded-md px-4 py-2 border-4 mb-4"

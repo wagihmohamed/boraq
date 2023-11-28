@@ -12,14 +12,14 @@ export const EditCategory = ({
   categoryId,
   title,
 }: {
-  categoryId: string;
+  categoryId: number;
   title: string;
 }) => {
   const [categoryTitle, setCategoryTitle] = useState(title);
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: editSize, isLoading } = useMutation({
-    mutationFn: ({ id, title }: { title: string; id: string }) =>
+    mutationFn: ({ id, title }: { title: string; id: number }) =>
       editCategoryService({ id, title }),
     onSuccess: () => {
       toast.success('تم تعديل الصنف بنجاح');

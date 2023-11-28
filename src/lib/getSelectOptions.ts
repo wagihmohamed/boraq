@@ -1,8 +1,8 @@
-export const getSelectOptions = <T extends { id: string; name: string }>(
+export const getSelectOptions = <T extends { id: number; name: string }>(
   data: T[]
 ): { value: string; label: string }[] => {
   return data.map((item) => ({
-    value: item.id,
+    value: item.id.toString(),
     label: item.name,
   }));
 };

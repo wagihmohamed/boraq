@@ -3,12 +3,12 @@ import { getProductsendpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Product {
-  id: string;
+  id: number;
   title: string;
   price: string;
   image: string;
   stock: number;
-  Category: {
+  category: {
     title: string;
   };
 }

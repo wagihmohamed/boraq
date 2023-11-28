@@ -4,8 +4,8 @@ import { createLocationendpoint } from '@/api/apisUrl';
 export interface CreateLocationPayload {
   name: string;
   governorate: string;
-  branchID: string;
-  deliveryAgentsIDs: string[];
+  branchID: number;
+  deliveryAgentsIDs: number[];
 }
 
 export const createLocationService = async (data: CreateLocationPayload) => {

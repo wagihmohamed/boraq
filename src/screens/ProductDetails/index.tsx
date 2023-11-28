@@ -16,7 +16,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 export const ProductScreen = () => {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { data: productDetails, isLoading, isError } = useProductDetails(id);
+  const {
+    data: productDetails,
+    isLoading,
+    isError,
+  } = useProductDetails(parseInt(id));
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4 mb-6">
@@ -56,7 +60,7 @@ export const ProductScreen = () => {
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <TextInput
             label="الصنف"
-            value={productDetails?.data.Category?.title}
+            value={productDetails?.data.category?.title}
             disabled
           />
         </Grid.Col>
@@ -74,34 +78,39 @@ export const ProductScreen = () => {
         >
           <div className="flex flex-wrap gap-2 items-center">
             <Text>الالوان:</Text>
-            {productDetails?.data.ProductColors.map((color) => (
+            {productDetails?.data.productColors.map((color) => (
               <Badge
                 size="lg"
                 key={color.color.title}
-                className="flex flex-wrap items-center"
-                style={{
-                  backgroundColor: color.color.title,
-                }}
+                variant="outline"
+                className="flex flex-wrap items-center mx-1"
               >
-                المتوفر: {color.quantity}
+                اللون: {color.color.title} - المتوفر: {color.quantity}
               </Badge>
             ))}
           </div>
           <div className="flex flex-wrap gap-2 items-center">
             <Text>الاحجام:</Text>
-            {productDetails?.data.ProductSizes.map((size) => (
+            {productDetails?.data.productSizes.map((size) => (
               <Badge
                 size="lg"
                 key={size.size.title}
                 className="flex flex-wrap items-center flex-col"
               >
-                الحجم: {size.size.title} المتوفر: {size.quantity}
+                الحجم: {size.size.title} - المتوفر: {size.quantity}
               </Badge>
             ))}
           </div>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Button fullWidth>تعديل</Button>
+          <Button
+            fullWidth
+            onClick={() => {
+              navigate(`/home/${id}/edit`);
+            }}
+          >
+            تعديل
+          </Button>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <Button

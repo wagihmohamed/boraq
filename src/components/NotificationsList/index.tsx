@@ -24,7 +24,7 @@ export const NotificationsList = () => {
   const isUnsean = flattenNotifications?.some((item) => !item.seen);
 
   const { mutate: markMessageAsRead } = useMutation({
-    mutationFn: (id: string) => markNotificationAsSeenService({ id }),
+    mutationFn: (id: number) => markNotificationAsSeenService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['notifications'],
@@ -59,7 +59,7 @@ export const NotificationsList = () => {
     }
   }, [entry, fetchNextPage]);
 
-  const handleMarkAsRead = (id: string, isSeen: boolean) => {
+  const handleMarkAsRead = (id: number, isSeen: boolean) => {
     if (isSeen) return;
     markMessageAsRead(id);
   };
@@ -108,8 +108,8 @@ export const NotificationsList = () => {
                       !item.seen && 'bg-primary/30'
                     )}
                   >
-                    <p>{item.title}</p>
-                    <p>{item.content}</p>
+                    <p>{item.title || 'لا يوجد'}</p>
+                    <p>{item.content || 'لايوجد'}</p>
                   </div>
                 </Menu.Item>
               );

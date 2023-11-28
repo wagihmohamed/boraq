@@ -6,11 +6,11 @@ export const editCategoryService = async ({
   id,
 }: {
   title: string;
-  id: string;
+  id: number;
 }) => {
   const response = await api.patch<{
     title: string;
-    id: string;
+    id: number;
   }>(editCategoryendpoint + id, { title });
   return response.data;
 };
