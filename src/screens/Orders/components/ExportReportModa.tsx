@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, Grid } from '@mantine/core';
+import { Modal, Button, Select, Grid, Menu } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import { useOrdersStore } from '@/store/ordersStore';
 import { reportTypeArray } from '@/lib/reportTypeArabicNames';
@@ -22,6 +22,7 @@ import {
 } from '@/lib/governorateArabicNames ';
 import { CreateReportPayload } from '@/services/createReport';
 import { useEffect } from 'react';
+import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 
 export const ExportReportModal = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -77,7 +78,7 @@ export const ExportReportModal = () => {
   } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
 
   const { mutateAsync, isLoading } = useCreateReport();
-
+  const { mutateAsync: exportReceipt } = useOrderReceipt('مجموعة فواتير');
   useEffect(() => {
     form.setFieldValue(
       'ordersIDs',
@@ -150,6 +151,16 @@ export const ExportReportModal = () => {
   };
 
   const reportType = form.values.type;
+  const handleCreateReceipt = () => {
+    toast.promise(
+      exportReceipt(selectedOrders.map((order) => Number(order.id))),
+      {
+        loading: 'جاري تصدير الفاتورة',
+        success: 'تم تصدير الفاتورة بنجاح',
+        error: (error) => error.response?.data.message || 'حدث خطأ ما',
+      }
+    );
+  };
 
   return (
     <>
@@ -277,9 +288,16 @@ export const ExportReportModal = () => {
         </form>
       </Modal>
 
-      <Button disabled={!selectedOrders.length} onClick={open}>
-        تصدير الكشف
-      </Button>
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <Button disabled={!selectedOrders.length}>تصدير</Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>نوع التصدير</Menu.Label>
+          <Menu.Item onClick={open}>كشف</Menu.Item>
+          <Menu.Item onClick={handleCreateReceipt}>فاتورة</Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
       <p>
         {selectedOrders.length
           ? `تم تحديد ${selectedOrders.length} طلب`
