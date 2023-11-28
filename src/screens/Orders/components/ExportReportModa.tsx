@@ -154,7 +154,16 @@ export const ExportReportModal = () => {
 
   const handleCreateReceipts = () => {
     toast.promise(
-      exportReceipt(selectedOrders.map((order) => Number(order.id))),
+      exportReceipt(
+        selectedOrders.map((order) => Number(order.id)),
+        {
+          onSuccess: () => {
+            close();
+            form.reset();
+            deleteAllOrders();
+          },
+        }
+      ),
       {
         loading: 'جاري تصدير الفاتورة',
         success: 'تم تصدير الفاتورة بنجاح',
