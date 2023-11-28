@@ -4,13 +4,16 @@ import { editColorendpoint } from '@/api/apisUrl';
 export const editColorService = async ({
   title,
   id,
+  code,
 }: {
   title: string;
   id: number;
+  code: string;
 }) => {
   const response = await api.patch<{
     title: string;
     id: number;
-  }>(editColorendpoint + id, { title });
+    code: string;
+  }>(editColorendpoint + id, { title, code });
   return response.data;
 };

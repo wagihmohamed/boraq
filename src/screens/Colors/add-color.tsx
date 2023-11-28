@@ -11,11 +11,12 @@ import { SketchPicker } from 'react-color';
 
 export const AddColor = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [colorCode, setColorCode] = useState('');
   const [colorName, setColorName] = useState('');
   const queryClient = useQueryClient();
   const { mutate: addColorAction, isLoading } = useMutation({
-    mutationFn: ({ title }: CreateColorPayload) =>
-      createColorService({ title }),
+    mutationFn: ({ title, code }: CreateColorPayload) =>
+      createColorService({ title, code }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['colors'],
@@ -30,7 +31,7 @@ export const AddColor = () => {
 
   const handleDelete = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addColorAction({ title: colorName });
+    addColorAction({ title: colorName, code: colorCode });
   };
 
   return (
@@ -38,8 +39,8 @@ export const AddColor = () => {
       <Modal opened={opened} onClose={close} title="اضافة لون" centered>
         <form onSubmit={handleDelete}>
           <SketchPicker
-            color={colorName}
-            onChangeComplete={(color) => setColorName(color.hex)}
+            color={colorCode}
+            onChangeComplete={(color) => setColorCode(color.hex)}
           />
           <TextInput
             label="اسم اللون"

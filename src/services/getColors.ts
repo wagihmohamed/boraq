@@ -5,6 +5,7 @@ import { Filters } from './getEmployeesService';
 export interface Color {
   id: number;
   title: string;
+  code: string;
   createdAt: string;
   updatedAt: string;
 }

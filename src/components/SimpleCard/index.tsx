@@ -6,6 +6,7 @@ interface SimpleCardProps {
   createdAt: string;
   cardEditChildren?: React.ReactNode;
   cardDeleteChildren?: React.ReactNode;
+  code?: string;
 }
 
 export const SimpleCard = ({
@@ -13,6 +14,7 @@ export const SimpleCard = ({
   title,
   cardDeleteChildren,
   cardEditChildren,
+  code,
 }: SimpleCardProps) => {
   return (
     <Card
@@ -21,7 +23,7 @@ export const SimpleCard = ({
       radius="md"
       withBorder
       style={{
-        backgroundColor: title,
+        backgroundColor: code,
       }}
     >
       <div className="flex justify-between">

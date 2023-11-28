@@ -3,6 +3,7 @@ import { createColorendpoint } from '@/api/apisUrl';
 
 export interface CreateColorPayload {
   title: string;
+  code: string;
 }
 
 export const createColorService = async (data: CreateColorPayload) => {
