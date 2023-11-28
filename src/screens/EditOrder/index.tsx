@@ -37,6 +37,8 @@ import { useEmployees } from '@/hooks/useEmployees';
 import { DatePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
+import { useRepositories } from '@/hooks/useRepositories';
+import { useBranches } from '@/hooks/useBranches';
 
 export const EditOrder = () => {
   const { id = '' } = useParams();
@@ -83,6 +85,8 @@ export const EditOrder = () => {
         colorID: string;
         sizeID: string;
       }[],
+      repositoryID: '',
+      branchID: '',
     },
   });
 
@@ -116,6 +120,8 @@ export const EditOrder = () => {
           colorID: product?.color?.id.toString(),
           sizeID: product?.size?.id.toString(),
         })),
+        repositoryID: orderDetails?.data?.repository?.id.toString(),
+        branchID: orderDetails?.data?.branch?.id.toString(),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,6 +132,9 @@ export const EditOrder = () => {
       data: [],
     },
   } = useLocations({ size: 500 });
+
+  const { data: repositories } = useRepositories({ size: 500 });
+  const { data: branches } = useBranches({ size: 500 });
 
   const {
     data: storesData = {
@@ -171,6 +180,8 @@ export const EditOrder = () => {
       recipientName: values.recipientName,
       recipientPhone: values.recipientPhone,
       status: values.status as keyof typeof orderStatusArabicNames,
+      branchID: Number(values.branchID) || undefined,
+      repositoryID: Number(values.repositoryID) || undefined,
     });
   };
 
@@ -319,6 +330,24 @@ export const EditOrder = () => {
               className="w-full"
               data={orderStatusArray}
               {...form.getInputProps('status')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              label="المخزن"
+              size="md"
+              className="w-full"
+              data={getSelectOptions(repositories?.data || [])}
+              {...form.getInputProps('repositoryID')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              label="الفرع"
+              size="md"
+              className="w-full"
+              data={getSelectOptions(branches?.data || [])}
+              {...form.getInputProps('branchID')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

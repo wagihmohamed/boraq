@@ -13,6 +13,8 @@ export interface EditOrderPayload {
   recipientAddress: string;
   notes: string;
   details: string;
+  repositoryID?: number;
+  branchID?: number;
 }
 
 export const editOrderService = async ({

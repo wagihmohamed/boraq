@@ -43,6 +43,14 @@ export interface OrderDetails {
   governorate: keyof typeof governorateArabicNames;
   location: Location;
   store: Location;
+  branch: {
+    id: number;
+    name: string;
+  } | null;
+  repository: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface Color {

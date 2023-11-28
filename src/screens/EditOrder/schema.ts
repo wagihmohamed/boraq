@@ -65,4 +65,6 @@ export const editOrderSchema = z.object({
     .min(1, { message: 'الرجاء ادخال عنوان المستلم' }),
   notes: z.string().optional(),
   details: z.string().optional(),
+  repositoryID: z.string(),
+  branchID: z.string(),
 });
