@@ -151,7 +151,8 @@ export const ExportReportModal = () => {
   };
 
   const reportType = form.values.type;
-  const handleCreateReceipt = () => {
+
+  const handleCreateReceipts = () => {
     toast.promise(
       exportReceipt(selectedOrders.map((order) => Number(order.id))),
       {
@@ -295,7 +296,7 @@ export const ExportReportModal = () => {
         <Menu.Dropdown>
           <Menu.Label>نوع التصدير</Menu.Label>
           <Menu.Item onClick={open}>كشف</Menu.Item>
-          <Menu.Item onClick={handleCreateReceipt}>فاتورة</Menu.Item>
+          <Menu.Item onClick={handleCreateReceipts}>فاتورة</Menu.Item>
         </Menu.Dropdown>
       </Menu>
       <p>
