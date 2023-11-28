@@ -82,12 +82,10 @@ export const ProductScreen = () => {
               <Badge
                 size="lg"
                 key={color.color.title}
-                className="flex flex-wrap items-center"
-                style={{
-                  backgroundColor: color.color.title,
-                }}
+                variant="outline"
+                className="flex flex-wrap items-center mx-1"
               >
-                المتوفر: {color.quantity}
+                اللون: {color.color.title} - المتوفر: {color.quantity}
               </Badge>
             ))}
           </div>
@@ -99,7 +97,7 @@ export const ProductScreen = () => {
                 key={size.size.title}
                 className="flex flex-wrap items-center flex-col"
               >
-                الحجم: {size.size.title} المتوفر: {size.quantity}
+                الحجم: {size.size.title} - المتوفر: {size.quantity}
               </Badge>
             ))}
           </div>

@@ -104,7 +104,7 @@ export const EditProductScreen = () => {
           type="number"
           label={
             <div className="mb-2">
-              <Badge color={color.label}>{color.label}</Badge>
+              <Badge>اللون: {color.label}</Badge>
             </div>
           }
           placeholder="الكمية"
