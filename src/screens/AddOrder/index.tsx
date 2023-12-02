@@ -77,9 +77,11 @@ export const AddOrder = () => {
     },
     onSuccess: () => {
       toast.success('تم اضافة الطلب بنجاح');
-      navigate('/orders');
       queryClient.invalidateQueries({
         queryKey: ['orders'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['ordersStatistics'],
       });
       form.reset();
     },

@@ -8,7 +8,7 @@ export const useValidateToken = () => {
     queryFn: () => validateToken(),
     enabled: !!token,
     refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     retry: false,
   });
 };

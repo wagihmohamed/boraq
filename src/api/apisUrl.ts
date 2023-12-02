@@ -68,3 +68,5 @@ export const createReportendpoint = '/reports';
 export const editReportendpoint = '/reports/';
 export const deleteReportendpoint = '/reports/';
 export const changeReportStatusendpoint = '/reports/';
+export const ordersStatisticsendpoint = '/orders/statistics';
+export const ordersStatisticsTodatendpoint = '/orders/today';
