@@ -31,7 +31,7 @@ export const LoginScreen = () => {
       queryClient.invalidateQueries({
         queryKey: ['validateToken'],
       });
-      navigate('/home');
+      navigate('/statistics');
       setAuth(data);
     },
     onError: (error: AxiosError<APIError>) => {

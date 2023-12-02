@@ -45,6 +45,7 @@ import { AddOrder } from './screens/AddOrder';
 import { ShowOrder } from './screens/ShowOrder';
 import { EditOrder } from './screens/EditOrder';
 import { ReportsScreen } from './screens/Reports';
+import { Home } from './screens/Home';
 
 function App() {
   const navigate = useNavigate();
@@ -57,8 +58,8 @@ function App() {
 
   useEffect(() => {
     if (isSuccess) {
-      const navigateTo = isBaseRoute ? '/home' : location.pathname;
-      navigate(navigateTo || '/home');
+      const navigateTo = isBaseRoute ? '/statistics' : location.pathname;
+      navigate(navigateTo || '/statistics');
     }
   }, [isSuccess, navigate, isBaseRoute, location.pathname]);
 
@@ -116,6 +117,7 @@ function App() {
         <Route path="/orders/:id/show" element={<ShowOrder />} />
         <Route path="/orders/:id/edit" element={<EditOrder />} />
         <Route path="/reports" element={<ReportsScreen />} />
+        <Route path="/statistics" element={<Home />} />
       </Route>
     </Routes>
   );

@@ -11,9 +11,16 @@ import {
   IconShoppingBag,
   IconPackageExport,
   IconFileTypePdf,
+  IconChartPie3,
 } from '@tabler/icons-react';
 
 export const navSections = [
+  {
+    link: '/statistics',
+    label: 'الاحصائيات',
+    enLabel: 'statistics',
+    icon: IconChartPie3,
+  },
   { link: '/home', label: 'المنتجات', enLabel: 'home', icon: IconBox },
   {
     link: '/orders',
