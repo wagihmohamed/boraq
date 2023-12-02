@@ -1,5 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useOrdersStatistics } from '@/hooks/useOrdersStatistics';
+import { useTodayOrdersStatistics } from '@/hooks/useTodayOrdersStatistics';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { OrdersStatistics } from '@/services/getOrdersStatisticsService';
@@ -9,6 +10,7 @@ import {
   Group,
   Paper,
   RingProgress,
+  Skeleton,
   Text,
   rem,
 } from '@mantine/core';
@@ -113,6 +115,8 @@ export const CustomPieChart = ({
 };
 
 export const Home = () => {
+  const { data: todayStatistics, isLoading: isTodayStatisticsLoading } =
+    useTodayOrdersStatistics();
   const { data: ordersStatistics, isError, isLoading } = useOrdersStatistics();
   const ordersStatusStatistics =
     ordersStatistics?.data.ordersStatisticsByStatus;
@@ -208,6 +212,72 @@ export const Home = () => {
               </div>
             </Group>
           </Paper>
+        </Grid.Col>
+        <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          {isTodayStatisticsLoading ? (
+            <Skeleton height="100%" />
+          ) : (
+            <Paper withBorder radius="md" p="xs">
+              <Group>
+                <RingProgress
+                  size={80}
+                  roundCaps
+                  thickness={8}
+                  sections={[{ value: 65, color: 'red' }]}
+                  label={
+                    <Center>
+                      <IconArrowUpRight
+                        style={{ width: rem(20), height: rem(20) }}
+                        stroke={1.5}
+                      />
+                    </Center>
+                  }
+                />
+
+                <div>
+                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
+                    العدد الكلي للطلبات اليوم
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {todayStatistics?.data.count}
+                  </Text>
+                </div>
+              </Group>
+            </Paper>
+          )}
+        </Grid.Col>
+        <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          {isTodayStatisticsLoading ? (
+            <Skeleton height="100%" />
+          ) : (
+            <Paper withBorder radius="md" p="xs">
+              <Group>
+                <RingProgress
+                  size={80}
+                  roundCaps
+                  thickness={8}
+                  sections={[{ value: 65, color: 'violet' }]}
+                  label={
+                    <Center>
+                      <IconArrowUpRight
+                        style={{ width: rem(20), height: rem(20) }}
+                        stroke={1.5}
+                      />
+                    </Center>
+                  }
+                />
+
+                <div>
+                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
+                    اجمالي التكلفة اليوم
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {todayStatistics?.data.totalCost}
+                  </Text>
+                </div>
+              </Group>
+            </Paper>
+          )}
         </Grid.Col>
       </Grid>
     </AppLayout>
