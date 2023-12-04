@@ -21,6 +21,11 @@ export interface Employee {
     createdAt: string;
     updatedAt: string;
   };
+  company: {
+    id: number;
+    name: string;
+    logo: string | null;
+  };
   repository: {
     id: number;
     name: string;
