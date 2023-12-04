@@ -11,7 +11,7 @@ export interface Client {
   username: string; // add username to the payload
   avatar: string | null;
   role: keyof typeof clientTypeArabicNames;
-  branch: Branch;
+  branch: Branch | null;
   createdBy: {
     id: number;
     name: string;

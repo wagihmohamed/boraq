@@ -42,13 +42,11 @@ export const editEmployeeSchema = z
       })
 
       .min(1, { message: 'الرجاء اختيار الادوار' }),
-    permissions: z
-      .array(
-        z.string({
-          required_error: 'الرجاء اختيار الصلاحيات',
-        })
-      )
-      .min(1, { message: 'الرجاء اختيار الصلاحيات' }),
+    permissions: z.array(
+      z.string({
+        required_error: 'الرجاء اختيار الصلاحيات',
+      })
+    ),
     password: z
       .string()
       .refine((password) => !password || password.length >= 6, {

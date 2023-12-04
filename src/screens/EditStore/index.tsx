@@ -26,6 +26,7 @@ const EditStore = () => {
     label: client.name,
     value: client.id.toString(),
   }));
+
   const {
     data: storeDetails,
     isLoading,
@@ -76,7 +77,9 @@ const EditStore = () => {
     formData.append('name', values.name);
     formData.append('notes', values.notes);
     formData.append('clientID', values.client);
-    formData.append('logo', values.logo[0]);
+    if (values.logo[0] instanceof File) {
+      formData.append('logo', values.logo[0]);
+    }
     editProductAction({
       id: parseInt(id),
       data: formData,

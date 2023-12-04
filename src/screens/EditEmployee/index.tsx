@@ -69,6 +69,7 @@ export const EditEmployee = () => {
         branch: employeeDetails.data.branch?.id.toString(),
         repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
+        companyID: employeeDetails.data.company.id.toString(),
         permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
@@ -125,7 +126,10 @@ export const EditEmployee = () => {
     if (values.password) {
       formData.append('password', values.password);
     }
-    formData.append('avatar', values?.avatar[0] || '');
+    if (values.avatar[0] instanceof File) {
+      formData.append('avatar', (values?.avatar[0] as File) || '');
+    }
+
     editEmployeeAction(formData);
   };
 

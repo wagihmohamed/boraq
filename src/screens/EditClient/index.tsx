@@ -62,6 +62,7 @@ export const EditClient = () => {
         phone: clientDetails.data.phone,
         branch: clientDetails.data.branch?.id.toString(),
         type: clientDetails.data.role,
+        companyID: clientDetails.data.company?.id.toString(),
         avatar: [avatarAddress] as unknown as FileWithPath[],
       });
     }
