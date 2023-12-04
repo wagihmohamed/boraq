@@ -15,6 +15,18 @@ export interface Report {
   type: keyof typeof reportTypeArabicNames;
   createdAt: string;
   updatedAt: string;
+  companyReport: {
+    reportNumber: string;
+    company: {
+      id: number;
+      name: string;
+    };
+    companyReportOrders: {
+      id: number;
+      receiptNumber: string;
+      companyReportReportNumber: string;
+    }[];
+  } | null;
   clientReport: {
     reportNumber: string;
     client: {
@@ -25,7 +37,7 @@ export interface Report {
       id: number;
       name: string;
     };
-    orders: {
+    clientReportOrders: {
       id: number;
       receiptNumber: string;
       clientReportReportNumber: string;
@@ -37,7 +49,7 @@ export interface Report {
       id: number;
       name: string;
     };
-    orders: {
+    repositoryReportOrders: {
       id: number;
       receiptNumber: string;
       repositoryReportReportNumber: string;
@@ -49,7 +61,7 @@ export interface Report {
       id: number;
       name: string;
     };
-    orders: {
+    branchReportOrders: {
       id: number;
       receiptNumber: string;
       branchReportReportNumber: string;
@@ -58,7 +70,7 @@ export interface Report {
   governorateReport: {
     reportNumber: string;
     governorate: keyof typeof governorateArabicNames;
-    orders: {
+    governorateReportOrders: {
       id: number;
       receiptNumber: string;
       governorateReportReportNumber: string;
@@ -70,12 +82,14 @@ export interface Report {
       id: number;
       name: string;
     };
-    orders: {
+    deliveryAgentReportOrders: {
       id: number;
       receiptNumber: string;
       deliveryAgentReportReportNumber: string;
     }[];
   } | null;
+  baghdadOrdersCount: number;
+  governoratesOrdersCount: number;
 }
 
 export interface GetReportsResponse {

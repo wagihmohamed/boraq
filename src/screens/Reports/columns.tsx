@@ -39,6 +39,14 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
+    accessorKey: 'baghdadOrdersCount',
+    header: 'عدد الطلبات في بغداد',
+  },
+  {
+    accessorKey: 'governoratesOrdersCount',
+    header: 'طلبات المحافظات',
+  },
+  {
     accessorKey: 'createdAt',
     header: 'تاريخ الإنشاء',
     accessorFn: ({ createdAt }) => {
