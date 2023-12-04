@@ -35,9 +35,9 @@ export const addEmployeeSchema = z
       })
 
       .min(1, { message: 'الرجاء اختيار الادوار' }),
-    permissions: z
-      .array(z.string({ required_error: 'الرجاء اختيار الصلاحيات' }))
-      .min(1, { message: 'الرجاء اختيار الصلاحيات' }),
+    permissions: z.array(
+      z.string({ required_error: 'الرجاء اختيار الصلاحيات' })
+    ),
     password: z.string().min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     confirmPassword: z
       .string()
