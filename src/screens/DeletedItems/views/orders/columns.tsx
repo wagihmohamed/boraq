@@ -1,22 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Link } from 'react-router-dom';
 import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
-import { IconFileTypePdf } from '@tabler/icons-react';
-import { useOrderReceipt } from '@/hooks/useOrderReceipt';
-import toast from 'react-hot-toast';
+import { Checkbox, Text } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
+import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
+import { format, parseISO } from 'date-fns';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -99,14 +97,6 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المبلغ',
   },
   {
-    accessorKey: 'paidAmount',
-    header: 'المبلغ المدفوع',
-  },
-  {
-    accessorKey: 'totalCostInUSD',
-    header: 'المبلغ بالدولار',
-  },
-  {
     accessorKey: 'paidAmountInUSD',
     header: 'المبلغ المدفوع بالدولار',
   },
@@ -125,19 +115,22 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
+    accessorKey: 'deletedAt',
+    header: 'تاريخ الحذف',
+    accessorFn: ({ deletedAt }) => {
+      if (deletedAt) {
+        return format(parseISO(deletedAt), 'yyyy-MM-dd');
+      }
+      return '';
+    },
+  },
+  {
+    accessorKey: 'deletedBy.name',
+    header: 'من قبل',
+  },
+  {
     id: 'actions',
-    cell: ({ row }) => {
-      const { id, recipientName } = row.original;
-      const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
-
-      const handleDownload = () => {
-        toast.promise(getReceipt([id]), {
-          loading: 'جاري تحميل الفاتورة...',
-          success: 'تم تحميل الفاتورة بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
-        });
-      };
-
+    cell: () => {
       return (
         <DropdownMenu dir="rtl">
           <DropdownMenuTrigger asChild>
@@ -146,36 +139,7 @@ export const columns: ColumnDef<Order>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/orders/${id}/show`}
-            >
-              عرض
-            </Link>
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/orders/${id}/edit`}
-            >
-              تعديل
-            </Link>
-            <div className="flex justify-center">
-              <HoverCard width={rem(120)} shadow="md">
-                <HoverCard.Target>
-                  <ActionIcon variant="filled" onClick={handleDownload}>
-                    <IconFileTypePdf />
-                  </ActionIcon>
-                </HoverCard.Target>
-                <HoverCard.Dropdown>
-                  <Text size="sm">تحميل الفاتورة</Text>
-                </HoverCard.Dropdown>
-              </HoverCard>
-            </div>
+            <PermanentlyDeleteOrder />
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -68,7 +68,7 @@ export const AddStore = () => {
           size={34}
           className="mt-2 cursor-pointer"
           onClick={() => {
-            navigate('/store');
+            navigate('/stores');
           }}
         />
         <h1 className="text-3xl font-semibold">اضافة متجر جديد</h1>

@@ -47,6 +47,7 @@ export interface Filters {
   size?: number;
   pagesCount?: number;
   roles?: (keyof typeof rolesArabicNames)[];
+  deleted?: boolean;
 }
 
 export const getEmployeesService = async (

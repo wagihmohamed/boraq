@@ -34,6 +34,12 @@ export interface Order {
     color: string;
     size: string;
   }[];
+  deleted?: boolean;
+  deletedAt?: string | null;
+  deletedBy: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface GetOrdersResponse {
@@ -61,29 +67,31 @@ export interface OrdersFilter extends Filters {
   recipient_name?: string;
   recipient_phone?: string;
   recipient_address?: string;
+  deleted?: boolean;
 }
 
 export const getOrdersService = async (
   {
     page = 1,
     size = 10,
-    search, // done
-    sort, // done
+    search,
+    sort,
     start_date,
     end_date,
-    delivery_date, // done
-    governorate, // done
-    status, // done
-    delivery_type, // done
+    delivery_date,
+    governorate,
+    status,
+    delivery_type,
     delivery_agent_id,
-    client_id, // done
-    store_id, // done
+    client_id,
+    store_id,
     product_id,
-    location_id, // done
-    receipt_number, // no need
-    recipient_name, // no need
-    recipient_phone, // no need
-    recipient_address, // no need
+    location_id,
+    receipt_number,
+    recipient_name,
+    recipient_phone,
+    recipient_address,
+    deleted = false,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -107,6 +115,7 @@ export const getOrdersService = async (
       recipient_name: recipient_name || undefined,
       recipient_phone: recipient_phone || undefined,
       recipient_address: recipient_address || undefined,
+      deleted,
     },
   });
   return response.data;
