@@ -1,0 +1,77 @@
+import { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, Badge } from '@mantine/core';
+import { Client } from '@/services/getClients';
+import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
+import { IMAGE_BASE_URL } from '@/api';
+
+export const columns: ColumnDef<Client>[] = [
+  {
+    accessorKey: 'avatar',
+    header: 'الصورة',
+    cell: ({ row }) => {
+      const { avatar } = row.original;
+      return <Avatar src={IMAGE_BASE_URL + avatar} alt="avatar" size="lg" />;
+    },
+  },
+  {
+    accessorKey: 'name',
+    header: 'الاسم',
+  },
+  {
+    accessorKey: 'branch.name',
+    header: 'الفرع',
+    cell: ({ row }) => {
+      const { branch } = row.original;
+      return <div>{branch?.name || 'لا يوجد'}</div>;
+    },
+  },
+  {
+    accessorKey: 'company.name',
+    header: 'الشركة',
+  },
+  {
+    accessorKey: 'phone',
+    header: 'رقم الهاتف',
+  },
+  {
+    accessorKey: 'role',
+    header: 'نوع الحساب',
+    cell: ({ row }) => {
+      const { role } = row.original;
+      return (
+        <div>
+          {role === 'CLIENT' ? (
+            <Badge>عميل</Badge>
+          ) : (
+            <Badge color="red">مساعد عميل</Badge>
+          )}
+        </div>
+      );
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const { id } = row.original;
+      return (
+        <DropdownMenu dir="rtl">
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center">
+            <PermanentlyDeleteOrder clientId={id} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];

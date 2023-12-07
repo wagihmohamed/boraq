@@ -1,5 +1,5 @@
 import { AppLayout } from '@/components/AppLayout';
-import { Tabs } from '@mantine/core';
+import { Paper, Tabs } from '@mantine/core';
 
 import { DeletedOrdersView } from './views/orders/OrdersView';
 import { useOrders } from '@/hooks/useOrders';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { DeletedStoresView } from './views/Stores/StoreView';
 import { DeletedReportsView } from './views/Reports';
 import { DeletedEmployees } from './views/Employees';
+import { DeletedClientsView } from './views/Clients';
 
 type TabsTypes = 'ORDERS' | 'REPORTS' | 'CLIENTS' | 'STORES' | 'EMPLOYEES';
 
@@ -28,21 +29,22 @@ export const DeletedScreen = () => {
           }
         }}
       >
-        <Tabs.List grow className="mb-12">
-          <Tabs.Tab value="ORDERS">الطلبات المحذوفة</Tabs.Tab>
-          <Tabs.Tab value="STORES">
-            <div>المتاجر المحذوفة</div>
-          </Tabs.Tab>
-          <Tabs.Tab value="REPORTS">
-            <div>الكشوفات المحذوفة</div>
-          </Tabs.Tab>
-          <Tabs.Tab value="CLIENTS">
-            <div>العملاء المحذوفين</div>
-          </Tabs.Tab>
-          <Tabs.Tab value="EMPLOYEES">
-            <div>الموظفين المحذوفين</div>
-          </Tabs.Tab>
-        </Tabs.List>
+        <Paper className="mb-12 py-2 rounded px-3" withBorder>
+          <Tabs.List grow>
+            <Tabs.Tab value="STORES">
+              <div>المتاجر المحذوفة</div>
+            </Tabs.Tab>
+            <Tabs.Tab value="REPORTS">
+              <div>الكشوفات المحذوفة</div>
+            </Tabs.Tab>
+            <Tabs.Tab value="CLIENTS">
+              <div>العملاء المحذوفين</div>
+            </Tabs.Tab>
+            <Tabs.Tab value="EMPLOYEES">
+              <div>الموظفين المحذوفين</div>
+            </Tabs.Tab>
+          </Tabs.List>
+        </Paper>
         <Tabs.Panel value="ORDERS">
           <DeletedOrdersView />
         </Tabs.Panel>
@@ -52,7 +54,9 @@ export const DeletedScreen = () => {
         <Tabs.Panel value="REPORTS">
           <DeletedReportsView />
         </Tabs.Panel>
-        <Tabs.Panel value="CLIENTS">العملاء المحذوفين</Tabs.Panel>
+        <Tabs.Panel value="CLIENTS">
+          <DeletedClientsView />
+        </Tabs.Panel>
         <Tabs.Panel value="EMPLOYEES">
           <DeletedEmployees />
         </Tabs.Panel>
