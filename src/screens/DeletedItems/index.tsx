@@ -31,6 +31,7 @@ export const DeletedScreen = () => {
       >
         <Paper className="mb-12 py-2 rounded px-3" withBorder>
           <Tabs.List grow>
+            <Tabs.Tab value="ORDERS">الطلبات المحذوفة</Tabs.Tab>
             <Tabs.Tab value="STORES">
               <div>المتاجر المحذوفة</div>
             </Tabs.Tab>
