@@ -8,6 +8,7 @@ export const DeletedStoresView = () => {
   const [filters, setFilters] = useState<Filters>({
     page: 1,
     size: 10,
+    deleted: true,
   });
 
   const {
@@ -16,7 +17,7 @@ export const DeletedStoresView = () => {
       pagesCount: 0,
       page: 1,
     },
-  } = useStores({ ...filters, deleted: true });
+  } = useStores(filters);
 
   return (
     <DataTable

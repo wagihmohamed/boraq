@@ -90,6 +90,12 @@ export interface Report {
   } | null;
   baghdadOrdersCount: number;
   governoratesOrdersCount: number;
+  deleted?: boolean;
+  deletedAt?: string;
+  deletedBy?: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface GetReportsResponse {
@@ -125,6 +131,9 @@ export const getReportsService = async (
     governorate,
     status,
     type,
+    deleted,
+    page = 1,
+    size = 10,
   }: ReportsFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetReportsResponse>(getReportsendpoint, {
@@ -139,6 +148,9 @@ export const getReportsService = async (
       governorate: governorate || undefined,
       status: status || undefined,
       type: type || undefined,
+      page,
+      size,
+      deleted: deleted || undefined,
     },
   });
   return response.data;

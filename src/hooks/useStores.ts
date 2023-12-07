@@ -7,6 +7,6 @@ export const useStores = (
 ) => {
   return useQuery({
     queryKey: ['stores', { page, size, deleted }],
-    queryFn: () => getStoresService({ page, size }),
+    queryFn: () => getStoresService({ page, size, deleted }),
   });
 };

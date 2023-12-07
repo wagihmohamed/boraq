@@ -8,6 +8,7 @@ export const useReports = (filter: ReportsFilters = { page: 1, size: 10 }) => {
       {
         page: filter.page || 1,
         size: 10,
+        deleted: filter.deleted,
         ...filter,
       },
     ],
@@ -15,6 +16,7 @@ export const useReports = (filter: ReportsFilters = { page: 1, size: 10 }) => {
       getReportsService({
         page: filter.page || 1,
         size: filter.size || 10,
+        deleted: filter.deleted,
         ...filter,
       }),
   });

@@ -5,6 +5,7 @@ import { DeletedOrdersView } from './views/orders/OrdersView';
 import { useOrders } from '@/hooks/useOrders';
 import { useState } from 'react';
 import { DeletedStoresView } from './views/Stores/StoreView';
+import { DeletedReportsView } from './views/Reports';
 
 type TabsTypes = 'ORDERS' | 'REPORTS' | 'CLIENTS' | 'STORES' | 'EMPLOYEES';
 
@@ -15,6 +16,7 @@ export const DeletedScreen = () => {
   return (
     <AppLayout isLoading={isInitialLoading} isError={isError}>
       <Tabs
+        keepMounted={false}
         variant="pills"
         radius="md"
         defaultValue="STORES"
@@ -46,7 +48,9 @@ export const DeletedScreen = () => {
         <Tabs.Panel value="STORES">
           <DeletedStoresView />
         </Tabs.Panel>
-        <Tabs.Panel value="REPORTS">الكشوفات المحذوفة</Tabs.Panel>
+        <Tabs.Panel value="REPORTS">
+          <DeletedReportsView />
+        </Tabs.Panel>
         <Tabs.Panel value="CLIENTS">العملاء المحذوفين</Tabs.Panel>
         <Tabs.Panel value="EMPLOYEES">الموظفين المحذوفين</Tabs.Panel>
       </Tabs>
