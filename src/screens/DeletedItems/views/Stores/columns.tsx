@@ -11,6 +11,7 @@ import { Store } from '@/services/getStores';
 import { Avatar } from '@mantine/core';
 import { IMAGE_BASE_URL } from '@/api';
 import { PermanentlyDeleteStore } from './PermanentlyDeleteStore';
+import { format, parseISO } from 'date-fns';
 
 export const columns: ColumnDef<Store>[] = [
   {
@@ -46,6 +47,17 @@ export const columns: ColumnDef<Store>[] = [
   {
     accessorKey: 'deletedAt',
     header: 'تاريخ الحذف',
+    cell: ({ row }) => {
+      const { deletedAt } = row.original;
+      if (deletedAt) {
+        return format(parseISO(deletedAt), 'dd/MM/yyyy HH:mm');
+      }
+      return '';
+    },
+  },
+  {
+    accessorKey: 'deletedBy.name',
+    header: 'تم الحذف بواسطة',
   },
   {
     id: 'actions',

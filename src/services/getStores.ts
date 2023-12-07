@@ -11,6 +11,12 @@ export interface Store {
     id: number;
     name: string;
   };
+  deleted?: boolean;
+  deletedAt?: string;
+  deletedBy?: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface GetStoresResponse {

@@ -6,6 +6,7 @@ import { useOrders } from '@/hooks/useOrders';
 import { useState } from 'react';
 import { DeletedStoresView } from './views/Stores/StoreView';
 import { DeletedReportsView } from './views/Reports';
+import { DeletedEmployees } from './views/Employees';
 
 type TabsTypes = 'ORDERS' | 'REPORTS' | 'CLIENTS' | 'STORES' | 'EMPLOYEES';
 
@@ -52,7 +53,9 @@ export const DeletedScreen = () => {
           <DeletedReportsView />
         </Tabs.Panel>
         <Tabs.Panel value="CLIENTS">العملاء المحذوفين</Tabs.Panel>
-        <Tabs.Panel value="EMPLOYEES">الموظفين المحذوفين</Tabs.Panel>
+        <Tabs.Panel value="EMPLOYEES">
+          <DeletedEmployees />
+        </Tabs.Panel>
       </Tabs>
     </AppLayout>
   );

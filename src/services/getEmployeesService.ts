@@ -33,6 +33,12 @@ export interface Employee {
     updatedAt: string;
     branchId: string;
   };
+  deleted?: boolean;
+  deletedBy?: {
+    id: number;
+    name: string;
+  };
+  deletedAt?: string;
 }
 
 export interface GetEmployeesResponse {
@@ -51,13 +57,17 @@ export interface Filters {
 }
 
 export const getEmployeesService = async (
-  { page = 1, size = 10, roles }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, roles, deleted = false }: Filters = {
+    page: 1,
+    size: 10,
+  }
 ) => {
   const response = await api.get<GetEmployeesResponse>(getEmployeesendpoint, {
     params: {
       page,
       size,
       roles: roles?.join(',') || undefined,
+      deleted,
     },
   });
   return response.data;
