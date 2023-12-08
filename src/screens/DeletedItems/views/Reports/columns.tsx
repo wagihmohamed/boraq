@@ -3,14 +3,10 @@ import { Report as IReport } from '@/services/getReports';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { format, parseISO } from 'date-fns';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import {
-  DropdownMenuContent,
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { MoreHorizontal } from 'lucide-react';
 import { PermanentlyDeleteReport } from './PermanentlyDeleteReport';
+import { ActionIcon } from '@mantine/core';
+import { IconRotate } from '@tabler/icons-react';
+import { useActivateReport } from '@/hooks/useActivateReport';
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -100,17 +96,25 @@ export const columns: ColumnDef<IReport>[] = [
     cell: ({ row }) => {
       const { id } = row.original;
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutate: activate } = useActivateReport();
+
+      const handleActivate = () => {
+        activate(id);
+      };
+
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <PermanentlyDeleteReport id={id} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center gap-5">
+          <PermanentlyDeleteReport id={id} />
+          <ActionIcon
+            variant="filled"
+            onClick={handleActivate}
+            color="green"
+            aria-label="Settings"
+          >
+            <IconRotate />
+          </ActionIcon>
+        </div>
       );
     },
   },

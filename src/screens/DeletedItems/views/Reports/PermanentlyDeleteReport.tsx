@@ -1,10 +1,11 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
+import { Modal, Button, ActionIcon } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { deleteReportService } from '@/services/deleteReport';
+import { IconTrashFilled } from '@tabler/icons-react';
 
 export const PermanentlyDeleteReport = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -46,9 +47,17 @@ export const PermanentlyDeleteReport = ({ id }: { id: number }) => {
         </div>
       </Modal>
 
-      <Button className="mb-2" fullWidth variant="filled" onClick={open}>
-        مسح
-      </Button>
+      <div className="flex justify-center">
+        <ActionIcon
+          variant="filled"
+          onClick={open}
+          className="mx-auto"
+          color="red"
+          aria-label="Settings"
+        >
+          <IconTrashFilled />
+        </ActionIcon>
+      </div>
     </>
   );
 };
