@@ -1,15 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, Badge } from '@mantine/core';
+import { ActionIcon, Avatar, Badge } from '@mantine/core';
 import { Client } from '@/services/getClients';
 import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
 import { IMAGE_BASE_URL } from '@/api';
+import { useActivateClient } from '@/hooks/useActivateClient';
+import { IconRotate } from '@tabler/icons-react';
 
 export const columns: ColumnDef<Client>[] = [
   {
@@ -60,17 +55,24 @@ export const columns: ColumnDef<Client>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutate: activate } = useActivateClient();
+
+      const handleActivate = () => {
+        activate(id);
+      };
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <PermanentlyDeleteOrder clientId={id} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center gap-5">
+          <PermanentlyDeleteOrder clientId={id} />
+          <ActionIcon
+            variant="filled"
+            onClick={handleActivate}
+            color="green"
+            aria-label="Settings"
+          >
+            <IconRotate />
+          </ActionIcon>
+        </div>
       );
     },
   },

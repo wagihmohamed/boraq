@@ -2,15 +2,15 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { deleteClientService } from '@/services/deleteClient';
+import { deactivateClientService } from '@/services/deactivateClient';
 
 export const DeleteClient = ({ clientId }: { clientId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteBranch, isLoading } = useMutation({
-    mutationFn: ({ id }: { id: number }) => deleteClientService({ id }),
+    mutationFn: ({ id }: { id: number }) => deactivateClientService({ id }),
     onSuccess: () => {
-      toast.success('تم مسح العميل بنجاح');
+      toast.success('تم اضافة العميل لقائمة المحذوفات بنجاح');
       queryClient.invalidateQueries({
         queryKey: ['clients'],
       });
@@ -25,7 +25,7 @@ export const DeleteClient = ({ clientId }: { clientId: number }) => {
   return (
     <>
       <Modal opened={opened} onClose={close} title="مسح الموظف" centered>
-        هل انت متأكد من مسح العميل؟ لا يمكن التراجع عن هذا الإجراء
+        هل انت متأكد من مسح العميل؟
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}

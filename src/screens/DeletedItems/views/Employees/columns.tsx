@@ -76,12 +76,11 @@ export const columns: ColumnDef<Employee>[] = [
       };
 
       return (
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-5">
           <PermanentlyDeleteReport id={employee.id} />
           <ActionIcon
             variant="filled"
             onClick={handleActivate}
-            className="mx-auto"
             color="green"
             aria-label="Settings"
           >

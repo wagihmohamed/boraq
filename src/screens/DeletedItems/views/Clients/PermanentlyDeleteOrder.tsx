@@ -1,8 +1,9 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
+import { Modal, Button, ActionIcon } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { deleteClientService } from '@/services/deleteClient';
+import { IconTrashFilled } from '@tabler/icons-react';
 
 export const PermanentlyDeleteOrder = ({ clientId }: { clientId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -41,9 +42,17 @@ export const PermanentlyDeleteOrder = ({ clientId }: { clientId: number }) => {
         </div>
       </Modal>
 
-      <Button fullWidth variant="filled" onClick={open}>
-        مسح
-      </Button>
+      <div className="flex justify-center">
+        <ActionIcon
+          variant="filled"
+          onClick={open}
+          className="mx-auto"
+          color="red"
+          aria-label="Settings"
+        >
+          <IconTrashFilled />
+        </ActionIcon>
+      </div>
     </>
   );
 };
