@@ -1,17 +1,12 @@
 import { Employee } from '@/services/getEmployeesService';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { PermanentlyDeleteReport } from './PermanentlyDeleteReport';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
-import { Avatar } from '@mantine/core';
+import { ActionIcon, Avatar } from '@mantine/core';
 import { IMAGE_BASE_URL } from '@/api';
 import { format, parseISO } from 'date-fns';
+import { IconRotate } from '@tabler/icons-react';
+import { useActivateEmployee } from '@/hooks/useActivateEmployee';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -73,17 +68,26 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const employee = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutate: activate } = useActivateEmployee();
+
+      const handleActivate = () => {
+        activate(employee.id);
+      };
+
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <PermanentlyDeleteReport id={employee.id} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center gap-2">
+          <PermanentlyDeleteReport id={employee.id} />
+          <ActionIcon
+            variant="filled"
+            onClick={handleActivate}
+            className="mx-auto"
+            color="green"
+            aria-label="Settings"
+          >
+            <IconRotate />
+          </ActionIcon>
+        </div>
       );
     },
   },
