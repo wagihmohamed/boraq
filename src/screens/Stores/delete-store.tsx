@@ -4,15 +4,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import toast from 'react-hot-toast';
-import { deleteStoreService } from '@/services/deleteStore';
+import { deactivateStoreService } from '@/services/deactivateStore';
 
 export const DeleteStore = ({ storeId }: { storeId: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
   const { mutate: deleteStore, isLoading } = useMutation({
-    mutationFn: (id: number) => deleteStoreService({ id }),
+    mutationFn: (id: number) => deactivateStoreService({ id }),
     onSuccess: () => {
-      toast.success('تم حذف المتجر بنجاح');
+      toast.success('تم اضافة المتجر الي قائمة المحذوفات بنجاح');
       queryClient.invalidateQueries({
         queryKey: ['stores'],
       });
@@ -30,7 +30,7 @@ export const DeleteStore = ({ storeId }: { storeId: number }) => {
   return (
     <>
       <Modal opened={opened} onClose={close} title="مسح المتجر" centered>
-        هل انت متأكد من مسح المتجر؟ لا يمكن التراجع عن هذا الإجراء
+        هل انت متأكد من مسح المتجر؟
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}

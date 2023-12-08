@@ -1,17 +1,13 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { buttonVariants } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Store } from '@/services/getStores';
-import { Avatar } from '@mantine/core';
+import { ActionIcon, Avatar } from '@mantine/core';
 import { IMAGE_BASE_URL } from '@/api';
 import { PermanentlyDeleteStore } from './PermanentlyDeleteStore';
 import { format, parseISO } from 'date-fns';
+import { useActivateStore } from '@/hooks/useActivateStore';
+import { IconRotate } from '@tabler/icons-react';
 
 export const columns: ColumnDef<Store>[] = [
   {
@@ -61,18 +57,26 @@ export const columns: ColumnDef<Store>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const { id } = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutate: activate } = useActivateStore();
+
+      const handleActivate = () => {
+        activate(id);
+      };
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <PermanentlyDeleteStore />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center gap-5">
+          <PermanentlyDeleteStore id={id} />
+          <ActionIcon
+            variant="filled"
+            onClick={handleActivate}
+            color="green"
+            aria-label="Settings"
+          >
+            <IconRotate />
+          </ActionIcon>
+        </div>
       );
     },
   },
