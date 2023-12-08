@@ -17,6 +17,7 @@ import { IconFileTypePdf } from '@tabler/icons-react';
 import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
+import { DeleteOrder } from './components/DeleteOrder';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -164,6 +165,7 @@ export const columns: ColumnDef<Order>[] = [
             >
               تعديل
             </Link>
+            <DeleteOrder id={id} />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>

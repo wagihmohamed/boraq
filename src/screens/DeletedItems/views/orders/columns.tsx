@@ -1,20 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { Checkbox, Text } from '@mantine/core';
+import { ActionIcon, Checkbox, Text } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
 import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
 import { format, parseISO } from 'date-fns';
+import { IconRotate } from '@tabler/icons-react';
+import { useActivateOrder } from '@/hooks/useActivateOrder';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -130,18 +125,28 @@ export const columns: ColumnDef<Order>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const { id } = row.original;
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { mutate: activate } = useActivateOrder();
+
+      const handleActivate = () => {
+        activate(id);
+      };
+
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <PermanentlyDeleteOrder />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center gap-5">
+          <PermanentlyDeleteOrder id={id} />
+          <ActionIcon
+            variant="filled"
+            onClick={handleActivate}
+            color="green"
+            aria-label="Settings"
+          >
+            <IconRotate />
+          </ActionIcon>
+        </div>
       );
     },
   },

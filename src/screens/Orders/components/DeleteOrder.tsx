@@ -1,22 +1,21 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, ActionIcon } from '@mantine/core';
+import { Modal, Button } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { IconTrashFilled } from '@tabler/icons-react';
-import { deleteOrderService } from '@/services/deleteOrder';
+import { deactivateOrderService } from '@/services/deactivateOrder';
 
-export const PermanentlyDeleteOrder = ({ id }: { id: number }) => {
+export const DeleteOrder = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const queryClient = useQueryClient();
-  const { mutate: deleteReport, isLoading } = useMutation({
-    mutationFn: () => deleteOrderService({ id }),
+  const { mutate: deleteLocation, isLoading } = useMutation({
+    mutationFn: (id: number) => deactivateOrderService({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
-      toast.success('تم مسح الطلب بنجاح');
+      toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
       close();
     },
     onError: (error: AxiosError<APIError>) => {
@@ -25,13 +24,13 @@ export const PermanentlyDeleteOrder = ({ id }: { id: number }) => {
   });
 
   const handleDelete = () => {
-    deleteReport();
+    deleteLocation(id);
   };
 
   return (
     <>
       <Modal opened={opened} onClose={close} title="مسح الطلب" centered>
-        هل انت متأكد من مسح الطلب لا يمكن التراجع عن هذا الإجراء
+        هل انت متأكد من مسح الطلب؟
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}
@@ -47,17 +46,9 @@ export const PermanentlyDeleteOrder = ({ id }: { id: number }) => {
         </div>
       </Modal>
 
-      <div className="flex justify-center">
-        <ActionIcon
-          variant="filled"
-          onClick={open}
-          className="mx-auto"
-          color="red"
-          aria-label="Settings"
-        >
-          <IconTrashFilled />
-        </ActionIcon>
-      </div>
+      <Button className="mb-2" fullWidth variant="filled" onClick={open}>
+        مسح
+      </Button>
     </>
   );
 };
