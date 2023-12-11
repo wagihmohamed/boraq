@@ -1,13 +1,21 @@
+/* eslint-disable no-useless-catch */
 import { api } from '@/api';
 import FileSaver from 'file-saver';
 
 export const getReportPDFService = async (reportID: number, name: string) => {
-  const response = await api.get(`/reports/${reportID}/pdf`);
-  if (response.headers['content-type'] === 'application/json') {
-    const blob = new Blob([response.data], { type: 'application/pdf' });
-    FileSaver.saveAs(blob, `${name}.pdf`);
-    response.config.responseType = 'blob';
-    return response.data;
+  try {
+    const response = await api.get(`/reports/${reportID}/pdf`, {
+      responseType: 'blob',
+    });
+
+    const contentType = response.headers['content-type'];
+
+    if (contentType === 'application/pdf') {
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      FileSaver.saveAs(blob, `${name}.pdf`);
+      return;
+    }
+  } catch (error) {
+    throw error;
   }
-  return response.data;
 };

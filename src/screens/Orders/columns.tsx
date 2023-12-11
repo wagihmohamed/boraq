@@ -18,6 +18,7 @@ import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
 import { DeleteOrder } from './components/DeleteOrder';
+import { useReportsPDF } from '@/hooks/useReportsPDF';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -147,6 +148,68 @@ export const columns: ColumnDef<Order>[] = [
     header: 'نوع التوصيل',
     accessorFn: ({ deliveryType }) => {
       return deliveryTypesArabicNames[deliveryType];
+    },
+  },
+  {
+    accessorKey: 'clientReport',
+    header: 'كشف عميل',
+    cell: ({ row }) => {
+      const { clientReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف عميل');
+
+      const handleDownload = () => {
+        if (!clientReport) return;
+        toast.promise(getReportPDF(clientReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!clientReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
+    accessorKey: 'branchReport',
+    header: 'كشف فرع',
+    cell: ({ row }) => {
+      const { branchReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف فرع');
+
+      const handleDownload = () => {
+        if (!branchReport) return;
+        toast.promise(getReportPDF(branchReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!branchReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
     },
   },
   {
