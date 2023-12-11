@@ -120,7 +120,7 @@ export const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'deliveryAgent.deliveryCost',
-    header: 'أجرة التوصيل',
+    header: 'صافي المندوب',
   },
   {
     accessorKey: 'deliveryCost',
