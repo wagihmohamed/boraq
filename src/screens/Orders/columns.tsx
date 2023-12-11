@@ -104,12 +104,36 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المبلغ المدفوع',
   },
   {
-    accessorKey: 'totalCostInUSD',
-    header: 'المبلغ بالدولار',
+    accessorKey: 'companyNet',
+    header: 'صافي الشركة',
+    cell: ({ row }) => {
+      const { companyNet } = row.original;
+      return (
+        <Text dir={Number(companyNet) > 0 ? 'rtl' : 'ltr'} size="sm">
+          {companyNet}
+        </Text>
+      );
+    },
   },
   {
-    accessorKey: 'paidAmountInUSD',
-    header: 'المبلغ المدفوع بالدولار',
+    accessorKey: 'clientNet',
+    header: 'صافي العميل',
+    cell: ({ row }) => {
+      const { clientNet } = row.original;
+      return (
+        <Text dir={Number(clientNet) > 0 ? 'rtl' : 'ltr'} size="sm">
+          {clientNet}
+        </Text>
+      );
+    },
+  },
+  {
+    accessorKey: 'deliveryAgent.deliveryCost',
+    header: 'أجرة التوصيل',
+  },
+  {
+    accessorKey: 'deliveryCost',
+    header: 'تكلفة التوصيل',
   },
   {
     accessorKey: 'status',

@@ -28,6 +28,15 @@ export interface Order {
   governorate: keyof typeof governorateArabicNames;
   locationID: number;
   storeID: number;
+  deliveryCost: string;
+  clientNet: string;
+  companyNet: string;
+  deliveryAgent: {
+    id: number;
+    name: string;
+    phone: string;
+    deliveryCost: string;
+  };
   products: {
     productID: number;
     quantity: number;
@@ -39,6 +48,37 @@ export interface Order {
   deletedBy: {
     id: number;
     name: string;
+  };
+  clientReport: {
+    reportNumber: number;
+    clientId: number;
+    reportId: number;
+    storeId: number;
+  } | null;
+  repositoryReport: {
+    reportNumber: number;
+    repositoryId: number;
+    reportId: number;
+  } | null;
+  governorateReport: {
+    reportNumber: number;
+    governorate: keyof typeof governorateArabicNames;
+    reportId: number;
+  };
+  branchReport: {
+    reportNumber: number;
+    branchId: number;
+    reportId: number;
+  };
+  deliveryAgentReport: {
+    reportNumber: number;
+    deliveryAgentId: number;
+    reportId: number;
+  };
+  companyReport: {
+    reportNumber: number;
+    reportId: number;
+    companyId: number;
   };
 }
 
