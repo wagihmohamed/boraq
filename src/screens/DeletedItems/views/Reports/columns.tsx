@@ -7,6 +7,7 @@ import { PermanentlyDeleteReport } from './PermanentlyDeleteReport';
 import { ActionIcon } from '@mantine/core';
 import { IconRotate } from '@tabler/icons-react';
 import { useActivateReport } from '@/hooks/useActivateReport';
+import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -54,41 +55,37 @@ export const columns: ColumnDef<IReport>[] = [
     header: 'محذوف من قبل',
   },
   {
+    accessorKey: 'type',
     header: 'النوع',
-    cell: ({ row }) => {
-      const {
-        type,
-        deliveryAgentReport,
-        governorateReport,
-        clientReport,
-        companyReport,
-        branchReport,
-        repositoryReport,
-      } = row.original;
-      if (type === 'DELIVERY_AGENT') {
-        return (
-          `مندوب - ${deliveryAgentReport?.deliveryAgent.name}` || 'لا يوجد'
-        );
-      }
-      if (type === 'GOVERNORATE' && governorateReport) {
-        return (
-          `محافظة - ${governorateArabicNames[governorateReport.governorate]}` ||
-          'لا يوجد'
-        );
-      }
-      if (type === 'CLIENT') {
-        return ` عميل - ${clientReport?.client.name}` || 'لا يوجد';
-      }
-      if (type === 'COMPANY') {
-        return `شركة - ${companyReport?.company.name}` || 'لا يوجد';
-      }
-      if (type === 'BRANCH') {
-        return `فرع - ${branchReport?.branch.name}` || 'لا يوجد';
-      }
-      if (type === 'REPOSITORY') {
-        return `مخزن - ${repositoryReport?.repository.name}` || 'لا يوجد';
-      }
-      return 'لا يوجد';
+    accessorFn: ({
+      type,
+      branchReport,
+      clientReport,
+      companyReport,
+      deliveryAgentReport,
+      governorateReport,
+      repositoryReport,
+    }) => {
+      return `${reportTypeArabicNames[type]} - ${(() => {
+        switch (type) {
+          case 'BRANCH':
+            return branchReport?.branch.name;
+          case 'CLIENT':
+            return clientReport?.client.name;
+          case 'COMPANY':
+            return companyReport?.company.name;
+          case 'DELIVERY_AGENT':
+            return deliveryAgentReport?.deliveryAgent.name;
+          case 'GOVERNORATE':
+            return governorateReport?.governorate
+              ? governorateArabicNames[governorateReport.governorate]
+              : '';
+          case 'REPOSITORY':
+            return repositoryReport?.repository.name;
+          default:
+            return '';
+        }
+      })()}`;
     },
   },
   {
