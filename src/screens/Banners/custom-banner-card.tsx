@@ -4,12 +4,13 @@ import { APIError } from '@/models';
 import { deleteBannerService } from '@/services/deleteBanner';
 import { Banner } from '@/services/getBannersService';
 import { Card, Image, Text, Button, Group, rem } from '@mantine/core';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconTrash } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { format, parseISO } from 'date-fns';
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { EditBannerModal } from './EditBannerModal';
 
 interface CustomTenantCardProps extends Banner {}
 
@@ -21,11 +22,7 @@ export const CustomBannerCard = ({
   createdAt,
   url,
 }: CustomTenantCardProps) => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const handleNavigate = () => {
-    navigate(`/banners/${id}/show`);
-  };
   const { mutate: deleteProduct, isLoading } = useMutation({
     mutationFn: (id: number) => deleteBannerService({ id }),
     onSuccess: () => {
@@ -71,6 +68,8 @@ export const CustomBannerCard = ({
       </Text>
       <Text mt={10} size="sm" c="dimmed">
         العنوان:{' '}
+      </Text>
+      <Text truncate mt={10} size="sm" c="dimmed">
         <Link
           target="blank"
           className={buttonVariants({ variant: 'ghost' })}
@@ -92,15 +91,13 @@ export const CustomBannerCard = ({
         >
           مسح
         </Button>
-        <Button
-          fullWidth
-          onClick={handleNavigate}
-          variant="outline"
-          radius="md"
-          leftSection={<IconEdit style={{ width: rem(14), height: rem(14) }} />}
-        >
-          تعديل
-        </Button>
+        <EditBannerModal
+          image={image}
+          title={title}
+          id={id}
+          content={content}
+          url={url}
+        />
       </Group>
     </Card>
   );

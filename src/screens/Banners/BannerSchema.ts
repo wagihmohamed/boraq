@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 
-export const addBannerModalSchema = zod.object({
+export const BannerSchema = zod.object({
   title: zod
     .string({
       required_error: 'مطلوب',
