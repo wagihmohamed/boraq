@@ -21,6 +21,10 @@ import { ChangeReportStatus } from './components/ChangeReportStatus';
 
 export const columns: ColumnDef<IReport>[] = [
   {
+    accessorKey: 'id',
+    header: 'رقم الكشف',
+  },
+  {
     accessorKey: 'createdBy.name',
     header: 'الناشئ',
   },
@@ -34,8 +38,35 @@ export const columns: ColumnDef<IReport>[] = [
   {
     accessorKey: 'type',
     header: 'النوع',
-    accessorFn: ({ type }) => {
-      return reportTypeArabicNames[type];
+    accessorFn: ({
+      type,
+      branchReport,
+      clientReport,
+      companyReport,
+      deliveryAgentReport,
+      governorateReport,
+      repositoryReport,
+    }) => {
+      return `${reportTypeArabicNames[type]} - ${(() => {
+        switch (type) {
+          case 'BRANCH':
+            return branchReport?.branch.name;
+          case 'CLIENT':
+            return clientReport?.client.name;
+          case 'COMPANY':
+            return companyReport?.company.name;
+          case 'DELIVERY_AGENT':
+            return deliveryAgentReport?.deliveryAgent.name;
+          case 'GOVERNORATE':
+            return governorateReport?.governorate
+              ? governorateArabicNames[governorateReport.governorate]
+              : '';
+          case 'REPOSITORY':
+            return repositoryReport?.repository.name;
+          default:
+            return '';
+        }
+      })()}`;
     },
   },
   {
@@ -53,61 +84,6 @@ export const columns: ColumnDef<IReport>[] = [
       const stringToDate = parseISO(createdAt);
       const formatedDate = format(stringToDate, 'dd/MM/yyyy HH:mm');
       return formatedDate;
-    },
-  },
-  {
-    accessorKey: 'repositoryReport',
-    header: 'المخزن',
-    cell: ({ row }) => {
-      const { repositoryReport } = row.original;
-      if (!repositoryReport) {
-        return 'لا يوجد';
-      }
-      return repositoryReport.repository.name;
-    },
-  },
-  {
-    accessorKey: 'branchReport',
-    header: 'الفرع',
-    cell: ({ row }) => {
-      const { branchReport } = row.original;
-      if (!branchReport) {
-        return 'لا يوجد';
-      }
-      return branchReport.branch.name;
-    },
-  },
-  {
-    accessorKey: 'clientReport',
-    header: 'العميل',
-    cell: ({ row }) => {
-      const { clientReport } = row.original;
-      if (!clientReport) {
-        return 'لا يوجد';
-      }
-      return clientReport.client.name;
-    },
-  },
-  {
-    accessorKey: 'governorateReport',
-    header: 'المحافظة',
-    cell: ({ row }) => {
-      const { governorateReport } = row.original;
-      if (!governorateReport) {
-        return 'لا يوجد';
-      }
-      return governorateArabicNames[governorateReport.governorate];
-    },
-  },
-  {
-    accessorKey: 'deliveryAgentReport',
-    header: 'المندوب',
-    cell: ({ row }) => {
-      const { deliveryAgentReport } = row.original;
-      if (!deliveryAgentReport) {
-        return 'لا يوجد';
-      }
-      return deliveryAgentReport.deliveryAgent.name;
     },
   },
   {

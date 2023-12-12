@@ -16,7 +16,6 @@ export const columns: ColumnDef<Order>[] = [
     id: 'select',
     header: ({ table }) => {
       const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
-
       return (
         <Checkbox
           checked={
@@ -92,8 +91,40 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المبلغ',
   },
   {
-    accessorKey: 'paidAmountInUSD',
-    header: 'المبلغ المدفوع بالدولار',
+    accessorKey: 'paidAmount',
+    header: 'المبلغ المدفوع',
+  },
+  {
+    accessorKey: 'companyNet',
+    header: 'صافي الشركة',
+    cell: ({ row }) => {
+      const { companyNet } = row.original;
+      return (
+        <Text dir={Number(companyNet) > 0 ? 'rtl' : 'ltr'} size="sm">
+          {companyNet}
+        </Text>
+      );
+    },
+  },
+  {
+    accessorKey: 'clientNet',
+    header: 'صافي العميل',
+    cell: ({ row }) => {
+      const { clientNet } = row.original;
+      return (
+        <Text dir={Number(clientNet) > 0 ? 'rtl' : 'ltr'} size="sm">
+          {clientNet}
+        </Text>
+      );
+    },
+  },
+  {
+    accessorKey: 'deliveryAgent.deliveryCost',
+    header: 'صافي المندوب',
+  },
+  {
+    accessorKey: 'deliveryCost',
+    header: 'تكلفة التوصيل',
   },
   {
     accessorKey: 'status',

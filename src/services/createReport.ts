@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-catch */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '@/api';
 import { createReportendpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
@@ -18,15 +20,23 @@ export interface CreateReportPayload {
 }
 
 export const createReportService = async (data: CreateReportPayload) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
-    createReportendpoint,
-    data,
-    {
-      responseType: 'blob',
+  try {
+    const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
+      createReportendpoint,
+      data,
+      {
+        responseType: 'blob',
+      }
+    );
+
+    const contentType = response.headers['content-type'];
+
+    if (contentType === 'application/pdf') {
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      FileSaver.saveAs(blob, `تقرير.pdf`);
+      return;
     }
-  );
-  const blob = new Blob([response.data], { type: 'application/pdf' });
-  FileSaver.saveAs(blob, `تقرير.pdf`);
-  return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

@@ -54,8 +54,9 @@ export const editOrderSchema = z.object({
   status: z.string().min(1, { message: 'الرجاء اختيار حالة الطلب' }),
   deliveryAgentID: z
     .string()
-    .min(1, { message: 'الرجاء اختيار مندوب التوصيل' }),
-  deliveryDate: z.string().min(1, { message: 'الرجاء اختيار تاريخ التوصيل' }),
+    .min(1, { message: 'الرجاء اختيار مندوب التوصيل' })
+    .optional(),
+  deliveryDate: z.string().optional(),
   recipientName: z.string().min(1, { message: 'الرجاء ادخال اسم المستلم' }),
   recipientPhone: z.string().refine(isValidIraqiPhoneNumber, {
     message: 'رقم الهاتف يجب ان يكون رقم عراقي',
@@ -65,6 +66,6 @@ export const editOrderSchema = z.object({
     .min(1, { message: 'الرجاء ادخال عنوان المستلم' }),
   notes: z.string().optional(),
   details: z.string().optional(),
-  repositoryID: z.string(),
-  branchID: z.string(),
+  repositoryID: z.string().optional(),
+  branchID: z.string().optional(),
 });

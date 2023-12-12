@@ -7,7 +7,7 @@ export interface EditOrderPayload {
   discount: number;
   status: keyof typeof orderStatusArabicNames;
   deliveryAgentID: number;
-  deliveryDate: string;
+  deliveryDate?: string;
   recipientName: string;
   recipientPhone: string;
   recipientAddress: string;
