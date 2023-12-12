@@ -3,6 +3,7 @@ import { getClientsendpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 import { Branch } from './getBranchesService';
 import { Filters } from './getEmployeesService';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface Client {
   id: number;
@@ -20,6 +21,10 @@ export interface Client {
     id: number;
     name: string;
   };
+  governoratesDeliveryCosts: {
+    cost: number;
+    governorate: keyof typeof governorateArabicNames;
+  }[];
 }
 
 export interface GetClientsResponse {
