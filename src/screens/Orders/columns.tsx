@@ -19,6 +19,7 @@ import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
 import { DeleteOrder } from './components/DeleteOrder';
 import { useReportsPDF } from '@/hooks/useReportsPDF';
+import { OrderTimelineModal } from './components/OrderTimelineModal';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -131,6 +132,10 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'deliveryAgent.deliveryCost',
     header: 'صافي المندوب',
+    cell: ({ row }) => {
+      const { deliveryAgent } = row.original;
+      return <Text size="sm">{deliveryAgent?.deliveryCost || 0}</Text>;
+    },
   },
   {
     accessorKey: 'deliveryCost',
@@ -275,37 +280,6 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
-    accessorKey: 'branchReport',
-    header: 'كشف فرع',
-    cell: ({ row }) => {
-      const { branchReport } = row.original;
-      const { mutateAsync: getReportPDF } = useReportsPDF('كشف فرع');
-
-      const handleDownload = () => {
-        if (!branchReport) return;
-        toast.promise(getReportPDF(branchReport.reportId), {
-          loading: 'جاري تحميل الكشف...',
-          success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
-        });
-      };
-
-      if (!branchReport) return 'لا يوجد';
-      return (
-        <HoverCard width={rem(120)} shadow="md">
-          <HoverCard.Target>
-            <ActionIcon variant="filled" onClick={handleDownload}>
-              <IconFileTypePdf />
-            </ActionIcon>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text size="sm">تحميل الكشف</Text>
-          </HoverCard.Dropdown>
-        </HoverCard>
-      );
-    },
-  },
-  {
     accessorKey: 'governorateReport',
     header: 'كشف محافظة',
     cell: ({ row }) => {
@@ -408,6 +382,7 @@ export const columns: ColumnDef<Order>[] = [
               تعديل
             </Link>
             <DeleteOrder id={id} />
+            <OrderTimelineModal id={id} />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>
