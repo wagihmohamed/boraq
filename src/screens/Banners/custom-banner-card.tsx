@@ -69,7 +69,7 @@ export const CustomBannerCard = ({
       <Text size="sm" c="dimmed" truncate>
         {content}
       </Text>
-      <Text size="sm" c="dimmed" truncate>
+      <Text mt={10} size="sm" c="dimmed">
         العنوان:{' '}
         <Link
           target="blank"
