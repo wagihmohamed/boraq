@@ -47,6 +47,7 @@ import { EditOrder } from './screens/EditOrder';
 import { ReportsScreen } from './screens/Reports';
 import { Home } from './screens/Home';
 import { DeletedScreen } from './screens/DeletedItems';
+import { Banners } from './screens/Banners';
 
 function App() {
   const navigate = useNavigate();
@@ -120,6 +121,7 @@ function App() {
         <Route path="/reports" element={<ReportsScreen />} />
         <Route path="/statistics" element={<Home />} />
         <Route path="/deleted" element={<DeletedScreen />} />
+        <Route path="/banners" element={<Banners />} />
       </Route>
     </Routes>
   );

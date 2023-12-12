@@ -13,6 +13,7 @@ import {
   IconFileTypePdf,
   IconChartPie3,
   IconTrashFilled,
+  IconPhotoFilled,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -66,6 +67,12 @@ export const navSections = [
     label: 'المتاجر',
     enLabel: 'stores',
     icon: IconShoppingBag,
+  },
+  {
+    link: '/banners',
+    label: 'البنرات',
+    enLabel: 'banners',
+    icon: IconPhotoFilled,
   },
   {
     link: '/deleted',
