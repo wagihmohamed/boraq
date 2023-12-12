@@ -1,7 +1,7 @@
 import { IMAGE_BASE_URL } from '@/api';
 import { buttonVariants } from '@/components/ui/button';
 import { APIError } from '@/models';
-import { deleteProductService } from '@/services/deleteProduct';
+import { deleteBannerService } from '@/services/deleteBanner';
 import { Banner } from '@/services/getBannersService';
 import { Card, Image, Text, Button, Group, rem } from '@mantine/core';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
@@ -26,12 +26,12 @@ export const CustomBannerCard = ({
   const handleNavigate = () => {
     navigate(`/banners/${id}/show`);
   };
-  const { mutate: deleteProduct } = useMutation({
-    mutationFn: (id: number) => deleteProductService({ id }),
+  const { mutate: deleteProduct, isLoading } = useMutation({
+    mutationFn: (id: number) => deleteBannerService({ id }),
     onSuccess: () => {
       toast.success('تم مسح البانر بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['products'],
+        queryKey: ['banners'],
       });
     },
     onError: (error: AxiosError<APIError>) => {
@@ -87,6 +87,8 @@ export const CustomBannerCard = ({
             <IconTrash style={{ width: rem(14), height: rem(14) }} />
           }
           radius="md"
+          disabled={isLoading}
+          loading={isLoading}
         >
           مسح
         </Button>
