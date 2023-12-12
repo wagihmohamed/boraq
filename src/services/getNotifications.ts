@@ -6,6 +6,7 @@ export interface Notification {
   title: string;
   content: string;
   seen: boolean;
+  createdAt: string;
 }
 
 export interface GetNotificationsResponse {

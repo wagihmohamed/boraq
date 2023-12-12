@@ -8,6 +8,7 @@ import { useIntersection } from '@mantine/hooks';
 import { IconBell } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { format, parseISO } from 'date-fns';
 import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 
@@ -108,7 +109,14 @@ export const NotificationsList = () => {
                       !item.seen && 'bg-primary/30'
                     )}
                   >
-                    <p>{item.title}</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <Text size="xs" c="white">
+                        {item.title}
+                      </Text>
+                      <Text size="xs" c="white">
+                        {format(parseISO(item.createdAt), 'dd/MM/yyyy')}
+                      </Text>
+                    </div>
                     <p>{item.content}</p>
                   </div>
                 </Menu.Item>
@@ -127,7 +135,14 @@ export const NotificationsList = () => {
                     !item.seen && 'bg-primary/30'
                   )}
                 >
-                  <p>{item.title}</p>
+                  <div className="flex justify-between items-center mb-2">
+                    <Text size="xs" c="white">
+                      {item.title}
+                    </Text>
+                    <Text size="xs" c="white">
+                      {format(parseISO(item.createdAt), 'dd/MM/yyyy')}
+                    </Text>
+                  </div>
                   <Text>{item.content}</Text>
                 </div>
               </Menu.Item>
