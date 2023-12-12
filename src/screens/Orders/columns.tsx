@@ -213,6 +213,161 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
+    accessorKey: 'deliveryAgentReport',
+    header: 'كشف مندوب',
+    cell: ({ row }) => {
+      const { deliveryAgentReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف مندوب');
+
+      const handleDownload = () => {
+        if (!deliveryAgentReport) return;
+        toast.promise(getReportPDF(deliveryAgentReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!deliveryAgentReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
+    accessorKey: 'repositoryReport',
+    header: 'كشف مخزن',
+    cell: ({ row }) => {
+      const { repositoryReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف مخزن');
+
+      const handleDownload = () => {
+        if (!repositoryReport) return;
+        toast.promise(getReportPDF(repositoryReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!repositoryReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
+    accessorKey: 'branchReport',
+    header: 'كشف فرع',
+    cell: ({ row }) => {
+      const { branchReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف فرع');
+
+      const handleDownload = () => {
+        if (!branchReport) return;
+        toast.promise(getReportPDF(branchReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!branchReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
+    accessorKey: 'governorateReport',
+    header: 'كشف محافظة',
+    cell: ({ row }) => {
+      const { governorateReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف محافظة');
+
+      const handleDownload = () => {
+        if (!governorateReport) return;
+        toast.promise(getReportPDF(governorateReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!governorateReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
+    accessorKey: 'companyReport',
+    header: 'كشف شركة',
+    cell: ({ row }) => {
+      const { companyReport } = row.original;
+      const { mutateAsync: getReportPDF } = useReportsPDF('كشف شركة');
+
+      const handleDownload = () => {
+        if (!companyReport) return;
+        toast.promise(getReportPDF(companyReport.reportId), {
+          loading: 'جاري تحميل الكشف...',
+          success: 'تم تحميل الكشف بنجاح',
+          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        });
+      };
+
+      if (!companyReport) return 'لا يوجد';
+      return (
+        <HoverCard width={rem(120)} shadow="md">
+          <HoverCard.Target>
+            <ActionIcon variant="filled" onClick={handleDownload}>
+              <IconFileTypePdf />
+            </ActionIcon>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Text size="sm">تحميل الكشف</Text>
+          </HoverCard.Dropdown>
+        </HoverCard>
+      );
+    },
+  },
+  {
     id: 'actions',
     cell: ({ row }) => {
       const { id, recipientName } = row.original;
