@@ -1,13 +1,12 @@
 import { AppLayout } from '@/components/AppLayout';
-import { Button, Grid, Pagination } from '@mantine/core';
+import { Grid, Pagination } from '@mantine/core';
 import { CustomBannerCard } from './custom-banner-card';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Filters } from '@/services/getEmployeesService';
 import { useBanners } from '@/hooks/useBanners';
+import { AddBannerModal } from './add-banner-modal';
 
 export const Banners = () => {
-  const navigation = useNavigate();
   const [filters, setFilters] = useState<Filters>({
     page: 1,
     size: 10,
@@ -25,15 +24,7 @@ export const Banners = () => {
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex mb-6 items-center gap-6">
-        <Button
-          onClick={() => {
-            navigation('/banner/add');
-          }}
-          size="lg"
-          variant="outline"
-        >
-          اضافة بانر
-        </Button>
+        <AddBannerModal />
       </div>
       <Grid gutter="md">
         {banners.data.map((banner) => (
