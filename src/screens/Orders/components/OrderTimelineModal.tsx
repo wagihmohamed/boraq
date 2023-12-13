@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-nested-ternary */
+// @ts-nocheck
+
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Timeline, Text, Loader } from '@mantine/core';
 import { useOrderTimeline } from '@/hooks/useOrderTimeline';

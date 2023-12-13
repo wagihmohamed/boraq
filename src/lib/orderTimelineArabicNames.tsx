@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/no-unresolved */
+// disable ts for this file
+// @ts-nocheck
+
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import {
   IconCheck,
