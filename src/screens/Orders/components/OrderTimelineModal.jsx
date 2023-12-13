@@ -1,13 +1,18 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-nested-ternary */
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Timeline, Text, Loader } from '@mantine/core';
 import { useOrderTimeline } from '@/hooks/useOrderTimeline';
-import { IconStatusChange } from '@tabler/icons-react';
-import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { format, parseISO } from 'date-fns';
+import { orderTimelineTypeArabicNames } from '@/services/getOrderTimeline';
+import {
+  orderTimelineIcons,
+  renderTimelineDescription,
+} from '../../../lib/orderTimelineArabicNames';
 
-export const OrderTimelineModal = ({ id }: { id: number }) => {
+export const OrderTimelineModal = ({ id }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: orderTimelineDate, isLoading } = useOrderTimeline(id);
 
@@ -31,18 +36,15 @@ export const OrderTimelineModal = ({ id }: { id: number }) => {
             {orderTimelineDate?.data.map((item) => (
               <Timeline.Item
                 key={item.date}
-                bullet={<IconStatusChange size={12} />}
+                bullet={orderTimelineIcons[item.type]}
                 lineVariant="dashed"
-                title={
-                  item.type === 'STATUS_CHANGE'
-                    ? 'تغير حالة الطلب'
-                    : 'تغير حالة الطلب'
-                }
+                title={orderTimelineTypeArabicNames[item.type]}
               >
-                <Text c="dimmed" size="sm">
-                  تم تغير حالة الطلب من {orderStatusArabicNames[item.old]} الى{' '}
-                  {orderStatusArabicNames[item.new]}
-                </Text>
+                {renderTimelineDescription({
+                  old: item?.old,
+                  new: item?.new,
+                  type: item.type,
+                })}
                 <Text size="xs" mt={4}>
                   {format(parseISO(item.date), 'yyyy-MM-dd HH:mm:ss')}
                 </Text>
