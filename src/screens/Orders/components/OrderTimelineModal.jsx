@@ -55,7 +55,7 @@ export const OrderTimelineModal = ({ id }) => {
       </Modal>
 
       <Button fullWidth variant="outline" mb={8} onClick={open}>
-        تاريخ الطلب
+        سجل التعديلات
       </Button>
     </>
   );

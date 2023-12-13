@@ -69,10 +69,14 @@ export const CustomBannerCard = ({
       <Text mt={10} size="sm" c="dimmed">
         العنوان:{' '}
       </Text>
-      <Text truncate mt={10} size="sm" c="dimmed">
+      <Text truncate mt={10} size="xs" c="dimmed">
         <Link
           target="blank"
-          className={buttonVariants({ variant: 'ghost' })}
+          className={buttonVariants({
+            variant: 'ghost',
+            size: 'xs',
+            className: 'text-xs',
+          })}
           to={url}
         >
           {url}
