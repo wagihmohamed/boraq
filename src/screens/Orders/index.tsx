@@ -27,6 +27,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   search: '',
   sort: '',
   start_date: '',
+  statuses: [],
   status: '',
   store_id: '',
 };
