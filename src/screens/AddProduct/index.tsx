@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
+import { useStores } from '@/hooks/useStores';
 
 export const AddProduct = () => {
   const navigate = useNavigate();
@@ -23,9 +24,10 @@ export const AddProduct = () => {
     data: categories = {
       data: [],
     },
-  } = useCategory({ size: 200 });
-  const { data: colors = { data: [] } } = useColors({ size: 200 });
-  const { data: sizes = { data: [] } } = useSizes({ size: 200 });
+  } = useCategory({ size: 500 });
+  const { data: colors = { data: [] } } = useColors({ size: 500 });
+  const { data: sizes = { data: [] } } = useSizes({ size: 500 });
+  const { data: storesData } = useStores({ size: 500 });
   const colorsOptions = colors.data.map((color) => ({
     value: color.id.toString(),
     label: color.title,
@@ -38,6 +40,10 @@ export const AddProduct = () => {
     value: category.id.toString(),
     label: category.title,
   }));
+  const storesOptions = storesData?.data.map((product) => ({
+    value: product.id.toString(),
+    label: product.name,
+  }));
   const form = useForm({
     validate: zodResolver(addProductSchema),
     initialValues: {
@@ -48,6 +54,7 @@ export const AddProduct = () => {
       categoryID: '',
       colors: [] as unknown as { label: string; value: string; quantity: '' }[],
       sizes: [] as unknown as { label: string; value: string; quantity: '' }[],
+      storeID: '',
     },
   });
 
@@ -146,6 +153,7 @@ export const AddProduct = () => {
     formData.append('image', values.image[0] || '');
     formData.append('colors', JSON.stringify(transformedColors));
     formData.append('sizes', JSON.stringify(transformedSizes));
+    formData.append('storeID', values.storeID);
 
     createProductAction(formData);
   };
@@ -188,6 +196,15 @@ export const AddProduct = () => {
               {...form.getInputProps('categoryID')}
               limit={100}
               data={categoriesOptions}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المتجر"
+              {...form.getInputProps('storeID')}
+              limit={100}
+              data={storesOptions}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

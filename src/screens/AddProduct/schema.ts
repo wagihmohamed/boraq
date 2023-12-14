@@ -26,6 +26,8 @@ export const addProductSchema = z
         })
       )
       .min(1, { message: 'يجب اختيار لون واحد على الاقل' }),
+    storeID: z.string().min(1, { message: 'يجب اختيار المتجر' }),
+
     sizes: z
       .array(
         z.object({
