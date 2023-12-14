@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { getEmployeesendpoint } from '@/api/apisUrl';
+import { EmployeesFilters } from '@/hooks/useEmployees';
 import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
@@ -57,7 +58,13 @@ export interface Filters {
 }
 
 export const getEmployeesService = async (
-  { page = 1, size = 10, roles, deleted = false }: Filters = {
+  {
+    page = 1,
+    size = 10,
+    roles,
+    deleted = false,
+    branch_id,
+  }: EmployeesFilters = {
     page: 1,
     size: 10,
   }
@@ -68,6 +75,7 @@ export const getEmployeesService = async (
       size,
       roles: roles?.join(',') || undefined,
       deleted,
+      branch_id: branch_id || undefined,
     },
   });
   return response.data;

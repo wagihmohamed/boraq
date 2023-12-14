@@ -3,8 +3,10 @@ import { DataTable } from './data-table';
 import { columns } from './columns';
 import { EmployeesFilters, useEmployees } from '@/hooks/useEmployees';
 import { useState } from 'react';
-import { LoadingOverlay, MultiSelect } from '@mantine/core';
+import { Grid, LoadingOverlay, MultiSelect, Select } from '@mantine/core';
 import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
+import { useBranches } from '@/hooks/useBranches';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const Employees = () => {
   const [filters, setFilters] = useState<EmployeesFilters>({
@@ -27,17 +29,39 @@ export const Employees = () => {
     }));
   };
 
+  const { data: branchesData } = useBranches({ size: 1000 });
+
   return (
     <AppLayout isError={isError}>
-      <MultiSelect
-        className="mt-4 my-10"
-        label="الدور"
-        data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
-        clearable
-        placeholder="الدور"
-        value={filters.roles}
-        onChange={handleSelect}
-      />
+      <Grid>
+        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+          <MultiSelect
+            className="mt-4 my-10"
+            label="الدور"
+            data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
+            clearable
+            placeholder="الدور"
+            value={filters.roles}
+            onChange={handleSelect}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+          <Select
+            className="mt-4 my-10"
+            label="الفروع"
+            data={getSelectOptions(branchesData?.data || [])}
+            clearable
+            placeholder="اختار الفرع"
+            value={filters.branch_id?.toString()}
+            onChange={(e) => {
+              setFilters({
+                ...filters,
+                branch_id: Number(e) || null,
+              });
+            }}
+          />
+        </Grid.Col>
+      </Grid>
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
