@@ -33,7 +33,7 @@ export const createReportService = async (data: CreateReportPayload) => {
 
     if (contentType === 'application/pdf') {
       const blob = new Blob([response.data], { type: 'application/pdf' });
-      FileSaver.saveAs(blob, `تقرير.pdf`);
+      FileSaver.saveAs(blob, `كشف.pdf`);
       return;
     }
   } catch (error) {

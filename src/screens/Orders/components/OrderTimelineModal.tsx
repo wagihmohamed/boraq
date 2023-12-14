@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-nested-ternary */
-// @ts-nocheck
 
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Timeline, Text, Loader } from '@mantine/core';
@@ -15,7 +10,7 @@ import {
   renderTimelineDescription,
 } from '../../../lib/orderTimelineArabicNames';
 
-export const OrderTimelineModal = ({ id }) => {
+export const OrderTimelineModal = ({ id }: { id: number }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: orderTimelineDate, isLoading } = useOrderTimeline(id);
 
@@ -47,6 +42,7 @@ export const OrderTimelineModal = ({ id }) => {
                   old: item?.old,
                   new: item?.new,
                   type: item.type,
+                  reportType: item?.reportType,
                 })}
                 <Text size="xs" mt={4}>
                   {format(parseISO(item.date), 'yyyy-MM-dd HH:mm:ss')}

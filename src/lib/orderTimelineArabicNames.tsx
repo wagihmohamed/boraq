@@ -13,18 +13,24 @@ import {
   IconPdf,
   IconStatusChange,
 } from '@tabler/icons-react';
+import { reportTypeArabicNames } from './reportTypeArabicNames';
 
 export const orderTimelineTypeArabicNames = {
   STATUS_CHANGE: 'تغيير حالة الطلب',
   DELIVERY_AGENT_CHANGE: 'تغيير مندوب التوصيل',
   CURRENT_LOCATION_CHANGE: 'تغيير الموقع الحالي',
   ORDER_DELIVERY: 'توصيل الطلب',
-  REPORT_CREATE: 'إنشاء تقرير',
-  REPORT_DELETE: 'حذف تقرير',
+  REPORT_CREATE: 'إنشاء كشف',
+  REPORT_DELETE: 'حذف كشف',
   PAID_AMOUNT_CHANGE: 'تغيير المبلغ المدفوع',
 };
 
-export const renderTimelineDescription = ({ type, old, new: newStatus }) => {
+export const renderTimelineDescription = ({
+  type,
+  old,
+  new: newStatus,
+  reportType,
+}) => {
   switch (type) {
     case 'STATUS_CHANGE':
       return ` تم تغير حالة الطلب من ${orderStatusArabicNames[old]} الى${' '}
@@ -32,15 +38,17 @@ export const renderTimelineDescription = ({ type, old, new: newStatus }) => {
     case 'CURRENT_LOCATION_CHANGE':
       return ` تم تغير موقع الطلب من ${old} الى ${newStatus}`;
     case 'DELIVERY_AGENT_CHANGE':
-      return ` تم تغير مندوب التوصيل من ${old.name} الى ${newStatus.name}`;
+      return old.name
+        ? ` تم تغير مندوب التوصيل من ${old.name} الى ${newStatus.name}`
+        : ` تم تغير مندوب التوصيل الى ${newStatus.name}`;
     case 'ORDER_DELIVERY':
       return ` تم توصيل الطلب بنجاح`;
     case 'PAID_AMOUNT_CHANGE':
       return ` تم تغير مبلغ الطلب من ${old} الى ${newStatus}`;
     case 'REPORT_CREATE':
-      return ` تم انشاء تقرير `;
+      return `تم انشاء كشف ${reportTypeArabicNames[reportType]}`;
     case 'REPORT_DELETE':
-      return ` تم حذف تقرير `;
+      return ` تم حذف كشف `;
     default:
       return null;
   }

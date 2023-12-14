@@ -109,8 +109,8 @@ export const orderTimelineTypeArabicNames = {
   DELIVERY_AGENT_CHANGE: 'تغيير مندوب التوصيل',
   CURRENT_LOCATION_CHANGE: 'تغيير الموقع الحالي',
   ORDER_DELIVERY: 'توصيل الطلب',
-  REPORT_CREATE: 'إنشاء تقرير',
-  REPORT_DELETE: 'حذف تقرير',
+  REPORT_CREATE: 'إنشاء كشف',
+  REPORT_DELETE: 'حذف كشف',
   PAID_AMOUNT_CHANGE: 'تغيير المبلغ المدفوع',
 };
 
