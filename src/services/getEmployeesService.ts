@@ -64,6 +64,7 @@ export const getEmployeesService = async (
     roles,
     deleted = false,
     branch_id,
+    location_id,
   }: EmployeesFilters = {
     page: 1,
     size: 10,
@@ -76,6 +77,7 @@ export const getEmployeesService = async (
       roles: roles?.join(',') || undefined,
       deleted,
       branch_id: branch_id || undefined,
+      location_id: location_id || undefined,
     },
   });
   return response.data;

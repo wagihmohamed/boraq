@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 export interface EmployeesFilters extends Filters {
   roles?: (keyof typeof rolesArabicNames)[];
   branch_id?: number | null;
+  location_id?: number | null;
 }
 
 export const useEmployees = (

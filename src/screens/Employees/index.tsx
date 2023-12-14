@@ -7,6 +7,7 @@ import { Grid, LoadingOverlay, MultiSelect, Select } from '@mantine/core';
 import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
+import { useLocations } from '@/hooks/useLocations';
 
 export const Employees = () => {
   const [filters, setFilters] = useState<EmployeesFilters>({
@@ -30,13 +31,13 @@ export const Employees = () => {
   };
 
   const { data: branchesData } = useBranches({ size: 1000 });
+  const { data: locationsData } = useLocations({ size: 1000 });
 
   return (
     <AppLayout isError={isError}>
-      <Grid>
+      <Grid className="mt-4 my-10">
         <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
           <MultiSelect
-            className="mt-4 my-10"
             label="الدور"
             data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
             clearable
@@ -47,7 +48,6 @@ export const Employees = () => {
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
           <Select
-            className="mt-4 my-10"
             label="الفروع"
             data={getSelectOptions(branchesData?.data || [])}
             clearable
@@ -57,6 +57,21 @@ export const Employees = () => {
               setFilters({
                 ...filters,
                 branch_id: Number(e) || null,
+              });
+            }}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+          <Select
+            label="المناطق"
+            data={getSelectOptions(locationsData?.data || [])}
+            clearable
+            placeholder="اختار المنطقة"
+            value={filters.branch_id?.toString()}
+            onChange={(e) => {
+              setFilters({
+                ...filters,
+                location_id: Number(e) || null,
               });
             }}
           />
