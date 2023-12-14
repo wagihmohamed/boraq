@@ -97,6 +97,7 @@ export interface OrdersFilter extends Filters {
   delivery_date?: Date | string | null;
   governorate?: string;
   status?: string;
+  statuses?: string[];
   delivery_type?: string;
   delivery_agent_id?: string;
   client_id?: string;
@@ -132,6 +133,7 @@ export const getOrdersService = async (
     recipient_phone,
     recipient_address,
     deleted = false,
+    statuses,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -156,6 +158,7 @@ export const getOrdersService = async (
       recipient_phone: recipient_phone || undefined,
       recipient_address: recipient_address || undefined,
       deleted,
+      statuses: statuses?.join(',') || undefined,
     },
   });
   return response.data;

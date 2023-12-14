@@ -7,7 +7,15 @@ import { useLocations } from '@/hooks/useLocations';
 import { DatePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
-import { Button, Grid, Popover, Select, TextInput, rem } from '@mantine/core';
+import {
+  Button,
+  Grid,
+  MultiSelect,
+  Popover,
+  Select,
+  TextInput,
+  rem,
+} from '@mantine/core';
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ExportReportModal } from './ExportReportModa';
@@ -95,16 +103,15 @@ export const CustomOrdersFilter = ({
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
-        <Select
-          value={filters.status}
-          allowDeselect
+        <MultiSelect
+          value={filters.statuses}
           label="الحالة"
           searchable
           clearable
           onChange={(e) => {
             setFilters({
               ...filters,
-              status: e || '',
+              statuses: e || '',
             });
           }}
           placeholder="اختر الحالة"

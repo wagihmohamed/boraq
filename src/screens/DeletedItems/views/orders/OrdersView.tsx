@@ -29,6 +29,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   status: '',
   store_id: '',
   deleted: true,
+  statuses: [],
 };
 
 export const DeletedOrdersView = () => {
