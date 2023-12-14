@@ -105,7 +105,7 @@ export const NotificationsList = () => {
                 >
                   <div
                     className={cn(
-                      'flex flex-col border border-primary rounded p-1 gap-2 mb-2',
+                      'flex flex-col border border-primary rounded gap-2 mb-2 p-2',
                       !item.seen && 'bg-primary/30'
                     )}
                   >
@@ -131,7 +131,7 @@ export const NotificationsList = () => {
               >
                 <div
                   className={cn(
-                    'flex flex-col border border-primary rounded p-1 gap-2 mb-2 w-72',
+                    'flex flex-col border border-primary rounded gap-2 mb-2 p-2',
                     !item.seen && 'bg-primary/30'
                   )}
                 >
