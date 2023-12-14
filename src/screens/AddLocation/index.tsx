@@ -33,13 +33,17 @@ export const AddLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches({ size: 200 });
+  } = useBranches({ size: 500 });
 
   const {
     data: employees = {
       data: [],
     },
-  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({
+    size: 500,
+    roles: ['DELIVERY_AGENT'],
+    branch_id: Number(form.values.branch),
+  });
 
   const deliveryAgents = employees.data.map((employee) => ({
     value: employee.id.toString(),
@@ -113,6 +117,7 @@ export const AddLocation = () => {
           label="المحافظة"
           {...form.getInputProps('governorate')}
           data={governorateArray}
+          searchable
         />
         <Select
           label="الفرع"
@@ -127,6 +132,8 @@ export const AddLocation = () => {
           limit={100}
           searchable
           {...form.getInputProps('deliveryAgentsIDs')}
+          disabled={!form.values.branch}
+          placeholder="سيتم اظهار المندوبين بعد اختيار الفرع"
         />
         <Button
           type="submit"
