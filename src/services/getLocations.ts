@@ -19,13 +19,31 @@ export interface GetLocationsResponse {
   data: Location[];
 }
 
+export interface LocationFilters extends Filters {
+  search?: string;
+  branch_id?: number;
+  governorate?: keyof typeof governorateArabicNames;
+  delivery_agent_id?: number | null;
+}
+
 export const getLocationsService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  {
+    page = 1,
+    size = 10,
+    delivery_agent_id,
+    governorate,
+    search,
+    branch_id,
+  }: LocationFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetLocationsResponse>(getLocationsendpoint, {
     params: {
       page,
       size,
+      delivery_agent_id: delivery_agent_id || undefined,
+      governorate: governorate || undefined,
+      search: search || undefined,
+      branch_id: branch_id || undefined,
     },
   });
   return response.data;
