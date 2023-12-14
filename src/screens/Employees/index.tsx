@@ -13,6 +13,8 @@ export const Employees = () => {
   const [filters, setFilters] = useState<EmployeesFilters>({
     page: 1,
     size: 10,
+    branch_id: undefined,
+    location_id: undefined,
   });
   const {
     data: employees = {
@@ -24,10 +26,10 @@ export const Employees = () => {
   } = useEmployees(filters);
 
   const handleSelect = (value: (keyof typeof rolesArabicNames)[]) => {
-    setFilters((prev) => ({
-      ...prev,
+    setFilters({
+      ...filters,
       roles: value,
-    }));
+    });
   };
 
   const { data: branchesData } = useBranches({ size: 1000 });
@@ -56,7 +58,7 @@ export const Employees = () => {
             onChange={(e) => {
               setFilters({
                 ...filters,
-                branch_id: Number(e) || null,
+                branch_id: e,
               });
             }}
           />
@@ -67,11 +69,11 @@ export const Employees = () => {
             data={getSelectOptions(locationsData?.data || [])}
             clearable
             placeholder="اختار المنطقة"
-            value={filters.branch_id?.toString()}
+            value={filters.location_id}
             onChange={(e) => {
               setFilters({
                 ...filters,
-                location_id: Number(e) || null,
+                location_id: e,
               });
             }}
           />

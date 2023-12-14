@@ -76,8 +76,8 @@ export const getEmployeesService = async (
       size,
       roles: roles?.join(',') || undefined,
       deleted,
-      branch_id: branch_id || undefined,
-      location_id: location_id || undefined,
+      branch_id: Number(branch_id) || undefined,
+      location_id: Number(location_id) || undefined,
     },
   });
   return response.data;
