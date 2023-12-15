@@ -15,6 +15,7 @@ export const Employees = () => {
     size: 10,
     branch_id: undefined,
     location_id: undefined,
+    roles: [],
   });
   const {
     data: employees = {
@@ -43,6 +44,8 @@ export const Employees = () => {
             label="الدور"
             data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
             clearable
+            searchable
+            limit={50}
             placeholder="الدور"
             value={filters.roles}
             onChange={handleSelect}
@@ -53,6 +56,8 @@ export const Employees = () => {
             label="الفروع"
             data={getSelectOptions(branchesData?.data || [])}
             clearable
+            searchable
+            limit={50}
             placeholder="اختار الفرع"
             value={filters.branch_id?.toString()}
             onChange={(e) => {
@@ -69,6 +74,9 @@ export const Employees = () => {
             data={getSelectOptions(locationsData?.data || [])}
             clearable
             placeholder="اختار المنطقة"
+            disabled={
+              !filters.branch_id || !filters.roles?.includes('DELIVERY_AGENT')
+            }
             value={filters.location_id}
             onChange={(e) => {
               setFilters({
