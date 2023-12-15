@@ -45,6 +45,7 @@ export const AddEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
+      deliveryCost: '',
     },
   });
 
@@ -92,6 +93,7 @@ export const AddEmployee = () => {
     formData.append('avatar', values.avatar[0]);
     formData.append('companyID', values.companyID);
     formData.append('permissions', JSON.stringify(values.permissions));
+    formData.append('deliveryCost', values.deliveryCost);
     createBranchAction(formData);
   };
 
@@ -138,12 +140,22 @@ export const AddEmployee = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
-              label="الأجرة"
+              label="الراتب"
               type="number"
               placeholder=""
               size="md"
               className="w-full"
               {...form.getInputProps('salary')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="أجرة التوصيل"
+              type="number"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('deliveryCost')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

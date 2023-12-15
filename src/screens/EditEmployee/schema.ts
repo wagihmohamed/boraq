@@ -27,6 +27,7 @@ export const editEmployeeSchema = z
     //   }
     //   return true;
     // }, 'الحد الأقصى 5 ميجا'),
+    deliveryCost: z.string(),
     salary: z
       .string({
         required_error: 'الرجاء ادخال الأجرة',

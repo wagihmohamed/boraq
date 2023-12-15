@@ -42,7 +42,7 @@ export const AddLocation = () => {
   } = useEmployees({
     size: 500,
     roles: ['DELIVERY_AGENT'],
-    branch_id: Number(form.values.branch),
+    branch_id: form.values.branch,
   });
 
   const deliveryAgents = employees.data.map((employee) => ({

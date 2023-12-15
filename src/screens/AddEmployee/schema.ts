@@ -9,13 +9,7 @@ export const addEmployeeSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
-    salary: z
-      .string({
-        required_error: 'الرجاء ادخال الأجرة',
-      })
-      .refine((value) => parseInt(value, 10) > 0, {
-        message: 'الرجاء ادخال الأجرة',
-      }),
+    salary: z.string().min(0),
     avatar: z.any(),
     // .refine((files) => files?.length === 1, 'الصوره مطلوبة')
     // .refine(
@@ -38,6 +32,7 @@ export const addEmployeeSchema = z
     permissions: z.array(
       z.string({ required_error: 'الرجاء اختيار الصلاحيات' })
     ),
+    deliveryCost: z.string(),
     password: z.string().min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     confirmPassword: z
       .string()
