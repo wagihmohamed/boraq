@@ -55,6 +55,7 @@ export const EditEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
+      deliveryCost: '',
     },
   });
 
@@ -72,6 +73,7 @@ export const EditEmployee = () => {
         companyID: employeeDetails.data.company.id.toString(),
         permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
+        deliveryCost: employeeDetails.data.deliveryCost,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +131,7 @@ export const EditEmployee = () => {
     if (values.avatar[0] instanceof File) {
       formData.append('avatar', (values?.avatar[0] as File) || '');
     }
-
+    formData.append('deliveryCost', values.deliveryCost);
     editEmployeeAction(formData);
   };
 
@@ -176,12 +178,22 @@ export const EditEmployee = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
-              label="الأجرة"
+              label="الراتب"
               type="number"
               placeholder=""
               size="md"
               className="w-full"
               {...form.getInputProps('salary')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="أجرة التوصيل"
+              type="number"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('deliveryCost')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

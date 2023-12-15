@@ -22,6 +22,7 @@ export interface Employee {
     createdAt: string;
     updatedAt: string;
   };
+  deliveryCost: string;
   company: {
     id: number;
     name: string;
