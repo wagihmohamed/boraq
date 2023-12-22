@@ -1,6 +1,4 @@
 /* eslint-disable no-nested-ternary */
-
-import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Timeline, Text, Loader } from '@mantine/core';
 import { useOrderTimeline } from '@/hooks/useOrderTimeline';
 import { format, parseISO } from 'date-fns';
@@ -10,13 +8,25 @@ import {
   renderTimelineDescription,
 } from '../../../lib/orderTimelineArabicNames';
 
-export const OrderTimelineModal = ({ id }: { id: number }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface Props {
+  id: number;
+  opened: boolean;
+  close: () => void;
+  open: () => void;
+}
+
+export const OrderTimelineModal = ({ id, close, open, opened }: Props) => {
   const { data: orderTimelineDate, isLoading } = useOrderTimeline(id);
 
   return (
     <>
-      <Modal opened={opened} centered onClose={close} title="مسار الطلب">
+      <Modal
+        withinPortal
+        opened={opened}
+        centered
+        onClose={close}
+        title="مسار الطلب"
+      >
         {isLoading ? (
           <div className="flex justify-center items-center h-64 w-full">
             <Loader />

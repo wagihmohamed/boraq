@@ -1,4 +1,3 @@
-import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -6,8 +5,14 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { deactivateOrderService } from '@/services/deactivateOrder';
 
-export const DeleteOrder = ({ id }: { id: number }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface Props {
+  id: number;
+  opened: boolean;
+  close: () => void;
+  open: () => void;
+}
+
+export const DeleteOrder = ({ id, close, open, opened }: Props) => {
   const queryClient = useQueryClient();
   const { mutate: deleteLocation, isLoading } = useMutation({
     mutationFn: (id: number) => deactivateOrderService({ id }),

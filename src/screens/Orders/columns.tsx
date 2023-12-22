@@ -2,17 +2,19 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
+import {
+  ActionIcon,
+  Checkbox,
+  HoverCard,
+  Menu,
+  Text,
+  rem,
+} from '@mantine/core';
 import { IconFileTypePdf } from '@tabler/icons-react';
 import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import toast from 'react-hot-toast';
@@ -20,6 +22,8 @@ import { useOrdersStore } from '@/store/ordersStore';
 import { DeleteOrder } from './components/DeleteOrder';
 import { useReportsPDF } from '@/hooks/useReportsPDF';
 import { OrderTimelineModal } from './components/OrderTimelineModal';
+import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -354,15 +358,28 @@ export const columns: ColumnDef<Order>[] = [
           error: (error) => error.response?.data.message || 'حدث خطأ ما',
         });
       };
+      const [timelineOpened, { open: openTimeline, close: closeTimeline }] =
+        useDisclosure(false);
+      const [deleteOpened, { open: openDelete, close: closeDelete }] =
+        useDisclosure(false);
+
+      const [isMenuOpen, setMenuOpen] = useState(false);
 
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
+        <Menu
+          zIndex={150}
+          opened={isMenuOpen}
+          onChange={() => {
+            if (timelineOpened) return;
+            setMenuOpen(!isMenuOpen);
+          }}
+        >
+          <Menu.Target>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
+          </Menu.Target>
+          <Menu.Dropdown>
             <Link
               className={buttonVariants({
                 variant: 'ghost',
@@ -381,8 +398,19 @@ export const columns: ColumnDef<Order>[] = [
             >
               تعديل
             </Link>
-            <DeleteOrder id={id} />
-            <OrderTimelineModal id={id} />
+            <DeleteOrder
+              id={id}
+              opened={deleteOpened}
+              close={closeDelete}
+              open={openDelete}
+            />
+            <OrderTimelineModal
+              opened={timelineOpened}
+              close={closeTimeline}
+              open={openTimeline}
+              id={id}
+            />
+            {/* <Menu.Item id={id} component={OrderTimelineModal} /> */}
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>
@@ -395,8 +423,8 @@ export const columns: ColumnDef<Order>[] = [
                 </HoverCard.Dropdown>
               </HoverCard>
             </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </Menu.Dropdown>
+        </Menu>
       );
     },
   },
