@@ -171,7 +171,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(clientReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -202,7 +202,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(branchReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -233,7 +233,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(deliveryAgentReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -264,7 +264,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(repositoryReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -295,7 +295,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(governorateReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -326,7 +326,7 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReportPDF(companyReport.reportId), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 
@@ -355,7 +355,9 @@ export const columns: ColumnDef<Order>[] = [
         toast.promise(getReceipt([id]), {
           loading: 'جاري تحميل الفاتورة...',
           success: 'تم تحميل الفاتورة بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => {
+            return error.message || 'حدث خطأ ما';
+          },
         });
       };
       const [timelineOpened, { open: openTimeline, close: closeTimeline }] =

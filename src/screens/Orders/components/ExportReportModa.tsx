@@ -145,7 +145,7 @@ export const ExportReportModal = () => {
       {
         loading: 'جاري تصدير الكشف',
         success: 'تم تصدير الكشف بنجاح',
-        error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        error: (error) => error.message || 'حدث خطأ ما',
       }
     );
   };
@@ -167,7 +167,7 @@ export const ExportReportModal = () => {
       {
         loading: 'جاري تصدير الفاتورة',
         success: 'تم تصدير الفاتورة بنجاح',
-        error: (error) => error.response?.data.message || 'حدث خطأ ما',
+        error: (error) => error.message || 'حدث خطأ ما',
       }
     );
   };
