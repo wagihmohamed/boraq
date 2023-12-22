@@ -121,7 +121,7 @@ export const columns: ColumnDef<IReport>[] = [
         toast.promise(getReportPDF(id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
-          error: (error) => error.response?.data.message || 'حدث خطأ ما',
+          error: (error) => error.message || 'حدث خطأ ما',
         });
       };
 

@@ -4,7 +4,7 @@ import { api } from '@/api';
 import { createReportendpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import FileSaver from 'file-saver';
 
 export interface CreateReportPayload {
@@ -25,7 +25,7 @@ export const createReportService = async (data: CreateReportPayload) => {
       createReportendpoint,
       data,
       {
-        responseType: 'blob',
+        responseType: 'arraybuffer',
       }
     );
 
@@ -36,7 +36,10 @@ export const createReportService = async (data: CreateReportPayload) => {
       FileSaver.saveAs(blob, `كشف.pdf`);
       return;
     }
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    if (error instanceof AxiosError) {
+      const data = JSON.parse(new TextDecoder().decode(error.response?.data));
+      throw data;
+    }
   }
 };
