@@ -77,6 +77,7 @@ export const getDeliveryAgentManifest = async ({
     getEmployeesendpoint,
     {
       params: {
+        roles: 'DELIVERY_AGENT',
         page,
         size,
         orders_start_date: orders_start_date || undefined,

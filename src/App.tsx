@@ -48,6 +48,7 @@ import { ReportsScreen } from './screens/Reports';
 import { Home } from './screens/Home';
 import { DeletedScreen } from './screens/DeletedItems';
 import { Banners } from './screens/Banners';
+import { DeliveryAgentsManifest } from './screens/DeliveryAgentsManifest';
 
 function App() {
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ function App() {
         <Route path="/statistics" element={<Home />} />
         <Route path="/deleted" element={<DeletedScreen />} />
         <Route path="/banners" element={<Banners />} />
+        <Route path="/agents/manifest" element={<DeliveryAgentsManifest />} />
       </Route>
     </Routes>
   );

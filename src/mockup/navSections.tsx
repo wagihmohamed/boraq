@@ -14,6 +14,7 @@ import {
   IconChartPie3,
   IconTrashFilled,
   IconPhotoFilled,
+  IconTruckDelivery,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -49,6 +50,12 @@ export const navSections = [
     label: 'المناطق',
     enLabel: 'regions',
     icon: IconMapPins,
+  },
+  {
+    link: '/agents/manifest',
+    label: 'منافيست المندوبين',
+    enLabel: 'agents manifest',
+    icon: IconTruckDelivery,
   },
   {
     link: '/employees',
