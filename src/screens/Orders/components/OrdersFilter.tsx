@@ -19,6 +19,7 @@ import {
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ExportReportModal } from './ExportReportModa';
+import { useEmployees } from '@/hooks/useEmployees';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -37,19 +38,24 @@ export const CustomOrdersFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 500 });
+  } = useClients({ size: 1000 });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
+  } = useLocations({ size: 1000 });
+  const {
+    data: employeesData = {
+      data: [],
+    },
+  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
   const handleResetDate = () => {
     setFilters({
@@ -150,6 +156,24 @@ export const CustomOrdersFilter = ({
           }}
           placeholder="اختر العميل"
           data={getSelectOptions(clientsData.data)}
+          limit={100}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+        <Select
+          value={filters.delivery_agent_id?.toString()}
+          allowDeselect
+          label="المندوب"
+          searchable
+          clearable
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              delivery_agent_id: e || '',
+            });
+          }}
+          placeholder="اختر المندوب"
+          data={getSelectOptions(employeesData.data)}
           limit={100}
         />
       </Grid.Col>
