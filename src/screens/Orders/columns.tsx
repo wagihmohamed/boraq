@@ -372,7 +372,7 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (timelineOpened) return;
+            if (timelineOpened || deleteOpened) return;
             setMenuOpen(!isMenuOpen);
           }}
         >

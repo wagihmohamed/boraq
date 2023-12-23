@@ -1,12 +1,13 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useOrders } from '@/hooks/useOrders';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { columns } from './columns';
 import { OrdersFilter } from '@/services/getOrders';
 import { LoadingOverlay } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { CustomOrdersFilter } from './components/OrdersFilter';
 import { OrdersTable } from './components/OrdersTable';
+import { useLocation } from 'react-router-dom';
 
 export const ordersFilterInitialState: OrdersFilter = {
   page: 1,
@@ -32,11 +33,46 @@ export const ordersFilterInitialState: OrdersFilter = {
   store_id: '',
 };
 
+interface OrdersSearchParameters {
+  delivery_agent_id: string;
+  orders_end_date: string;
+  orders_start_date: string;
+  branch_id: string;
+}
+
 export const OrdersScreen = () => {
+  const location = useLocation();
   const [filters, setFilters] = useState<OrdersFilter>(
     ordersFilterInitialState
   );
   const [search, setSearch] = useDebouncedState('', 300);
+
+  const locationState = location.state as OrdersSearchParameters;
+
+  useEffect(() => {
+    if (locationState?.delivery_agent_id) {
+      setFilters((prev) => ({
+        ...prev,
+        delivery_agent_id: locationState?.delivery_agent_id,
+      }));
+    }
+    if (locationState?.orders_end_date) {
+      setFilters((prev) => ({
+        ...prev,
+        end_date: new Date(locationState?.orders_end_date),
+      }));
+    }
+    if (locationState?.orders_start_date) {
+      setFilters((prev) => ({
+        ...prev,
+        start_date: new Date(locationState?.orders_start_date),
+      }));
+    }
+  }, [
+    locationState?.delivery_agent_id,
+    locationState?.orders_end_date,
+    locationState?.orders_start_date,
+  ]);
 
   const {
     data: orders = {
