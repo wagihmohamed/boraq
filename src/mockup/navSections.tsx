@@ -15,6 +15,7 @@ import {
   IconTrashFilled,
   IconPhotoFilled,
   IconTruckDelivery,
+  IconPackages,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -30,6 +31,12 @@ export const navSections = [
     label: 'الطلبات',
     enLabel: 'invoices',
     icon: IconPackageExport,
+  },
+  {
+    link: '/orders-bulk-create',
+    label: 'انشاء طلبات جماعية',
+    enLabel: 'orders bulk create',
+    icon: IconPackages,
   },
   { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },
@@ -52,7 +59,7 @@ export const navSections = [
     icon: IconMapPins,
   },
   {
-    link: '/agents/manifest',
+    link: '/agents-manifest',
     label: 'منافيست المندوبين',
     enLabel: 'agents manifest',
     icon: IconTruckDelivery,
