@@ -1,7 +1,7 @@
 import { api } from '@/api';
 import { createOrderendpoint } from '@/api/apisUrl';
 
-export interface CreateOrderPayload {
+export interface CreateOrderItem {
   withProducts: boolean;
   totalCost?: number;
   quantity?: number;
@@ -22,6 +22,8 @@ export interface CreateOrderPayload {
     sizeID: number;
   }[];
 }
+
+export type CreateOrderPayload = CreateOrderItem | CreateOrderItem[];
 
 export const createOrderService = async (data: CreateOrderPayload) => {
   const response = await api.post<CreateOrderPayload>(
