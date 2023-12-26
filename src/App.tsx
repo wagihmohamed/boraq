@@ -50,6 +50,7 @@ import { DeletedScreen } from './screens/DeletedItems';
 import { Banners } from './screens/Banners';
 import { DeliveryAgentsManifest } from './screens/DeliveryAgentsManifest';
 import { CreateBulkOrders } from './screens/CreateBulkOrders';
+import { OrdersSheet } from './screens/OrdersSheet';
 
 function App() {
   const navigate = useNavigate();
@@ -126,6 +127,7 @@ function App() {
         <Route path="/banners" element={<Banners />} />
         <Route path="/agents-manifest" element={<DeliveryAgentsManifest />} />
         <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
+        <Route path="/orders-sheet" element={<OrdersSheet />} />
       </Route>
     </Routes>
   );
