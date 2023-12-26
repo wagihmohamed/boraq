@@ -6,9 +6,14 @@ import { useRef } from 'react';
 interface SheetUploaderProps {
   onDrop: (files: File[]) => void;
   files?: File[];
+  onDelete?: () => void;
 }
 
-export const SheetUploader = ({ onDrop, files }: SheetUploaderProps) => {
+export const SheetUploader = ({
+  onDrop,
+  files,
+  onDelete,
+}: SheetUploaderProps) => {
   const theme = useMantineTheme();
   const openRef = useRef<() => void>(null);
 
@@ -84,7 +89,10 @@ export const SheetUploader = ({ onDrop, files }: SheetUploaderProps) => {
               variant="link"
               color="red"
               size="xs"
-              onClick={() => onDrop([])}
+              onClick={() => {
+                onDrop([]);
+                onDelete?.();
+              }}
             >
               <IconX />
             </Button>
