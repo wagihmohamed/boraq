@@ -109,7 +109,19 @@ export interface OrdersFilter extends Filters {
   recipient_phone?: string;
   recipient_address?: string;
   deleted?: boolean;
+  client_report?: string | null;
+  repository_report?: string | null;
+  branch_report?: string | null;
+  delivery_agent_report?: string | null;
+  governorate_report?: string | null;
+  company_report?: string | null;
 }
+
+const getReportParam = (value?: string | null): boolean | undefined => {
+  if (value === '1') return true;
+  if (value === '0') return false;
+  return undefined;
+};
 
 export const getOrdersService = async (
   {
@@ -134,6 +146,12 @@ export const getOrdersService = async (
     recipient_address,
     deleted = false,
     statuses,
+    client_report,
+    repository_report,
+    branch_report,
+    delivery_agent_report,
+    governorate_report,
+    company_report,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -159,6 +177,12 @@ export const getOrdersService = async (
       recipient_address: recipient_address || undefined,
       deleted,
       statuses: statuses?.join(',') || undefined,
+      client_report: getReportParam(client_report),
+      repository_report: getReportParam(repository_report),
+      branch_report: getReportParam(branch_report),
+      delivery_agent_report: getReportParam(delivery_agent_report),
+      governorate_report: getReportParam(governorate_report),
+      company_report: getReportParam(company_report),
     },
   });
   return response.data;
