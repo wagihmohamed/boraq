@@ -28,6 +28,17 @@ interface OrdersFilter {
   setSearch: (newValue: string) => void;
 }
 
+const withReportsDataOptions = [
+  {
+    label: 'بدون كشف',
+    value: '0',
+  },
+  {
+    label: 'مع كشف',
+    value: '1',
+  },
+];
+
 export const CustomOrdersFilter = ({
   filters,
   setFilters,
@@ -323,6 +334,96 @@ export const CustomOrdersFilter = ({
             </Popover.Dropdown>
           </Popover>
         </div>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف شركة"
+          placeholder="اختر كشف شركة"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.company_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              company_report: e,
+            });
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف مخزن"
+          placeholder="اختر كشف مخزن"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.repository_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              repository_report: e,
+            });
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف عميل"
+          placeholder="اختر كشف عميل"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.client_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              client_report: e,
+            });
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف فرع"
+          placeholder="اختر كشف فرع"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.branch_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              branch_report: e,
+            });
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف مندوب"
+          placeholder="اختر كشف مندوب"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.delivery_agent_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              delivery_agent_report: e,
+            });
+          }}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+        <Select
+          label="كشف محافظة"
+          placeholder="اختر كشف محافظة"
+          data={withReportsDataOptions}
+          clearable
+          defaultValue={filters.governorate_report}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              governorate_report: e,
+            });
+          }}
+        />
       </Grid.Col>
     </Grid>
   );
