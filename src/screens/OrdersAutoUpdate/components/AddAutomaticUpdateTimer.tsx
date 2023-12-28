@@ -6,8 +6,17 @@ import { useForm, zodResolver } from '@mantine/form';
 import { orderStatusAutomaticUpdateCreateSchema } from './AddAutomaticUpdateTimer.zod';
 import { z } from 'zod';
 import { orderReturnConditionArray } from '@/lib/orderReturnConditionArabicNames';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  CreateAutomaticUpdateDatePayload,
+  createAutomaticUpdateDateService,
+} from '@/services/createAutomaticUpdateDate';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { APIError } from '@/models';
 
 export const AddAutomaticUpdateTimer = () => {
+  const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm({
@@ -21,11 +30,46 @@ export const AddAutomaticUpdateTimer = () => {
     },
   });
 
+  const { mutate: createDate, isLoading } = useMutation({
+    mutationFn: (data: CreateAutomaticUpdateDatePayload) =>
+      createAutomaticUpdateDateService(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['automaticUpdates'],
+      });
+      toast.success('تم اضافة الموعد بنجاح');
+      close();
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
   const handleSubmit = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     values: z.infer<typeof orderStatusAutomaticUpdateCreateSchema>
   ) => {
-    console.log(values);
+    if (values.updateAt === 0) {
+      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد صفر');
+      return;
+    }
+    if (values.checkAfter === 0) {
+      form.setFieldError('checkAfter', 'لا يمكن ان يكون الموعد صفر');
+      return;
+    }
+    if (values.updateAt > 24) {
+      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد اكبر من 24');
+      return;
+    }
+    createDate({
+      checkAfter: values.checkAfter,
+      governorate:
+        values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
+      orderStatus:
+        values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+      returnCondition:
+        values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
+      updateAt: values.updateAt,
+    });
   };
 
   return (
@@ -82,7 +126,9 @@ export const AddAutomaticUpdateTimer = () => {
             </div>
           </Radio.Group>
           <div className="flex items-center gap-4">
-            <Button type="submit">اضافة</Button>
+            <Button loading={isLoading} disabled={isLoading} type="submit">
+              اضافة
+            </Button>
             <Button type="reset" onClick={close} variant="outline">
               الغاء
             </Button>
