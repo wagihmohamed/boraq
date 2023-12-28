@@ -11,9 +11,9 @@ export interface CreateOrderItem {
   recipientAddress: string;
   notes?: string;
   details?: string;
-  deliveryType: string;
+  deliveryType?: string;
   governorate: string;
-  locationID: number;
+  locationID?: number;
   storeID: number;
   products?: {
     productID: number;
@@ -21,6 +21,7 @@ export interface CreateOrderItem {
     colorID: number;
     sizeID: number;
   }[];
+  receiptNumber?: number;
 }
 
 export type CreateOrderPayload = CreateOrderItem | CreateOrderItem[];

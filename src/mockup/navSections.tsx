@@ -16,6 +16,7 @@ import {
   IconPhotoFilled,
   IconTruckDelivery,
   IconPackages,
+  IconFileSpreadsheet,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -37,6 +38,12 @@ export const navSections = [
     label: 'انشاء طلبات جماعية',
     enLabel: 'orders bulk create',
     icon: IconPackages,
+  },
+  {
+    link: '/orders-sheet',
+    label: 'استيراد طلبات من اكسل',
+    enLabel: 'orders sheet',
+    icon: IconFileSpreadsheet,
   },
   { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },
