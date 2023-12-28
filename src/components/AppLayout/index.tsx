@@ -83,7 +83,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
     <AppShell
       header={{ height: rem(60), offset: true }}
       navbar={{
-        width: rem(230),
+        width: rem(250),
         breakpoint: 'sm',
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
