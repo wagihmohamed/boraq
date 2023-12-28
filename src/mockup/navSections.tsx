@@ -17,6 +17,7 @@ import {
   IconTruckDelivery,
   IconPackages,
   IconFileSpreadsheet,
+  IconRefresh,
 } from '@tabler/icons-react';
 
 export const navSections = [
@@ -44,6 +45,12 @@ export const navSections = [
     label: 'استيراد طلبات من اكسل',
     enLabel: 'orders sheet',
     icon: IconFileSpreadsheet,
+  },
+  {
+    link: '/orders-auto-apdate',
+    label: 'التحديث التلقائي للطلبات',
+    enLabel: 'orders auto update',
+    icon: IconRefresh,
   },
   { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
   { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },

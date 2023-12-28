@@ -51,6 +51,7 @@ import { Banners } from './screens/Banners';
 import { DeliveryAgentsManifest } from './screens/DeliveryAgentsManifest';
 import { CreateBulkOrders } from './screens/CreateBulkOrders';
 import { OrdersSheet } from './screens/OrdersSheet';
+import { OrdersAutoUpdate } from './screens/OrdersAutoUpdate';
 
 function App() {
   const navigate = useNavigate();
@@ -128,6 +129,7 @@ function App() {
         <Route path="/agents-manifest" element={<DeliveryAgentsManifest />} />
         <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
         <Route path="/orders-sheet" element={<OrdersSheet />} />
+        <Route path="/orders-auto-apdate" element={<OrdersAutoUpdate />} />
       </Route>
     </Routes>
   );
