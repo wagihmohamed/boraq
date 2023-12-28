@@ -5,6 +5,7 @@ import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
 import { useState } from 'react';
 import { Filters } from '@/services/getEmployeesService';
+import { AddAutomaticUpdateTimer } from './components/AddAutomaticUpdateTimer';
 
 export const OrdersAutoUpdate = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -16,6 +17,7 @@ export const OrdersAutoUpdate = () => {
 
   return (
     <AppLayout>
+      <AddAutomaticUpdateTimer />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

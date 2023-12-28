@@ -1,0 +1,142 @@
+import { useDisclosure } from '@mantine/hooks';
+import { Modal, Button, Select, NumberInput, Radio } from '@mantine/core';
+import { governorateArray } from '@/lib/governorateArabicNames ';
+import { orderStatusArray } from '@/lib/orderStatusArabicNames';
+import { useForm, zodResolver } from '@mantine/form';
+import { orderStatusAutomaticUpdateCreateSchema } from './AddAutomaticUpdateTimer.zod';
+import { z } from 'zod';
+import { orderReturnConditionArray } from '@/lib/orderReturnConditionArabicNames';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  CreateAutomaticUpdateDatePayload,
+  createAutomaticUpdateDateService,
+} from '@/services/createAutomaticUpdateDate';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { APIError } from '@/models';
+
+export const AddAutomaticUpdateTimer = () => {
+  const queryClient = useQueryClient();
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const form = useForm({
+    validate: zodResolver(orderStatusAutomaticUpdateCreateSchema),
+    initialValues: {
+      governorate: '',
+      orderStatus: '',
+      returnCondition: '',
+      updateAt: 0,
+      checkAfter: 0,
+    },
+  });
+
+  const { mutate: createDate, isLoading } = useMutation({
+    mutationFn: (data: CreateAutomaticUpdateDatePayload) =>
+      createAutomaticUpdateDateService(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['automaticUpdates'],
+      });
+      toast.success('تم اضافة الموعد بنجاح');
+      close();
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
+  const handleSubmit = (
+    values: z.infer<typeof orderStatusAutomaticUpdateCreateSchema>
+  ) => {
+    if (values.updateAt === 0) {
+      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد صفر');
+      return;
+    }
+    if (values.checkAfter === 0) {
+      form.setFieldError('checkAfter', 'لا يمكن ان يكون الموعد صفر');
+      return;
+    }
+    if (values.updateAt > 24) {
+      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد اكبر من 24');
+      return;
+    }
+    createDate({
+      checkAfter: values.checkAfter,
+      governorate:
+        values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
+      orderStatus:
+        values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+      returnCondition:
+        values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
+      updateAt: values.updateAt,
+    });
+  };
+
+  return (
+    <>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="اضافة موعد تحديث الطلبات"
+        centered
+      >
+        <form className="space-y-4" onSubmit={form.onSubmit(handleSubmit)}>
+          <Select
+            data={governorateArray}
+            label="اختر المحافظة"
+            placeholder="اختر المحافظة"
+            clearable
+            searchable
+            {...form.getInputProps('governorate')}
+          />
+          <Select
+            data={orderStatusArray}
+            label="اختر حالة الطلب"
+            placeholder="اختر حالة الطلب"
+            clearable
+            searchable
+            {...form.getInputProps('orderStatus')}
+          />
+          <NumberInput
+            label="القيمة (بالساعة)"
+            placeholder="القيمة (بالساعة)"
+            allowNegative={false}
+            allowDecimal={false}
+            {...form.getInputProps('checkAfter')}
+          />
+          <NumberInput
+            label="يوميا علي الساعة"
+            placeholder="يوميا علي الساعة (24 ساعة)"
+            allowNegative={false}
+            allowDecimal={false}
+            clampBehavior="strict"
+            max={24}
+            {...form.getInputProps('updateAt')}
+          />
+          <Radio.Group
+            name="orderReturnCondition"
+            label="اختر حالة الارجاع"
+            withAsterisk
+            {...form.getInputProps('returnCondition')}
+          >
+            <div className="flex items-center gap-4">
+              {orderReturnConditionArray.map((item) => (
+                <Radio key={item.value} value={item.value} label={item.label} />
+              ))}
+            </div>
+          </Radio.Group>
+          <div className="flex items-center gap-4">
+            <Button loading={isLoading} disabled={isLoading} type="submit">
+              اضافة
+            </Button>
+            <Button type="reset" onClick={close} variant="outline">
+              الغاء
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      <Button onClick={open}>اضافة موعد تحديث الطلبات</Button>
+    </>
+  );
+};
