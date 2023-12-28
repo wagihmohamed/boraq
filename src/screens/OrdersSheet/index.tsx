@@ -5,10 +5,20 @@ import { useState } from 'react';
 import { SheetUploader } from './components/SheetUploader';
 import * as XLSX from 'xlsx';
 import { DataTable } from './components/Table';
+import { Button, Select, rem } from '@mantine/core';
+import { useStores } from '@/hooks/useStores';
+import { getSelectOptions } from '@/lib/getSelectOptions';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { APIError } from '@/models';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface OrderSheet {
   orderNumber: string;
   phoneNumber: string;
+  address: string;
   city: string;
   customerName: string;
   notes: string;
@@ -28,7 +38,9 @@ interface SheetFile {
 }
 
 export const OrdersSheet = () => {
+  const queryClient = useQueryClient();
   const [files, setFiles] = useState<File[]>([]);
+  const [selectedStore, setSelectedStore] = useState<string | null>(null);
   const [orders, setOrders] = useState<OrderSheet[]>([]);
 
   const handleDrop = async (files: File[]) => {
@@ -43,7 +55,7 @@ export const OrdersSheet = () => {
       const json: SheetFile[] = XLSX.utils.sheet_to_json(sheet);
       const transformedJson: OrderSheet[] = json.map((order) => ({
         orderNumber: order['#'].toString(),
-        phoneNuber: order.Address,
+        address: order.Address,
         city: order.City,
         customerName: order['Customer Name'],
         notes: order.Notes,
@@ -54,9 +66,62 @@ export const OrdersSheet = () => {
       setOrders(transformedJson);
     };
   };
+  const {
+    data: storesData = {
+      data: [],
+    },
+  } = useStores({ size: 500 });
+
+  const { mutate: createOrder, isLoading } = useMutation({
+    mutationFn: (data: CreateOrderPayload) => {
+      return createOrderService(data);
+    },
+    onSuccess: () => {
+      toast.success('تم اضافة الطلبات بنجاح');
+      queryClient.invalidateQueries({
+        queryKey: ['orders'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['ordersStatistics'],
+      });
+    },
+    onError: (error: AxiosError<APIError>) => {
+      toast.error(error.response?.data.message || 'حدث خطأ ما');
+    },
+  });
+
+  const handleCreateOrders = () => {
+    if (!selectedStore) {
+      toast.error('يجب اختيار المتجر');
+      return;
+    }
+    const data = orders.map((order) => ({
+      withProducts: false,
+      storeID: Number(selectedStore),
+      receiptNumber: Number(order.orderNumber),
+      governorate: Object.keys(governorateArabicNames)[3],
+      notes: order.notes,
+      recipientName: order.customerName,
+      recipientPhone: order.phoneNumber,
+      recipientAddress: order.address,
+      totalCost: Number(order.total),
+    }));
+
+    createOrder(data);
+  };
 
   return (
     <AppLayout>
+      <Select
+        searchable
+        className="mb-4"
+        label="المتجر"
+        placeholder="اختار المتجر"
+        limit={50}
+        data={getSelectOptions(storesData.data)}
+        value={selectedStore}
+        onChange={setSelectedStore}
+      />
       <SheetUploader
         onDelete={() => {
           setFiles([]);
@@ -65,6 +130,16 @@ export const OrdersSheet = () => {
         files={files}
         onDrop={handleDrop}
       />
+      <div className="flex justify-center mb-6">
+        <Button
+          w={rem(200)}
+          onClick={handleCreateOrders}
+          loading={isLoading}
+          disabled={isLoading || !orders.length}
+        >
+          اضافة الطلبات
+        </Button>
+      </div>
       <DataTable data={orders} columns={columns} />
     </AppLayout>
   );
