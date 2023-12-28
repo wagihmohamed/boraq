@@ -6,7 +6,7 @@ import { Filters } from './getEmployeesService';
 
 export type ReturnCondition = 'WITH_AGENT' | 'IN_REPOSITORY';
 
-interface AutomaticUpdate {
+export interface AutomaticUpdate {
   id: number;
   createdAt: string;
   updatedAt: string;
