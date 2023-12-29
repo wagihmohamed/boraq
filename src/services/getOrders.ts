@@ -50,34 +50,28 @@ export interface Order {
     name: string;
   };
   clientReport: {
-    reportNumber: number;
+    id: number;
     clientId: number;
-    reportId: number;
     storeId: number;
   } | null;
   repositoryReport: {
-    reportNumber: number;
+    id: number;
     repositoryId: number;
-    reportId: number;
   } | null;
   governorateReport: {
-    reportNumber: number;
+    id: number;
     governorate: keyof typeof governorateArabicNames;
-    reportId: number;
   };
   branchReport: {
-    reportNumber: number;
+    id: number;
     branchId: number;
-    reportId: number;
   };
   deliveryAgentReport: {
-    reportNumber: number;
+    id: number;
     deliveryAgentId: number;
-    reportId: number;
   };
   companyReport: {
-    reportNumber: number;
-    reportId: number;
+    id: number;
     companyId: number;
   };
 }

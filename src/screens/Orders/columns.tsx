@@ -168,7 +168,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!clientReport) return;
-        toast.promise(getReportPDF(clientReport.reportId), {
+        toast.promise(getReportPDF(clientReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
@@ -199,7 +199,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!branchReport) return;
-        toast.promise(getReportPDF(branchReport.reportId), {
+        toast.promise(getReportPDF(branchReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
@@ -230,7 +230,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!deliveryAgentReport) return;
-        toast.promise(getReportPDF(deliveryAgentReport.reportId), {
+        toast.promise(getReportPDF(deliveryAgentReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
@@ -261,7 +261,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!repositoryReport) return;
-        toast.promise(getReportPDF(repositoryReport.reportId), {
+        toast.promise(getReportPDF(repositoryReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
@@ -292,7 +292,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!governorateReport) return;
-        toast.promise(getReportPDF(governorateReport.reportId), {
+        toast.promise(getReportPDF(governorateReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
@@ -323,7 +323,7 @@ export const columns: ColumnDef<Order>[] = [
 
       const handleDownload = () => {
         if (!companyReport) return;
-        toast.promise(getReportPDF(companyReport.reportId), {
+        toast.promise(getReportPDF(companyReport.id), {
           loading: 'جاري تحميل الكشف...',
           success: 'تم تحميل الكشف بنجاح',
           error: (error) => error.message || 'حدث خطأ ما',
