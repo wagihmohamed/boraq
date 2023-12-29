@@ -46,7 +46,6 @@ export const OrdersScreen = () => {
     ordersFilterInitialState
   );
   const [search, setSearch] = useDebouncedState('', 300);
-  console.log({ filters });
 
   const locationState = location.state as OrdersSearchParameters;
 
