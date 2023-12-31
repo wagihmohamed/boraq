@@ -159,7 +159,6 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { id } = row.original;
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutate: activate } = useActivateOrder();
 
       const handleActivate = () => {

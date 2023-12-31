@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 import { api } from '@/api';
 import { AxiosError } from 'axios';
 import FileSaver from 'file-saver';

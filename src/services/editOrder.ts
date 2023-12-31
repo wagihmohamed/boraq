@@ -3,16 +3,16 @@ import { editOrderendpoint } from '@/api/apisUrl';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
 export interface EditOrderPayload {
-  paidAmount: number;
-  discount: number;
-  status: keyof typeof orderStatusArabicNames;
-  deliveryAgentID: number;
+  paidAmount?: number;
+  discount?: number;
+  status?: keyof typeof orderStatusArabicNames;
+  deliveryAgentID?: number;
   deliveryDate?: string;
-  recipientName: string;
-  recipientPhone: string;
-  recipientAddress: string;
-  notes: string;
-  details: string;
+  recipientName?: string;
+  recipientPhone?: string;
+  recipientAddress?: string;
+  notes?: string;
+  details?: string;
   repositoryID?: number;
   branchID?: number;
 }

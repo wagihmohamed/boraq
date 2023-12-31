@@ -24,6 +24,7 @@ import { useReportsPDF } from '@/hooks/useReportsPDF';
 import { OrderTimelineModal } from './components/OrderTimelineModal';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -348,7 +349,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { id, recipientName } = row.original;
+      const { id, recipientName, status } = row.original;
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
@@ -412,7 +413,13 @@ export const columns: ColumnDef<Order>[] = [
               open={openTimeline}
               id={id}
             />
-            {/* <Menu.Item id={id} component={OrderTimelineModal} /> */}
+            <ChangeOrderStatus
+              id={id}
+              opened={deleteOpened}
+              close={closeDelete}
+              open={openDelete}
+              status={status}
+            />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>
