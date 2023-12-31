@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '@/api';
 import { createReportendpoint } from '@/api/apisUrl';
