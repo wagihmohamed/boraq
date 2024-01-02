@@ -13,7 +13,7 @@ import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { usePublicLocations } from '@/hooks/usePublicLocations';
 
 export interface OrderSheet {
   orderNumber: string;
@@ -23,18 +23,18 @@ export interface OrderSheet {
   customerName: string;
   notes: string;
   total: string;
-  town: string;
+  Governorate: string;
 }
 
 interface SheetFile {
   '#': string;
-  Address: string;
-  City: string;
-  'Customer Name': string;
-  Notes: string;
-  'Phone Number': string;
-  Total: string;
-  Town: string;
+  العنوان: string;
+  المنطقة: string;
+  'اسم العميل': string;
+  الملاحظات: string;
+  'رقم الهاتف': string;
+  الاجمالي: string;
+  المحافظة: string;
 }
 
 export const OrdersSheet = () => {
@@ -42,6 +42,7 @@ export const OrdersSheet = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedStore, setSelectedStore] = useState<string | null>(null);
   const [orders, setOrders] = useState<OrderSheet[]>([]);
+  const { data: publicLocationData } = usePublicLocations();
 
   const handleDrop = async (files: File[]) => {
     setFiles(files);
@@ -52,17 +53,19 @@ export const OrdersSheet = () => {
       const workbook = XLSX.read(data, { type: 'binary' });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
+
       const json: SheetFile[] = XLSX.utils.sheet_to_json(sheet);
       const transformedJson: OrderSheet[] = json.map((order) => ({
-        orderNumber: order['#'].toString(),
-        address: order.Address,
-        city: order.City,
-        customerName: order['Customer Name'],
-        notes: order.Notes,
-        phoneNumber: order['Phone Number'],
-        total: order.Total,
-        town: order.Town,
+        orderNumber: order['#']?.toString(),
+        address: order['العنوان'],
+        city: order['المنطقة'],
+        customerName: order['اسم العميل'],
+        notes: order['الملاحظات'],
+        phoneNumber: order['رقم الهاتف'],
+        total: order['الاجمالي'],
+        Governorate: order['المحافظة'],
       }));
+
       setOrders(transformedJson);
     };
   };
@@ -90,6 +93,34 @@ export const OrdersSheet = () => {
     },
   });
 
+  const publicLocationMap: Record<string, number> | undefined =
+    publicLocationData?.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.name]: curr.id,
+      }),
+      {}
+    );
+
+  const governorateMapArabicToEnglish: Record<string, string> = {
+    الأنبار: 'AL_ANBAR',
+    بابل: 'BABIL',
+    بغداد: 'BAGHDAD',
+    البصرة: 'BASRA',
+    'ذي قار': 'DHI_QAR',
+    القادسية: 'AL_QADISIYYAH',
+    ديالى: 'DIYALA',
+    دهوك: 'DUHOK',
+    أربيل: 'ERBIL',
+    كربلاء: 'KARBALA',
+    كركوك: 'KIRKUK',
+    ميسان: 'MAYSAN',
+    المثنى: 'MUTHANNA',
+    النجف: 'NAJAF',
+    نينوى: 'NINAWA',
+    'صلاح الدين': 'SALAH_AL_DIN',
+  };
+
   const handleCreateOrders = () => {
     if (!selectedStore) {
       toast.error('يجب اختيار المتجر');
@@ -99,7 +130,8 @@ export const OrdersSheet = () => {
       withProducts: false,
       storeID: Number(selectedStore),
       receiptNumber: Number(order.orderNumber),
-      governorate: Object.keys(governorateArabicNames)[3],
+      locationID: publicLocationMap?.[order.city] || 1,
+      governorate: governorateMapArabicToEnglish[order.Governorate],
       notes: order.notes,
       recipientName: order.customerName,
       recipientPhone: order.phoneNumber,
@@ -135,7 +167,7 @@ export const OrdersSheet = () => {
           w={rem(200)}
           onClick={handleCreateOrders}
           loading={isLoading}
-          disabled={isLoading || !orders.length}
+          // disabled={isLoading || !orders.length}
         >
           اضافة الطلبات
         </Button>

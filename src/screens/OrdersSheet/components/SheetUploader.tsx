@@ -1,4 +1,4 @@
-import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
+import { Dropzone } from '@mantine/dropzone';
 import { Button, Group, Text, rem, useMantineTheme } from '@mantine/core';
 import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
 import { useRef } from 'react';
@@ -25,7 +25,6 @@ export const SheetUploader = ({
             openRef={openRef}
             onDrop={onDrop}
             className="border-4 pb-12 border-dashed rounded border-gray-700 p-4"
-            accept={[MIME_TYPES.xlsx, MIME_TYPES.csv, MIME_TYPES.xls]}
             maxSize={30 * 1024 ** 2}
             maxFiles={1}
           >
