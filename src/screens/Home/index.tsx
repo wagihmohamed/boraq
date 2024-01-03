@@ -1,6 +1,5 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useOrdersStatistics } from '@/hooks/useOrdersStatistics';
-import { useTodayOrdersStatistics } from '@/hooks/useTodayOrdersStatistics';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { OrdersStatistics } from '@/services/getOrdersStatisticsService';
@@ -115,8 +114,6 @@ export const CustomPieChart = ({
 };
 
 export const Home = () => {
-  const { data: todayStatistics, isLoading: isTodayStatisticsLoading } =
-    useTodayOrdersStatistics();
   const { data: ordersStatistics, isError, isLoading } = useOrdersStatistics();
   const ordersStatusStatistics =
     ordersStatistics?.data.ordersStatisticsByStatus;
@@ -214,7 +211,7 @@ export const Home = () => {
           </Paper>
         </Grid.Col>
         <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
-          {isTodayStatisticsLoading ? (
+          {isLoading ? (
             <Skeleton height="100%" />
           ) : (
             <Paper withBorder radius="md" p="xs">
@@ -239,7 +236,7 @@ export const Home = () => {
                     العدد الكلي للطلبات اليوم
                   </Text>
                   <Text fw={700} size="xl">
-                    {todayStatistics?.data.count}
+                    {ordersStatistics?.data.todayOrdersStatistics.count}
                   </Text>
                 </div>
               </Group>
@@ -247,7 +244,7 @@ export const Home = () => {
           )}
         </Grid.Col>
         <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
-          {isTodayStatisticsLoading ? (
+          {isLoading ? (
             <Skeleton height="100%" />
           ) : (
             <Paper withBorder radius="md" p="xs">
@@ -272,7 +269,79 @@ export const Home = () => {
                     اجمالي التكلفة اليوم
                   </Text>
                   <Text fw={700} size="xl">
-                    {todayStatistics?.data.totalCost}
+                    {ordersStatistics?.data.todayOrdersStatistics.totalCost}
+                  </Text>
+                </div>
+              </Group>
+            </Paper>
+          )}
+        </Grid.Col>
+        <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          {isLoading ? (
+            <Skeleton height="100%" />
+          ) : (
+            <Paper withBorder radius="md" p="xs">
+              <Group>
+                <RingProgress
+                  size={80}
+                  roundCaps
+                  thickness={8}
+                  sections={[{ value: 65, color: 'yellow' }]}
+                  label={
+                    <Center>
+                      <IconArrowUpRight
+                        style={{ width: rem(20), height: rem(20) }}
+                        stroke={1.5}
+                      />
+                    </Center>
+                  }
+                />
+
+                <div>
+                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
+                    احصائيات الطلبات بدون كشف عميل
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {
+                      ordersStatistics?.data
+                        .allOrdersStatisticsWithoutClientReport.totalCost
+                    }
+                  </Text>
+                </div>
+              </Group>
+            </Paper>
+          )}
+        </Grid.Col>
+        <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          {isLoading ? (
+            <Skeleton height="100%" />
+          ) : (
+            <Paper withBorder radius="md" p="xs">
+              <Group>
+                <RingProgress
+                  size={80}
+                  roundCaps
+                  thickness={8}
+                  sections={[{ value: 65, color: 'cyan' }]}
+                  label={
+                    <Center>
+                      <IconArrowUpRight
+                        style={{ width: rem(20), height: rem(20) }}
+                        stroke={1.5}
+                      />
+                    </Center>
+                  }
+                />
+
+                <div>
+                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
+                    عدد احصائيات الطلبات بدون كشف عميل
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {
+                      ordersStatistics?.data
+                        .allOrdersStatisticsWithoutClientReport.count
+                    }
                   </Text>
                 </div>
               </Group>

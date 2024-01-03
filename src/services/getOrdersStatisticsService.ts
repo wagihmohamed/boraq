@@ -18,6 +18,14 @@ export interface OrdersStatistics {
     totalCost: string;
     count: number;
   };
+  allOrdersStatisticsWithoutClientReport: {
+    totalCost: string;
+    count: number;
+  };
+  todayOrdersStatistics: {
+    totalCost: string;
+    count: number;
+  };
 }
 
 export interface OrdersStatisticsResponse {
