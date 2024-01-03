@@ -20,6 +20,7 @@ import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ExportReportModal } from './ExportReportModa';
 import { useEmployees } from '@/hooks/useEmployees';
+import { withReportsDataOptions } from '@/lib/getReportParam';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -27,17 +28,6 @@ interface OrdersFilter {
   search: string;
   setSearch: (newValue: string) => void;
 }
-
-const withReportsDataOptions = [
-  {
-    label: 'بدون كشف',
-    value: '0',
-  },
-  {
-    label: 'مع كشف',
-    value: '1',
-  },
-];
 
 export const CustomOrdersFilter = ({
   filters,
