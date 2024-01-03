@@ -4,6 +4,7 @@ import { Filters } from './getEmployeesService';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
+import { getReportParam } from '@/lib/getReportParam';
 
 export interface Order {
   id: number;
@@ -110,12 +111,6 @@ export interface OrdersFilter extends Filters {
   governorate_report?: string | null;
   company_report?: string | null;
 }
-
-const getReportParam = (value?: string | null): boolean | undefined => {
-  if (value === '1') return true;
-  if (value === '0') return false;
-  return undefined;
-};
 
 export const getOrdersService = async (
   {
