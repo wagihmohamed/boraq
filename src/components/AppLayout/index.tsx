@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { UserNavCard } from '../UserNavCard';
 import { NotificationsList } from '../NotificationsList';
 import { useAuth } from '@/store/authStore';
+import { isAuthorized } from '@/hooks/useAuthorized';
 
 interface Props {
   children: React.ReactNode;
@@ -41,20 +42,26 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const [active, setActive] = useState(
     navSections.find((item) => item.link === pathName)?.label || ''
   );
-  const links = navSections.map((item) => (
-    <Link
-      className={classes.link}
-      data-active={item.label === active || undefined}
-      to={item.link}
-      key={item.label}
-      onClick={() => {
-        setActive(item.label);
-      }}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ));
+  const links = navSections.map((item) => {
+    const canRenderItem = isAuthorized(item.roles);
+    if (!canRenderItem) {
+      return null;
+    }
+    return (
+      <Link
+        className={classes.link}
+        data-active={item.label === active || undefined}
+        to={item.link}
+        key={item.label}
+        onClick={() => {
+          setActive(item.label);
+        }}
+      >
+        <item.icon className={classes.linkIcon} stroke={1.5} />
+        <span>{item.label}</span>
+      </Link>
+    );
+  });
 
   const handleRender = () => {
     if (isLoading) {
