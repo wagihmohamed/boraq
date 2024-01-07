@@ -9,7 +9,7 @@ export interface EditOrderPayload {
   deliveryAgentID?: number;
   deliveryDate?: string;
   recipientName?: string;
-  recipientPhone?: string;
+  recipientPhones?: string[];
   recipientAddress?: string;
   notes?: string;
   details?: string;

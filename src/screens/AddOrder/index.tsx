@@ -146,8 +146,6 @@ export const AddOrder = () => {
     }
   };
 
-  console.log(form.errors);
-
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
     value: product.id.toString(),

@@ -15,7 +15,7 @@ export interface OrderDetails {
   quantity: number;
   weight: number;
   recipientName: string;
-  recipientPhone: string;
+  recipientPhones: string[];
   recipientAddress: string;
   notes: string;
   details: string;

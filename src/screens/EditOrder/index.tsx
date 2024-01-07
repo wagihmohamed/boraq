@@ -4,8 +4,10 @@ import { editOrderSchema } from './schema';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  ActionIcon,
   Button,
   Grid,
+  Group,
   MultiSelect,
   Select,
   Switch,
@@ -39,6 +41,8 @@ import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
 import { useRepositories } from '@/hooks/useRepositories';
 import { useBranches } from '@/hooks/useBranches';
+import { randomId } from '@mantine/hooks';
+import { IconTrash, IconPlus } from '@tabler/icons-react';
 
 export const EditOrder = () => {
   const { id = '' } = useParams();
@@ -70,7 +74,12 @@ export const EditOrder = () => {
       status: '',
       weight: '',
       recipientName: '',
-      recipientPhone: '',
+      recipientPhones: [
+        {
+          key: randomId(),
+          number: '',
+        },
+      ] as unknown as { key: string; number: string }[],
       recipientAddress: '',
       deliveryDate: '',
       notes: '',
@@ -105,7 +114,18 @@ export const EditOrder = () => {
         quantity: orderDetails?.data?.quantity?.toString(),
         weight: orderDetails?.data?.weight?.toString(),
         recipientName: orderDetails?.data?.recipientName,
-        recipientPhone: orderDetails?.data?.recipientPhone,
+        recipientPhones:
+          orderDetails?.data?.recipientPhones.length > 0
+            ? orderDetails?.data?.recipientPhones?.map((phone) => ({
+                key: randomId(),
+                number: phone,
+              }))
+            : [
+                {
+                  key: randomId(),
+                  number: '',
+                },
+              ],
         recipientAddress: orderDetails?.data?.recipientAddress,
         notes: orderDetails?.data?.notes || '',
         details: orderDetails?.data?.details || '',
@@ -178,7 +198,7 @@ export const EditOrder = () => {
       paidAmount: parseInt(values.paidAmount),
       recipientAddress: values.recipientAddress,
       recipientName: values.recipientName,
-      recipientPhone: values.recipientPhone,
+      recipientPhones: values.recipientPhones.map((phone) => phone.number),
       status: values.status as keyof typeof orderStatusArabicNames,
       branchID: Number(values.branchID) || undefined,
       repositoryID: Number(values.repositoryID) || undefined,
@@ -186,16 +206,16 @@ export const EditOrder = () => {
   };
 
   const hasProducts = form.values.withProducts;
-  const productsOptions = productsData.data.map((product) => ({
+  const productsOptions = productsData.data?.map((product) => ({
     value: product.id.toString(),
     label: product.title,
   }));
 
-  const colorsOptions = colors.data.map((color) => ({
+  const colorsOptions = colors.data?.map((color) => ({
     value: color.id.toString(),
     label: color.title,
   }));
-  const sizesOptions = sizes.data.map((size) => ({
+  const sizesOptions = sizes.data?.map((size) => ({
     value: size.id.toString(),
     label: size.title,
   }));
@@ -252,6 +272,42 @@ export const EditOrder = () => {
     }
     return null;
   };
+
+  const numberFields = form.values.recipientPhones?.map((phone, index) => (
+    <Group key={phone.key}>
+      <TextInput
+        label={`رقم المستلم ${index + 1}`}
+        placeholder=""
+        size="md"
+        withAsterisk
+        style={{ flex: 1 }}
+        {...form.getInputProps(`recipientPhones.${index}.number`)}
+      />
+      <ActionIcon
+        color="red"
+        onClick={() => {
+          if (index !== 0) {
+            form.removeListItem('recipientPhones', index);
+          }
+        }}
+        className="mt-6"
+      >
+        <IconTrash size="1rem" />
+      </ActionIcon>
+      <ActionIcon
+        color="red"
+        onClick={() => {
+          form.insertListItem('recipientPhones', {
+            number: '',
+            key: randomId(),
+          });
+        }}
+        className="mt-6"
+      >
+        <IconPlus size="1rem" />
+      </ActionIcon>
+    </Group>
+  ));
 
   return (
     <AppLayout isLoading={isFetchingProduct} isError={isError}>
@@ -413,13 +469,7 @@ export const EditOrder = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="رقم المستلم"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('recipientPhone')}
-            />
+            {numberFields}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
