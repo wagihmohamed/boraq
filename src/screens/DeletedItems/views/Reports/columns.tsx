@@ -22,6 +22,13 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
+    accessorKey: 'confirm',
+    header: 'التأكيد',
+    accessorFn: ({ confirm }) => {
+      return confirm ? 'تم التأكيد' : 'لم يتم التأكيد';
+    },
+  },
+  {
     accessorKey: 'baghdadOrdersCount',
     header: 'عدد الطلبات في بغداد',
   },
