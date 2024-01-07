@@ -9,12 +9,12 @@ export interface Tenant {
   website: string;
   logo: string;
   registrationText: string;
-  governoratePrice: string;
-  deliveryAgentFee: string;
-  baghdadPrice: string;
-  additionalPriceForEvery500000IraqiDinar: string;
-  additionalPriceForEveryKilogram: string;
-  additionalPriceForRemoteAreas: string;
+  governoratePrice: number;
+  deliveryAgentFee: number;
+  baghdadPrice: number;
+  additionalPriceForEvery500000IraqiDinar: number;
+  additionalPriceForEveryKilogram: number;
+  additionalPriceForRemoteAreas: number;
   orderStatusAutomaticUpdate: boolean;
 }
 
