@@ -16,7 +16,6 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { IMAGE_BASE_URL } from '@/api';
 import { useTenants } from '@/hooks/useTenants';
 
 export const EditClient = () => {
@@ -56,7 +55,7 @@ export const EditClient = () => {
 
   useEffect(() => {
     if (clientDetails) {
-      const avatarAddress = IMAGE_BASE_URL + clientDetails.data.avatar;
+      const avatarAddress = clientDetails.data.avatar;
       form.setValues({
         name: clientDetails.data.name,
         phone: clientDetails.data.phone,

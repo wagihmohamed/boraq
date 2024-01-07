@@ -25,7 +25,6 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { IMAGE_BASE_URL } from '@/api';
 import { useTenants } from '@/hooks/useTenants';
 
 export const EditEmployee = () => {
@@ -61,7 +60,7 @@ export const EditEmployee = () => {
 
   useEffect(() => {
     if (employeeDetails) {
-      const avatarAddress = IMAGE_BASE_URL + employeeDetails.data.avatar;
+      const avatarAddress = employeeDetails.data.avatar;
       form.setValues({
         username: employeeDetails.data.username,
         name: employeeDetails.data.name,

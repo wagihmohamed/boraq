@@ -14,7 +14,6 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { FileWithPath } from '@mantine/dropzone';
-import { IMAGE_BASE_URL } from '@/api';
 import { ImageUploader } from '@/components/CustomDropZone';
 
 const EditStore = () => {
@@ -44,7 +43,7 @@ const EditStore = () => {
 
   useEffect(() => {
     if (storeDetails) {
-      const imageAddress = IMAGE_BASE_URL + storeDetails.data.logo;
+      const imageAddress = storeDetails.data.logo;
 
       form.setValues({
         name: storeDetails.data.name,

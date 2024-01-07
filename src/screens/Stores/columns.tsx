@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { Store } from '@/services/getStores';
 import { DeleteStore } from './delete-store';
 import { Avatar } from '@mantine/core';
-import { IMAGE_BASE_URL } from '@/api';
 
 export const columns: ColumnDef<Store>[] = [
   {
@@ -18,7 +17,7 @@ export const columns: ColumnDef<Store>[] = [
     header: 'الصورة',
     cell: ({ row }) => {
       const { logo } = row.original;
-      return <Avatar src={IMAGE_BASE_URL + logo} radius="xl" size="lg" />;
+      return <Avatar src={logo} radius="xl" size="lg" />;
     },
   },
   {

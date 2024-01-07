@@ -3,7 +3,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { PermanentlyDeleteReport } from './PermanentlyDeleteReport';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 import { ActionIcon, Avatar } from '@mantine/core';
-import { IMAGE_BASE_URL } from '@/api';
 import { format, parseISO } from 'date-fns';
 import { IconRotate } from '@tabler/icons-react';
 import { useActivateEmployee } from '@/hooks/useActivateEmployee';
@@ -14,7 +13,7 @@ export const columns: ColumnDef<Employee>[] = [
     header: 'الصورة',
     cell: ({ row }) => {
       const employee = row.original;
-      return <Avatar src={IMAGE_BASE_URL + employee.avatar} size="lg" />;
+      return <Avatar src={employee.avatar} size="lg" />;
     },
   },
   {

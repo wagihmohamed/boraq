@@ -3,7 +3,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Store } from '@/services/getStores';
 import { ActionIcon, Avatar } from '@mantine/core';
-import { IMAGE_BASE_URL } from '@/api';
 import { PermanentlyDeleteStore } from './PermanentlyDeleteStore';
 import { format, parseISO } from 'date-fns';
 import { useActivateStore } from '@/hooks/useActivateStore';
@@ -15,7 +14,7 @@ export const columns: ColumnDef<Store>[] = [
     header: 'الصورة',
     cell: ({ row }) => {
       const { logo } = row.original;
-      return <Avatar src={IMAGE_BASE_URL + logo} radius="xl" size="lg" />;
+      return <Avatar src={logo} radius="xl" size="lg" />;
     },
   },
   {
