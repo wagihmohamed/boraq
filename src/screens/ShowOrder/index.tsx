@@ -4,7 +4,7 @@ import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { OrderDetails } from '@/services/getOrderDetails';
-import { Button, Grid, TextInput, Textarea } from '@mantine/core';
+import { Button, Grid, Group, TextInput, Textarea } from '@mantine/core';
 import { format, parseISO } from 'date-fns';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -30,6 +30,22 @@ export const ShowOrder = () => {
     }
     return null;
   };
+
+  const numberFields = orederDetails.data?.recipientPhones?.map(
+    (phone, index) => (
+      <Group key={phone}>
+        <TextInput
+          label={`رقم المستلم ${index + 1}`}
+          placeholder=""
+          size="md"
+          style={{ flex: 1 }}
+          value={phone}
+          disabled
+        />
+      </Group>
+    )
+  );
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
       <div className="flex items-center gap-4 mb-4">
@@ -144,14 +160,7 @@ export const ShowOrder = () => {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <TextInput
-            label="رقم المستلم"
-            placeholder=""
-            size="md"
-            className="w-full"
-            value={orederDetails.data?.recipientPhone}
-            disabled
-          />
+          {numberFields}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <TextInput

@@ -17,7 +17,7 @@ export interface Order {
   quantity: number;
   weight: number;
   recipientName: string;
-  recipientPhone: string;
+  recipientPhones: string[];
   recipientAddress: string;
   details: string;
   notes: string;

@@ -1,6 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
-import { CreateBulkOrdersSchema, orderBulkSchema } from './schema';
+import { orderBulkSchema } from './schema';
 import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
 import { Button, TextInput } from '@mantine/core';
@@ -11,13 +11,33 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
+import { randomId } from '@mantine/hooks';
 
 export const CreateBulkOrders = () => {
   const [ordersToatals, setOrdersTotals] = useState(1);
   const queryClient = useQueryClient();
   const form = useForm({
     initialValues: {
-      orders: [{} as CreateBulkOrdersSchema] as CreateBulkOrdersSchema[],
+      orders: [
+        {
+          id: randomId(),
+          recipientPhones: [
+            {
+              phone: '',
+              key: randomId(),
+            },
+          ],
+          totalCost: '',
+          quantity: '',
+          weight: '',
+          storeID: '',
+          locationID: '',
+          deliveryType: '',
+          governorate: '',
+          recipientName: '',
+          recipientAddress: '',
+        },
+      ],
     },
     validate: zodResolver(orderBulkSchema),
   });
@@ -42,7 +62,22 @@ export const CreateBulkOrders = () => {
     for (let i = 0; i < newAddedOrdersCount; i += 1) {
       newOrdersArray.push({
         id: Math.random().toString(),
-      } as CreateBulkOrdersSchema);
+        recipientPhones: [
+          {
+            phone: '',
+            key: randomId(),
+          },
+        ],
+        totalCost: '',
+        quantity: '',
+        weight: '',
+        storeID: '',
+        locationID: '',
+        deliveryType: '',
+        governorate: '',
+        recipientName: '',
+        recipientAddress: '',
+      });
     }
     form.setValues({ orders: newOrdersArray });
   };
@@ -74,15 +109,17 @@ export const CreateBulkOrders = () => {
     if (!form.isValid()) return;
     const orders = form.values.orders.map((order) => {
       return {
-        ...order,
         withProducts: false,
-        totalCost: parseInt(order.totalCost as string),
-        quantity: parseInt(order.quantity as string),
-        weight: parseInt(order.weight as string),
+        totalCost: Number(order.totalCost),
+        quantity: Number(order.quantity),
+        weight: Number(order.weight),
+        recipientPhones: order.recipientPhones.map((phone) => phone.phone),
         storeID: parseInt(order.storeID as string),
         locationID: parseInt(order.locationID as string),
         deliveryType: order.deliveryType,
         governorate: order.governorate,
+        recipientName: order.recipientName,
+        recipientAddress: order.recipientAddress,
       };
     });
     createOrder(orders);

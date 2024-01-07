@@ -8,7 +8,7 @@ export interface CreateBulkOrdersSchema {
   quantity: string;
   weight: string;
   recipientName: string;
-  recipientPhone: string;
+  recipientPhones: string[];
   recipientAddress: string;
   notes: string;
   details: string;
@@ -27,13 +27,19 @@ export const orderBulkSchema = z.object({
           required_error: 'مطلوب',
         })
         .min(1, { message: 'الرجاء ادخال اسم المستلم' }),
-      recipientPhone: z
-        .string({
-          required_error: 'مطلوب',
-        })
-        .refine(isValidIraqiPhoneNumber, {
-          message: 'رقم الهاتف يجب ان يكون رقم عراقي',
-        }),
+      recipientPhones: z
+        .array(
+          z.object({
+            phone: z.string().refine(isValidIraqiPhoneNumber, {
+              message: 'رقم الهاتف يجب ان يكون رقم عراقي',
+            }),
+            key: z.any(),
+          }),
+          {
+            required_error: 'مطلوب',
+          }
+        )
+        .min(1, { message: 'الرجاء ادخال رقم الهاتف' }),
       recipientAddress: z
         .string({
           required_error: 'مطلوب',
