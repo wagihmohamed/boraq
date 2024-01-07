@@ -27,12 +27,12 @@ export const editEmployeeSchema = z
     //   }
     //   return true;
     // }, 'الحد الأقصى 5 ميجا'),
-    deliveryCost: z.string(),
+    deliveryCost: z.number(),
     salary: z
-      .string({
+      .number({
         required_error: 'الرجاء ادخال الأجرة',
       })
-      .refine((value) => parseInt(value, 10) > 0, {
+      .refine((value) => value > 0, {
         message: 'الرجاء ادخال الأجرة',
       }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),

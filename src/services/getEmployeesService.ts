@@ -9,7 +9,7 @@ export interface Employee {
   name: string;
   username: string;
   phone: string;
-  salary: string;
+  salary: number;
   role: keyof typeof rolesArabicNames;
   avatar: string | null;
   permissions: (keyof typeof permissionsArabicNames)[];
@@ -22,7 +22,7 @@ export interface Employee {
     createdAt: string;
     updatedAt: string;
   };
-  deliveryCost: string;
+  deliveryCost: number;
   company: {
     id: number;
     name: string;
