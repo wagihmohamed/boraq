@@ -4,8 +4,10 @@ import { addOrderSchema } from './schema';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
+  ActionIcon,
   Button,
   Grid,
+  Group,
   MultiSelect,
   Select,
   Switch,
@@ -26,6 +28,8 @@ import { APIError } from '@/models';
 import { useProducts } from '@/hooks/useProducts';
 import { useColors } from '@/hooks/useColors';
 import { useSizes } from '@/hooks/useSizes';
+import { IconPlus, IconTrash } from '@tabler/icons-react';
+import { randomId } from '@mantine/hooks';
 
 export const AddOrder = () => {
   const navigate = useNavigate();
@@ -42,7 +46,12 @@ export const AddOrder = () => {
       quantity: '',
       weight: '',
       recipientName: '',
-      recipientPhone: '',
+      recipientPhone: [
+        {
+          number: '',
+          key: randomId(),
+        },
+      ],
       recipientAddress: '',
       notes: '',
       details: '',
@@ -107,7 +116,7 @@ export const AddOrder = () => {
         quantity: parseInt(values.quantity || ''),
         recipientAddress: values.recipientAddress,
         recipientName: values.recipientName,
-        recipientPhone: values.recipientPhone,
+        recipientPhones: values.recipientPhone.map((phone) => phone.number),
         storeID: Number(values.storeID),
         totalCost: parseInt(values.totalCost || ''),
         weight: parseInt(values.weight || ''),
@@ -130,12 +139,14 @@ export const AddOrder = () => {
           })),
         recipientAddress: values.recipientAddress,
         recipientName: values.recipientName,
-        recipientPhone: values.recipientPhone,
+        recipientPhones: values.recipientPhone.map((phone) => phone.number),
         storeID: Number(values.storeID),
         withProducts: values.withProducts,
       });
     }
   };
+
+  console.log(form.errors);
 
   const hasProducts = form.values.withProducts;
   const productsOptions = productsData.data.map((product) => ({
@@ -151,6 +162,42 @@ export const AddOrder = () => {
     value: size.id.toString(),
     label: size.title,
   }));
+
+  const numberFields = form.values.recipientPhone.map((phone, index) => (
+    <Group key={phone.key}>
+      <TextInput
+        label={`رقم المستلم ${index + 1}`}
+        placeholder=""
+        size="md"
+        withAsterisk
+        style={{ flex: 1 }}
+        {...form.getInputProps(`recipientPhone.${index}.number`)}
+      />
+      <ActionIcon
+        color="red"
+        onClick={() => {
+          if (index !== 0) {
+            form.removeListItem('recipientPhone', index);
+          }
+        }}
+        className="mt-6"
+      >
+        <IconTrash size="1rem" />
+      </ActionIcon>
+      <ActionIcon
+        color="red"
+        onClick={() => {
+          form.insertListItem('recipientPhone', {
+            number: '',
+            key: randomId(),
+          });
+        }}
+        className="mt-6"
+      >
+        <IconPlus size="1rem" />
+      </ActionIcon>
+    </Group>
+  ));
 
   const productsItems = form.values.products.map((product, index) => {
     return (
@@ -257,13 +304,14 @@ export const AddOrder = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            {/* <TextInput
               label="رقم المستلم"
               placeholder=""
               size="md"
               className="w-full"
               {...form.getInputProps('recipientPhone')}
-            />
+            /> */}
+            {numberFields}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
