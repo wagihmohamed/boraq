@@ -380,6 +380,10 @@ export const columns: ColumnDef<Order>[] = [
         useDisclosure(false);
       const [deleteOpened, { open: openDelete, close: closeDelete }] =
         useDisclosure(false);
+      const [
+        changeStatusOpened,
+        { open: openChangeStatus, close: closeChangeStatus },
+      ] = useDisclosure(false);
 
       const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -388,7 +392,7 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (timelineOpened || deleteOpened) return;
+            if (timelineOpened || deleteOpened || changeStatusOpened) return;
             setMenuOpen(!isMenuOpen);
           }}
         >
@@ -430,9 +434,9 @@ export const columns: ColumnDef<Order>[] = [
             />
             <ChangeOrderStatus
               id={id}
-              opened={deleteOpened}
-              close={closeDelete}
-              open={openDelete}
+              opened={changeStatusOpened}
+              close={closeChangeStatus}
+              open={openChangeStatus}
               status={status}
             />
             <div className="flex justify-center">
