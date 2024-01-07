@@ -9,7 +9,9 @@ import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import {
   ActionIcon,
+  Badge,
   Checkbox,
+  Flex,
   HoverCard,
   Menu,
   Text,
@@ -90,6 +92,19 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
+    cell: ({ row }) => {
+      const { recipientPhones } = row.original;
+      return recipientPhones.length > 1 ? (
+        <Flex gap="xs">
+          <Text size="sm">{recipientPhones[0]}</Text>
+          <Badge color="blue" variant="light">
+            {recipientPhones.length - 1}
+          </Badge>
+        </Flex>
+      ) : (
+        <Text size="sm">لا يوجد</Text>
+      );
+    },
   },
   {
     header: 'العنوان',

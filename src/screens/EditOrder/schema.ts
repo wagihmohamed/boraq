@@ -59,12 +59,17 @@ export const editOrderSchema = z.object({
   deliveryDate: z.string().optional(),
   recipientName: z.string().min(1, { message: 'الرجاء ادخال اسم المستلم' }),
   recipientPhones: z.array(
-    z.object({
-      number: z.string().refine(isValidIraqiPhoneNumber, {
-        message: 'رقم الهاتف يجب ان يكون رقم عراقي',
-      }),
-      key: z.any(),
-    })
+    z.object(
+      {
+        number: z.string().refine(isValidIraqiPhoneNumber, {
+          message: 'رقم الهاتف يجب ان يكون رقم عراقي',
+        }),
+        key: z.any(),
+      },
+      {
+        required_error: 'مطلوب',
+      }
+    )
   ),
   recipientAddress: z
     .string()
