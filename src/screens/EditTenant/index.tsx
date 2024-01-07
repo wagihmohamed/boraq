@@ -34,12 +34,12 @@ export const EditTenant = () => {
       website: '',
       logo: [] as unknown as FileWithPath[],
       registrationText: '',
-      governoratePrice: '',
-      deliveryAgentFee: '',
-      baghdadPrice: '',
-      additionalPriceForEvery500000IraqiDinar: '',
-      additionalPriceForEveryKilogram: '',
-      additionalPriceForRemoteAreas: '',
+      governoratePrice: 0,
+      deliveryAgentFee: 0,
+      baghdadPrice: 0,
+      additionalPriceForEvery500000IraqiDinar: 0,
+      additionalPriceForEveryKilogram: 0,
+      additionalPriceForRemoteAreas: 0,
       orderStatusAutomaticUpdate: false,
     },
   });
@@ -92,19 +92,19 @@ export const EditTenant = () => {
     const formData = new FormData();
     formData.append(
       'additionalPriceForEvery500000IraqiDinar',
-      values.additionalPriceForEvery500000IraqiDinar
+      String(values.additionalPriceForEvery500000IraqiDinar)
     );
     formData.append(
       'additionalPriceForEveryKilogram',
-      values.additionalPriceForEveryKilogram
+      String(values.additionalPriceForEveryKilogram)
     );
     formData.append(
       'additionalPriceForRemoteAreas',
-      values.additionalPriceForRemoteAreas
+      String(values.additionalPriceForRemoteAreas)
     );
-    formData.append('baghdadPrice', values.baghdadPrice);
-    formData.append('deliveryAgentFee', values.deliveryAgentFee);
-    formData.append('governoratePrice', values.governoratePrice);
+    formData.append('baghdadPrice', String(values.baghdadPrice));
+    formData.append('deliveryAgentFee', String(values.deliveryAgentFee));
+    formData.append('governoratePrice', String(values.governoratePrice));
     formData.append('logo', values.logo[0] || '');
     formData.append('name', values.name);
     formData.append(

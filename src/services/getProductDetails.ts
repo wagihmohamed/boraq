@@ -4,7 +4,7 @@ import { getProductDetailsendpoint } from '@/api/apisUrl';
 export interface ProductDetails {
   id: number;
   title: string;
-  price: string;
+  price: number;
   image: string;
   stock: number;
   category: {

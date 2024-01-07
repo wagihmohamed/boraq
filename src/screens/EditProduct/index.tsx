@@ -34,7 +34,7 @@ export const EditProductScreen = () => {
     validate: zodResolver(editProductSchema),
     initialValues: {
       title: '',
-      price: '',
+      price: 0,
       stock: '',
       categoryID: '',
       colors: [] as unknown as {
@@ -189,7 +189,7 @@ export const EditProductScreen = () => {
 
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('price', values.price);
+    formData.append('price', String(values.price));
     formData.append('stock', values.stock);
     formData.append('categoryID', selectedCategory?.value || '');
     formData.append('image', values.image[0] || '');

@@ -46,7 +46,7 @@ export const EditEmployee = () => {
       username: '',
       name: '',
       phone: '',
-      salary: '',
+      salary: 0,
       branch: '',
       repository: '',
       role: '',
@@ -55,7 +55,7 @@ export const EditEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
-      deliveryCost: '',
+      deliveryCost: 0,
     },
   });
 
@@ -119,7 +119,7 @@ export const EditEmployee = () => {
     formData.append('username', values.username);
     formData.append('name', values.name);
     formData.append('phone', values.phone);
-    formData.append('salary', values.salary);
+    formData.append('salary', String(values.salary));
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
@@ -131,7 +131,7 @@ export const EditEmployee = () => {
     if (values.avatar[0] instanceof File) {
       formData.append('avatar', (values?.avatar[0] as File) || '');
     }
-    formData.append('deliveryCost', values.deliveryCost);
+    formData.append('deliveryCost', String(values.deliveryCost));
     editEmployeeAction(formData);
   };
 
