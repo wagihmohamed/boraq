@@ -1,5 +1,12 @@
 import './App.css';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Outlet,
+  Navigate,
+} from 'react-router-dom';
 import { LoginScreen } from './screens/Login';
 import { Employees } from './screens/Employees';
 import { AddEmployee } from './screens/AddEmployee';
@@ -52,6 +59,18 @@ import { DeliveryAgentsManifest } from './screens/DeliveryAgentsManifest';
 import { CreateBulkOrders } from './screens/CreateBulkOrders';
 import { OrdersSheet } from './screens/OrdersSheet';
 import { OrdersAutoUpdate } from './screens/OrdersAutoUpdate';
+import { useAuthorization } from './hooks/useAuthorized';
+import { rolesArabicNames } from './lib/rolesArabicNames';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const RolesRoute = ({
+  roles,
+}: {
+  roles: (keyof typeof rolesArabicNames)[];
+}) => {
+  const isAuthorized = useAuthorization(roles);
+  return isAuthorized ? <Outlet /> : <Navigate to="/statistics" />;
+};
 
 function App() {
   const navigate = useNavigate();
@@ -125,7 +144,15 @@ function App() {
         <Route path="/reports" element={<ReportsScreen />} />
         <Route path="/statistics" element={<Home />} />
         <Route path="/deleted" element={<DeletedScreen />} />
-        <Route path="/banners" element={<Banners />} />
+        <Route element={<RolesRoute roles={['BRANCH_MANAGER']} />}>
+          <Route path="/banners" element={<Banners />} />
+        </Route>
+        {/* <PrivateRoute
+          path="/banners"
+          roles={['BRANCH_MANAGER']}
+          element={<Banners />}
+        /> */}
+        {/* <Route path="/banners" element={<Banners />} /> */}
         <Route path="/agents-manifest" element={<DeliveryAgentsManifest />} />
         <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
         <Route path="/orders-sheet" element={<OrdersSheet />} />

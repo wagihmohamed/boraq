@@ -1,3 +1,4 @@
+import { rolesArabicNames } from '@/lib/rolesArabicNames';
 import {
   IconBox,
   IconUsers,
@@ -20,110 +21,190 @@ import {
   IconRefresh,
 } from '@tabler/icons-react';
 
-export const navSections = [
+interface NavSection {
+  link: string;
+  label: string;
+  enLabel: string;
+  icon: React.FC;
+  roles: (keyof typeof rolesArabicNames)[];
+}
+
+export const navSections: NavSection[] = [
   {
     link: '/statistics',
     label: 'الاحصائيات',
     enLabel: 'statistics',
     icon: IconChartPie3,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'REPOSITORIY_EMPLOYEE',
+    ],
   },
-  { link: '/home', label: 'المنتجات', enLabel: 'home', icon: IconBox },
+  {
+    link: '/home',
+    label: 'المنتجات',
+    enLabel: 'home',
+    icon: IconBox,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'REPOSITORIY_EMPLOYEE',
+    ],
+  },
   {
     link: '/orders',
     label: 'الطلبات',
     enLabel: 'invoices',
     icon: IconPackageExport,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'REPOSITORIY_EMPLOYEE',
+    ],
   },
   {
     link: '/orders-bulk-create',
     label: 'انشاء طلبات جماعية',
     enLabel: 'orders bulk create',
     icon: IconPackages,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'DATA_ENTRY',
+    ],
   },
   {
     link: '/orders-sheet',
     label: 'استيراد طلبات من اكسل',
     enLabel: 'orders sheet',
     icon: IconFileSpreadsheet,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'DATA_ENTRY',
+    ],
   },
   {
     link: '/orders-auto-apdate',
     label: 'التحديث التلقائي للطلبات',
     enLabel: 'orders auto update',
     icon: IconRefresh,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'ACCOUNT_MANAGER', 'ACCOUNTANT'],
   },
-  { link: '/clients', label: 'العملاء', enLabel: 'clients', icon: IconUsers },
-  { link: '/branches', label: 'الفروع', enLabel: 'branches', icon: IconUsers },
+  {
+    link: '/clients',
+    label: 'العملاء',
+    enLabel: 'clients',
+    icon: IconUsers,
+    roles: [
+      'SUPER_ADMIN',
+      'COMPANY_MANAGER',
+      'ACCOUNT_MANAGER',
+      'ACCOUNTANT',
+      'BRANCH_MANAGER',
+      'INQUIRY_EMPLOYEE',
+    ],
+  },
+  {
+    link: '/branches',
+    label: 'الفروع',
+    enLabel: 'branches',
+    icon: IconUsers,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'BRANCH_MANAGER'],
+  },
   {
     link: '/tenants',
     label: 'الشركات',
     enLabel: 'tenants',
     icon: IconBuildingCommunity,
+    roles: ['SUPER_ADMIN'],
   },
   {
     link: '/reports',
     label: 'الكشوفات',
     enLabel: 'reports',
     icon: IconFileTypePdf,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'ACCOUNT_MANAGER', 'ACCOUNTANT'],
   },
   {
     link: '/locations',
     label: 'المناطق',
     enLabel: 'regions',
     icon: IconMapPins,
+    roles: ['DATA_ENTRY', 'SUPER_ADMIN'],
   },
   {
     link: '/agents-manifest',
     label: 'منافيست المندوبين',
     enLabel: 'agents manifest',
     icon: IconTruckDelivery,
+    roles: ['ACCOUNTANT', 'BRANCH_MANAGER', 'SUPER_ADMIN'],
   },
   {
     link: '/employees',
     label: 'الموظفين',
     enLabel: 'employees',
     icon: IconUserCheck,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'BRANCH_MANAGER'],
   },
   {
     link: '/repositories',
     label: 'المخازن',
     enLabel: 'repositories',
     icon: IconBuildingStore,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'REPOSITORIY_EMPLOYEE'],
   },
   {
     link: '/stores',
     label: 'المتاجر',
     enLabel: 'stores',
     icon: IconShoppingBag,
+    roles: ['SUPER_ADMIN', 'COMPANY_MANAGER', 'BRANCH_MANAGER'],
   },
   {
     link: '/banners',
     label: 'البنرات',
     enLabel: 'banners',
     icon: IconPhotoFilled,
+    roles: ['SUPER_ADMIN'],
   },
   {
     link: '/deleted',
     label: 'المحذوفات',
     enLabel: 'deleted',
     icon: IconTrashFilled,
+    roles: ['SUPER_ADMIN'],
   },
   {
     link: '/categories',
     label: 'الاصناف',
     enLabel: 'categories',
     icon: IconCategoryFilled,
+    roles: ['REPOSITORIY_EMPLOYEE', 'SUPER_ADMIN'],
   },
   {
     link: '/sizes',
     label: 'الاحجام',
     enLabel: 'sizes',
     icon: IconNeedle,
+    roles: ['REPOSITORIY_EMPLOYEE', 'SUPER_ADMIN'],
   },
   {
     link: '/colors',
     label: 'الالوان',
     enLabel: 'colors',
     icon: IconColorFilter,
+    roles: ['REPOSITORIY_EMPLOYEE', 'SUPER_ADMIN'],
   },
 ];

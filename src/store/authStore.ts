@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { SignInResponse } from '@/services/signInService';
 import JWTDecode from 'jwt-decode';
+import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
 interface IAuthStore extends SignInResponse {
   setAuth: (data: SignInResponse) => void;
@@ -10,7 +11,7 @@ interface IAuthStore extends SignInResponse {
   id: string;
   name: string;
   username: string;
-  role: string;
+  role: keyof typeof rolesArabicNames | null;
   companyName: string;
 }
 
@@ -18,7 +19,7 @@ interface TokenPayload {
   id: string;
   name: string;
   username: string;
-  role: string;
+  role: keyof typeof rolesArabicNames | null;
   exp: number;
   iat: number;
   companyName: string | null;
@@ -34,7 +35,7 @@ export const authStore = create<IAuthStore>()(
       companyName: '',
       id: '',
       name: '',
-      role: '',
+      role: null,
       username: '',
       setAuth: (data: SignInResponse) => {
         const decodedToken = JWTDecode<TokenPayload>(data.token);
