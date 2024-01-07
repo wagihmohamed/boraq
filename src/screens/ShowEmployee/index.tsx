@@ -1,4 +1,3 @@
-import { IMAGE_BASE_URL } from '@/api';
 import { AppLayout } from '@/components/AppLayout';
 import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
 import { permissionsArray } from '@/lib/persmissionArabicNames';
@@ -126,7 +125,7 @@ export const ShowEmployee = () => {
             fit="contain"
             mah={rem(400)}
             radius="md"
-            src={IMAGE_BASE_URL + (employeeData?.data.avatar || '')}
+            src={employeeData?.data.avatar || ''}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

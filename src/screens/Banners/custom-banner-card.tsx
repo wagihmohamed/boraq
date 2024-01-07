@@ -1,4 +1,3 @@
-import { IMAGE_BASE_URL } from '@/api';
 import { buttonVariants } from '@/components/ui/button';
 import { APIError } from '@/models';
 import { deleteBannerService } from '@/services/deleteBanner';
@@ -44,7 +43,7 @@ export const CustomBannerCard = ({
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
-          src={IMAGE_BASE_URL + image}
+          src={image}
           className="aspect-square"
           fit="contain"
           fallbackSrc="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"

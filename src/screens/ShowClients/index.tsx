@@ -5,7 +5,6 @@ import { Button, Image, Select, TextInput, rem } from '@mantine/core';
 import { clientTypeArray } from '@/lib/clientTypeArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { useClientDetails } from '@/hooks/useClientDetails';
-import { IMAGE_BASE_URL } from '@/api';
 import { useTenants } from '@/hooks/useTenants';
 
 export const ShowClient = () => {
@@ -88,7 +87,7 @@ export const ShowClient = () => {
             fit="contain"
             mah={rem(400)}
             radius="md"
-            src={IMAGE_BASE_URL + (clientDetails?.data.avatar || '')}
+            src={clientDetails?.data.avatar || ''}
           />
         </div>
         <Button

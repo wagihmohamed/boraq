@@ -12,7 +12,6 @@ import { APIError } from '@/models';
 import { IconEdit } from '@tabler/icons-react';
 import { Banner } from '@/services/getBannersService';
 import { useEffect } from 'react';
-import { IMAGE_BASE_URL } from '@/api';
 import { editBannerService } from '@/services/editBanner';
 
 interface EditBannerModalProps extends Omit<Banner, 'company' | 'createdAt'> {}
@@ -37,7 +36,7 @@ export const EditBannerModal = ({
   });
 
   useEffect(() => {
-    const avatarAddress = IMAGE_BASE_URL + image;
+    const avatarAddress = image;
     form.setValues({
       title,
       content,

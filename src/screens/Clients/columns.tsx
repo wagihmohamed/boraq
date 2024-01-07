@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { Avatar, Badge } from '@mantine/core';
 import { Client } from '@/services/getClients';
 import { DeleteClient } from './delete-client';
-import { IMAGE_BASE_URL } from '@/api';
 import { EditDeliveryCostsModal } from './EditDeliveryCostsModal';
 
 export const columns: ColumnDef<Client>[] = [
@@ -19,7 +18,7 @@ export const columns: ColumnDef<Client>[] = [
     header: 'الصورة',
     cell: ({ row }) => {
       const { avatar } = row.original;
-      return <Avatar src={IMAGE_BASE_URL + avatar} alt="avatar" size="lg" />;
+      return <Avatar src={avatar} alt="avatar" size="lg" />;
     },
   },
   {

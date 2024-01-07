@@ -18,7 +18,6 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { IMAGE_BASE_URL } from '@/api';
 
 export const EditProductScreen = () => {
   const navigate = useNavigate();
@@ -64,7 +63,7 @@ export const EditProductScreen = () => {
       const selectedCategory = categoryOptions?.find(
         (category) => category.label === productDetails.data.category?.title
       );
-      const imageAddress = IMAGE_BASE_URL + productDetails.data.image;
+      const imageAddress = productDetails.data.image;
       form.setValues({
         title: productDetails.data.title,
         price: productDetails.data.price,
