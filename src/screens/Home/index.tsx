@@ -46,32 +46,59 @@ export const Home = () => {
       <div className="relative">
         <LoadingOverlay visible={isInitialLoading} />
         <Grid gutter="lg" className="mt-10 px-2">
-          <Grid.Col className="h-120" span={{ sm: 12, md: 6 }}>
-            <Paper withBorder radius="md" p="xs" className="w-full h-full">
-              <CustomPieChart
-                data={ordersStatusStatistics?.map((item) => item.count) || []}
-                labels={
-                  ordersStatusStatistics?.map(
-                    (item) => orderStatusArabicNames[item.status]
-                  ) || []
-                }
-                additionalData={ordersStatusStatistics || []}
-              />
-            </Paper>
+          <Grid.Col className="h-120 mt-4" span={{ sm: 12, md: 6 }}>
+            <CustomPieChart
+              title="الاحصائيات حسب الحالة"
+              data={ordersStatusStatistics?.map((item) => item.count) || []}
+              labels={
+                ordersStatusStatistics?.map(
+                  (item) => orderStatusArabicNames[item.status]
+                ) || []
+              }
+              additionalData={ordersStatusStatistics || []}
+            />
           </Grid.Col>
-          <Grid.Col className="h-120" span={{ sm: 12, md: 6 }}>
-            <Paper withBorder radius="md" p="xs" className="w-full h-full">
-              <CustomPieChart
-                data={
-                  ordersGovernorateStatistics?.map((item) => item.count) || []
-                }
-                labels={
-                  ordersGovernorateStatistics?.map(
-                    (item) => governorateArabicNames[item.governorate]
-                  ) || []
-                }
-                additionalData={ordersGovernorateStatistics || []}
-              />
+          <Grid.Col className="h-120 mt-4" span={{ sm: 12, md: 6 }}>
+            <CustomPieChart
+              title="الاحصائيات حسب المحافظة"
+              data={
+                ordersGovernorateStatistics?.map((item) => item.count) || []
+              }
+              labels={
+                ordersGovernorateStatistics?.map(
+                  (item) => governorateArabicNames[item.governorate]
+                ) || []
+              }
+              additionalData={ordersGovernorateStatistics || []}
+            />
+          </Grid.Col>
+          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+            <Paper withBorder radius="md" p="xs">
+              <Group>
+                <RingProgress
+                  size={80}
+                  roundCaps
+                  thickness={8}
+                  sections={[{ value: 65, color: 'blue' }]}
+                  label={
+                    <Center>
+                      <IconArrowUpRight
+                        style={{ width: rem(20), height: rem(20) }}
+                        stroke={1.5}
+                      />
+                    </Center>
+                  }
+                />
+
+                <div>
+                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
+                    العدد الكلي للطلبات
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {ordersStatistics?.data.allOrdersStatistics.count}
+                  </Text>
+                </div>
+              </Group>
             </Paper>
           </Grid.Col>
           <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
@@ -98,35 +125,6 @@ export const Home = () => {
                   </Text>
                   <Text fw={700} size="xl">
                     {ordersStatistics?.data.allOrdersStatistics.totalCost}
-                  </Text>
-                </div>
-              </Group>
-            </Paper>
-          </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
-            <Paper withBorder radius="md" p="xs">
-              <Group>
-                <RingProgress
-                  size={80}
-                  roundCaps
-                  thickness={8}
-                  sections={[{ value: 65, color: 'blue' }]}
-                  label={
-                    <Center>
-                      <IconArrowUpRight
-                        style={{ width: rem(20), height: rem(20) }}
-                        stroke={1.5}
-                      />
-                    </Center>
-                  }
-                />
-
-                <div>
-                  <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                    العدد الكلي للطلبات
-                  </Text>
-                  <Text fw={700} size="xl">
-                    {ordersStatistics?.data.allOrdersStatistics.count}
                   </Text>
                 </div>
               </Group>
@@ -208,7 +206,7 @@ export const Home = () => {
                     size={80}
                     roundCaps
                     thickness={8}
-                    sections={[{ value: 65, color: 'yellow' }]}
+                    sections={[{ value: 65, color: 'cyan' }]}
                     label={
                       <Center>
                         <IconArrowUpRight
@@ -221,12 +219,12 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      احصائيات الطلبات بدون كشف عميل
+                      عدد الطلبات بدون كشف عميل
                     </Text>
                     <Text fw={700} size="xl">
                       {
                         ordersStatistics?.data
-                          .allOrdersStatisticsWithoutClientReport.totalCost
+                          .allOrdersStatisticsWithoutClientReport.count
                       }
                     </Text>
                   </div>
@@ -244,7 +242,7 @@ export const Home = () => {
                     size={80}
                     roundCaps
                     thickness={8}
-                    sections={[{ value: 65, color: 'cyan' }]}
+                    sections={[{ value: 65, color: 'yellow' }]}
                     label={
                       <Center>
                         <IconArrowUpRight
@@ -257,12 +255,12 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      عدد احصائيات الطلبات بدون كشف عميل
+                      اجمالي الطلبات بدون كشف عميل
                     </Text>
                     <Text fw={700} size="xl">
                       {
                         ordersStatistics?.data
-                          .allOrdersStatisticsWithoutClientReport.count
+                          .allOrdersStatisticsWithoutClientReport.totalCost
                       }
                     </Text>
                   </div>

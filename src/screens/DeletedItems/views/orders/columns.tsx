@@ -4,7 +4,7 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, Checkbox, Text } from '@mantine/core';
+import { ActionIcon, Badge, Checkbox, Flex, Text } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
 import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
 import { format, parseISO } from 'date-fns';
@@ -74,6 +74,19 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
+    cell: ({ row }) => {
+      const { recipientPhones } = row.original;
+      return recipientPhones.length > 1 ? (
+        <Flex gap="xs">
+          <Text size="sm">{recipientPhones[0]}</Text>
+          <Badge color="blue" variant="light">
+            {recipientPhones.length - 1}
+          </Badge>
+        </Flex>
+      ) : (
+        <Text size="sm">لا يوجد</Text>
+      );
+    },
   },
   {
     header: 'العنوان',

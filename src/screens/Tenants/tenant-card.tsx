@@ -1,4 +1,3 @@
-import { IMAGE_BASE_URL } from '@/api';
 import { APIError } from '@/models';
 import { deleteTenantService } from '@/services/deleteTenant';
 import { Tenant } from '@/services/getTenants';
@@ -54,7 +53,7 @@ export const CustomTenantCard = ({
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a" href={website}>
         <Image
-          src={IMAGE_BASE_URL + logo}
+          src={logo}
           fit="fill"
           className="w-full h-80"
           fallbackSrc="https://placehold.co/600x400?text=Placeholder"

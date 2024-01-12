@@ -24,17 +24,17 @@ export const editTenantSchema = z.object({
   //   return true;
   // }, 'الحد الأقصى 5 ميجا'),
   registrationText: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
-  governoratePrice: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
-  deliveryAgentFee: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
-  baghdadPrice: z.string().min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
+  governoratePrice: z.number().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
+  deliveryAgentFee: z.number().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
+  baghdadPrice: z.number().min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForEvery500000IraqiDinar: z
-    .string()
+    .number()
     .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForEveryKilogram: z
-    .string()
+    .number()
     .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   additionalPriceForRemoteAreas: z
-    .string()
+    .number()
     .min(1, { message: 'يجب ان يكون اكثر من 1 حرف' }),
   orderStatusAutomaticUpdate: z.boolean(),
 });

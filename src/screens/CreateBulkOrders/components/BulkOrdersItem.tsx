@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
@@ -8,11 +9,14 @@ import {
   Chip,
   Fieldset,
   Grid,
+  Group,
   Select,
   TextInput,
   Textarea,
 } from '@mantine/core';
 import { X } from 'lucide-react';
+import { IconPlus, IconTrash } from '@tabler/icons-react';
+import { randomId } from '@mantine/hooks';
 
 interface BulkOrdersItemProps {
   index: number;
@@ -30,6 +34,48 @@ export const BulkOrdersItem = ({
   locationsData,
   storesData,
 }: BulkOrdersItemProps) => {
+  const numberFields = form.values.orders.map((order: any, index: any) => {
+    return order.recipientPhones.map((phone: any, phoneArrayIndex: any) => {
+      return (
+        <Group key={phone.key}>
+          <TextInput
+            label={`رقم المستلم ${index + 1}`}
+            placeholder=""
+            size="md"
+            withAsterisk
+            style={{ flex: 1 }}
+            {...form.getInputProps(
+              `orders.${index}.recipientPhones.${phoneArrayIndex}.phone`
+            )}
+          />
+          <ActionIcon
+            color="red"
+            onClick={() => {
+              if (phoneArrayIndex !== 0) {
+                form.removeListItem(`orders.${index}.recipientPhones`, index);
+              }
+            }}
+            className="mt-6"
+          >
+            <IconTrash size="1rem" />
+          </ActionIcon>
+          <ActionIcon
+            color="red"
+            onClick={() => {
+              form.insertListItem(`orders.${index}.recipientPhones`, {
+                phone: '',
+                key: randomId(),
+              });
+            }}
+            className="mt-6"
+          >
+            <IconPlus size="1rem" />
+          </ActionIcon>
+        </Group>
+      );
+    });
+  });
+
   return (
     <Fieldset
       legend={
@@ -92,13 +138,7 @@ export const BulkOrdersItem = ({
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <TextInput
-            label="رقم المستلم"
-            placeholder=""
-            size="md"
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.recipientPhone`)}
-          />
+          {numberFields}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <TextInput

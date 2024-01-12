@@ -134,7 +134,7 @@ export const OrdersSheet = () => {
       governorate: governorateMapArabicToEnglish[order.Governorate],
       notes: order.notes,
       recipientName: order.customerName,
-      recipientPhone: order.phoneNumber,
+      recipientPhones: [order.phoneNumber],
       recipientAddress: order.address,
       totalCost: Number(order.total),
     }));

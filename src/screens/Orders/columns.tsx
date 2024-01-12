@@ -9,7 +9,9 @@ import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import {
   ActionIcon,
+  Badge,
   Checkbox,
+  Flex,
   HoverCard,
   Menu,
   Text,
@@ -90,6 +92,19 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
+    cell: ({ row }) => {
+      const { recipientPhones } = row.original;
+      return recipientPhones.length > 1 ? (
+        <Flex gap="xs">
+          <Text size="sm">{recipientPhones[0]}</Text>
+          <Badge color="blue" variant="light">
+            {recipientPhones.length - 1}
+          </Badge>
+        </Flex>
+      ) : (
+        <Text size="sm">لا يوجد</Text>
+      );
+    },
   },
   {
     header: 'العنوان',
@@ -365,6 +380,10 @@ export const columns: ColumnDef<Order>[] = [
         useDisclosure(false);
       const [deleteOpened, { open: openDelete, close: closeDelete }] =
         useDisclosure(false);
+      const [
+        changeStatusOpened,
+        { open: openChangeStatus, close: closeChangeStatus },
+      ] = useDisclosure(false);
 
       const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -373,7 +392,7 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (timelineOpened || deleteOpened) return;
+            if (timelineOpened || deleteOpened || changeStatusOpened) return;
             setMenuOpen(!isMenuOpen);
           }}
         >
@@ -415,9 +434,9 @@ export const columns: ColumnDef<Order>[] = [
             />
             <ChangeOrderStatus
               id={id}
-              opened={deleteOpened}
-              close={closeDelete}
-              open={openDelete}
+              opened={changeStatusOpened}
+              close={closeChangeStatus}
+              open={openChangeStatus}
               status={status}
             />
             <div className="flex justify-center">

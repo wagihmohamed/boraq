@@ -1,4 +1,3 @@
-import { IMAGE_BASE_URL } from '@/api';
 import { AppLayout } from '@/components/AppLayout';
 import { useStoreDetails } from '@/hooks/useStoreDetails';
 import { TextInput, Grid, Textarea, Button, rem, Image } from '@mantine/core';
@@ -47,7 +46,7 @@ export const StoreScreen = () => {
             fit="contain"
             mah={rem(400)}
             radius="md"
-            src={IMAGE_BASE_URL + (storeDetails?.data.logo || '')}
+            src={storeDetails?.data.logo || ''}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>

@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ActionIcon, Avatar, Badge } from '@mantine/core';
 import { Client } from '@/services/getClients';
 import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
-import { IMAGE_BASE_URL } from '@/api';
 import { useActivateClient } from '@/hooks/useActivateClient';
 import { IconRotate } from '@tabler/icons-react';
 
@@ -12,7 +11,7 @@ export const columns: ColumnDef<Client>[] = [
     header: 'الصورة',
     cell: ({ row }) => {
       const { avatar } = row.original;
-      return <Avatar src={IMAGE_BASE_URL + avatar} alt="avatar" size="lg" />;
+      return <Avatar src={avatar} alt="avatar" size="lg" />;
     },
   },
   {
