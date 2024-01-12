@@ -110,22 +110,26 @@ function App() {
           element={<EditRepositoryScreen />}
         />
         <Route path="/repositories/:id/show" element={<ShowRepository />} />
-        <Route path="/clients" element={<ClientsScreen />} />
-        <Route path="/clients/add" element={<AddClient />} />
-        <Route path="/clients/:id/show" element={<ShowClient />} />
-        <Route path="/clients/:id/edit" element={<EditClient />} />
         <Route path="/branches" element={<BranchesScreen />} />
         <Route path="/branches/add" element={<AddBranch />} />
         <Route path="/branches/:id/edit" element={<EditBranch />} />
         <Route path="/branches/:id/show" element={<ShowBranch />} />
-        <Route path="/locations" element={<LocationsScreen />} />
-        <Route path="/locations/add" element={<AddLocation />} />
-        <Route path="/locations/:id/edit" element={<EditLocation />} />
-        <Route path="/locations/:id/show" element={<ShowLocation />} />
-        <Route path="/tenants" element={<TenantsScreen />} />
-        <Route path="/tenants/add" element={<AddTenant />} />
-        <Route path="/tenants/:id/show" element={<ShowTenant />} />
-        <Route path="/tenants/:id/edit" element={<EditTenant />} />
+        <Route element={<RolesRoute roles={['SUPER_ADMIN', 'DATA_ENTRY']} />}>
+          <Route path="/locations" element={<LocationsScreen />} />
+          <Route path="/locations/add" element={<AddLocation />} />
+          <Route path="/locations/:id/edit" element={<EditLocation />} />
+          <Route path="/locations/:id/show" element={<ShowLocation />} />
+        </Route>
+        <Route
+          element={
+            <RolesRoute roles={['SUPER_ADMIN', 'REPOSITORIY_EMPLOYEE']} />
+          }
+        >
+          <Route path="/tenants" element={<TenantsScreen />} />
+          <Route path="/tenants/add" element={<AddTenant />} />
+          <Route path="/tenants/:id/show" element={<ShowTenant />} />
+          <Route path="/tenants/:id/edit" element={<EditTenant />} />
+        </Route>
         <Route path="/sizes" element={<Sizes />} />
         <Route path="/colors" element={<Colors />} />
         <Route path="/categories" element={<Categories />} />
@@ -137,26 +141,47 @@ function App() {
         <Route path="/stores/add" element={<AddStore />} />
         <Route path="/stores/:id/show" element={<StoreScreen />} />
         <Route path="/stores/:id/edit" element={<EditStore />} />
-        <Route path="/orders" element={<OrdersScreen />} />
-        <Route path="/orders/add" element={<AddOrder />} />
-        <Route path="/orders/:id/show" element={<ShowOrder />} />
-        <Route path="/orders/:id/edit" element={<EditOrder />} />
+        <Route
+          element={
+            <RolesRoute
+              roles={[
+                'ACCOUNT_MANAGER',
+                'ACCOUNTANT',
+                'BRANCH_MANAGER',
+                'EMERGENCY_EMPLOYEE',
+                'REPOSITORIY_EMPLOYEE',
+                'INQUIRY_EMPLOYEE',
+                'SUPER_ADMIN',
+              ]}
+            />
+          }
+        >
+          <Route path="/orders" element={<OrdersScreen />} />
+          <Route path="/orders/add" element={<AddOrder />} />
+          <Route path="/orders/:id/show" element={<ShowOrder />} />
+          <Route path="/orders/:id/edit" element={<EditOrder />} />
+          <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
+          <Route path="/orders-sheet" element={<OrdersSheet />} />
+        </Route>
+        <Route element={<RolesRoute roles={['DATA_ENTRY']} />}>
+          <Route path="/orders/add" element={<AddOrder />} />
+          <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
+          <Route path="/orders-sheet" element={<OrdersSheet />} />
+          <Route path="/clients/add" element={<AddClient />} />
+          <Route path="/stores/add" element={<AddStore />} />
+        </Route>
         <Route path="/reports" element={<ReportsScreen />} />
         <Route path="/statistics" element={<Home />} />
         <Route path="/deleted" element={<DeletedScreen />} />
-        <Route element={<RolesRoute roles={['BRANCH_MANAGER']} />}>
+        <Route element={<RolesRoute roles={['SUPER_ADMIN']} />}>
           <Route path="/banners" element={<Banners />} />
+          <Route path="/orders-auto-apdate" element={<OrdersAutoUpdate />} />
+          <Route path="/clients" element={<ClientsScreen />} />
+          <Route path="/clients/add" element={<AddClient />} />
+          <Route path="/clients/:id/show" element={<ShowClient />} />
+          <Route path="/clients/:id/edit" element={<EditClient />} />
         </Route>
-        {/* <PrivateRoute
-          path="/banners"
-          roles={['BRANCH_MANAGER']}
-          element={<Banners />}
-        /> */}
-        {/* <Route path="/banners" element={<Banners />} /> */}
         <Route path="/agents-manifest" element={<DeliveryAgentsManifest />} />
-        <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
-        <Route path="/orders-sheet" element={<OrdersSheet />} />
-        <Route path="/orders-auto-apdate" element={<OrdersAutoUpdate />} />
       </Route>
     </Routes>
   );

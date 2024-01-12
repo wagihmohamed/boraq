@@ -25,7 +25,7 @@ interface NavSection {
   link: string;
   label: string;
   enLabel: string;
-  icon: React.FC;
+  icon: typeof IconBox;
   roles: (keyof typeof rolesArabicNames)[];
 }
 

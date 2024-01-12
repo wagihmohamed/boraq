@@ -5,6 +5,7 @@ export const useAuthorization = (
   allowedRoles: (keyof typeof rolesArabicNames)[]
 ) => {
   const { role } = useAuth();
+  console.log({ role });
 
   if (role && !allowedRoles.includes(role)) {
     console.log('Unauthorized');

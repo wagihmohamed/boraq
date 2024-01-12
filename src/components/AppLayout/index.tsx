@@ -25,6 +25,7 @@ interface Props {
 
 export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const { companyName } = useAuth();
+
   const pathName = useLocation().pathname;
 
   const renderActiveLinkArabicName = () => {
@@ -42,6 +43,7 @@ export const AppLayout = ({ children, isLoading, isError }: Props) => {
   const [active, setActive] = useState(
     navSections.find((item) => item.link === pathName)?.label || ''
   );
+
   const links = navSections.map((item) => {
     const canRenderItem = isAuthorized(item.roles);
     if (!canRenderItem) {
