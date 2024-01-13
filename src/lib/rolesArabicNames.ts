@@ -10,6 +10,9 @@ enum Role {
   DATA_ENTRY = 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف استفسارات',
+  ADMIN = 'مدير',
+  CLIENT = 'عميل',
+  CLIENT_ASSISTANT = 'مساعد عميل',
 }
 
 export const rolesArabicNames = {
@@ -24,6 +27,9 @@ export const rolesArabicNames = {
   DATA_ENTRY: 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE: 'موظف مخزن',
   INQUIRY_EMPLOYEE: 'موظف استفسارات',
+  ADMIN: 'مدير',
+  CLIENT: 'عميل',
+  CLIENT_ASSISTANT: 'مساعد عميل',
 };
 
 export const rolesArray: { label: string; value: string }[] = Object.entries(

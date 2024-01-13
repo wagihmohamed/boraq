@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useProducts } from '@/hooks/useProducts';
 import { useNavigate } from 'react-router-dom';
 import { Filters } from '@/services/getEmployeesService';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const Products = () => {
   const navigation = useNavigate();
@@ -22,19 +23,21 @@ export const Products = () => {
     isError,
   } = useProducts(filters);
 
+  const addProductButton = (
+    <Button
+      onClick={() => {
+        navigation('/home/add');
+      }}
+      size="lg"
+      variant="outline"
+    >
+      اضافة منتج
+    </Button>
+  );
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <div className="flex mb-6 items-center gap-6">
-        <Button
-          onClick={() => {
-            navigation('/home/add');
-          }}
-          size="lg"
-          variant="outline"
-        >
-          اضافة منتج
-        </Button>
-      </div>
+      {hideChildrenBasedOnRole(['SUPER_ADMIN'], addProductButton)}
       <Grid gutter="md">
         {products.data.map((product) => (
           <Grid.Col

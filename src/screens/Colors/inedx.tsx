@@ -7,6 +7,7 @@ import { AddColor } from './add-color';
 import { DeleteColor } from './delete-color';
 import { EditColor } from './edit-color';
 import { Filters } from '@/services/getEmployeesService';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const Colors = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -26,7 +27,7 @@ export const Colors = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <AddColor />
+      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddColor />)}
       <Grid gutter="lg">
         {colors.data.map((color) => (
           <Grid.Col

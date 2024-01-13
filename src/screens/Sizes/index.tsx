@@ -7,6 +7,7 @@ import { AddSize } from './add-size';
 import { EditSize } from './edit-size';
 import { DeleteSize } from './delete-size';
 import { Filters } from '@/services/getEmployeesService';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const Sizes = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -26,7 +27,7 @@ export const Sizes = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <AddSize />
+      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddSize />)}
       <Grid gutter="lg">
         {sizes.data.map((size) => (
           <Grid.Col

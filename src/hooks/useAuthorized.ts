@@ -5,11 +5,8 @@ export const useAuthorization = (
   allowedRoles: (keyof typeof rolesArabicNames)[]
 ) => {
   const { role } = useAuth();
-  console.log({ role });
 
   if (role && !allowedRoles.includes(role)) {
-    console.log('Unauthorized');
-
     return null;
   }
 
@@ -26,4 +23,26 @@ export const isAuthorized = (
   }
 
   return true;
+};
+
+export const renderChildrenBasedOnRole = (
+  allowedRoles: (keyof typeof rolesArabicNames)[],
+  children: React.ReactNode
+) => {
+  if (isAuthorized(allowedRoles)) {
+    return children;
+  }
+
+  return null;
+};
+
+export const hideChildrenBasedOnRole = (
+  allowedRoles: (keyof typeof rolesArabicNames)[],
+  children: React.ReactNode
+) => {
+  if (isAuthorized(allowedRoles)) {
+    return null;
+  }
+
+  return children;
 };

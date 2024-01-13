@@ -8,8 +8,10 @@ import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { useLocations } from '@/hooks/useLocations';
+import { useAuth } from '@/store/authStore';
 
 export const Employees = () => {
+  const { role } = useAuth();
   const [filters, setFilters] = useState<EmployeesFilters>({
     page: 1,
     size: 10,
@@ -90,7 +92,7 @@ export const Employees = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
-          navigationURL="/employees/add"
+          navigationURL={role !== 'SUPER_ADMIN' ? '/employees/add' : ''}
           columns={columns}
           data={employees.data}
           setFilters={setFilters}

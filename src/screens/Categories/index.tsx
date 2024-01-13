@@ -7,6 +7,7 @@ import { AddCategory } from './add-category';
 import { DeleteCategory } from './delete-category';
 import { EditCategory } from './edit-category';
 import { Filters } from '@/services/getEmployeesService';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const Categories = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -26,7 +27,7 @@ export const Categories = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <AddCategory />
+      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddCategory />)}
       <Grid gutter="lg">
         {categories.data.map((category) => (
           <Grid.Col

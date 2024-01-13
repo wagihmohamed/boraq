@@ -4,8 +4,10 @@ import { useRepositories } from '@/hooks/useRepositories';
 import { DataTable } from '../Employees/data-table';
 import { Filters } from '@/services/getEmployeesService';
 import { useState } from 'react';
+import { useAuth } from '@/store/authStore';
 
 export const RepositoriesScreen = () => {
+  const { role } = useAuth();
   const [filters, setFilters] = useState<Filters>({
     page: 1,
     size: 10,
@@ -23,7 +25,7 @@ export const RepositoriesScreen = () => {
       <DataTable
         columns={columns}
         data={repositories?.data}
-        navigationURL="/repositories/add"
+        navigationURL={role !== 'SUPER_ADMIN' ? '/repositories/add' : ''}
         setFilters={setFilters}
         filters={{
           ...filters,
