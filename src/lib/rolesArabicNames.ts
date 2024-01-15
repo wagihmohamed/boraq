@@ -1,5 +1,5 @@
 enum Role {
-  SUPER_ADMIN = 'مدير عام',
+  SUPER_ADMIN = 'سوبر ادمن',
   COMPANY_MANAGER = 'مدير شركة',
   ACCOUNT_MANAGER = 'مدير حسابات',
   ACCOUNTANT = 'محاسب',
@@ -10,7 +10,7 @@ enum Role {
   DATA_ENTRY = 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف استفسارات',
-  ADMIN = 'مدير',
+  ADMIN = 'ادمن',
   CLIENT = 'عميل',
   CLIENT_ASSISTANT = 'مساعد عميل',
 }

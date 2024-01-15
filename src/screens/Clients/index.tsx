@@ -25,7 +25,9 @@ export const ClientsScreen = () => {
       <DataTable
         columns={columns}
         data={clients?.data}
-        navigationURL={role !== 'SUPER_ADMIN' ? '/clients/add' : ''}
+        navigationURL={
+          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/clients/add' : ''
+        }
         setFilters={setFilters}
         filters={{
           ...filters,

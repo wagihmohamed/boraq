@@ -25,7 +25,9 @@ export const RepositoriesScreen = () => {
       <DataTable
         columns={columns}
         data={repositories?.data}
-        navigationURL={role !== 'SUPER_ADMIN' ? '/repositories/add' : ''}
+        navigationURL={
+          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/repositories/add' : ''
+        }
         setFilters={setFilters}
         filters={{
           ...filters,

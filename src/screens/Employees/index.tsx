@@ -92,7 +92,9 @@ export const Employees = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
-          navigationURL={role !== 'SUPER_ADMIN' ? '/employees/add' : ''}
+          navigationURL={
+            role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/employees/add' : ''
+          }
           columns={columns}
           data={employees.data}
           setFilters={setFilters}

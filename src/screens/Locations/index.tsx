@@ -42,7 +42,9 @@ export const LocationsScreen = () => {
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
           columns={columns}
-          navigationURL={role !== 'SUPER_ADMIN' ? '/locations/add' : ''}
+          navigationURL={
+            role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/locations/add' : ''
+          }
           data={locations.data}
           setFilters={setFilters}
           filters={{

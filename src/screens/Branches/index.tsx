@@ -24,7 +24,9 @@ export const BranchesScreen = () => {
     <AppLayout isError={isError} isLoading={isLoading}>
       <DataTable
         columns={columns}
-        navigationURL={role !== 'SUPER_ADMIN' ? '/branches/add' : ''}
+        navigationURL={
+          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/branches/add' : ''
+        }
         data={branches.data}
         setFilters={setFilters}
         filters={{
