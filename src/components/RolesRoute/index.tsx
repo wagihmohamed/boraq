@@ -8,5 +8,6 @@ export const RolesRoute = ({
   roles: (keyof typeof rolesArabicNames)[];
 }) => {
   const isAuthorized = useAuthorization(roles);
-  return isAuthorized ? <Outlet /> : <Navigate to="/orders" />;
+
+  return isAuthorized ? <Outlet /> : <Navigate replace to="/orders" />;
 };

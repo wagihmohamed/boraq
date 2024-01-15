@@ -51,7 +51,15 @@ export const authStore = create<IAuthStore>()(
         localStorage.setItem('token', data.token);
       },
       logout: () => {
-        set({ status: '', token: '' });
+        set({
+          status: '',
+          token: '',
+          companyName: '',
+          id: '',
+          name: '',
+          username: '',
+          role: null,
+        });
         localStorage.removeItem('token');
         queryClient.clear();
         router.navigate('/');

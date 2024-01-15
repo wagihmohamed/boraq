@@ -6,11 +6,10 @@ export const useAuthorization = (
 ) => {
   const { role } = useAuth();
 
-  if (role && !allowedRoles.includes(role)) {
-    return null;
+  if (role && allowedRoles.includes(role)) {
+    return true;
   }
-
-  return true;
+  return false;
 };
 
 export const isAuthorized = (

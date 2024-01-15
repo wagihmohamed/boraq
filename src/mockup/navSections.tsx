@@ -56,14 +56,14 @@ export const navSections: NavSection[] = [
     label: 'انشاء طلبات جماعية',
     enLabel: 'orders bulk create',
     icon: IconPackages,
-    roles: ['ADMIN', 'SUPER_ADMIN', 'ACCOUNTANT', 'DATA_ENTRY'],
+    roles: ['ACCOUNTANT', 'DATA_ENTRY'],
   },
   {
     link: '/orders-sheet',
     label: 'استيراد طلبات من اكسل',
     enLabel: 'orders sheet',
     icon: IconFileSpreadsheet,
-    roles: ['ADMIN', 'SUPER_ADMIN', 'DATA_ENTRY'],
+    roles: ['DATA_ENTRY'],
   },
   {
     link: '/orders-auto-apdate',
