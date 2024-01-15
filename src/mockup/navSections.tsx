@@ -42,7 +42,14 @@ export const navSections: NavSection[] = [
     label: 'المنتجات',
     enLabel: 'home',
     icon: IconBox,
-    roles: ['ADMIN', 'SUPER_ADMIN', 'DATA_ENTRY', 'COMPANY_MANAGER', 'CLIENT'],
+    roles: [
+      'ADMIN',
+      'SUPER_ADMIN',
+      'DATA_ENTRY',
+      'COMPANY_MANAGER',
+      'CLIENT',
+      'CLIENT_ASSISTANT',
+    ],
   },
   {
     link: '/orders',
@@ -97,7 +104,7 @@ export const navSections: NavSection[] = [
     label: 'الشركات',
     enLabel: 'tenants',
     icon: IconBuildingCommunity,
-    roles: ['ADMIN', 'SUPER_ADMIN', 'COMPANY_MANAGER'],
+    roles: ['ADMIN', 'SUPER_ADMIN'],
   },
   {
     link: '/reports',
@@ -111,6 +118,7 @@ export const navSections: NavSection[] = [
       'ACCOUNTANT',
       'REPOSITORIY_EMPLOYEE',
       'CLIENT',
+      'COMPANY_MANAGER',
     ],
   },
   {
@@ -124,6 +132,7 @@ export const navSections: NavSection[] = [
       'BRANCH_MANAGER',
       'ACCOUNTANT',
       'DATA_ENTRY',
+      'COMPANY_MANAGER',
     ],
   },
   {
@@ -137,6 +146,7 @@ export const navSections: NavSection[] = [
       'ACCOUNTANT',
       'BRANCH_MANAGER',
       'DATA_ENTRY',
+      'COMPANY_MANAGER',
     ],
   },
   {
@@ -144,7 +154,14 @@ export const navSections: NavSection[] = [
     label: 'الموظفين',
     enLabel: 'employees',
     icon: IconUserCheck,
-    roles: ['ADMIN', 'SUPER_ADMIN', 'COMPANY_MANAGER'], // SHOULD ADD A NEW SCREEN TO ADD EMPLOYEES TO THE BRANCH MANAGER
+    roles: ['ADMIN', 'SUPER_ADMIN', 'COMPANY_MANAGER'],
+  },
+  {
+    link: '/employees/add',
+    label: 'اضافة موظف',
+    enLabel: 'employees',
+    icon: IconUserCheck,
+    roles: ['BRANCH_MANAGER'],
   },
   {
     link: '/repositories',
@@ -157,6 +174,7 @@ export const navSections: NavSection[] = [
       'REPOSITORIY_EMPLOYEE',
       'BRANCH_MANAGER',
       'ACCOUNTANT',
+      'COMPANY_MANAGER',
     ],
   },
   {
@@ -171,6 +189,8 @@ export const navSections: NavSection[] = [
       'ACCOUNTANT',
       'BRANCH_MANAGER',
       'CLIENT',
+      'CLIENT_ASSISTANT',
+      'COMPANY_MANAGER',
     ],
   },
   {

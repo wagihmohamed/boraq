@@ -167,6 +167,7 @@ function App() {
 
         {role === 'BRANCH_MANAGER' ? (
           <Route element={<RolesRoute roles={['BRANCH_MANAGER']} />}>
+            <Route path="/employees/add" element={<AddEmployee />} />
             <Route path="/repositories" element={<RepositoriesScreen />} />
             <Route path="/repositories/add" element={<AddRepositoryScreen />} />
             <Route
@@ -226,15 +227,31 @@ function App() {
 
         {role === 'COMPANY_MANAGER' ? (
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
+            <Route
+              path="/agents-manifest"
+              element={<DeliveryAgentsManifest />}
+            />
+            <Route path="/repositories" element={<RepositoriesScreen />} />
+            <Route path="/repositories/:id/show" element={<ShowRepository />} />
+            <Route
+              path="/repositories/:id/edit"
+              element={<EditRepositoryScreen />}
+            />
+            <Route path="/repositories/add" element={<AddRepositoryScreen />} />
+            <Route path="/stores" element={<Stores />} />
+            <Route path="/stores/add" element={<AddStore />} />
+            <Route path="/stores/:id/show" element={<StoreScreen />} />
+            <Route path="/stores/:id/edit" element={<EditStore />} />
             <Route path="/branches" element={<BranchesScreen />} />
             <Route path="/branches/add" element={<AddBranch />} />
             <Route path="/branches/:id/edit" element={<EditBranch />} />
             <Route path="/branches/:id/show" element={<ShowBranch />} />
-            <Route path="/tenants" element={<TenantsScreen />} />
-            <Route path="/tenants/add" element={<AddTenant />} />
-            <Route path="/tenants/:id/show" element={<ShowTenant />} />
-            <Route path="/tenants/:id/edit" element={<EditTenant />} />
+            <Route path="/locations" element={<LocationsScreen />} />
+            <Route path="/locations/add" element={<AddLocation />} />
+            <Route path="/locations/:id/edit" element={<EditLocation />} />
+            <Route path="/locations/:id/show" element={<ShowLocation />} />
             <Route path="/sizes" element={<Sizes />} />
+            <Route path="/reports" element={<ReportsScreen />} />
             <Route path="/colors" element={<Colors />} />
             <Route path="/banners" element={<Banners />} />
             <Route path="/categories" element={<Categories />} />

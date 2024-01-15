@@ -24,9 +24,11 @@ import toast from 'react-hot-toast';
 import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { useTenants } from '@/hooks/useTenants';
+import { useAuth } from '@/store/authStore';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
+  const { role } = useAuth();
   const { data: branches = { data: [] } } = useBranches({ size: 200 });
   const { data: repositories = { data: [] } } = useRepositories({ size: 200 });
   const { data: tenants = { data: [] } } = useTenants({ size: 200 });
@@ -97,15 +99,21 @@ export const AddEmployee = () => {
     createBranchAction(formData);
   };
 
+  const handleReturn = () => {
+    if (role === 'BRANCH_MANAGER') {
+      navigate(-1);
+      return;
+    }
+    navigate('/employees');
+  };
+
   return (
     <AppLayout>
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
           className="mt-2 cursor-pointer"
-          onClick={() => {
-            navigate('/employees');
-          }}
+          onClick={handleReturn}
         />
         <h1 className="text-3xl font-semibold">اضافة موظف</h1>
       </div>
