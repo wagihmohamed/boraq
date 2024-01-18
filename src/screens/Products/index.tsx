@@ -37,7 +37,7 @@ export const Products = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      {hideChildrenBasedOnRole(['SUPER_ADMIN'], addProductButton)}
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], addProductButton)}
       <Grid gutter="md">
         {products.data.map((product) => (
           <Grid.Col

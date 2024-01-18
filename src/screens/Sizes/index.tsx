@@ -27,7 +27,7 @@ export const Sizes = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddSize />)}
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], <AddSize />)}
       <Grid gutter="lg">
         {sizes.data.map((size) => (
           <Grid.Col

@@ -27,7 +27,7 @@ export const Categories = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddCategory />)}
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], <AddCategory />)}
       <Grid gutter="lg">
         {categories.data.map((category) => (
           <Grid.Col

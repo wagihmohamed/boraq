@@ -1,5 +1,5 @@
 enum Role {
-  SUPER_ADMIN = 'سوبر ادمن',
+  ADMIN = 'ادمن',
   COMPANY_MANAGER = 'مدير شركة',
   ACCOUNT_MANAGER = 'مدير حسابات',
   ACCOUNTANT = 'محاسب',
@@ -10,25 +10,25 @@ enum Role {
   DATA_ENTRY = 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف استفسارات',
-  ADMIN = 'ادمن',
+  ADMIN_ASSISTANT = 'مساعد ادمن',
   CLIENT = 'عميل',
   CLIENT_ASSISTANT = 'مساعد عميل',
 }
 
 export const rolesArabicNames = {
-  SUPER_ADMIN: 'مدير عام', // done
-  COMPANY_MANAGER: 'مدير شركة', // done
+  ADMIN: 'مدير عام',
+  COMPANY_MANAGER: 'مدير شركة',
   ACCOUNT_MANAGER: 'مدير حسابات', // need to clarify
-  ACCOUNTANT: 'محاسب', // done
+  ACCOUNTANT: 'محاسب',
   DELIVERY_AGENT: 'مندوب توصيل', // won't use the dashboard
   RECEIVING_AGENT: 'مندوب استلام', // won't use the dashboard
-  BRANCH_MANAGER: 'مدير فرع', // done
+  BRANCH_MANAGER: 'مدير فرع',
   EMERGENCY_EMPLOYEE: 'موظف طوارئ', // need to clarify
-  DATA_ENTRY: 'مدخل بيانات', // done
-  REPOSITORIY_EMPLOYEE: 'موظف مخزن', // done
+  DATA_ENTRY: 'مدخل بيانات',
+  REPOSITORIY_EMPLOYEE: 'موظف مخزن',
   INQUIRY_EMPLOYEE: 'موظف استفسارات', // need to clarify
-  ADMIN: 'مدير', // done
-  CLIENT: 'عميل', // done
+  ADMIN_ASSISTANT: 'مساعد ادمن',
+  CLIENT: 'عميل',
   CLIENT_ASSISTANT: 'مساعد عميل',
 };
 

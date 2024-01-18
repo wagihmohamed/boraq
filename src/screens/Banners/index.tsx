@@ -30,7 +30,7 @@ export const Banners = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      {hideChildrenBasedOnRole(['SUPER_ADMIN'], addBannerModal)}
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], addBannerModal)}
       <Grid gutter="md">
         {banners.data.map((banner) => (
           <Grid.Col

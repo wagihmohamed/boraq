@@ -86,8 +86,8 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginScreen />} />
       <Route Component={PrivateRoutes}>
-        {role === 'SUPER_ADMIN' || role === 'ADMIN' ? (
-          <Route element={<RolesRoute roles={['SUPER_ADMIN', 'ADMIN']} />}>
+        {role === 'ADMIN_ASSISTANT' || role === 'ADMIN' ? (
+          <Route element={<RolesRoute roles={['ADMIN_ASSISTANT', 'ADMIN']} />}>
             <Route path="/locations" element={<LocationsScreen />} />
             <Route path="/locations/add" element={<AddLocation />} />
             <Route path="/locations/:id/edit" element={<EditLocation />} />
@@ -227,6 +227,8 @@ function App() {
 
         {role === 'COMPANY_MANAGER' ? (
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
+            <Route path="/orders-sheet" element={<OrdersSheet />} />
+            <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
             <Route
               path="/agents-manifest"
               element={<DeliveryAgentsManifest />}

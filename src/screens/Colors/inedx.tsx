@@ -27,7 +27,7 @@ export const Colors = () => {
 
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      {hideChildrenBasedOnRole(['SUPER_ADMIN'], <AddColor />)}
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], <AddColor />)}
       <Grid gutter="lg">
         {colors.data.map((color) => (
           <Grid.Col
