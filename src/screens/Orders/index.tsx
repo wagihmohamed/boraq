@@ -100,7 +100,7 @@ export const OrdersScreen = () => {
         <LoadingOverlay visible={isInitialLoading} />
         <OrdersTable
           navigationURL={
-            role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/orders/add' : ''
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''
           }
           columns={columns}
           data={orders.data}

@@ -26,7 +26,9 @@ export const RepositoriesScreen = () => {
         columns={columns}
         data={repositories?.data}
         navigationURL={
-          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/repositories/add' : ''
+          role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+            ? '/repositories/add'
+            : ''
         }
         setFilters={setFilters}
         filters={{

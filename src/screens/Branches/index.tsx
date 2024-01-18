@@ -25,7 +25,7 @@ export const BranchesScreen = () => {
       <DataTable
         columns={columns}
         navigationURL={
-          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/branches/add' : ''
+          role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/branches/add' : ''
         }
         data={branches.data}
         setFilters={setFilters}

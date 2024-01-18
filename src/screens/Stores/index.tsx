@@ -28,7 +28,7 @@ export const Stores = () => {
       <DataTable
         data={sizes.data}
         navigationURL={
-          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/stores/add' : ''
+          role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/stores/add' : ''
         }
         columns={columns}
         filters={{

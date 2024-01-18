@@ -26,7 +26,7 @@ export const ClientsScreen = () => {
         columns={columns}
         data={clients?.data}
         navigationURL={
-          role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/clients/add' : ''
+          role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/clients/add' : ''
         }
         setFilters={setFilters}
         filters={{

@@ -43,7 +43,9 @@ export const LocationsScreen = () => {
         <DataTable
           columns={columns}
           navigationURL={
-            role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/locations/add' : ''
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/locations/add'
+              : ''
           }
           data={locations.data}
           setFilters={setFilters}

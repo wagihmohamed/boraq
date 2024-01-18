@@ -200,7 +200,11 @@ export const AddEmployee = () => {
             <Select
               label="الادوار"
               placeholder="اختار الادوار"
-              data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
+              // Filter the roles admin and admin assistant
+              data={rolesArray.filter(
+                (role) =>
+                  role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+              )}
               {...form.getInputProps('roles')}
             />
           </Grid.Col>

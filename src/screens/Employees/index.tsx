@@ -44,7 +44,10 @@ export const Employees = () => {
         <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
           <MultiSelect
             label="الدور"
-            data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
+            data={rolesArray.filter(
+              (role) =>
+                role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+            )}
             clearable
             searchable
             limit={50}
@@ -93,7 +96,9 @@ export const Employees = () => {
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
           navigationURL={
-            role !== 'SUPER_ADMIN' && role !== 'ADMIN' ? '/employees/add' : ''
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/employees/add'
+              : ''
           }
           columns={columns}
           data={employees.data}
