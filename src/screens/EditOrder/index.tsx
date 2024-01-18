@@ -115,7 +115,7 @@ export const EditOrder = () => {
         weight: orderDetails?.data?.weight?.toString(),
         recipientName: orderDetails?.data?.recipientName,
         recipientPhones:
-          orderDetails?.data?.recipientPhones.length > 0
+          orderDetails?.data?.recipientPhones?.length > 0
             ? orderDetails?.data?.recipientPhones?.map((phone) => ({
                 key: randomId(),
                 number: phone,
