@@ -31,7 +31,9 @@ export const DeletedEmployees = () => {
       <MultiSelect
         className="mt-4 my-10"
         label="الدور"
-        data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
+        data={rolesArray.filter(
+          (role) => role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+        )}
         clearable
         placeholder="الدور"
         value={filters.roles}

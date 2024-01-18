@@ -4,8 +4,10 @@ import { useClients } from '@/hooks/useClients';
 import { DataTable } from '../Employees/data-table';
 import { Filters } from '@/services/getEmployeesService';
 import { useState } from 'react';
+import { useAuth } from '@/store/authStore';
 
 export const ClientsScreen = () => {
+  const { role } = useAuth();
   const [filters, setFilters] = useState<Filters>({
     page: 1,
     size: 10,
@@ -23,7 +25,9 @@ export const ClientsScreen = () => {
       <DataTable
         columns={columns}
         data={clients?.data}
-        navigationURL="/clients/add"
+        navigationURL={
+          role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/clients/add' : ''
+        }
         setFilters={setFilters}
         filters={{
           ...filters,

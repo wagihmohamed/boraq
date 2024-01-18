@@ -8,6 +8,7 @@ import { useDebouncedState } from '@mantine/hooks';
 import { CustomOrdersFilter } from './components/OrdersFilter';
 import { OrdersTable } from './components/OrdersTable';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '@/store/authStore';
 
 export const ordersFilterInitialState: OrdersFilter = {
   page: 1,
@@ -41,6 +42,7 @@ interface OrdersSearchParameters {
 }
 
 export const OrdersScreen = () => {
+  const { role } = useAuth();
   const location = useLocation();
   const [filters, setFilters] = useState<OrdersFilter>(
     ordersFilterInitialState
@@ -97,7 +99,9 @@ export const OrdersScreen = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <OrdersTable
-          navigationURL="/orders/add"
+          navigationURL={
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''
+          }
           columns={columns}
           data={orders.data}
           setFilters={setFilters}

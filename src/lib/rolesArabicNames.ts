@@ -1,5 +1,5 @@
 enum Role {
-  SUPER_ADMIN = 'مدير عام',
+  ADMIN = 'ادمن',
   COMPANY_MANAGER = 'مدير شركة',
   ACCOUNT_MANAGER = 'مدير حسابات',
   ACCOUNTANT = 'محاسب',
@@ -10,20 +10,26 @@ enum Role {
   DATA_ENTRY = 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف استفسارات',
+  ADMIN_ASSISTANT = 'مساعد ادمن',
+  CLIENT = 'عميل',
+  CLIENT_ASSISTANT = 'مساعد عميل',
 }
 
 export const rolesArabicNames = {
-  SUPER_ADMIN: 'مدير عام',
+  ADMIN: 'مدير عام',
   COMPANY_MANAGER: 'مدير شركة',
-  ACCOUNT_MANAGER: 'مدير حسابات',
+  ACCOUNT_MANAGER: 'مدير حسابات', // need to clarify
   ACCOUNTANT: 'محاسب',
-  DELIVERY_AGENT: 'مندوب توصيل',
-  RECEIVING_AGENT: 'مندوب استلام',
+  DELIVERY_AGENT: 'مندوب توصيل', // won't use the dashboard
+  RECEIVING_AGENT: 'مندوب استلام', // won't use the dashboard
   BRANCH_MANAGER: 'مدير فرع',
-  EMERGENCY_EMPLOYEE: 'موظف طوارئ',
+  EMERGENCY_EMPLOYEE: 'موظف طوارئ', // need to clarify
   DATA_ENTRY: 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE: 'موظف مخزن',
-  INQUIRY_EMPLOYEE: 'موظف استفسارات',
+  INQUIRY_EMPLOYEE: 'موظف استفسارات', // need to clarify
+  ADMIN_ASSISTANT: 'مساعد ادمن',
+  CLIENT: 'عميل',
+  CLIENT_ASSISTANT: 'مساعد عميل',
 };
 
 export const rolesArray: { label: string; value: string }[] = Object.entries(

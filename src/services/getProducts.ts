@@ -8,9 +8,25 @@ export interface Product {
   price: string;
   image: string;
   stock: number;
+  weight: number;
   category: {
     title: string;
   };
+  productColors: {
+    quantity: number;
+    color: {
+      id: number;
+      title: string;
+      code: string;
+    };
+  }[];
+  productSizes: {
+    quantity: number;
+    size: {
+      id: number;
+      title: string;
+    };
+  }[];
 }
 
 export interface GetProductsResponse {

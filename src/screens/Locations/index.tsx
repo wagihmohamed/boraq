@@ -7,8 +7,10 @@ import { LocationsFilter } from './LocationsFilter';
 import { LocationFilters } from '@/services/getLocations';
 import { useDebouncedState } from '@mantine/hooks';
 import { LoadingOverlay } from '@mantine/core';
+import { useAuth } from '@/store/authStore';
 
 export const LocationsScreen = () => {
+  const { role } = useAuth();
   const [filters, setFilters] = useState<LocationFilters>({
     page: 1,
     size: 10,
@@ -40,7 +42,11 @@ export const LocationsScreen = () => {
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
           columns={columns}
-          navigationURL="/locations/add"
+          navigationURL={
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/locations/add'
+              : ''
+          }
           data={locations.data}
           setFilters={setFilters}
           filters={{

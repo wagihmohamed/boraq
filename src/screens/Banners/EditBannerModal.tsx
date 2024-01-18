@@ -81,7 +81,7 @@ export const EditBannerModal = ({
         opened={opened}
         onClose={close}
         size="60%"
-        title="اضافة بانر"
+        title="تعديل بانر"
         centered
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>

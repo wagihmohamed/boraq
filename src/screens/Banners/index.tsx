@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Filters } from '@/services/getEmployeesService';
 import { useBanners } from '@/hooks/useBanners';
 import { AddBannerModal } from './add-banner-modal';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const Banners = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -21,11 +22,15 @@ export const Banners = () => {
     isError,
   } = useBanners(filters);
 
+  const addBannerModal = (
+    <div className="flex mb-6 items-center gap-6">
+      <AddBannerModal />
+    </div>
+  );
+
   return (
     <AppLayout isLoading={isLoading} isError={isError}>
-      <div className="flex mb-6 items-center gap-6">
-        <AddBannerModal />
-      </div>
+      {hideChildrenBasedOnRole(['ADMIN', 'ADMIN_ASSISTANT'], addBannerModal)}
       <Grid gutter="md">
         {banners.data.map((banner) => (
           <Grid.Col

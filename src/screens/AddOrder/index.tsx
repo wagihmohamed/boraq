@@ -26,17 +26,12 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { useProducts } from '@/hooks/useProducts';
-import { useColors } from '@/hooks/useColors';
-import { useSizes } from '@/hooks/useSizes';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { randomId } from '@mantine/hooks';
 
 export const AddOrder = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { data: colors = { data: [] } } = useColors({ size: 200 });
-  const { data: sizes = { data: [] } } = useSizes({ size: 200 });
 
   const form = useForm({
     validate: zodResolver(addOrderSchema),
@@ -152,15 +147,6 @@ export const AddOrder = () => {
     label: product.title,
   }));
 
-  const colorsOptions = colors.data.map((color) => ({
-    value: color.id.toString(),
-    label: color.title,
-  }));
-  const sizesOptions = sizes.data.map((size) => ({
-    value: size.id.toString(),
-    label: size.title,
-  }));
-
   const numberFields = form.values.recipientPhone.map((phone, index) => (
     <Group key={phone.key}>
       <TextInput
@@ -197,6 +183,36 @@ export const AddOrder = () => {
     </Group>
   ));
 
+  const getSelectedProductColors = (productID: string) => {
+    const product = productsData.data.find(
+      (product) => product.id.toString() === productID
+    );
+    if (product) {
+      return product.productColors
+        .filter((productColor) => productColor.quantity > 0)
+        .map((productColor) => ({
+          value: productColor.color.id.toString(),
+          label: productColor.color.title,
+        }));
+    }
+    return [];
+  };
+
+  const getSelectedProductSizes = (productID: string) => {
+    const product = productsData.data.find(
+      (product) => product.id.toString() === productID
+    );
+    if (product) {
+      return product.productSizes
+        .filter((productSize) => productSize.quantity > 0)
+        .map((productSize) => ({
+          value: productSize.size.id.toString(),
+          label: productSize.size.title,
+        }));
+    }
+    return [];
+  };
+
   const productsItems = form.values.products.map((product, index) => {
     return (
       <div
@@ -223,7 +239,7 @@ export const AddOrder = () => {
           searchable
           label="اللون"
           placeholder="اختار اللون"
-          data={colorsOptions}
+          data={getSelectedProductColors(product.productID)}
           limit={100}
           {...form.getInputProps(`products.${index}.colorID`)}
         />
@@ -231,7 +247,7 @@ export const AddOrder = () => {
           searchable
           label="المقاس"
           placeholder="اختار المقاس"
-          data={sizesOptions}
+          data={getSelectedProductSizes(product.productID)}
           limit={100}
           {...form.getInputProps(`products.${index}.sizeID`)}
         />

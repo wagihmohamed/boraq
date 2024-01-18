@@ -8,8 +8,10 @@ import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { useLocations } from '@/hooks/useLocations';
+import { useAuth } from '@/store/authStore';
 
 export const Employees = () => {
+  const { role } = useAuth();
   const [filters, setFilters] = useState<EmployeesFilters>({
     page: 1,
     size: 10,
@@ -42,7 +44,10 @@ export const Employees = () => {
         <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
           <MultiSelect
             label="الدور"
-            data={rolesArray.filter((role) => role.value !== 'SUPER_ADMIN')}
+            data={rolesArray.filter(
+              (role) =>
+                role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+            )}
             clearable
             searchable
             limit={50}
@@ -90,7 +95,11 @@ export const Employees = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
-          navigationURL="/employees/add"
+          navigationURL={
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/employees/add'
+              : ''
+          }
           columns={columns}
           data={employees.data}
           setFilters={setFilters}
