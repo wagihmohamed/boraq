@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react-hooks/rules-of-hooks */
 import './App.css';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { LoginScreen } from './screens/Login';

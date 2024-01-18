@@ -20,7 +20,6 @@ import { randomId } from '@mantine/hooks';
 
 interface BulkOrdersItemProps {
   index: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: any;
   handleDeleteOrder: (index: number) => void;
   storesData: Store[];
