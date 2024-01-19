@@ -13,6 +13,7 @@ interface IAuthStore extends SignInResponse {
   username: string;
   role: keyof typeof rolesArabicNames | null;
   companyName: string;
+  companyID: string;
 }
 
 interface TokenPayload {
@@ -33,6 +34,7 @@ export const authStore = create<IAuthStore>()(
       status: '',
       token: '',
       companyName: '',
+      companyID: '',
       id: '',
       name: '',
       role: null,
@@ -47,6 +49,7 @@ export const authStore = create<IAuthStore>()(
           name: decodedToken.name,
           username: decodedToken.username,
           role: decodedToken.role,
+          companyID: decodedToken.companyID || '',
         });
         localStorage.setItem('token', data.token);
       },
@@ -59,6 +62,7 @@ export const authStore = create<IAuthStore>()(
           name: '',
           username: '',
           role: null,
+          companyID: '',
         });
         localStorage.removeItem('token');
         queryClient.clear();

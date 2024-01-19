@@ -52,8 +52,8 @@ export const EditOrder = () => {
     size: 200,
     roles: ['DELIVERY_AGENT'],
   });
-  const { data: colors = { data: [] } } = useColors({ size: 200 });
-  const { data: sizes = { data: [] } } = useSizes({ size: 200 });
+  const { data: colors = { data: [] } } = useColors({ size: 1000 });
+  const { data: sizes = { data: [] } } = useSizes({ size: 1000 });
   const {
     data: orderDetails = {
       data: {} as OrderDetails,
@@ -151,16 +151,16 @@ export const EditOrder = () => {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
+  } = useLocations({ size: 1000 });
 
-  const { data: repositories } = useRepositories({ size: 500 });
-  const { data: branches } = useBranches({ size: 500 });
+  const { data: repositories } = useRepositories({ size: 1000 });
+  const { data: branches } = useBranches({ size: 1000 });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: (data: EditOrderPayload) => {
@@ -186,7 +186,7 @@ export const EditOrder = () => {
     data: productsData = {
       data: [],
     },
-  } = useProducts({ size: 500 });
+  } = useProducts({ size: 1000 });
 
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({

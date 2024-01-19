@@ -25,7 +25,7 @@ export const EditRepositoryScreen = () => {
     isLoading,
     isError,
   } = useRepositoryDetails(parseInt(id));
-  const { data: branches } = useBranches({ size: 200 });
+  const { data: branches } = useBranches({ size: 1000 });
   const form = useForm({
     validate: zodResolver(editRepositorySchema),
     initialValues: {

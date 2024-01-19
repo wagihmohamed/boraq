@@ -47,35 +47,35 @@ export const ExportReportModal = () => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 500 });
+  } = useClients({ size: 1000 });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const {
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 500 });
+  } = useBranches({ size: 1000 });
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 500 });
+  } = useRepositories({ size: 1000 });
   const {
     data: tenantsData = {
       data: [],
     },
-  } = useTenants({ size: 500 });
+  } = useTenants({ size: 1000 });
 
   const {
     data: deliveryAgentsData = {
       data: [],
     },
-  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
   const { mutateAsync, isLoading } = useCreateReport();
   const { mutateAsync: exportReceipt } = useOrderReceipt('مجموعة فواتير');

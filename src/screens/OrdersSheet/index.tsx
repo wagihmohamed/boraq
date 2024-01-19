@@ -73,7 +73,7 @@ export const OrdersSheet = () => {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const { mutate: createOrder, isLoading } = useMutation({
     mutationFn: (data: CreateOrderPayload) => {

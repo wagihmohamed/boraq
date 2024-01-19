@@ -25,13 +25,26 @@ import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { useTenants } from '@/hooks/useTenants';
 import { useAuth } from '@/store/authStore';
+import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
+import { useEffect } from 'react';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
-  const { role } = useAuth();
-  const { data: branches = { data: [] } } = useBranches({ size: 200 });
-  const { data: repositories = { data: [] } } = useRepositories({ size: 200 });
-  const { data: tenants = { data: [] } } = useTenants({ size: 200 });
+  const { role, id: loggedInUserId, companyID: loggedInComapnyId } = useAuth();
+  const isAdminOrAdminAssistant =
+    role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
+  const isBranchManager = role === 'BRANCH_MANAGER';
+  const {
+    data: employeeDetails,
+    isLoading: isFetchingBranchManagerDetailsLoading,
+    isError: isFetchingBranchManagerDetailsError,
+  } = useEmployeeDetails(Number(loggedInUserId), !isAdminOrAdminAssistant);
+  const { data: branches = { data: [] } } = useBranches({ size: 1000 });
+  const { data: repositories = { data: [] } } = useRepositories({ size: 1000 });
+  const { data: tenants = { data: [] } } = useTenants(
+    { size: 1000 },
+    isAdminOrAdminAssistant
+  );
   const form = useForm({
     validate: zodResolver(addEmployeeSchema),
     initialValues: {
@@ -50,6 +63,16 @@ export const AddEmployee = () => {
       deliveryCost: '',
     },
   });
+
+  useEffect(() => {
+    if (employeeDetails) {
+      form.setFieldValue(
+        'companyID',
+        employeeDetails?.data?.company.id.toString()
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [employeeDetails, isBranchManager]);
 
   const transformedBranches = branches.data?.map((branch) => ({
     value: branch.id.toString(),
@@ -93,7 +116,11 @@ export const AddEmployee = () => {
     formData.append('role', values.roles);
     formData.append('password', values.password);
     formData.append('avatar', values.avatar[0]);
-    formData.append('companyID', values.companyID);
+    if (isAdminOrAdminAssistant) {
+      formData.append('companyID', values.companyID);
+    } else {
+      formData.append('companyID', loggedInComapnyId.toString());
+    }
     formData.append('permissions', JSON.stringify(values.permissions));
     formData.append('deliveryCost', values.deliveryCost);
     createBranchAction(formData);
@@ -108,7 +135,10 @@ export const AddEmployee = () => {
   };
 
   return (
-    <AppLayout>
+    <AppLayout
+      isLoading={isBranchManager && isFetchingBranchManagerDetailsLoading}
+      isError={isBranchManager && isFetchingBranchManagerDetailsError}
+    >
       <div className="flex items-center gap-4">
         <ChevronRight
           size={34}
@@ -167,14 +197,26 @@ export const AddEmployee = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="الفرع"
-              placeholder="اختار الفرع"
-              data={transformedBranches}
-              limit={100}
-              {...form.getInputProps('branch')}
-            />
+            {isBranchManager ? (
+              <Select
+                searchable
+                label="الفرع"
+                placeholder="اختار الفرع"
+                disabled
+                data={transformedBranches}
+                limit={100}
+                value={employeeDetails?.data.branch.id.toString()}
+              />
+            ) : (
+              <Select
+                searchable
+                label="الفرع"
+                placeholder="اختار الفرع"
+                data={transformedBranches}
+                limit={100}
+                {...form.getInputProps('branch')}
+              />
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
@@ -186,27 +228,41 @@ export const AddEmployee = () => {
               {...form.getInputProps('store')}
             />
           </Grid.Col>
+          {isAdminOrAdminAssistant && (
+            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+              <Select
+                searchable
+                label="الشركة"
+                placeholder="اختار الشركة"
+                data={transformedTenants}
+                limit={100}
+                {...form.getInputProps('companyID')}
+              />
+            </Grid.Col>
+          )}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="الشركة"
-              placeholder="اختار الشركة"
-              data={transformedTenants}
-              limit={100}
-              {...form.getInputProps('companyID')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              label="الادوار"
-              placeholder="اختار الادوار"
-              // Filter the roles admin and admin assistant
-              data={rolesArray.filter(
-                (role) =>
-                  role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
-              )}
-              {...form.getInputProps('roles')}
-            />
+            {isBranchManager ? (
+              <Select
+                label="الادوار"
+                placeholder="اختار الادوار"
+                value="DELIVERY_AGENT"
+                disabled
+                data={rolesArray.filter(
+                  (role) =>
+                    role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+                )}
+              />
+            ) : (
+              <Select
+                label="الادوار"
+                placeholder="اختار الادوار"
+                data={rolesArray.filter(
+                  (role) =>
+                    role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+                )}
+                {...form.getInputProps('roles')}
+              />
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <MultiSelect
