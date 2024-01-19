@@ -25,12 +25,12 @@ export const LocationsFilter = ({
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 500 });
+  } = useBranches({ size: 1000 });
   const {
     data: employeesData = {
       data: [],
     },
-  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
   return (
     <Grid>

@@ -44,13 +44,13 @@ export const EditLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches({ size: 200 });
+  } = useBranches({ size: 1000 });
 
   const {
     data: employees = {
       data: [],
     },
-  } = useEmployees({ size: 200, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
   useEffect(() => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(

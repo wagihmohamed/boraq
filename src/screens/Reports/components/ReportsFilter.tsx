@@ -22,25 +22,25 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 500 });
+  } = useClients({ size: 1000 });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 500 });
+  } = useRepositories({ size: 1000 });
 
   const {
     data: employeesData = {
       data: [],
     },
-  } = useEmployees({ size: 500, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
   const handleResetRangeDate = () => {
     setFilters({

@@ -10,8 +10,8 @@ import { useTenants } from '@/hooks/useTenants';
 export const ShowClient = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: branches } = useBranches({ size: 200 });
-  const { data: tenants } = useTenants({ size: 200 });
+  const { data: branches } = useBranches({ size: 1000 });
+  const { data: tenants } = useTenants({ size: 1000 });
   const {
     data: clientDetails,
     isLoading,

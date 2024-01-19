@@ -158,7 +158,7 @@ export const navSections: NavSection[] = [
   },
   {
     link: '/employees/add',
-    label: 'اضافة موظف',
+    label: 'اضافة مندوب',
     enLabel: 'employees',
     icon: IconUserCheck,
     roles: ['BRANCH_MANAGER'],
