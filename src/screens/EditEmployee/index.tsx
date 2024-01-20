@@ -26,9 +26,13 @@ import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
 import { useTenants } from '@/hooks/useTenants';
+import { useAuth } from '@/store/authStore';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
+  const { role, companyID: loggedInComapnyId } = useAuth();
+  const isAdminOrAdminAssistant =
+    role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const navigate = useNavigate();
   const {
     data: employeeDetails,
@@ -37,7 +41,10 @@ export const EditEmployee = () => {
   } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({ size: 1000 });
   const { data: branches } = useBranches({ size: 1000 });
-  const { data: tenants = { data: [] } } = useTenants({ size: 1000 });
+  const { data: tenants = { data: [] } } = useTenants(
+    { size: 1000 },
+    !isAdminOrAdminAssistant
+  );
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -69,7 +76,7 @@ export const EditEmployee = () => {
         branch: employeeDetails.data.branch?.id.toString(),
         repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
-        companyID: employeeDetails.data.company.id.toString(),
+        companyID: employeeDetails.data.company?.id.toString(),
         permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
         deliveryCost: employeeDetails.data.deliveryCost,
@@ -122,7 +129,11 @@ export const EditEmployee = () => {
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
-    formData.append('companyID', values.companyID);
+    if (isAdminOrAdminAssistant) {
+      formData.append('companyID', values.companyID);
+    } else {
+      formData.append('companyID', loggedInComapnyId.toString());
+    }
     formData.append('permissions', JSON.stringify(values.permissions));
     if (values.password) {
       formData.append('password', values.password);
@@ -215,16 +226,18 @@ export const EditEmployee = () => {
               {...form.getInputProps('repository')}
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="الشركة"
-              placeholder="اختار الشركة"
-              data={transformedTenants}
-              limit={100}
-              {...form.getInputProps('companyID')}
-            />
-          </Grid.Col>
+          {isAdminOrAdminAssistant && (
+            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+              <Select
+                searchable
+                label="الشركة"
+                placeholder="اختار الشركة"
+                data={transformedTenants}
+                limit={100}
+                {...form.getInputProps('companyID')}
+              />
+            </Grid.Col>
+          )}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الادوار"
