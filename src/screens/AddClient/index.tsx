@@ -18,10 +18,15 @@ import { useBranches } from '@/hooks/useBranches';
 import { FileWithPath } from '@mantine/dropzone';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { useTenants } from '@/hooks/useTenants';
+import { useAuth } from '@/store/authStore';
+import { useEffect } from 'react';
 
 export const AddClient = () => {
   const navigate = useNavigate();
+  const { role, id: loggedInUserId, companyID: loggedInComapnyId } = useAuth();
   const queryClient = useQueryClient();
+  const isAdminOrAdminAssistant =
+    role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const { data: branches } = useBranches({ size: 500 });
   const { data: tenants = { data: [] } } = useTenants({ size: 500 });
 
@@ -49,6 +54,13 @@ export const AddClient = () => {
     },
   });
 
+  useEffect(() => {
+    if (loggedInUserId) {
+      form.setFieldValue('companyID', loggedInComapnyId.toString());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUserId]);
+
   const { mutate: createClientAction, isLoading } = useMutation({
     mutationFn: (data: FormData) => {
       return createClientsService(data);
@@ -74,7 +86,11 @@ export const AddClient = () => {
     formData.append('password', values.password);
     formData.append('username', values.username);
     formData.append('avatar', values?.avatar[0] || '');
-    formData.append('companyID', values.companyID);
+    if (isAdminOrAdminAssistant) {
+      formData.append('companyID', values.companyID);
+    } else {
+      formData.append('companyID', loggedInComapnyId.toString());
+    }
     createClientAction(formData);
   };
 
@@ -136,16 +152,18 @@ export const AddClient = () => {
               className="w-full"
               {...form.getInputProps('phone')}
             />
-            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-              <Select
-                searchable
-                label="الشركة"
-                placeholder="اختار الشركة"
-                data={transformedTenants}
-                limit={100}
-                {...form.getInputProps('companyID')}
-              />
-            </Grid.Col>
+            {isAdminOrAdminAssistant && (
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <Select
+                  searchable
+                  label="الشركة"
+                  placeholder="اختار الشركة"
+                  data={transformedTenants}
+                  limit={100}
+                  {...form.getInputProps('companyID')}
+                />
+              </Grid.Col>
+            )}
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <ImageUploader
