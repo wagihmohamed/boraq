@@ -57,7 +57,7 @@ export const LoginScreen = () => {
         className="flex flex-col justify-center items-center px-10 bg-background border-l border-border"
       >
         <Title order={2} ta="center" mt="md" mb={50}>
-          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa بك لوحة التحكم!
+          مرحبا بك لوحة التحكم!
         </Title>
 
         <TextInput
