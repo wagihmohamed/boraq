@@ -25,7 +25,6 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { useTenants } from '@/hooks/useTenants';
 import { useAuth } from '@/store/authStore';
 
 export const EditEmployee = () => {
@@ -41,10 +40,10 @@ export const EditEmployee = () => {
   } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({ size: 1000 });
   const { data: branches } = useBranches({ size: 1000 });
-  const { data: tenants = { data: [] } } = useTenants(
-    { size: 1000 },
-    !isAdminOrAdminAssistant
-  );
+  // const { data: tenants = { data: [] } } = useTenants(
+  //   { size: 1000 },
+  //   !isAdminOrAdminAssistant
+  // );
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -95,10 +94,10 @@ export const EditEmployee = () => {
     label: branch.name,
   }));
 
-  const transformedTenants = tenants.data?.map((tenant) => ({
-    value: tenant.id.toString(),
-    label: tenant.name,
-  }));
+  // const transformedTenants = tenants.data?.map((tenant) => ({
+  //   value: tenant.id.toString(),
+  //   label: tenant.name,
+  // }));
 
   const queryClient = useQueryClient();
   const { mutate: editEmployeeAction, isLoading: isEditing } = useMutation({
@@ -226,7 +225,7 @@ export const EditEmployee = () => {
               {...form.getInputProps('repository')}
             />
           </Grid.Col>
-          {isAdminOrAdminAssistant && (
+          {/* {isAdminOrAdminAssistant && (
             <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Select
                 searchable
@@ -237,7 +236,7 @@ export const EditEmployee = () => {
                 {...form.getInputProps('companyID')}
               />
             </Grid.Col>
-          )}
+          )} */}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الادوار"
