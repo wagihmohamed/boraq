@@ -16,15 +16,13 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { useTenants } from '@/hooks/useTenants';
-import { useAuth } from '@/store/authStore';
 
 export const EditClient = () => {
   const { id = '' } = useParams();
-  const { role } = useAuth();
+  // const { role } = useAuth();
   const navigate = useNavigate();
-  const isAdminOrAdminAssistant =
-    role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
+  // const isAdminOrAdminAssistant =
+  //   role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const queryClient = useQueryClient();
   const { data: branches } = useBranches({ size: 500 });
   const {
@@ -32,17 +30,17 @@ export const EditClient = () => {
     isLoading,
     isError,
   } = useClientDetails(parseInt(id));
-  const { data: tenants = { data: [] } } = useTenants({ size: 500 });
+  // const { data: tenants = { data: [] } } = useTenants({ size: 500 });
 
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id.toString(),
     label: branch.name,
   }));
 
-  const transformedTenants = tenants.data?.map((tenant) => ({
-    value: tenant.id.toString(),
-    label: tenant.name,
-  }));
+  // const transformedTenants = tenants.data?.map((tenant) => ({
+  //   value: tenant.id.toString(),
+  //   label: tenant.name,
+  // }));
   const form = useForm({
     validate: zodResolver(editClientSchema),
     initialValues: {
@@ -155,7 +153,7 @@ export const EditClient = () => {
               {...form.getInputProps('phone')}
             />
           </Grid.Col>
-          {isAdminOrAdminAssistant && (
+          {/* {isAdminOrAdminAssistant && (
             <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Select
                 searchable
@@ -166,7 +164,7 @@ export const EditClient = () => {
                 {...form.getInputProps('companyID')}
               />
             </Grid.Col>
-          )}
+          )} */}
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <ImageUploader
               image={form.values.avatar}
