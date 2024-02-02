@@ -7,6 +7,7 @@ import {
   orderTimelineIcons,
   renderTimelineDescription,
 } from '../../../lib/orderTimelineArabicNames';
+import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 
 interface Props {
   id: number;
@@ -46,13 +47,21 @@ export const OrderTimelineModal = ({ id, close, open, opened }: Props) => {
                 key={item.date}
                 bullet={orderTimelineIcons[item.type]}
                 lineVariant="dashed"
-                title={orderTimelineTypeArabicNames[item.type]}
+                title={
+                  orderTimelineTypeArabicNames[item.type] === 'STATUS_CHANGE' &&
+                  item.reportType
+                    ? `تم تغير حالة الطلب الي ${
+                        reportTypeArabicNames[item.reportType]
+                      }`
+                    : orderTimelineTypeArabicNames[item.type]
+                }
               >
                 {renderTimelineDescription({
                   old: item?.old,
                   new: item?.new,
                   type: item.type,
                   reportType: item?.reportType,
+                  by: item?.by,
                 })}
                 <Text size="xs" mt={4}>
                   {format(parseISO(item.date), 'yyyy-MM-dd HH:mm:ss')}

@@ -28,25 +28,26 @@ export const renderTimelineDescription = ({
   old,
   new: newStatus,
   reportType,
+  by,
 }) => {
   switch (type) {
     case 'STATUS_CHANGE':
       return ` تم تغير حالة الطلب من ${orderStatusArabicNames[old]} الى${' '}
-            ${orderStatusArabicNames[newStatus]}`;
+            ${orderStatusArabicNames[newStatus]} بواسطة ${by.name}`;
     case 'CURRENT_LOCATION_CHANGE':
-      return ` تم تغير موقع الطلب من ${old} الى ${newStatus}`;
+      return ` تم تغير موقع الطلب من ${old} الى ${newStatus} بواسطة ${by.name}`;
     case 'DELIVERY_AGENT_CHANGE':
       return old.name
         ? ` تم تغير مندوب التوصيل من ${old.name} الى ${newStatus.name}`
-        : ` تم تغير مندوب التوصيل الى ${newStatus.name}`;
+        : ` تم تغير مندوب التوصيل الى ${newStatus.name} بواسطة ${by.name}`;
     case 'ORDER_DELIVERY':
       return ` تم توصيل الطلب بنجاح`;
     case 'PAID_AMOUNT_CHANGE':
-      return ` تم تغير مبلغ الطلب من ${old} الى ${newStatus}`;
+      return ` تم تغير مبلغ الطلب من ${old} الى ${newStatus} بواسطة ${by.name}`;
     case 'REPORT_CREATE':
-      return `تم انشاء كشف ${reportTypeArabicNames[reportType]}`;
+      return `تم انشاء كشف ${reportTypeArabicNames[reportType]} بواسطة ${by.name}`;
     case 'REPORT_DELETE':
-      return ` تم حذف كشف `;
+      return ` تم حذف كشف  بواسطة ${by.name}`;
     default:
       return null;
   }

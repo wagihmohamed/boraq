@@ -107,7 +107,7 @@ export const columns: ColumnDef<Order>[] = [
       const formattedNumber = totalCost
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return { formattedNumber };
+      return formattedNumber || '0';
     },
   },
   {
