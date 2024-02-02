@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -10,6 +11,7 @@ import {
   Fieldset,
   Grid,
   Group,
+  NumberInput,
   Select,
   TextInput,
   Textarea,
@@ -17,10 +19,12 @@ import {
 import { X } from 'lucide-react';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { randomId } from '@mantine/hooks';
+import { UseFormReturnType } from '@mantine/form';
+import { OrderBulkFormValues } from '..';
 
 interface BulkOrdersItemProps {
   index: number;
-  form: any;
+  form: UseFormReturnType<OrderBulkFormValues>;
   handleDeleteOrder: (index: number) => void;
   storesData: Store[];
   locationsData: Location[];
@@ -33,12 +37,19 @@ export const BulkOrdersItem = ({
   locationsData,
   storesData,
 }: BulkOrdersItemProps) => {
-  const numberFields = form.values.orders.map((order: any, index: any) => {
-    return order.recipientPhones.map((phone: any, phoneArrayIndex: any) => {
+  const numberFields = form.values.orders[index].recipientPhones.map(
+    (
+      phone: {
+        phone: string;
+        key: string;
+      },
+      phoneArrayIndex: number
+    ) => {
       return (
         <Group key={phone.key}>
           <TextInput
-            label={`رقم المستلم ${index + 1}`}
+            key={phone.key}
+            label={`رقم المستلم ${phoneArrayIndex + 1}`}
             placeholder=""
             size="md"
             withAsterisk
@@ -50,8 +61,11 @@ export const BulkOrdersItem = ({
           <ActionIcon
             color="red"
             onClick={() => {
-              if (phoneArrayIndex !== 0) {
-                form.removeListItem(`orders.${index}.recipientPhones`, index);
+              if (form.values.orders[index].recipientPhones.length > 1) {
+                form.removeListItem(
+                  `orders.${index}.recipientPhones`,
+                  phoneArrayIndex
+                );
               }
             }}
             className="mt-6"
@@ -72,8 +86,8 @@ export const BulkOrdersItem = ({
           </ActionIcon>
         </Group>
       );
-    });
-  });
+    }
+  );
 
   return (
     <Fieldset
@@ -98,10 +112,10 @@ export const BulkOrdersItem = ({
       </ActionIcon>
       <Grid gutter="lg">
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <TextInput
-            label="اجمالي التكلفة"
+          <NumberInput
+            label="مبلغ الطلب"
             placeholder=""
-            type="number"
+            thousandSeparator=","
             size="md"
             className="w-full"
             {...form.getInputProps(`orders.${index}.totalCost`)}
@@ -192,16 +206,18 @@ export const BulkOrdersItem = ({
           <Textarea
             label="الملاحظات"
             {...form.getInputProps(`orders.${index}.notes`)}
-            rows={7}
-            maxRows={10}
+            autosize
+            minRows={2}
+            maxRows={4}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
           <Textarea
             label="التفاصيل"
             {...form.getInputProps(`orders.${index}.details`)}
-            rows={7}
-            maxRows={10}
+            autosize
+            minRows={2}
+            maxRows={4}
           />
         </Grid.Col>
       </Grid>

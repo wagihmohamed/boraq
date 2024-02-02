@@ -9,13 +9,17 @@ import {
   Grid,
   Group,
   MultiSelect,
+  NumberInput,
   Select,
   Switch,
   TextInput,
   Textarea,
 } from '@mantine/core';
 import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
-import { governorateArray } from '@/lib/governorateArabicNames ';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
 import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -38,8 +42,8 @@ export const AddOrder = () => {
     initialValues: {
       withProducts: false,
       totalCost: '',
-      quantity: '',
-      weight: '',
+      quantity: '1',
+      weight: '1',
       recipientName: '',
       recipientPhone: [
         {
@@ -67,8 +71,10 @@ export const AddOrder = () => {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
-
+  } = useLocations({
+    size: 500,
+    governorate: form.values.governorate as keyof typeof governorateArabicNames,
+  });
   const {
     data: storesData = {
       data: [],
@@ -277,10 +283,10 @@ export const AddOrder = () => {
           {!hasProducts && (
             <>
               <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-                <TextInput
-                  label="اجمالي التكلفة"
+                <NumberInput
+                  label="مبلغ الطلب"
                   placeholder=""
-                  type="number"
+                  thousandSeparator=","
                   size="md"
                   className="w-full"
                   {...form.getInputProps('totalCost')}
@@ -409,18 +415,20 @@ export const AddOrder = () => {
           )}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Textarea
+              autosize
+              minRows={2}
+              maxRows={4}
               label="الملاحظات"
               {...form.getInputProps('notes')}
-              rows={7}
-              maxRows={10}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Textarea
+              autosize
+              minRows={2}
+              maxRows={4}
               label="التفاصيل"
               {...form.getInputProps('details')}
-              rows={7}
-              maxRows={10}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
