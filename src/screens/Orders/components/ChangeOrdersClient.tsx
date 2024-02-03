@@ -1,6 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Select } from '@mantine/core';
-import { useBranches } from '@/hooks/useBranches';
 import { useState } from 'react';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { useOrdersStore } from '@/store/ordersStore';
@@ -9,13 +8,14 @@ import { EditOrderPayload, editOrderService } from '@/services/editOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { useClients } from '@/hooks/useClients';
 
-export const ChangeOrdersBranch = () => {
+export const ChangeOrdersClient = () => {
   const queryClient = useQueryClient();
   const { orders: selectedOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: branchesData } = useBranches({ size: 1000 });
-  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+  const { data: clientsData } = useClients({ size: 1000 });
+  const [selectedClient, setSelectedClient] = useState<string | null>(null);
 
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: ({ data, id }: { id: number; data: EditOrderPayload }) =>
@@ -35,12 +35,12 @@ export const ChangeOrdersBranch = () => {
   });
 
   const handleSubmit = () => {
-    if (selectedBranch) {
+    if (selectedClient) {
       selectedOrders.forEach((order) => {
         editOrder({
           id: Number(order.id),
           data: {
-            branchID: Number(selectedBranch),
+            clientID: Number(selectedClient),
           },
         });
       });
@@ -50,29 +50,24 @@ export const ChangeOrdersBranch = () => {
 
   return (
     <>
-      <Modal
-        title="تغيير الفرع المستلم"
-        opened={opened}
-        onClose={close}
-        centered
-      >
+      <Modal title="تغيير  العميل" opened={opened} onClose={close} centered>
         <Select
-          value={selectedBranch}
+          value={selectedClient}
           allowDeselect
           label="الفرع"
           searchable
           clearable
           onChange={(e) => {
-            setSelectedBranch(e);
+            setSelectedClient(e);
           }}
-          placeholder="اختر الفرع"
-          data={getSelectOptions(branchesData?.data || [])}
+          placeholder="اختر العميل"
+          data={getSelectOptions(clientsData?.data || [])}
           limit={100}
         />
         <div className="flex justify-between mt-4 gap-6">
           <Button
             loading={false}
-            disabled={!selectedBranch || isLoading}
+            disabled={!selectedClient || isLoading}
             fullWidth
             onClick={handleSubmit}
             type="submit"
@@ -93,7 +88,7 @@ export const ChangeOrdersBranch = () => {
       </Modal>
 
       <Button disabled={!selectedOrders.length} onClick={open}>
-        تغيير الفرع المستلم
+        تغيير العميل
       </Button>
     </>
   );
