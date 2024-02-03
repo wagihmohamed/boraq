@@ -8,14 +8,17 @@ import { EditOrderPayload, editOrderService } from '@/services/editOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { useClients } from '@/hooks/useClients';
+import { useEmployees } from '@/hooks/useEmployees';
 
-export const ChangeOrdersClient = () => {
+export const ChangeOrdersDelivery = () => {
   const queryClient = useQueryClient();
   const { orders: selectedOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: clientsData } = useClients({ size: 1000 });
-  const [selectedClient, setSelectedClient] = useState<string | null>(null);
+  const { data: deliveryAgents } = useEmployees({
+    size: 1000,
+    roles: ['DELIVERY_AGENT'],
+  });
+  const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
 
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: ({ data, id }: { id: number; data: EditOrderPayload }) =>
@@ -35,39 +38,39 @@ export const ChangeOrdersClient = () => {
   });
 
   const handleSubmit = () => {
-    if (selectedClient) {
+    if (selectedDelivery) {
       selectedOrders.forEach((order) => {
         editOrder({
           id: Number(order.id),
           data: {
-            clientID: Number(selectedClient),
+            deliveryAgentID: Number(selectedDelivery),
           },
         });
       });
-      toast.success('تم تعديل العميل بنجاح');
+      toast.success('تم تعديل المندوب بنجاح');
     }
   };
 
   return (
     <>
-      <Modal title="تغيير  العميل" opened={opened} onClose={close} centered>
+      <Modal title="تغيير  المندوب" opened={opened} onClose={close} centered>
         <Select
-          value={selectedClient}
+          value={selectedDelivery}
           allowDeselect
-          label="العملاء"
+          label="المندوب"
           searchable
           clearable
           onChange={(e) => {
-            setSelectedClient(e);
+            setSelectedDelivery(e);
           }}
-          placeholder="اختر العميل"
-          data={getSelectOptions(clientsData?.data || [])}
+          placeholder="اختر المندوب"
+          data={getSelectOptions(deliveryAgents?.data || [])}
           limit={100}
         />
         <div className="flex justify-between mt-4 gap-6">
           <Button
             loading={false}
-            disabled={!selectedClient || isLoading}
+            disabled={!selectedDelivery || isLoading}
             fullWidth
             onClick={handleSubmit}
             type="submit"
@@ -88,7 +91,7 @@ export const ChangeOrdersClient = () => {
       </Modal>
 
       <Button disabled={!selectedOrders.length} onClick={open}>
-        تغيير العميل
+        تغيير مندوب التوصيل
       </Button>
     </>
   );
