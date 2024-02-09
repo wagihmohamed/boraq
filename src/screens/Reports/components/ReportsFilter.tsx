@@ -42,6 +42,25 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
     },
   } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
 
+  const {
+    data: reportCreatedBy = {
+      data: [],
+    },
+  } = useEmployees({
+    size: 1000,
+    roles: [
+      'ACCOUNTANT',
+      'ACCOUNT_MANAGER',
+      'BRANCH_MANAGER',
+      'COMPANY_MANAGER',
+      'DATA_ENTRY',
+      'EMERGENCY_EMPLOYEE',
+      'INQUIRY_EMPLOYEE',
+      'RECEIVING_AGENT',
+      'REPOSITORIY_EMPLOYEE',
+    ],
+  });
+
   const handleResetRangeDate = () => {
     setFilters({
       ...filters,
@@ -75,6 +94,23 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
           }}
           placeholder="اختر النوع"
           data={reportTypeArray}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+        <Select
+          value={filters.type}
+          allowDeselect
+          label="ساحب الكشف"
+          searchable
+          clearable
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              created_by_id: e || '',
+            });
+          }}
+          placeholder="اختر ساحب الكشف"
+          data={getSelectOptions(reportCreatedBy.data)}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>

@@ -99,11 +99,26 @@ export interface Report {
   };
 }
 
+export interface ReportsMetaData {
+  reportsCount: number;
+  totalCost: number;
+  paidAmount: number;
+  deliveryCost: number;
+  baghdadOrdersCount: number;
+  governoratesOrdersCount: number;
+  clientNet: number;
+  deliveryAgentNet: number;
+  companyNet: number;
+}
+
 export interface GetReportsResponse {
   status: string;
   page: number;
   pagesCount: number;
-  data: Report[];
+  data: {
+    reports: Report[];
+    reportsMetaData: ReportsMetaData;
+  };
 }
 
 export interface ReportsFilters extends Filters {
@@ -118,6 +133,7 @@ export interface ReportsFilters extends Filters {
   governorate?: string;
   status?: string;
   type?: string;
+  created_by_id?: string;
 }
 
 export const getReportsService = async (
@@ -135,6 +151,7 @@ export const getReportsService = async (
     deleted,
     page = 1,
     size = 10,
+    created_by_id,
   }: ReportsFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetReportsResponse>(getReportsendpoint, {
@@ -151,6 +168,7 @@ export const getReportsService = async (
       type: type || undefined,
       page,
       size,
+      created_by_id: created_by_id || undefined,
       deleted: deleted || undefined,
     },
   });

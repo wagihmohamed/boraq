@@ -6,6 +6,7 @@ import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
 import { ReportsFilter } from './components/ReportsFilter';
 import { LoadingOverlay } from '@mantine/core';
+import { ReportsStatistics } from './components/ReportsStatistics';
 
 export const reportsFilterInitialState: ReportsFilters = {
   page: 1,
@@ -19,6 +20,7 @@ export const reportsFilterInitialState: ReportsFilters = {
   start_date: '',
   status: '',
   store_id: '',
+  created_by_id: '',
 };
 
 export const ReportsScreen = () => {
@@ -27,26 +29,20 @@ export const ReportsScreen = () => {
     size: 10,
   });
 
-  const {
-    data: reports = {
-      data: [],
-      pagesCount: 0,
-    },
-    isError,
-    isInitialLoading,
-  } = useReports(filters);
+  const { data: reports, isError, isInitialLoading } = useReports(filters);
 
   return (
     <AppLayout isError={isError}>
       <ReportsFilter filters={filters} setFilters={setFilters} />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
+        <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
         <DataTable
-          data={reports.data}
+          data={reports?.data?.reports || []}
           columns={columns}
           filters={{
             ...filters,
-            pagesCount: reports.pagesCount,
+            pagesCount: reports?.pagesCount || 0,
           }}
           setFilters={setFilters}
         />
