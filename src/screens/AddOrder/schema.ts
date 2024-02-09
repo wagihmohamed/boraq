@@ -25,6 +25,7 @@ const bseSchema = z.object({
   governorate: z.string().min(1, { message: 'الرجاء اختيار المحافظة' }),
   locationID: z.string().min(1, { message: 'الرجاء اختيار الموقع' }),
   storeID: z.string().min(1, { message: 'الرجاء اختيار المتجر' }),
+  branchID: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
 });
 
 export const addOrderSchema = z

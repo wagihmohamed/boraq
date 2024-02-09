@@ -13,6 +13,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -68,6 +69,8 @@ export const CreateBulkOrders = () => {
     },
   } = useLocations({
     size: 500,
+    governorate: form.values.orders[0]
+      .governorate as keyof typeof governorateArabicNames,
   });
 
   const {
