@@ -8,6 +8,7 @@ import { LocationFilters } from '@/services/getLocations';
 import { useDebouncedState } from '@mantine/hooks';
 import { LoadingOverlay } from '@mantine/core';
 import { useAuth } from '@/store/authStore';
+import { ChangeLocationDeliveryAgent } from './ChangeLocationDeliveryAgent';
 
 export const LocationsScreen = () => {
   const { role } = useAuth();
@@ -32,6 +33,7 @@ export const LocationsScreen = () => {
 
   return (
     <AppLayout isError={isError}>
+      <ChangeLocationDeliveryAgent />
       <LocationsFilter
         filters={filters}
         setFilters={setFilters}

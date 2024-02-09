@@ -22,13 +22,23 @@ export interface GetRepositoriesResponse {
   data: Branch[];
 }
 
+export interface BranchFilters extends Filters {
+  governorate?: keyof typeof governorateArabicNames;
+  location_id?: number;
+}
+
 export const getBranchesService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, governorate, location_id }: BranchFilters = {
+    page: 1,
+    size: 10,
+  }
 ) => {
   const response = await api.get<GetRepositoriesResponse>(getBranchesendpoint, {
     params: {
       page,
       size,
+      governorate: governorate || undefined,
+      location_id: location_id || undefined,
     },
   });
   return response.data;

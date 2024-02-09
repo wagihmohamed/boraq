@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { getBranchesService } from '@/services/getBranchesService';
-import { Filters } from '@/services/getEmployeesService';
+import {
+  BranchFilters,
+  getBranchesService,
+} from '@/services/getBranchesService';
 
 export function useBranches(
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, governorate, location_id }: BranchFilters = {
+    page: 1,
+    size: 10,
+  }
 ) {
   return useQuery({
-    queryKey: ['branches', { page, size }],
-    queryFn: () => getBranchesService({ page, size }),
+    queryKey: ['branches', { page, size, governorate, location_id }],
+    queryFn: () => getBranchesService({ page, size, governorate, location_id }),
   });
 }

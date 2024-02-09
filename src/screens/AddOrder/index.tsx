@@ -32,6 +32,7 @@ import { APIError } from '@/models';
 import { useProducts } from '@/hooks/useProducts';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { randomId } from '@mantine/hooks';
+import { useBranches } from '@/hooks/useBranches';
 
 export const AddOrder = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ export const AddOrder = () => {
       governorate: '',
       locationID: '',
       storeID: '',
+      branchID: '',
       products: [] as unknown as {
         productID: string;
         quantity: string;
@@ -80,6 +82,15 @@ export const AddOrder = () => {
       data: [],
     },
   } = useStores({ size: 500 });
+
+  const {
+    data: branchesData = {
+      data: [],
+    },
+  } = useBranches({
+    size: 500,
+    location_id: Number(form.values.locationID),
+  });
 
   const { mutate: createOrder, isLoading } = useMutation({
     mutationFn: (data: CreateOrderPayload) => {
@@ -114,6 +125,7 @@ export const AddOrder = () => {
         governorate: values.governorate,
         locationID: Number(values.locationID),
         notes: values.notes,
+        branchID: Number(values.branchID),
         quantity: parseInt(values.quantity || ''),
         recipientAddress: values.recipientAddress,
         recipientName: values.recipientName,
@@ -126,6 +138,7 @@ export const AddOrder = () => {
     } else {
       createOrder({
         deliveryType: values.deliveryType,
+        branchID: Number(values.branchID),
         details: values.details,
         governorate: values.governorate,
         locationID: Number(values.locationID),
@@ -324,14 +337,40 @@ export const AddOrder = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            {/* <TextInput
-              label="رقم المستلم"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('recipientPhone')}
-            /> */}
             {numberFields}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المحافظة"
+              placeholder="اختار المحافظة"
+              limit={100}
+              data={governorateArray}
+              clearable
+              {...form.getInputProps('governorate')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المناطق"
+              clearable
+              limit={100}
+              placeholder="اختار المنطقة"
+              data={getSelectOptions(locationsData.data)}
+              {...form.getInputProps('locationID')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="الفرع"
+              clearable
+              placeholder="اختار الفرع"
+              limit={100}
+              data={getSelectOptions(branchesData.data)}
+              {...form.getInputProps('branchID')}
+            />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
@@ -352,17 +391,8 @@ export const AddOrder = () => {
               {...form.getInputProps('storeID')}
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المناطق"
-              limit={100}
-              placeholder="اختار المنطقة"
-              data={getSelectOptions(locationsData.data)}
-              {...form.getInputProps('locationID')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }} />
+          <Grid.Col span={{ base: 12 }}>
             <Select
               searchable
               label="نوع التوصيل"
@@ -370,16 +400,6 @@ export const AddOrder = () => {
               placeholder="اختار نوع التوصيل"
               data={deliveryTypesArray}
               {...form.getInputProps('deliveryType')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المحافظة"
-              placeholder="اختار المحافظة"
-              limit={100}
-              data={governorateArray}
-              {...form.getInputProps('governorate')}
             />
           </Grid.Col>
           {hasProducts && (

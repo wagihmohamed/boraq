@@ -1,12 +1,12 @@
 import { api } from '@/api';
-import { editEmployeeendpoint } from '@/api/apisUrl';
+import { editLocationendpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface EditLocationPayload {
-  name: string;
-  governorate: keyof typeof governorateArabicNames;
-  branchID: number;
-  deliveryAgentsIDs: number[];
+  name?: string;
+  governorate?: keyof typeof governorateArabicNames;
+  branchID?: number;
+  deliveryAgentsIDs?: number[];
 }
 
 export const editLocationService = async ({
@@ -17,8 +17,19 @@ export const editLocationService = async ({
   id: number;
 }) => {
   const response = await api.patch<EditLocationPayload>(
-    editEmployeeendpoint + id,
+    editLocationendpoint + id,
     data
+  );
+  return response.data;
+};
+
+export const editLocationDeliveryAgentsService = async ({
+  branchID,
+  deliveryAgentsIDs,
+}: EditLocationPayload) => {
+  const response = await api.patch<EditLocationPayload>(
+    editLocationendpoint + branchID,
+    { deliveryAgentsIDs }
   );
   return response.data;
 };

@@ -13,13 +13,7 @@ export const DeletedReportsView = () => {
     deleted: true,
   });
 
-  const {
-    data: reports = {
-      data: [],
-      pagesCount: 0,
-    },
-    isInitialLoading,
-  } = useReports(filters);
+  const { data: reports, isInitialLoading } = useReports(filters);
 
   return (
     <div>
@@ -27,11 +21,11 @@ export const DeletedReportsView = () => {
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
-          data={reports.data}
+          data={reports?.data.reports || []}
           columns={columns}
           filters={{
             ...filters,
-            pagesCount: reports.pagesCount,
+            pagesCount: reports?.pagesCount || 0,
           }}
           setFilters={setFilters}
         />

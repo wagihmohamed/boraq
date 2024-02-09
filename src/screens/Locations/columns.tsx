@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -10,8 +11,64 @@ import { Link } from 'react-router-dom';
 import { Location } from '@/services/getLocations';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { DeleteLocation } from './delete-location';
+import { Badge, Checkbox, Flex, Text } from '@mantine/core';
+import { useLocationsStore } from '@/store/locationsStore';
 
 export const columns: ColumnDef<Location>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => {
+      const { deleteAllLocations, setAllLocations, isLocationExist } =
+        useLocationsStore();
+
+      return (
+        <Checkbox
+          checked={
+            table.getRowModel().rows.length > 0 &&
+            table
+              .getRowModel()
+              .rows.every((row) => isLocationExist(row.original.id.toString()))
+          }
+          onChange={(event) => {
+            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
+              id: row.original.id.toString(),
+              name: row.original.name,
+            }));
+
+            const isAllSelected = event.currentTarget.checked;
+
+            if (isAllSelected) {
+              setAllLocations(allTableRowsIds);
+              table.toggleAllPageRowsSelected(true);
+            } else {
+              table.toggleAllPageRowsSelected(false);
+              deleteAllLocations();
+            }
+          }}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const { addLocation, deleteLocation, isLocationExist } =
+        useLocationsStore();
+      return (
+        <Checkbox
+          checked={isLocationExist(row.original.id.toString())}
+          onChange={(value) => {
+            const isChecked = value.currentTarget.checked;
+            const { id, name } = row.original;
+            if (isChecked) {
+              addLocation({ id: id.toString(), name });
+              row.toggleSelected(true);
+            } else {
+              row.toggleSelected(false);
+              deleteLocation(id.toString());
+            }
+          }}
+        />
+      );
+    },
+  },
   {
     accessorKey: 'name',
     header: 'الاسم',
@@ -25,6 +82,22 @@ export const columns: ColumnDef<Location>[] = [
     header: 'المحافظة',
     accessorFn: ({ governorate }) => {
       return governorateArabicNames[governorate] ?? 'لا يوجد';
+    },
+  },
+  {
+    header: 'اسم المندوب',
+    cell: ({ row }) => {
+      const { deliveryAgents } = row.original;
+      return deliveryAgents.length > 1 ? (
+        <Flex gap="xs">
+          <Text size="sm">{deliveryAgents[0].name}</Text>
+          <Badge color="blue" variant="light">
+            {deliveryAgents.length - 1}+
+          </Badge>
+        </Flex>
+      ) : (
+        <Text size="sm">لا يوجد</Text>
+      );
     },
   },
   {

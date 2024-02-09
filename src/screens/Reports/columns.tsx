@@ -43,6 +43,13 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
+    accessorKey: 'clientReport.client.name',
+    header: 'اسم العميل',
+    accessorFn: ({ clientReport }) => {
+      return clientReport?.client.name || '';
+    },
+  },
+  {
     accessorKey: 'type',
     header: 'النوع',
     accessorFn: ({
