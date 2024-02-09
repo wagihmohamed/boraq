@@ -130,11 +130,14 @@ export const ReportsStatistics = ({
       <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">عدد الكشوفات</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              العدد الكلي للطلبات
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {reportsMetaData?.reportsCount || 0}
+              {(reportsMetaData?.baghdadOrdersCount || 0) +
+                (reportsMetaData?.governoratesOrdersCount || 0)}
             </div>
           </CardContent>
         </Card>
