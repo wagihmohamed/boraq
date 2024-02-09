@@ -23,6 +23,13 @@ export const columns: ColumnDef<OrderSheet>[] = [
   {
     accessorKey: 'total',
     header: 'المبلغ',
+    cell: ({ row }) => {
+      const { total } = row.original;
+      const formattedNumber = total
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return formattedNumber;
+    },
   },
   {
     accessorKey: 'customerName',

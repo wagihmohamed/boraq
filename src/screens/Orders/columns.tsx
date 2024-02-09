@@ -120,6 +120,13 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'totalCost',
     header: 'المبلغ',
+    cell: ({ row }) => {
+      const { totalCost } = row.original;
+      const formattedNumber = totalCost
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return formattedNumber;
+    },
   },
   {
     accessorKey: 'paidAmount',

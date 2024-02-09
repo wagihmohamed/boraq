@@ -21,6 +21,9 @@ import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ExportReportModal } from './ExportReportModa';
 import { useEmployees } from '@/hooks/useEmployees';
 import { withReportsDataOptions } from '@/lib/getReportParam';
+import { ChangeOrdersBranch } from './ChangeOrdersBranch';
+import { ChangeOrdersClient } from './ChangeOrdersClient';
+import { ChangeOrdersDelivery } from './ChangeOrdersDelivery';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -240,8 +243,13 @@ export const CustomOrdersFilter = ({
           ]}
         />
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
-        <ExportReportModal />
+      <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportReportModal />
+          <ChangeOrdersBranch />
+          <ChangeOrdersClient />
+          <ChangeOrdersDelivery />
+        </div>
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 12, sm: 12, xs: 12 }}>
         <div className="flex items-center gap-2 flex-wrap">

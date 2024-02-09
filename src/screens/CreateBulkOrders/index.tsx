@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { orderBulkSchema } from './schema';
@@ -10,13 +11,32 @@ import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { BulkOrdersItem } from './components/BulkOrdersItem';
 import { randomId } from '@mantine/hooks';
+import { BulkOrdersItem } from './components/BulkOrdersItem';
+
+export interface OrderBulkFormValues {
+  orders: {
+    id: string;
+    recipientPhones: {
+      phone: string;
+      key: string;
+    }[];
+    totalCost: string;
+    quantity: string;
+    weight: string;
+    storeID: string;
+    locationID: string;
+    deliveryType: string;
+    governorate: string;
+    recipientName: string;
+    recipientAddress: string;
+  }[];
+}
 
 export const CreateBulkOrders = () => {
-  const [ordersToatals, setOrdersTotals] = useState(1);
+  const [ordersTotals, setOrdersTotals] = useState(1);
   const queryClient = useQueryClient();
-  const form = useForm({
+  const form = useForm<OrderBulkFormValues>({
     initialValues: {
       orders: [
         {
@@ -28,8 +48,8 @@ export const CreateBulkOrders = () => {
             },
           ],
           totalCost: '',
-          quantity: '',
-          weight: '',
+          quantity: '1',
+          weight: '1',
           storeID: '',
           locationID: '',
           deliveryType: '',
@@ -46,7 +66,9 @@ export const CreateBulkOrders = () => {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
+  } = useLocations({
+    size: 500,
+  });
 
   const {
     data: storesData = {
@@ -57,11 +79,11 @@ export const CreateBulkOrders = () => {
   const ordersArray = form.values.orders;
 
   const handleAddOrdersToForm = () => {
-    const newAddedOrdersCount = ordersToatals;
+    const newAddedOrdersCount = ordersTotals;
     const newOrdersArray = [...ordersArray];
     for (let i = 0; i < newAddedOrdersCount; i += 1) {
       newOrdersArray.push({
-        id: Math.random().toString(),
+        id: randomId(),
         recipientPhones: [
           {
             phone: '',
@@ -69,8 +91,8 @@ export const CreateBulkOrders = () => {
           },
         ],
         totalCost: '',
-        quantity: '',
-        weight: '',
+        quantity: '1',
+        weight: '1',
         storeID: '',
         locationID: '',
         deliveryType: '',
@@ -79,9 +101,9 @@ export const CreateBulkOrders = () => {
         recipientAddress: '',
       });
     }
+
     form.setValues({ orders: newOrdersArray });
   };
-
   const handleDeleteOrder = (index: number) => {
     form.removeListItem('orders', index);
   };
@@ -133,7 +155,7 @@ export const CreateBulkOrders = () => {
           type="number"
           size="md"
           className="w-full"
-          value={ordersToatals}
+          value={ordersTotals}
           onChange={(e) => {
             setOrdersTotals(parseInt(e.currentTarget.value));
           }}
@@ -165,7 +187,6 @@ export const CreateBulkOrders = () => {
           fullWidth
           mt="xl"
           size="md"
-          onClick={handleSubmit}
         >
           رفع وتأكيد
         </Button>
