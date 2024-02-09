@@ -24,6 +24,7 @@ import { withReportsDataOptions } from '@/lib/getReportParam';
 import { ChangeOrdersBranch } from './ChangeOrdersBranch';
 import { ChangeOrdersClient } from './ChangeOrdersClient';
 import { ChangeOrdersDelivery } from './ChangeOrdersDelivery';
+import { ChangeOrdersStatus } from './ChangeOrdersStatus';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -85,6 +86,15 @@ export const CustomOrdersFilter = ({
 
   return (
     <Grid align="center" gutter="lg">
+      <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportReportModal />
+          <ChangeOrdersBranch />
+          <ChangeOrdersClient />
+          <ChangeOrdersDelivery />
+          <ChangeOrdersStatus />
+        </div>
+      </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
         <TextInput
           placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
@@ -242,14 +252,6 @@ export const CustomOrdersFilter = ({
             },
           ]}
         />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
-        <div className="flex items-center gap-2 flex-wrap">
-          <ExportReportModal />
-          <ChangeOrdersBranch />
-          <ChangeOrdersClient />
-          <ChangeOrdersDelivery />
-        </div>
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 12, sm: 12, xs: 12 }}>
         <div className="flex items-center gap-2 flex-wrap">
