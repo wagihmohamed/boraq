@@ -5,6 +5,7 @@ import { useReports } from '@/hooks/useReports';
 import { LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
+import { ReportsStatistics } from '../../ReportsStatistics';
 
 export const BranchReportsView = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
@@ -17,6 +18,7 @@ export const BranchReportsView = () => {
   return (
     <>
       <ReportsFilter filters={filters} setFilters={setFilters} />
+      <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
