@@ -21,7 +21,7 @@ export const columns: ColumnDef<Branch>[] = [
       return mapEnumToArabic(row.governorate as keyof typeof mapEnumToArabic);
     },
     accessorKey: 'governorate',
-    header: 'الفرع',
+    header: 'المحافظة',
   },
 
   {

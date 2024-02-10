@@ -1,6 +1,4 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { Location } from '@/services/getLocations';
@@ -113,9 +111,21 @@ export const BulkOrdersItem = ({
         <X />
       </ActionIcon>
       <Grid grow gutter="lg">
+        {createBulkOrdersBy !== 'page' && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المتجر"
+              placeholder="اختار المتجر"
+              limit={100}
+              data={getSelectOptions(storesData)}
+              {...form.getInputProps(`orders.${index}.storeID`)}
+            />
+          </Grid.Col>
+        )}
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <NumberInput
-            label="مبلغ الطلب"
+            label="مبلغ الوصل "
             placeholder=""
             thousandSeparator=","
             size="md"
@@ -124,6 +134,80 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.totalCost`)}
           />
         </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <NumberInput
+            label="رقم الوصل"
+            placeholder=""
+            thousandSeparator=","
+            size="md"
+            allowNegative={false}
+            className="w-full"
+            {...form.getInputProps(`orders.${index}.receiptNumber`)}
+          />
+        </Grid.Col>
+        {createBulkOrdersBy !== 'governorate' && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المحافظة"
+              placeholder="اختار المحافظة"
+              limit={100}
+              data={governorateArray}
+              {...form.getInputProps(`orders.${index}.governorate`)}
+            />
+          </Grid.Col>
+        )}
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <Select
+            searchable
+            label="المنطقة"
+            limit={100}
+            placeholder="اختار المنطقة"
+            data={getSelectOptions(locationsData)}
+            {...form.getInputProps(`orders.${index}.locationID`)}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <Textarea
+            label="تفاصيل اكثر عن العنوان"
+            {...form.getInputProps(`orders.${index}.details`)}
+            autosize
+            minRows={2}
+            maxRows={4}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3, sm: 12, xs: 12 }}>
+          {numberFields}
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <Textarea
+            label="الملاحظات"
+            {...form.getInputProps(`orders.${index}.notes`)}
+            autosize
+            minRows={2}
+            maxRows={4}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <TextInput
+            label="اسم المستلم"
+            placeholder=""
+            size="md"
+            className="w-full"
+            {...form.getInputProps(`orders.${index}.recipientName`)}
+          />
+        </Grid.Col>
+
+        {/* <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <Select
+            searchable
+            label="نوع التوصيل"
+            limit={100}
+            placeholder="اختار نوع التوصيل"
+            data={deliveryTypesArray}
+            {...form.getInputProps(`orders.${index}.deliveryType`)}
+          />
+        </Grid.Col> */}
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <TextInput
             label="الكمية"
@@ -142,90 +226,6 @@ export const BulkOrdersItem = ({
             size="md"
             className="w-full"
             {...form.getInputProps(`orders.${index}.weight`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <TextInput
-            label="اسم المستلم"
-            placeholder=""
-            size="md"
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.recipientName`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3, sm: 12, xs: 12 }}>
-          {numberFields}
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <TextInput
-            label="العنوان"
-            placeholder=""
-            size="md"
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.recipientAddress`)}
-          />
-        </Grid.Col>
-
-        {createBulkOrdersBy !== 'page' && (
-          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المتجر"
-              placeholder="اختار المتجر"
-              limit={100}
-              data={getSelectOptions(storesData)}
-              {...form.getInputProps(`orders.${index}.storeID`)}
-            />
-          </Grid.Col>
-        )}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <Select
-            searchable
-            label="المناطق"
-            limit={100}
-            placeholder="اختار المنطقة"
-            data={getSelectOptions(locationsData)}
-            {...form.getInputProps(`orders.${index}.locationID`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <Select
-            searchable
-            label="نوع التوصيل"
-            limit={100}
-            placeholder="اختار نوع التوصيل"
-            data={deliveryTypesArray}
-            {...form.getInputProps(`orders.${index}.deliveryType`)}
-          />
-        </Grid.Col>
-        {createBulkOrdersBy !== 'governorate' && (
-          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المحافظة"
-              placeholder="اختار المحافظة"
-              limit={100}
-              data={governorateArray}
-              {...form.getInputProps(`orders.${index}.governorate`)}
-            />
-          </Grid.Col>
-        )}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <Textarea
-            label="الملاحظات"
-            {...form.getInputProps(`orders.${index}.notes`)}
-            autosize
-            minRows={2}
-            maxRows={4}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <Textarea
-            label="التفاصيل"
-            {...form.getInputProps(`orders.${index}.details`)}
-            autosize
-            minRows={2}
-            maxRows={4}
           />
         </Grid.Col>
       </Grid>

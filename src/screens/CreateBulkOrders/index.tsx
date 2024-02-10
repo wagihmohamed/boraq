@@ -35,6 +35,8 @@ export interface OrderBulkFormValues {
     governorate: string;
     recipientName: string;
     recipientAddress: string;
+    receiptNumber: string;
+    details: string;
   }[];
 }
 
@@ -79,6 +81,8 @@ export const CreateBulkOrders = () => {
           governorate: '',
           recipientName: '',
           recipientAddress: '',
+          receiptNumber: '',
+          details: '',
         },
       ],
     },
@@ -124,6 +128,8 @@ export const CreateBulkOrders = () => {
         governorate: '',
         recipientName: '',
         recipientAddress: '',
+        receiptNumber: '',
+        details: '',
       });
     }
 
@@ -166,7 +172,9 @@ export const CreateBulkOrders = () => {
         deliveryType: order.deliveryType,
         governorate: selectedGovernorate || order.governorate,
         recipientName: order.recipientName,
-        recipientAddress: order.recipientAddress,
+        receiptNumber: Number(order.receiptNumber),
+        recipientAddress: order.details,
+        details: order.details,
       };
     });
     createOrder(orders);

@@ -44,8 +44,13 @@ export const orderBulkSchema = z.object({
         .string({
           required_error: 'مطلوب',
         })
-        .min(1, { message: 'الرجاء ادخال عنوان المستلم' }),
+        .optional(),
       notes: z
+        .string({
+          required_error: 'مطلوب',
+        })
+        .optional(),
+      receiptNumber: z
         .string({
           required_error: 'مطلوب',
         })
@@ -59,7 +64,7 @@ export const orderBulkSchema = z.object({
         .string({
           required_error: 'مطلوب',
         })
-        .min(1, { message: 'الرجاء اختيار نوع التوصيل' }),
+        .optional(),
       governorate: z
         .string({
           required_error: 'مطلوب',
