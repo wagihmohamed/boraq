@@ -51,36 +51,33 @@ export const CustomBannerCard = ({
         />
       </Card.Section>
 
-      <Group justify="space-between" mt="md" mb="xs">
+      <Group mt="xs" mb="xs">
         <div>
-          <Text size="md" fw={500}>
-            {title || 'لا يوجد'}
-          </Text>
-          <Text size="sm" c="dimmed" fw={400}>
-            تم الانشاء في: {format(parseISO(createdAt), 'yyyy-MM-dd HH:mm')}
+          <Text size="xl" fw={500}>
+            {title || 'بدون عنوان'}
           </Text>
         </div>
-      </Group>
 
-      <Text size="sm" c="dimmed" truncate>
-        {content}
-      </Text>
-      <Text mt={10} size="sm" c="dimmed">
-        العنوان:{' '}
-      </Text>
-      <Text truncate mt={10} size="xs" c="dimmed">
-        <Link
-          target="blank"
-          className={buttonVariants({
-            variant: 'ghost',
-            size: 'xs',
-            className: 'text-xs',
-          })}
-          to={url}
-        >
-          {url}
-        </Link>
-      </Text>
+        <Text size="sm" c="dimmed" lineClamp={2}>
+          {content}
+        </Text>
+        <Text size="sm" c="dimmed" fw={400}>
+          تاريخ الانشاء: {format(parseISO(createdAt), 'yyyy-MM-dd HH:mm')}
+        </Text>
+        <Text size="xs" c="dimmed">
+          <Link
+            target="blank"
+            className={buttonVariants({
+              variant: 'ghost',
+              size: 'xs',
+              className: 'text-xs text-left',
+            })}
+            to={url}
+          >
+            {url}
+          </Link>
+        </Text>
+      </Group>
       <Group mt="md" grow>
         <Button
           fullWidth
