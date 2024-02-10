@@ -11,71 +11,22 @@ export const ReportsStatistics = ({
 }: ReportsStatisticsProps) => {
   return (
     <Grid grow>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">عدد الكشوفات</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {reportsMetaData?.reportsCount || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              التكلفة الكلية
+              العدد الكلي للطلبات
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {reportsMetaData?.totalCost || 0}
+              {(reportsMetaData?.baghdadOrdersCount || 0) +
+                (reportsMetaData?.governoratesOrdersCount || 0)}
             </div>
           </CardContent>
         </Card>
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              المبلغ المدفوع
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {reportsMetaData?.paidAmount || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">تكلفة التوصيل</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {reportsMetaData?.deliveryCost || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">صافي العميل</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {reportsMetaData?.clientNet || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -89,7 +40,7 @@ export const ReportsStatistics = ({
           </CardContent>
         </Card>
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -103,7 +54,71 @@ export const ReportsStatistics = ({
           </CardContent>
         </Card>
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">عدد الكشوفات</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {reportsMetaData?.reportsCount || 0}
+            </div>
+          </CardContent>
+        </Card>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              التكلفة الكلية
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {reportsMetaData?.totalCost || 0}
+            </div>
+          </CardContent>
+        </Card>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 4 }}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              المبلغ المدفوع
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {reportsMetaData?.paidAmount || 0}
+            </div>
+          </CardContent>
+        </Card>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3 }}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">تكلفة التوصيل</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {reportsMetaData?.deliveryCost || 0}
+            </div>
+          </CardContent>
+        </Card>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3 }}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">صافي العميل</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {reportsMetaData?.clientNet || 0}
+            </div>
+          </CardContent>
+        </Card>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">صافي الشركة</CardTitle>
@@ -115,7 +130,7 @@ export const ReportsStatistics = ({
           </CardContent>
         </Card>
       </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3 }}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">صافي المندوب</CardTitle>
@@ -123,21 +138,6 @@ export const ReportsStatistics = ({
           <CardContent>
             <div className="text-2xl font-bold">
               {reportsMetaData?.deliveryAgentNet || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 2 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              العدد الكلي للطلبات
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {(reportsMetaData?.baghdadOrdersCount || 0) +
-                (reportsMetaData?.governoratesOrdersCount || 0)}
             </div>
           </CardContent>
         </Card>

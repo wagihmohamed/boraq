@@ -62,11 +62,11 @@ export const ReportsScreen = () => {
             <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
           </Tabs.List>
         </Paper>
-        <Tabs.Panel value="CLIENT">
-          <ClientReportsView />
-        </Tabs.Panel>
         <Tabs.Panel value="COMPANY">
           <CompanyReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="GOVERNORATE">
+          <GovernorateReportsView />
         </Tabs.Panel>
         <Tabs.Panel value="BRANCH">
           <BranchReportsView />
@@ -74,8 +74,8 @@ export const ReportsScreen = () => {
         <Tabs.Panel value="REPOSITORY">
           <RepositoryReportsView />
         </Tabs.Panel>
-        <Tabs.Panel value="GOVERNORATE">
-          <GovernorateReportsView />
+        <Tabs.Panel value="CLIENT">
+          <ClientReportsView />
         </Tabs.Panel>
         <Tabs.Panel value="DELIVERY_AGENT">
           <DeliveryAgentReportsView />
