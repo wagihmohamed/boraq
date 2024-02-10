@@ -72,7 +72,10 @@ export const Home = () => {
               additionalData={ordersGovernorateStatistics || []}
             />
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <h1 className="text-lg font-bold mt-10 mr-5 w-full">
+            الاحصائيات الكلية
+          </h1>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             <Paper withBorder radius="md" p="xs">
               <Group>
                 <RingProgress
@@ -92,7 +95,7 @@ export const Home = () => {
 
                 <div>
                   <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                    العدد الكلي للطلبات
+                    عدد الطلبات
                   </Text>
                   <Text fw={700} size="xl">
                     {ordersStatistics?.data.allOrdersStatistics.count}
@@ -101,7 +104,7 @@ export const Home = () => {
               </Group>
             </Paper>
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             <Paper withBorder radius="md" p="xs">
               <Group>
                 <RingProgress
@@ -130,7 +133,10 @@ export const Home = () => {
               </Group>
             </Paper>
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <h1 className="text-lg font-bold mt-5 mr-5 w-full">
+            الاحصائيات اليومية
+          </h1>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             {isLoading ? (
               <Skeleton height="100%" />
             ) : (
@@ -153,7 +159,7 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      العدد الكلي للطلبات اليوم
+                      عدد الطلبات
                     </Text>
                     <Text fw={700} size="xl">
                       {ordersStatistics?.data.todayOrdersStatistics.count}
@@ -163,7 +169,7 @@ export const Home = () => {
               </Paper>
             )}
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             {isLoading ? (
               <Skeleton height="100%" />
             ) : (
@@ -186,7 +192,7 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      اجمالي التكلفة اليوم
+                      التكلفة الكلية
                     </Text>
                     <Text fw={700} size="xl">
                       {ordersStatistics?.data.todayOrdersStatistics.totalCost}
@@ -196,7 +202,10 @@ export const Home = () => {
               </Paper>
             )}
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <h1 className="text-lg font-bold mt-5 mr-5 w-full">
+            الاحصائيات بدون كشف عميل
+          </h1>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             {isLoading ? (
               <Skeleton height="100%" />
             ) : (
@@ -219,7 +228,7 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      عدد الطلبات بدون كشف عميل
+                      عدد الطلبات
                     </Text>
                     <Text fw={700} size="xl">
                       {
@@ -232,7 +241,7 @@ export const Home = () => {
               </Paper>
             )}
           </Grid.Col>
-          <Grid.Col className="mt-4" span={{ sm: 12, md: 6 }}>
+          <Grid.Col className="" span={{ sm: 12, md: 6 }}>
             {isLoading ? (
               <Skeleton height="100%" />
             ) : (
@@ -255,7 +264,7 @@ export const Home = () => {
 
                   <div>
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                      اجمالي الطلبات بدون كشف عميل
+                      التكلفة الكلية
                     </Text>
                     <Text fw={700} size="xl">
                       {
