@@ -299,6 +299,7 @@ export const AddOrder = () => {
                 <NumberInput
                   label="مبلغ الطلب"
                   placeholder=""
+                  allowNegative={false}
                   thousandSeparator=","
                   size="md"
                   className="w-full"

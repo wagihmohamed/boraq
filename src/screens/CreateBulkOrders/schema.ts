@@ -64,7 +64,7 @@ export const orderBulkSchema = z.object({
         .string({
           required_error: 'مطلوب',
         })
-        .min(1, { message: 'الرجاء اختيار المحافظة' }),
+        .optional(),
       locationID: z
         .string({
           required_error: 'مطلوب',
@@ -74,7 +74,7 @@ export const orderBulkSchema = z.object({
         .string({
           required_error: 'مطلوب',
         })
-        .min(1, { message: 'الرجاء اختيار المتجر' }),
+        .optional(),
       totalCost: z
         .string({
           required_error: 'مطلوب',

@@ -4,7 +4,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { orderBulkSchema } from './schema';
 import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Grid, Select, TextInput } from '@mantine/core';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
@@ -13,7 +13,11 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
-import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -34,8 +38,26 @@ export interface OrderBulkFormValues {
   }[];
 }
 
+const createBulkOrdersSelect = [
+  {
+    label: 'صفحة',
+    value: 'page',
+  },
+  {
+    label: 'محافظة',
+    value: 'governorate',
+  },
+];
+
 export const CreateBulkOrders = () => {
   const [ordersTotals, setOrdersTotals] = useState(1);
+  const [createBulkOrdersBy, setCreateBulkOrdersBy] = useState<string | null>(
+    'governorate'
+  );
+  const [selectedGovernorate, setSelectedGovernorate] = useState<
+    string | null
+  >();
+  const [selectedStore, setSelectedStore] = useState<string | null>();
   const queryClient = useQueryClient();
   const form = useForm<OrderBulkFormValues>({
     initialValues: {
@@ -68,7 +90,7 @@ export const CreateBulkOrders = () => {
       data: [],
     },
   } = useLocations({
-    size: 500,
+    size: 1000,
     governorate: form.values.orders[0]
       .governorate as keyof typeof governorateArabicNames,
   });
@@ -77,7 +99,7 @@ export const CreateBulkOrders = () => {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000 });
 
   const ordersArray = form.values.orders;
 
@@ -139,10 +161,10 @@ export const CreateBulkOrders = () => {
         quantity: Number(order.quantity),
         weight: Number(order.weight),
         recipientPhones: order.recipientPhones.map((phone) => phone.phone),
-        storeID: parseInt(order.storeID as string),
+        storeID: Number(selectedStore || order.storeID),
         locationID: parseInt(order.locationID as string),
         deliveryType: order.deliveryType,
-        governorate: order.governorate,
+        governorate: selectedGovernorate || order.governorate,
         recipientName: order.recipientName,
         recipientAddress: order.recipientAddress,
       };
@@ -172,6 +194,52 @@ export const CreateBulkOrders = () => {
           انشاء
         </Button>
       </div>
+      <Grid>
+        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+          <Select
+            data={createBulkOrdersSelect}
+            value={createBulkOrdersBy}
+            label="ادخال حسب"
+            placeholder="اختر الطريقة"
+            onChange={(e) => {
+              setCreateBulkOrdersBy(e);
+              setSelectedGovernorate(null);
+              setSelectedStore(null);
+            }}
+            size="md"
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+          {createBulkOrdersBy === 'governorate' && (
+            <Select
+              data={governorateArray}
+              label="المحافظة"
+              value={selectedGovernorate}
+              onChange={(e) => {
+                setSelectedGovernorate(e);
+              }}
+              searchable
+              allowDeselect={false}
+              placeholder="اختر المحافظة"
+              size="md"
+            />
+          )}
+          {createBulkOrdersBy === 'page' && (
+            <Select
+              data={getSelectOptions(storesData?.data || [])}
+              label="المتجر"
+              searchable
+              value={selectedStore}
+              onChange={(e) => {
+                setSelectedStore(e);
+              }}
+              allowDeselect={false}
+              placeholder="اختر المتجر"
+              size="md"
+            />
+          )}
+        </Grid.Col>
+      </Grid>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
@@ -180,12 +248,17 @@ export const CreateBulkOrders = () => {
             index={index}
             locationsData={locationsData.data}
             storesData={storesData.data}
+            createBulkOrdersBy={createBulkOrdersBy}
             key={order.id}
           />
         ))}
         <Button
           loading={isLoading}
-          disabled={isLoading}
+          disabled={
+            isLoading ||
+            (createBulkOrdersBy === 'page' && !selectedStore) ||
+            (createBulkOrdersBy === 'governorate' && !selectedGovernorate)
+          }
           type="submit"
           fullWidth
           mt="xl"

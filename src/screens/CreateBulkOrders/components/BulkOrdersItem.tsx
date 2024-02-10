@@ -28,6 +28,7 @@ interface BulkOrdersItemProps {
   handleDeleteOrder: (index: number) => void;
   storesData: Store[];
   locationsData: Location[];
+  createBulkOrdersBy: string | null;
 }
 
 export const BulkOrdersItem = ({
@@ -36,6 +37,7 @@ export const BulkOrdersItem = ({
   index,
   locationsData,
   storesData,
+  createBulkOrdersBy,
 }: BulkOrdersItemProps) => {
   const numberFields = form.values.orders[index].recipientPhones.map(
     (
@@ -110,18 +112,19 @@ export const BulkOrdersItem = ({
       >
         <X />
       </ActionIcon>
-      <Grid gutter="lg">
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+      <Grid grow gutter="lg">
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <NumberInput
             label="مبلغ الطلب"
             placeholder=""
             thousandSeparator=","
             size="md"
+            allowNegative={false}
             className="w-full"
             {...form.getInputProps(`orders.${index}.totalCost`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <TextInput
             label="الكمية"
             type="number"
@@ -131,7 +134,7 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.quantity`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <TextInput
             label="الوزن"
             type="number"
@@ -141,7 +144,7 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.weight`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <TextInput
             label="اسم المستلم"
             placeholder=""
@@ -150,10 +153,10 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.recipientName`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3, sm: 12, xs: 12 }}>
           {numberFields}
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <TextInput
             label="العنوان"
             placeholder=""
@@ -162,17 +165,20 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.recipientAddress`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Select
-            searchable
-            label="المتجر"
-            placeholder="اختار المتجر"
-            limit={100}
-            data={getSelectOptions(storesData)}
-            {...form.getInputProps(`orders.${index}.storeID`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+
+        {createBulkOrdersBy !== 'page' && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المتجر"
+              placeholder="اختار المتجر"
+              limit={100}
+              data={getSelectOptions(storesData)}
+              {...form.getInputProps(`orders.${index}.storeID`)}
+            />
+          </Grid.Col>
+        )}
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <Select
             searchable
             label="المناطق"
@@ -182,7 +188,7 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.locationID`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <Select
             searchable
             label="نوع التوصيل"
@@ -192,17 +198,19 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.deliveryType`)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-          <Select
-            searchable
-            label="المحافظة"
-            placeholder="اختار المحافظة"
-            limit={100}
-            data={governorateArray}
-            {...form.getInputProps(`orders.${index}.governorate`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        {createBulkOrdersBy !== 'governorate' && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المحافظة"
+              placeholder="اختار المحافظة"
+              limit={100}
+              data={governorateArray}
+              {...form.getInputProps(`orders.${index}.governorate`)}
+            />
+          </Grid.Col>
+        )}
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <Textarea
             label="الملاحظات"
             {...form.getInputProps(`orders.${index}.notes`)}
@@ -211,7 +219,7 @@ export const BulkOrdersItem = ({
             maxRows={4}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <Textarea
             label="التفاصيل"
             {...form.getInputProps(`orders.${index}.details`)}
