@@ -2,7 +2,7 @@ import { useReports } from '@/hooks/useReports';
 import { DataTable } from '@/screens/Employees/data-table';
 import { ReportsFilter } from '@/screens/Reports/components/ReportsFilter';
 import { ReportsFilters } from '@/services/getReports';
-import { LoadingOverlay } from '@mantine/core';
+import { Accordion, LoadingOverlay } from '@mantine/core';
 import { useState } from 'react';
 import { columns } from './columns';
 
@@ -17,7 +17,17 @@ export const DeletedReportsView = () => {
 
   return (
     <div>
-      <ReportsFilter filters={filters} setFilters={setFilters} />
+      <Accordion variant="separated">
+        <Accordion.Item
+          className="rounded-md mb-8"
+          value="deleted-reports-filter"
+        >
+          <Accordion.Control> الفلاتر</Accordion.Control>
+          <Accordion.Panel>
+            <ReportsFilter filters={filters} setFilters={setFilters} />
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

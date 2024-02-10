@@ -1,6 +1,6 @@
 import { EmployeesFilters, useEmployees } from '@/hooks/useEmployees';
 import { useState } from 'react';
-import { LoadingOverlay, MultiSelect } from '@mantine/core';
+import { Accordion, LoadingOverlay, MultiSelect } from '@mantine/core';
 import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { DataTable } from '@/screens/Employees/data-table';
 import { columns } from './columns';
@@ -28,17 +28,28 @@ export const DeletedEmployees = () => {
 
   return (
     <>
-      <MultiSelect
-        className="mt-4 my-10"
-        label="الدور"
-        data={rolesArray.filter(
-          (role) => role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
-        )}
-        clearable
-        placeholder="الدور"
-        value={filters.roles}
-        onChange={handleSelect}
-      />
+      <Accordion variant="separated">
+        <Accordion.Item
+          className="rounded-md mb-8"
+          value="deleted-employees-filter"
+        >
+          <Accordion.Control> الفلاتر</Accordion.Control>
+          <Accordion.Panel>
+            <MultiSelect
+              className="mt-4 my-10"
+              label="الدور"
+              data={rolesArray.filter(
+                (role) =>
+                  role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+              )}
+              clearable
+              placeholder="الدور"
+              value={filters.roles}
+              onChange={handleSelect}
+            />
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

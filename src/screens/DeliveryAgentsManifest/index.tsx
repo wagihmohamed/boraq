@@ -3,7 +3,13 @@ import { AppLayout } from '@/components/AppLayout';
 import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
 import { useDeliveryAgentsManifest } from '@/hooks/useDeliveryAgentsManifest';
-import { Button, LoadingOverlay, Paper, Select } from '@mantine/core';
+import {
+  Accordion,
+  Button,
+  LoadingOverlay,
+  Paper,
+  Select,
+} from '@mantine/core';
 import { ManifestFilters } from '@/services/getDeliveryAgentManifest';
 import { useState } from 'react';
 import { useBranches } from '@/hooks/useBranches';
@@ -53,45 +59,61 @@ export const DeliveryAgentsManifest = () => {
 
   return (
     <AppLayout isError={isError}>
-      <h1 className="font-bold mb-4 text-2xl">تاريخ بداية ونهاية الطلبيات</h1>
-      <div className="flex-col md:flex md:flex-row mb-10 gap-6 ">
-        <Paper withBorder mb={10} maw="fit-content" radius="md" p={6}>
-          <DatePicker
-            locale="ar"
-            type="range"
-            allowSingleDateInRange
-            value={
-              orders_start_date && orders_end_date
-                ? [new Date(orders_start_date), new Date(orders_end_date)]
-                : [null, null]
-            }
-            onChange={(date) => {
-              const formatedStartDate = convertDateFormat(date[0]);
-              const formatedEndDate = convertDateFormat(date[1]);
-              setOrdersStartDate(formatedStartDate);
-              setOrdersEndDate(formatedEndDate);
-            }}
-          />
-        </Paper>
-        <div className="flex-1 gap-5">
-          <Select
-            key={branch_id}
-            label="الفروع"
-            data={getSelectOptions(branchesData?.data || [])}
-            clearable
-            searchable
-            limit={50}
-            placeholder="اختار الفرع"
-            value={String(branch_id)}
-            onChange={(e) => {
-              setBranchId(Number(e));
-            }}
-          />
-          <Button className="mt-4" size="md" onClick={resetFilters}>
-            اعادة تعيين
-          </Button>
-        </div>
-      </div>
+      <Accordion variant="separated">
+        <Accordion.Item
+          className="rounded-md mb-8"
+          value="delivery-agents-manifest-filter"
+        >
+          <Accordion.Control> الفلاتر</Accordion.Control>
+          <Accordion.Panel>
+            <div className="flex-1 gap-5">
+              <Select
+                key={branch_id}
+                label="الفروع"
+                data={getSelectOptions(branchesData?.data || [])}
+                clearable
+                searchable
+                limit={50}
+                placeholder="اختار الفرع"
+                value={String(branch_id)}
+                onChange={(e) => {
+                  setBranchId(Number(e));
+                }}
+              />
+              <h1 className="font-bold mb-2 text-lg mt-4">
+                تاريخ بداية ونهاية الطلبيات
+              </h1>
+              <div className="">
+                <Paper withBorder mb={10} maw="fit-content" radius="md" p={6}>
+                  <DatePicker
+                    locale="ar"
+                    type="range"
+                    allowSingleDateInRange
+                    value={
+                      orders_start_date && orders_end_date
+                        ? [
+                            new Date(orders_start_date),
+                            new Date(orders_end_date),
+                          ]
+                        : [null, null]
+                    }
+                    onChange={(date) => {
+                      const formatedStartDate = convertDateFormat(date[0]);
+                      const formatedEndDate = convertDateFormat(date[1]);
+                      setOrdersStartDate(formatedStartDate);
+                      setOrdersEndDate(formatedEndDate);
+                    }}
+                  />
+                </Paper>
+
+                <Button className="mt-4" size="md" onClick={resetFilters}>
+                  اعادة تعيين
+                </Button>
+              </div>
+            </div>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

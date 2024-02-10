@@ -99,7 +99,7 @@ export const CustomOrdersFilter = ({
         </Grid.Col>
       </Grid>
       <Accordion variant="separated">
-        <Accordion.Item className="rounded-md mb-8" value="statistics-filter">
+        <Accordion.Item className="rounded-md mb-8" value="orders-filter">
           <Accordion.Control> الفلاتر</Accordion.Control>
           <Accordion.Panel>
             <Grid align="center" gutter="lg">
