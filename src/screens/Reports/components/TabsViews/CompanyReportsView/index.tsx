@@ -1,6 +1,6 @@
 import { DataTable } from '@/screens/Employees/data-table';
 import { useState } from 'react';
-import { columns } from '../baseReportsColumns';
+import { columns } from './columns';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { LoadingOverlay } from '@mantine/core';

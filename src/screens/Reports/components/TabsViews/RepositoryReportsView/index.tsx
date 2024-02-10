@@ -4,7 +4,7 @@ import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
-import { columns } from '../baseReportsColumns';
+import { columns } from './columns';
 
 export const RepositoryReportsView = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
