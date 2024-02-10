@@ -5,7 +5,6 @@ import { useStores } from '@/hooks/useStores';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { reportStatusArray } from '@/lib/reportStatusArabicNames';
-import { reportTypeArray } from '@/lib/reportTypeArabicNames';
 import { ReportsFilters as IReportsFilters } from '@/services/getReports';
 import { Button, Grid, Popover, Select, rem } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
@@ -78,24 +77,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
   };
 
   return (
-    <Grid align="center" gutter="lg">
-      <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-        <Select
-          value={filters.type}
-          allowDeselect
-          label="نوع الكشف"
-          searchable
-          clearable
-          onChange={(e) => {
-            setFilters({
-              ...filters,
-              type: e || '',
-            });
-          }}
-          placeholder="اختر النوع"
-          data={reportTypeArray}
-        />
-      </Grid.Col>
+    <Grid align="center" gutter="lg" grow>
       <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
         <Select
           value={filters.type}
