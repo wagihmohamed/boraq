@@ -30,6 +30,7 @@ export const Products = () => {
       }}
       size="lg"
       variant="outline"
+      className="mb-8"
     >
       اضافة منتج
     </Button>
