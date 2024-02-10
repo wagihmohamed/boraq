@@ -8,6 +8,7 @@ import { CompanyReportsView } from './components/TabsViews/CompanyReportsView';
 import { BranchReportsView } from './components/TabsViews/BranchReportsView';
 import { RepositoryReportsView } from './components/TabsViews/RepositoryReportsView';
 import { GovernorateReportsView } from './components/TabsViews/GovernorateReportsView';
+import { DeliveryAgentReportsView } from './components/TabsViews/DeliveryAgentReportsView';
 
 type ReportsTabsTypes =
   | 'COMPANY'
@@ -51,20 +52,21 @@ export const ReportsScreen = () => {
           }
         }}
       >
-        <Paper className="mb-12 py-2 rounded px-3" withBorder>
+        <Paper className="mb-6 py-2 rounded px-3" withBorder>
           <Tabs.List grow>
-            <Tabs.Tab value="CLIENT">عميل</Tabs.Tab>
             <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
-            <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
             <Tabs.Tab value="GOVERNORATE">محافظة</Tabs.Tab>
             <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
+            <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
+            <Tabs.Tab value="CLIENT">عميل</Tabs.Tab>
+            <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
           </Tabs.List>
         </Paper>
-        <Tabs.Panel value="CLIENT">
-          <ClientReportsView />
-        </Tabs.Panel>
         <Tabs.Panel value="COMPANY">
           <CompanyReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="GOVERNORATE">
+          <GovernorateReportsView />
         </Tabs.Panel>
         <Tabs.Panel value="BRANCH">
           <BranchReportsView />
@@ -72,8 +74,11 @@ export const ReportsScreen = () => {
         <Tabs.Panel value="REPOSITORY">
           <RepositoryReportsView />
         </Tabs.Panel>
-        <Tabs.Panel value="GOVERNORATE">
-          <GovernorateReportsView />
+        <Tabs.Panel value="CLIENT">
+          <ClientReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="DELIVERY_AGENT">
+          <DeliveryAgentReportsView />
         </Tabs.Panel>
       </Tabs>
     </AppLayout>

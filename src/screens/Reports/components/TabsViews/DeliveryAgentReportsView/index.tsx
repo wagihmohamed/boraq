@@ -7,11 +7,11 @@ import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
 
-export const RepositoryReportsView = () => {
+export const DeliveryAgentReportsView = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
-    type: 'REPOSITORY',
+    type: 'DELIVERY_AGENT',
   });
   const { data: reports, isInitialLoading } = useReports(filters);
 

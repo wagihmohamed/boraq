@@ -1,10 +1,11 @@
 import { DataTable } from '@/screens/Employees/data-table';
 import { useState } from 'react';
-import { columns } from '../baseReportsColumns';
+import { columns } from './columns';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
+import { ReportsStatistics } from '../../ReportsStatistics';
 
 export const CompanyReportsView = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
@@ -17,6 +18,7 @@ export const CompanyReportsView = () => {
   return (
     <>
       <ReportsFilter filters={filters} setFilters={setFilters} />
+      <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

@@ -29,17 +29,10 @@ export const columns: ColumnDef<IReport>[] = [
     header: 'الناشئ',
   },
   {
-    accessorKey: 'clientReport.client.name',
-    header: 'العميل',
-    accessorFn: ({ clientReport }) => {
-      return clientReport?.client.name || '';
-    },
-  },
-  {
-    accessorKey: 'clientReport.store.name',
-    header: 'المتجر',
-    accessorFn: ({ clientReport }) => {
-      return clientReport?.store.name || '';
+    accessorKey: 'companyReport.company.name',
+    header: 'الشركة',
+    accessorFn: ({ companyReport }) => {
+      return companyReport?.company.name || '';
     },
   },
   {
