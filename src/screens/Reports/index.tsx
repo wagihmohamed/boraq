@@ -51,7 +51,7 @@ export const ReportsScreen = () => {
           }
         }}
       >
-        <Paper className="mb-12 py-2 rounded px-3" withBorder>
+        <Paper className="mb-6 py-2 rounded px-3" withBorder>
           <Tabs.List grow>
             <Tabs.Tab value="CLIENT">عميل</Tabs.Tab>
             <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
