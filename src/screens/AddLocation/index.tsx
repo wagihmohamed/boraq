@@ -1,21 +1,21 @@
 import { AppLayout } from '@/components/AppLayout';
-import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { adddLocationSchema } from './schema';
-import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 import { useBranches } from '@/hooks/useBranches';
 import { useEmployees } from '@/hooks/useEmployees';
 import { governorateArray } from '@/lib/governorateArabicNames ';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { APIError } from '@/models';
 import {
   CreateLocationPayload,
   createLocationService,
 } from '@/services/createLocation';
-import toast from 'react-hot-toast';
+import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { APIError } from '@/models';
+import { ChevronRight } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { adddLocationSchema } from './schema';
 
 export const AddLocation = () => {
   const navigate = useNavigate();
@@ -33,14 +33,18 @@ export const AddLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches({ size: 500 });
+  } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
 
   const {
     data: employees = {
       data: [],
     },
   } = useEmployees({
-    size: 500,
+    size: 1000,
+    only_title_and_id: true,
     roles: ['DELIVERY_AGENT'],
     branch_id: form.values.branch,
   });

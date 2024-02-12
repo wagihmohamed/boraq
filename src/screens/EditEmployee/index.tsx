@@ -1,4 +1,13 @@
 import { AppLayout } from '@/components/AppLayout';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { useBranches } from '@/hooks/useBranches';
+import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
+import { useRepositories } from '@/hooks/useRepositories';
+import { permissionsArray } from '@/lib/persmissionArabicNames';
+import { rolesArray } from '@/lib/rolesArabicNames';
+import { APIError } from '@/models';
+import { editEmployeeService } from '@/services/editEmployee';
+import { useAuth } from '@/store/authStore';
 import {
   Button,
   Grid,
@@ -7,25 +16,16 @@ import {
   Select,
   TextInput,
 } from '@mantine/core';
-import { useForm, zodResolver } from '@mantine/form';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { editEmployeeSchema } from './schema';
-import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
-import { useEffect } from 'react';
-import { rolesArray } from '@/lib/rolesArabicNames';
-import { permissionsArray } from '@/lib/persmissionArabicNames';
-import { useRepositories } from '@/hooks/useRepositories';
-import { useBranches } from '@/hooks/useBranches';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { editEmployeeService } from '@/services/editEmployee';
-import { z } from 'zod';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
-import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
-import { useAuth } from '@/store/authStore';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { editEmployeeSchema } from './schema';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
@@ -38,10 +38,16 @@ export const EditEmployee = () => {
     isLoading,
     isError,
   } = useEmployeeDetails(parseInt(id));
-  const { data: repositories } = useRepositories({ size: 1000 });
-  const { data: branches } = useBranches({ size: 1000 });
+  const { data: repositories } = useRepositories({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: branches } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
   // const { data: tenants = { data: [] } } = useTenants(
-  //   { size: 1000 },
+  //   { size: 1000, only_title_and_id: true },
   //   !isAdminOrAdminAssistant
   // );
 

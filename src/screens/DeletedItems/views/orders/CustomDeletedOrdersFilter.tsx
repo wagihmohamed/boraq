@@ -37,19 +37,19 @@ export const CustomDeletedOrdersFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 500 });
+  } = useClients({ size: 1000, only_title_and_id: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000, only_title_and_id: true });
 
   const {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 500 });
+  } = useLocations({ size: 1000, only_title_and_id: true });
 
   const handleResetDate = () => {
     setFilters({

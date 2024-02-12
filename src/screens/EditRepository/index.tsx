@@ -1,21 +1,21 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useForm, zodResolver } from '@mantine/form';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Autocomplete, Button, TextInput } from '@mantine/core';
+import { useBranches } from '@/hooks/useBranches';
 import { useRepositoryDetails } from '@/hooks/useRepositoryDetails';
-import { useEffect } from 'react';
-import { z } from 'zod';
-import { editRepositorySchema } from './schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { APIError } from '@/models';
 import {
   EditRepositoryPayload,
   editRepositoryService,
 } from '@/services/editRepositoryService';
-import toast from 'react-hot-toast';
+import { Autocomplete, Button, TextInput } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { APIError } from '@/models';
-import { useBranches } from '@/hooks/useBranches';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { editRepositorySchema } from './schema';
 
 export const EditRepositoryScreen = () => {
   const { id = '' } = useParams();
@@ -25,7 +25,10 @@ export const EditRepositoryScreen = () => {
     isLoading,
     isError,
   } = useRepositoryDetails(parseInt(id));
-  const { data: branches } = useBranches({ size: 1000 });
+  const { data: branches } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
   const form = useForm({
     validate: zodResolver(editRepositorySchema),
     initialValues: {
