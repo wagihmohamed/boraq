@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
-import { orderBulkSchema } from './schema';
+import { createBulkOfOrdersSchema } from './schema';
 import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
 import { Button, Grid, Select, TextInput } from '@mantine/core';
@@ -18,10 +18,12 @@ import {
   governorateArray,
 } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
+import { z } from 'zod';
 
 export interface OrderBulkFormValues {
   orders: {
     id: string;
+    withProducts: boolean;
     recipientPhones: {
       phone: string;
       key: string;
@@ -37,6 +39,13 @@ export interface OrderBulkFormValues {
     recipientAddress: string;
     receiptNumber: string;
     details: string;
+    products?: {
+      productID: string;
+      quantity: string;
+      colorID: string;
+      sizeID: string;
+      label?: string;
+    }[];
   }[];
 }
 
@@ -66,6 +75,7 @@ export const CreateBulkOrders = () => {
       orders: [
         {
           id: randomId(),
+          withProducts: false,
           recipientPhones: [
             {
               phone: '',
@@ -86,7 +96,7 @@ export const CreateBulkOrders = () => {
         },
       ],
     },
-    validate: zodResolver(orderBulkSchema),
+    validate: zodResolver(createBulkOfOrdersSchema),
   });
 
   const {
@@ -114,6 +124,7 @@ export const CreateBulkOrders = () => {
     for (let i = 0; i < newAddedOrdersCount; i += 1) {
       newOrdersArray.push({
         id: randomId(),
+        withProducts: false,
         recipientPhones: [
           {
             phone: '',
@@ -159,26 +170,42 @@ export const CreateBulkOrders = () => {
     },
   });
 
-  const handleSubmit = () => {
-    if (!form.isValid()) return;
-    const orders = form.values.orders.map((order) => {
+  const handleSubmit = (values: z.infer<typeof createBulkOfOrdersSchema>) => {
+    const ordersArray = values.orders.map((order) => {
+      if (order.withProducts) {
+        return {
+          withProducts: order.withProducts,
+          governorate: selectedGovernorate || order.governorate || '',
+          recipientAddress: order.details,
+          recipientName: order.recipientName,
+          recipientPhones: order.recipientPhones.map((phone) => phone.phone),
+          storeID: Number(selectedStore || order.storeID),
+          details: order.details,
+          notes: order.notes,
+          products: order.products?.map((product) => {
+            return {
+              productID: Number(product.productID),
+              quantity: Number(product.quantity),
+              colorID: Number(product.colorID),
+              sizeID: Number(product.sizeID),
+            };
+          }),
+        };
+      }
       return {
-        withProducts: false,
-        totalCost: Number(order.totalCost),
-        quantity: Number(order.quantity),
-        weight: Number(order.weight),
+        withProducts: order.withProducts,
+        governorate: selectedGovernorate || order.governorate || '',
+        recipientAddress: order.details,
+        recipientName: order.recipientName,
         recipientPhones: order.recipientPhones.map((phone) => phone.phone),
         storeID: Number(selectedStore || order.storeID),
-        locationID: parseInt(order.locationID as string),
-        deliveryType: order.deliveryType,
-        governorate: selectedGovernorate || order.governorate,
-        recipientName: order.recipientName,
-        receiptNumber: Number(order.receiptNumber),
-        recipientAddress: order.details,
         details: order.details,
+        notes: order.notes,
+        totalCost: Number(order.totalCost),
       };
     });
-    createOrder(orders);
+
+    createOrder(ordersArray);
   };
 
   return (

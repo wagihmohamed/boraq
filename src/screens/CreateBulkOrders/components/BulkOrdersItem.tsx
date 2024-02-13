@@ -9,8 +9,10 @@ import {
   Fieldset,
   Grid,
   Group,
+  MultiSelect,
   NumberInput,
   Select,
+  Switch,
   TextInput,
   Textarea,
 } from '@mantine/core';
@@ -19,6 +21,7 @@ import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { randomId } from '@mantine/hooks';
 import { UseFormReturnType } from '@mantine/form';
 import { OrderBulkFormValues } from '..';
+import { useProducts } from '@/hooks/useProducts';
 
 interface BulkOrdersItemProps {
   index: number;
@@ -37,6 +40,11 @@ export const BulkOrdersItem = ({
   storesData,
   createBulkOrdersBy,
 }: BulkOrdersItemProps) => {
+  const {
+    data: productsData = {
+      data: [],
+    },
+  } = useProducts({ size: 1000 });
   const numberFields = form.values.orders[index].recipientPhones.map(
     (
       phone: {
@@ -89,6 +97,96 @@ export const BulkOrdersItem = ({
     }
   );
 
+  const productsOptions = productsData.data.map((product) => ({
+    value: product.id.toString(),
+    label: product.title,
+  }));
+
+  const getSelectedProductColors = (productID: string) => {
+    const product = productsData.data.find(
+      (product) => product.id.toString() === productID
+    );
+    if (product) {
+      return product.productColors
+        .filter((productColor) => productColor.quantity > 0)
+        .map((productColor) => ({
+          value: productColor.color.id.toString(),
+          label: productColor.color.title,
+        }));
+    }
+    return [];
+  };
+
+  const getSelectedProductSizes = (productID: string) => {
+    const product = productsData.data.find(
+      (product) => product.id.toString() === productID
+    );
+    if (product) {
+      return product.productSizes
+        .filter((productSize) => productSize.quantity > 0)
+        .map((productSize) => ({
+          value: productSize.size.id.toString(),
+          label: productSize.size.title,
+        }));
+    }
+    return [];
+  };
+
+  const hasProducts = form.values.orders[index].withProducts;
+
+  const productsItems = form.values.orders[index]?.products?.map(
+    (product, productsIndex) => {
+      return (
+        <div
+          key={product.productID}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 border-primary/60 rounded px-4 py-2 border-4 mb-4"
+        >
+          <TextInput
+            label="الاسم"
+            placeholder=""
+            size="md"
+            className="w-full"
+            {...form.getInputProps(
+              `orders.${index}.products.${productsIndex}.label`
+            )}
+            disabled
+          />
+          <TextInput
+            label="الكمية"
+            placeholder=""
+            type="number"
+            size="md"
+            className="w-full"
+            {...form.getInputProps(
+              `orders.${index}.products.${productsIndex}.quantity`
+            )}
+          />
+          <Select
+            searchable
+            label="اللون"
+            placeholder="اختار اللون"
+            data={getSelectedProductColors(product.productID)}
+            limit={100}
+            {...form.getInputProps(
+              `orders.${index}.products.${productsIndex}.colorID`
+            )}
+          />
+          <Select
+            searchable
+            label="المقاس"
+            placeholder="اختار المقاس"
+            data={getSelectedProductSizes(product.productID)}
+            limit={100}
+            {...form.getInputProps(
+              `orders.${index}.products.${productsIndex}.sizeID`
+            )}
+          />
+        </div>
+      );
+    }
+  );
+  const orderProducts = form.values.orders[index].products;
+
   return (
     <Fieldset
       legend={
@@ -110,6 +208,11 @@ export const BulkOrdersItem = ({
       >
         <X />
       </ActionIcon>
+      <Switch
+        className="mt-8 mb-3"
+        label="مع منتجات"
+        {...form.getInputProps(`orders.${index}.withProducts`)}
+      />
       <Grid grow gutter="lg">
         {createBulkOrdersBy !== 'page' && (
           <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
@@ -123,17 +226,19 @@ export const BulkOrdersItem = ({
             />
           </Grid.Col>
         )}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <NumberInput
-            label="مبلغ الوصل "
-            placeholder=""
-            thousandSeparator=","
-            size="md"
-            allowNegative={false}
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.totalCost`)}
-          />
-        </Grid.Col>
+        {!hasProducts && (
+          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+            <NumberInput
+              label="مبلغ الوصل "
+              placeholder=""
+              thousandSeparator=","
+              size="md"
+              allowNegative={false}
+              className="w-full"
+              {...form.getInputProps(`orders.${index}.totalCost`)}
+            />
+          </Grid.Col>
+        )}
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <NumberInput
             label="رقم الوصل"
@@ -197,36 +302,72 @@ export const BulkOrdersItem = ({
             {...form.getInputProps(`orders.${index}.recipientName`)}
           />
         </Grid.Col>
+        {!hasProducts && (
+          <>
+            <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+              <TextInput
+                label="الكمية"
+                type="number"
+                placeholder=""
+                size="md"
+                className="w-full"
+                {...form.getInputProps(`orders.${index}.quantity`)}
+              />
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+              <TextInput
+                label="الوزن"
+                type="number"
+                placeholder=""
+                size="md"
+                className="w-full"
+                {...form.getInputProps(`orders.${index}.weight`)}
+              />
+            </Grid.Col>
+          </>
+        )}
+        <Grid.Col span={{ base: 12, md: 12, lg: 12, xl: 12, sm: 12, xs: 12 }}>
+          {hasProducts && (
+            <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
+              <MultiSelect
+                searchable
+                label="المنتجات"
+                placeholder="اختار المنتجات"
+                data={productsOptions}
+                limit={100}
+                onChange={(selectedProductsIds) => {
+                  const productsLabels = selectedProductsIds.map(
+                    (productID) => {
+                      const isProductAdded = orderProducts?.find(
+                        (product) => product.productID === productID
+                      );
+                      if (isProductAdded) {
+                        return isProductAdded;
+                      }
 
-        {/* <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <Select
-            searchable
-            label="نوع التوصيل"
-            limit={100}
-            placeholder="اختار نوع التوصيل"
-            data={deliveryTypesArray}
-            {...form.getInputProps(`orders.${index}.deliveryType`)}
-          />
-        </Grid.Col> */}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <TextInput
-            label="الكمية"
-            type="number"
-            placeholder=""
-            size="md"
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.quantity`)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-          <TextInput
-            label="الوزن"
-            type="number"
-            placeholder=""
-            size="md"
-            className="w-full"
-            {...form.getInputProps(`orders.${index}.weight`)}
-          />
+                      const product = productsData.data.find(
+                        (product) => product.id.toString() === productID
+                      );
+                      return {
+                        label: product?.title,
+                        productID,
+                        quantity: '1',
+                        colorID: '',
+                        sizeID: '',
+                      };
+                    }
+                  );
+
+                  form.setFieldValue(
+                    `orders.${index}.products`,
+                    productsLabels
+                  );
+                }}
+                error={form.errors.products}
+              />
+              <div className="mt-5">{productsItems}</div>
+            </Grid.Col>
+          )}
         </Grid.Col>
       </Grid>
     </Fieldset>

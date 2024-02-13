@@ -276,6 +276,8 @@ export const AddOrder = () => {
     );
   });
 
+  const orderProducts = form.values.products;
+
   return (
     <AppLayout>
       <div className="flex items-center gap-4">
@@ -417,6 +419,13 @@ export const AddOrder = () => {
                 onChange={(selectedProductsIds) => {
                   const productsLabels = selectedProductsIds.map(
                     (productID) => {
+                      const isProductAdded = orderProducts?.find(
+                        (product) => product.productID === productID
+                      );
+                      if (isProductAdded) {
+                        return isProductAdded;
+                      }
+
                       const product = productsData.data.find(
                         (product) => product.id.toString() === productID
                       );
