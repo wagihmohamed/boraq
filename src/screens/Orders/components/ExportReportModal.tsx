@@ -22,7 +22,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
-import { createReportSchema } from './ExportReportModa.zod';
+import { createReportSchema } from './ExportReportModal.zod';
 
 export const ExportReportModal = () => {
   const [opened, { open, close }] = useDisclosure(false);

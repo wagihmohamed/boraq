@@ -4,7 +4,7 @@ import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { useClients } from '@/hooks/useClients';
 import { useStores } from '@/hooks/useStores';
 import { useLocations } from '@/hooks/useLocations';
-import { DatePicker } from '@mantine/dates';
+import { DateTimePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { parseISO, format } from 'date-fns';
 import {
@@ -12,14 +12,12 @@ import {
   Button,
   Grid,
   MultiSelect,
-  Popover,
   Select,
   TextInput,
-  rem,
 } from '@mantine/core';
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { ExportReportModal } from './ExportReportModa';
+import { ExportReportModal } from './ExportReportModal';
 import { useEmployees } from '@/hooks/useEmployees';
 import { withReportsDataOptions } from '@/lib/getReportParam';
 import { ChangeOrdersBranch } from './ChangeOrdersBranch';
@@ -67,12 +65,6 @@ export const CustomOrdersFilter = ({
     roles: ['DELIVERY_AGENT'],
   });
 
-  const handleResetDate = () => {
-    setFilters({
-      ...filters,
-      delivery_date: null,
-    });
-  };
   const handleResetRangeDate = () => {
     setFilters({
       ...filters,
@@ -357,91 +349,70 @@ export const CustomOrdersFilter = ({
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6, lg: 12, sm: 12, xs: 12 }}>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Popover
-                    width={rem(300)}
-                    trapFocus
-                    position="bottom"
-                    withArrow
-                    shadow="md"
-                  >
-                    <Popover.Target>
-                      <Button className="mt-6">اختيار تاريخ التوصيل</Button>
-                    </Popover.Target>
-                    <Popover.Dropdown>
-                      <DatePicker
-                        locale="ar"
-                        value={
-                          filters.delivery_date
-                            ? new Date(filters.delivery_date)
-                            : null
-                        }
-                        onChange={(date) => {
-                          const newDeliveryDate = convertDateFormat(date);
-                          setFilters({
-                            ...filters,
-                            delivery_date: newDeliveryDate,
-                          });
-                        }}
-                      />
-                      {filters.delivery_date && (
-                        <Button
-                          onClick={handleResetDate}
-                          fullWidth
-                          className="mt-3"
-                          variant="outline"
-                        >
-                          الحذف
-                        </Button>
-                      )}
-                    </Popover.Dropdown>
-                  </Popover>
-                  <Popover
-                    width={rem(300)}
-                    trapFocus
-                    position="bottom"
-                    withArrow
-                    shadow="md"
-                  >
-                    <Popover.Target>
-                      <Button className="mt-6">
-                        بداية ونهاية تاريخ عمل الطلب
-                      </Button>
-                    </Popover.Target>
-                    <Popover.Dropdown>
-                      <DatePicker
-                        locale="ar"
-                        type="range"
-                        allowSingleDateInRange
-                        value={
-                          filters.end_date && filters.start_date
-                            ? [
-                                new Date(filters.start_date),
-                                new Date(filters.end_date),
-                              ]
-                            : [null, null]
-                        }
-                        onChange={(date) => {
-                          const formatedStartDate = convertDateFormat(date[0]);
-                          const formatedEndDate = convertDateFormat(date[1]);
-                          setFilters({
-                            ...filters,
-                            start_date: formatedStartDate,
-                            end_date: formatedEndDate,
-                          });
-                        }}
-                      />
-                      {filters.end_date && filters.start_date && (
-                        <Button
-                          onClick={handleResetRangeDate}
-                          fullWidth
-                          className="mt-3"
-                          variant="outline"
-                        >
-                          الحذف
-                        </Button>
-                      )}
-                    </Popover.Dropdown>
-                  </Popover>
+                  <DateTimePicker
+                    className="w-60"
+                    valueFormat="DD MMM YYYY hh:mm A"
+                    label="بداية تاريخ الكشف"
+                    value={
+                      filters.delivery_date
+                        ? new Date(filters.delivery_date)
+                        : null
+                    }
+                    placeholder="اختر تاريخ البداية"
+                    locale="ar"
+                    clearable
+                    onChange={(date) => {
+                      const newDeliveryDate = convertDateFormat(date);
+                      setFilters({
+                        ...filters,
+                        delivery_date: newDeliveryDate,
+                      });
+                    }}
+                  />
+                  <DateTimePicker
+                    className="w-60"
+                    valueFormat="DD MMM YYYY hh:mm A"
+                    label="بداية تاريخ الكشف"
+                    value={
+                      filters.start_date ? new Date(filters.start_date) : null
+                    }
+                    placeholder="اختر تاريخ البداية"
+                    locale="ar"
+                    clearable
+                    onChange={(date) => {
+                      const formattedDate = convertDateFormat(date);
+                      setFilters({
+                        ...filters,
+                        start_date: formattedDate,
+                      });
+                    }}
+                  />
+                  <DateTimePicker
+                    className="w-60"
+                    valueFormat="DD MMM YYYY hh:mm A"
+                    label="نهاية تاريخ الكشف"
+                    placeholder="اختر تاريخ النهاية"
+                    value={filters.end_date ? new Date(filters.end_date) : null}
+                    locale="ar"
+                    clearable
+                    onChange={(date) => {
+                      const formattedDate = convertDateFormat(date);
+                      setFilters({
+                        ...filters,
+                        end_date: formattedDate,
+                      });
+                    }}
+                  />
+                  {filters.end_date && filters.start_date && (
+                    <Button
+                      onClick={handleResetRangeDate}
+                      fullWidth
+                      className="mt-3"
+                      variant="outline"
+                    >
+                      الحذف
+                    </Button>
+                  )}
                 </div>
               </Grid.Col>
             </Grid>
