@@ -6,7 +6,7 @@ import { useReports } from '@/hooks/useReports';
 import { Divider, LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { ReportsStatistics } from '../../ReportsStatistics';
-import { ClientOrders } from './ClientOrders';
+import { ClientOrdersFilter } from './ClientOrders';
 import { OrdersFilter } from '@/services/getOrders';
 import { ordersFilterInitialState } from '@/screens/Orders';
 import { useOrders } from '@/hooks/useOrders';
@@ -37,7 +37,7 @@ export const ClientReportsView = () => {
 
   return (
     <>
-      <ClientOrders
+      <ClientOrdersFilter
         ordersFilters={ordersFilter}
         setOrdersFilters={setOrdersFilter}
       />

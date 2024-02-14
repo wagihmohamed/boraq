@@ -6,8 +6,18 @@ import { LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
+import { GovernorateOrdersFilters } from './GovernorateOrders';
+import { OrdersFilter } from '@/services/getOrders';
+import { ordersFilterInitialState } from '@/screens/Orders';
+import { columns as ordersColumns } from '../../../../Orders/columns';
+import { useOrders } from '@/hooks/useOrders';
+import { GovernorateOrdersStatistics } from './GovernorateOrdersStatistics';
+import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export const GovernorateReportsView = () => {
+  const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>(
+    ordersFilterInitialState
+  );
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
@@ -15,8 +25,39 @@ export const GovernorateReportsView = () => {
   });
   const { data: reports, isInitialLoading } = useReports(filters);
 
+  const {
+    data: orders = {
+      data: [],
+      pagesCount: 0,
+    },
+    isInitialLoading: isOrdersInitialLoading,
+  } = useOrders(governorateFilter, !!governorateFilter.governorate);
+
   return (
     <>
+      <GovernorateOrdersFilters
+        governorateFilter={governorateFilter}
+        setGovernorateFilter={setGovernorateFilter}
+      />
+      <div className="relative mt-12 mb-12">
+        <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
+        <LoadingOverlay visible={isOrdersInitialLoading} />
+        <DataTable
+          columns={ordersColumns}
+          data={orders.data}
+          setFilters={setGovernorateFilter}
+          filters={{
+            ...setGovernorateFilter,
+            pagesCount: governorateFilter.pagesCount,
+          }}
+        />
+        <GovernorateOrdersStatistics
+          governorate={
+            governorateFilter.governorate as keyof typeof governorateArabicNames
+          }
+          orders={orders.data}
+        />
+      </div>
       <ReportsFilter filters={filters} setFilters={setFilters} />
       <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">

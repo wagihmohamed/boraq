@@ -1,30 +1,23 @@
-import { useStores } from '@/hooks/useStores';
 import { Button, Grid, MultiSelect, Paper, Select } from '@mantine/core';
-import { getSelectOptions } from '@/lib/getSelectOptions';
 import { OrdersFilter } from '@/services/getOrders';
 import { convertDateFormat } from '@/lib/convertDate';
 import { DateTimePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { reportOrderStatuses } from '@/lib/reportOrderStatuses';
+import { governorateArray } from '@/lib/governorateArabicNames ';
 
-interface IReportsFilter {
-  ordersFilters: OrdersFilter;
-  setOrdersFilters: React.Dispatch<React.SetStateAction<OrdersFilter>>;
+interface GovernorateOrdersProps {
+  governorateFilter: OrdersFilter;
+  setGovernorateFilter: React.Dispatch<React.SetStateAction<OrdersFilter>>;
 }
 
-export const ClientOrdersFilter = ({
-  ordersFilters,
-  setOrdersFilters,
-}: IReportsFilter) => {
-  const {
-    data: storesData = {
-      data: [],
-    },
-  } = useStores({ size: 1000, only_title_and_id: true });
-
+export const GovernorateOrdersFilters = ({
+  governorateFilter,
+  setGovernorateFilter,
+}: GovernorateOrdersProps) => {
   const handleResetRangeDate = () => {
-    setOrdersFilters({
-      ...ordersFilters,
+    setGovernorateFilter({
+      ...governorateFilter,
       start_date: null,
       end_date: null,
     });
@@ -35,31 +28,30 @@ export const ClientOrdersFilter = ({
       <Grid className="mb-5">
         <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
           <Select
-            value={ordersFilters.store_id}
-            allowDeselect
-            label="المتجر"
+            value={governorateFilter.governorate}
+            label="المحافظة"
             searchable
             clearable
             onChange={(e) => {
-              setOrdersFilters({
-                ...ordersFilters,
-                store_id: e || '',
+              setGovernorateFilter({
+                ...governorateFilter,
+                governorate: e || '',
               });
             }}
-            placeholder="اختر المتجر"
+            placeholder="اختر المحافظة"
             limit={100}
-            data={getSelectOptions(storesData.data)}
+            data={governorateArray}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
           <MultiSelect
-            value={ordersFilters.statuses}
+            value={governorateFilter.statuses}
             label="الحالة"
             searchable
             clearable
             onChange={(e) => {
-              setOrdersFilters({
-                ...ordersFilters,
+              setGovernorateFilter({
+                ...governorateFilter,
                 statuses: e || '',
               });
             }}
@@ -73,8 +65,8 @@ export const ClientOrdersFilter = ({
               valueFormat="DD MMM YYYY hh:mm A"
               label="بداية تاريخ الكشف"
               value={
-                ordersFilters.start_date
-                  ? new Date(ordersFilters.start_date)
+                governorateFilter.start_date
+                  ? new Date(governorateFilter.start_date)
                   : null
               }
               placeholder="اختر تاريخ البداية"
@@ -82,8 +74,8 @@ export const ClientOrdersFilter = ({
               clearable
               onChange={(date) => {
                 const formattedDate = convertDateFormat(date);
-                setOrdersFilters({
-                  ...ordersFilters,
+                setGovernorateFilter({
+                  ...governorateFilter,
                   start_date: formattedDate,
                 });
               }}
@@ -93,19 +85,21 @@ export const ClientOrdersFilter = ({
               label="نهاية تاريخ الكشف"
               placeholder="اختر تاريخ النهاية"
               value={
-                ordersFilters.end_date ? new Date(ordersFilters.end_date) : null
+                governorateFilter.end_date
+                  ? new Date(governorateFilter.end_date)
+                  : null
               }
               locale="ar"
               clearable
               onChange={(date) => {
                 const formattedDate = convertDateFormat(date);
-                setOrdersFilters({
-                  ...ordersFilters,
+                setGovernorateFilter({
+                  ...governorateFilter,
                   end_date: formattedDate,
                 });
               }}
             />
-            {ordersFilters.end_date && ordersFilters.start_date && (
+            {governorateFilter.end_date && governorateFilter.start_date && (
               <Button
                 onClick={handleResetRangeDate}
                 className="mt-6"
