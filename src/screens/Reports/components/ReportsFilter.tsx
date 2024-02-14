@@ -2,13 +2,13 @@ import { useClients } from '@/hooks/useClients';
 import { useEmployees } from '@/hooks/useEmployees';
 import { useRepositories } from '@/hooks/useRepositories';
 import { useStores } from '@/hooks/useStores';
+import { convertDateFormat } from '@/lib/convertDate';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { reportStatusArray } from '@/lib/reportStatusArabicNames';
 import { ReportsFilters as IReportsFilters } from '@/services/getReports';
 import { Accordion, Button, Grid, Select } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
-import { format, parseISO } from 'date-fns';
 import 'dayjs/locale/ar';
 
 interface IReportsFilter {
@@ -73,18 +73,10 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
     });
   };
 
-  const convertDateFormat = (date: Date | null): string | null => {
-    if (date) {
-      const parsedDate = parseISO(date.toISOString());
-      return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    }
-    return null;
-  };
-
   return (
     <Accordion variant="separated">
       <Accordion.Item className="rounded-md mb-8" value="reports-filter">
-        <Accordion.Control> الفلاتر</Accordion.Control>
+        <Accordion.Control>فلاتر الكشوفات</Accordion.Control>
         <Accordion.Panel>
           <Grid align="center" gutter="lg" grow>
             <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
