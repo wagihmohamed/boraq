@@ -243,7 +243,6 @@ export const BulkOrdersItem = ({
           <NumberInput
             label="رقم الوصل"
             placeholder=""
-            thousandSeparator=","
             size="md"
             allowNegative={false}
             className="w-full"
