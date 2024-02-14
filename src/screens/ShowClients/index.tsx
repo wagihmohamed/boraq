@@ -1,17 +1,20 @@
 import { AppLayout } from '@/components/AppLayout';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Image, Select, TextInput, rem } from '@mantine/core';
-import { clientTypeArray } from '@/lib/clientTypeArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { useClientDetails } from '@/hooks/useClientDetails';
 import { useTenants } from '@/hooks/useTenants';
+import { clientTypeArray } from '@/lib/clientTypeArabicNames';
+import { Button, Image, Select, TextInput, rem } from '@mantine/core';
+import { ChevronRight } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShowClient = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: branches } = useBranches({ size: 1000 });
-  const { data: tenants } = useTenants({ size: 1000 });
+  const { data: branches } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: tenants } = useTenants({ size: 1000, only_title_and_id: true });
   const {
     data: clientDetails,
     isLoading,

@@ -25,12 +25,19 @@ export const LocationsFilter = ({
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 1000 });
+  } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
   const {
     data: employeesData = {
       data: [],
     },
-  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({
+    size: 1000,
+    only_title_and_id: true,
+    roles: ['DELIVERY_AGENT'],
+  });
 
   return (
     <Accordion variant="separated">

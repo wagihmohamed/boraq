@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AppLayout } from '@/components/AppLayout';
-import { DataTable } from '../Employees/data-table';
-import { columns } from './columns';
+import { useBranches } from '@/hooks/useBranches';
 import { useDeliveryAgentsManifest } from '@/hooks/useDeliveryAgentsManifest';
+import { getSelectOptions } from '@/lib/getSelectOptions';
+import { ManifestFilters } from '@/services/getDeliveryAgentManifest';
+import { useManifestStore } from '@/store/manifestStore';
 import {
   Accordion,
   Button,
@@ -10,14 +12,12 @@ import {
   Paper,
   Select,
 } from '@mantine/core';
-import { ManifestFilters } from '@/services/getDeliveryAgentManifest';
-import { useState } from 'react';
-import { useBranches } from '@/hooks/useBranches';
-import { getSelectOptions } from '@/lib/getSelectOptions';
-import { useManifestStore } from '@/store/manifestStore';
 import { DatePicker } from '@mantine/dates';
+import { format, parseISO } from 'date-fns';
 import 'dayjs/locale/ar';
-import { parseISO, format } from 'date-fns';
+import { useState } from 'react';
+import { DataTable } from '../Employees/data-table';
+import { columns } from './columns';
 
 export const DeliveryAgentsManifest = () => {
   const {
@@ -47,7 +47,10 @@ export const DeliveryAgentsManifest = () => {
     orders_start_date: orders_start_date || undefined,
   });
 
-  const { data: branchesData } = useBranches({ size: 1000 });
+  const { data: branchesData } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
 
   const convertDateFormat = (date: Date | null): string | null => {
     if (date) {
@@ -92,9 +95,9 @@ export const DeliveryAgentsManifest = () => {
                     value={
                       orders_start_date && orders_end_date
                         ? [
-                            new Date(orders_start_date),
-                            new Date(orders_end_date),
-                          ]
+                          new Date(orders_start_date),
+                          new Date(orders_end_date),
+                        ]
                         : [null, null]
                     }
                     onChange={(date) => {

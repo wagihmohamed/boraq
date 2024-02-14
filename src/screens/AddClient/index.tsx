@@ -1,25 +1,25 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useForm, zodResolver } from '@mantine/form';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { addClientSchema } from './schema';
-import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
+import { ImageUploader } from '@/components/CustomDropZone';
+import { useBranches } from '@/hooks/useBranches';
+import { useTenants } from '@/hooks/useTenants';
 import {
   clientTypeArabicNames,
   clientTypeArray,
 } from '@/lib/clientTypeArabicNames';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createClientsService } from '@/services/createClients';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { z } from 'zod';
-import { useBranches } from '@/hooks/useBranches';
-import { FileWithPath } from '@mantine/dropzone';
-import { ImageUploader } from '@/components/CustomDropZone';
-import { useTenants } from '@/hooks/useTenants';
+import { createClientsService } from '@/services/createClients';
 import { useAuth } from '@/store/authStore';
+import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
+import { FileWithPath } from '@mantine/dropzone';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { addClientSchema } from './schema';
 
 export const AddClient = () => {
   const navigate = useNavigate();
@@ -27,8 +27,14 @@ export const AddClient = () => {
   const queryClient = useQueryClient();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
-  const { data: branches } = useBranches({ size: 500 });
-  const { data: tenants = { data: [] } } = useTenants({ size: 500 });
+  const { data: branches } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: tenants = { data: [] } } = useTenants({
+    size: 500,
+    only_title_and_id: true,
+  });
 
   const transformedTenants = tenants.data?.map((tenant) => ({
     value: tenant.id.toString(),

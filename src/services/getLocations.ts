@@ -34,6 +34,7 @@ export const getLocationsService = async (
     governorate,
     search,
     branch_id,
+    only_title_and_id,
   }: LocationFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetLocationsResponse>(getLocationsendpoint, {
@@ -44,6 +45,7 @@ export const getLocationsService = async (
       governorate: governorate || undefined,
       search: search || undefined,
       branch_id: branch_id || undefined,
+      only_title_and_id,
     },
   });
   return response.data;

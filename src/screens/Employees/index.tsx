@@ -39,8 +39,14 @@ export const Employees = () => {
     });
   };
 
-  const { data: branchesData } = useBranches({ size: 1000 });
-  const { data: locationsData } = useLocations({ size: 1000 });
+  const { data: branchesData } = useBranches({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: locationsData } = useLocations({
+    size: 1000,
+    only_title_and_id: true,
+  });
 
   return (
     <AppLayout isError={isError}>

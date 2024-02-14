@@ -24,10 +24,19 @@ export const AddProduct = () => {
     data: categories = {
       data: [],
     },
-  } = useCategory({ size: 500 });
-  const { data: colors = { data: [] } } = useColors({ size: 500 });
-  const { data: sizes = { data: [] } } = useSizes({ size: 500 });
-  const { data: storesData } = useStores({ size: 500 });
+  } = useCategory({ size: 1000, only_title_and_id: true });
+  const { data: colors = { data: [] } } = useColors({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: sizes = { data: [] } } = useSizes({
+    size: 1000,
+    only_title_and_id: true,
+  });
+  const { data: storesData } = useStores({
+    size: 1000,
+    only_title_and_id: true,
+  });
   const colorsOptions = colors.data.map((color) => ({
     value: color.id.toString(),
     label: color.title,

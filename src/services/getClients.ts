@@ -35,13 +35,17 @@ export interface GetClientsResponse {
 }
 
 export const getClientsService = async (
-  { page = 1, size = 10, deleted = false }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, deleted = false, only_title_and_id }: Filters = {
+    page: 1,
+    size: 10,
+  }
 ) => {
   const response = await api.get<GetClientsResponse>(getClientsendpoint, {
     params: {
       page,
       size,
       deleted,
+      only_title_and_id,
     },
   });
   return response.data;
