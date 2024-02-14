@@ -1,18 +1,10 @@
 import { Grid } from '@mantine/core';
 import { ReportsMetaData } from '@/services/getReports';
+import { StatisticsItem } from './StatisticsItem';
 
 interface ReportsStatisticsProps {
   reportsMetaData?: ReportsMetaData;
 }
-
-const StatisticsItem = ({ title, value }: { title: string; value: number }) => {
-  return (
-    <div className="flex flex-col items-start justify-start space-y-2 w-full border p-2 rounded-md">
-      <p className="text-md">{title}</p>
-      <p className="text-2xl font-bold text-center">{value}</p>
-    </div>
-  );
-};
 
 export const ReportsStatistics = ({
   reportsMetaData,

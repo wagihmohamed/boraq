@@ -12,6 +12,7 @@ import { ordersFilterInitialState } from '@/screens/Orders';
 import { useOrders } from '@/hooks/useOrders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { columns as ordersColumns } from '../../../../Orders/columns';
+import { ClientOrdersStatistics } from './ClientOrdersStatistics';
 
 export const ClientReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>(
@@ -51,6 +52,10 @@ export const ClientReportsView = () => {
             ...ordersFilter,
             pagesCount: orders.pagesCount,
           }}
+        />
+        <ClientOrdersStatistics
+          storeID={ordersFilter.store_id || ''}
+          orders={orders.data}
         />
       </div>
       <Divider my="md" size="md" color="red" />
