@@ -2,7 +2,7 @@ import { DataTable } from '@/screens/Employees/data-table';
 import { useState } from 'react';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
-import { LoadingOverlay } from '@mantine/core';
+import { Divider, LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
@@ -58,6 +58,8 @@ export const GovernorateReportsView = () => {
           orders={orders.data}
         />
       </div>
+      <Divider my="md" size="md" color="red" />
+      <Divider my="md" size="md" color="red" />
       <ReportsFilter filters={filters} setFilters={setFilters} />
       <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">
