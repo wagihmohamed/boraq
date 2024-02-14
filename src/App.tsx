@@ -225,6 +225,10 @@ function App() {
 
         {role === 'COMPANY_MANAGER' ? (
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
+            <Route path="/clients" element={<ClientsScreen />} />
+            <Route path="/clients/add" element={<AddClient />} />
+            <Route path="/clients/:id/show" element={<ShowClient />} />
+            <Route path="/clients/:id/edit" element={<EditClient />} />
             <Route path="/orders-sheet" element={<OrdersSheet />} />
             <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
             <Route

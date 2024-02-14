@@ -90,6 +90,7 @@ export const navSections: NavSection[] = [
       'ACCOUNTANT',
       'DATA_ENTRY',
       'BRANCH_MANAGER',
+      'COMPANY_MANAGER',
     ],
   },
   {
