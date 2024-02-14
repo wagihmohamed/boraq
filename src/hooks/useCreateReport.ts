@@ -12,6 +12,9 @@ export const useCreateReport = () => {
       queryClient.invalidateQueries({
         queryKey: ['reports'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['orders'],
+      });
     },
   });
 };
