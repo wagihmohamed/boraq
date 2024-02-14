@@ -46,7 +46,11 @@ export const ClientOrdersStatistics = ({
         <StatisticsItem title="الصافي للعميل" value={247000} />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <Button onClick={handleCreateReport} loading={isLoading}>
+        <Button
+          disabled={orders.length === 0 || isLoading}
+          onClick={handleCreateReport}
+          loading={isLoading}
+        >
           انشاء كشف عميل
         </Button>
       </Grid.Col>
