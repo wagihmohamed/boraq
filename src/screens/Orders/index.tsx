@@ -32,6 +32,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   statuses: [],
   status: '',
   store_id: '',
+  branch_id: '',
 };
 
 interface OrdersSearchParameters {
