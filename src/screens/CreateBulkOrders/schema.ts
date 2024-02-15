@@ -44,7 +44,7 @@ export const createBulkOfOrdersSchema = z.object({
           required_error: 'مطلوب',
         }),
         locationID: z.string().min(1, { message: 'الرجاء اختيار الموقع' }),
-        storeID: z.string().min(1, { message: 'الرجاء اختيار المتجر' }),
+        storeID: z.string(),
       })
       .and(
         z.discriminatedUnion('withProducts', [

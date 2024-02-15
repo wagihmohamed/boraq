@@ -215,7 +215,6 @@ export const CreateBulkOrders = () => {
           label="عدد الطلبات"
           type="number"
           size="md"
-          className="w-full"
           value={ordersTotals}
           onChange={(e) => {
             setOrdersTotals(parseInt(e.currentTarget.value));
@@ -225,6 +224,7 @@ export const CreateBulkOrders = () => {
           size="md"
           variant="outline"
           color="blue"
+          className="mt-6"
           onClick={handleAddOrdersToForm}
         >
           انشاء
