@@ -46,7 +46,7 @@ export const GovernorateOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          disabled={orders.length === 0 || isLoading}
+          disabled={orders.length === 0 || isLoading || !governorate}
           onClick={handleCreateReport}
           loading={isLoading}
         >

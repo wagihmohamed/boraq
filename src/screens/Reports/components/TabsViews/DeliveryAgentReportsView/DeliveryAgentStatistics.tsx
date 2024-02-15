@@ -4,30 +4,25 @@ import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
-import { useClientByStoreId } from '@/hooks/useClients';
 
-interface ClientOrdersStatisticsProps {
+interface DeliveryAgentOrdersStatisticsProps {
   orders: Order[];
-  storeID: string;
+  deliveryAgentID: string;
 }
 
-export const ClientOrdersStatistics = ({
+export const DeliveryAgentStatistics = ({
   orders,
-  storeID,
-}: ClientOrdersStatisticsProps) => {
+  deliveryAgentID,
+}: DeliveryAgentOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
-
-  const { mutate: getClientId, data: clientDetails } = useClientByStoreId();
 
   const handleCreateReport = () => {
     const ordersIDs = orders.map((order) => order.id);
-    getClientId(storeID);
 
     const mutationParams: CreateReportPayload = {
       ordersIDs,
-      type: 'CLIENT',
-      storeID: Number(storeID),
-      clientID: clientDetails?.data[0].id,
+      type: 'DELIVERY_AGENT',
+      deliveryAgentID: Number(deliveryAgentID),
     };
     toast.promise(createReport(mutationParams), {
       loading: 'جاري تصدير الكشف',
@@ -51,11 +46,11 @@ export const ClientOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          disabled={orders.length === 0 || isLoading || !storeID}
+          disabled={orders.length === 0 || isLoading || !deliveryAgentID}
           onClick={handleCreateReport}
           loading={isLoading}
         >
-          انشاء كشف عميل
+          انشاء كشف مندوب توصيل
         </Button>
       </Grid.Col>
     </Grid>

@@ -21,7 +21,7 @@ export const BranchesOrdersStatistics = ({
 
     const mutationParams: CreateReportPayload = {
       ordersIDs,
-      type: 'CLIENT',
+      type: 'BRANCH',
       branchID: Number(branchId),
     };
     toast.promise(createReport(mutationParams), {
@@ -47,7 +47,7 @@ export const BranchesOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          //   disabled={orders.length === 0 || isLoading}
+          disabled={orders.length === 0 || isLoading || !branchId}
           onClick={handleCreateReport}
           loading={isLoading}
         >
