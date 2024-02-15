@@ -148,6 +148,9 @@ export const CreateBulkOrders = () => {
     form.setValues({ orders: newOrdersArray });
   };
   const handleDeleteOrder = (index: number) => {
+    if (ordersArray.length === 1) {
+      return;
+    }
     form.removeListItem('orders', index);
   };
 

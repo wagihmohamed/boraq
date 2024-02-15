@@ -55,6 +55,36 @@ export const ClientOrdersStatistics = ({
         <StatisticsItem title="صافي العميل" value={ordersMetaData.clientNet} />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
+        <StatisticsItem
+          title="عدد طلبات الراجعة"
+          value={
+            ordersMetaData.countByStatus.find(
+              (status) => status.status === 'RETURNED'
+            )?.count || 0
+          }
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
+        <StatisticsItem
+          title="عدد الطلبات الواصلة"
+          value={
+            ordersMetaData.countByStatus.find(
+              (status) => status.status === 'DELIVERED'
+            )?.count || 0
+          }
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
+        <StatisticsItem
+          title="عدد الطلبات الراجعة جزئياً"
+          value={
+            ordersMetaData.countByStatus.find(
+              (status) => status.status === 'PARTIALLY_RETURNED'
+            )?.count || 0
+          }
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
           disabled={orders.length === 0 || isLoading || !storeID}
           onClick={handleCreateReport}
