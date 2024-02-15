@@ -4,6 +4,7 @@ import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
+import { useClientByStoreId } from '@/hooks/useClients';
 
 interface ClientOrdersStatisticsProps {
   orders: Order[];
@@ -16,14 +17,17 @@ export const ClientOrdersStatistics = ({
 }: ClientOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
+  const { mutate: getClientId, data: clientDetails } = useClientByStoreId();
+
   const handleCreateReport = () => {
     const ordersIDs = orders.map((order) => order.id);
+    getClientId(storeID);
+
     const mutationParams: CreateReportPayload = {
       ordersIDs,
       type: 'CLIENT',
       storeID: Number(storeID),
-      // TODO : REPLACE THE CLIENT ID WITH THE REAL CLIENT ID THAT WILL BE PASSED FROM THE PARENT COMPONENT SAME AS THE STORE ID
-      clientID: 13,
+      clientID: clientDetails?.data[0].id,
     };
     toast.promise(createReport(mutationParams), {
       loading: 'جاري تصدير الكشف',

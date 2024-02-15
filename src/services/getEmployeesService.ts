@@ -57,6 +57,7 @@ export interface Filters {
   roles?: (keyof typeof rolesArabicNames)[];
   deleted?: boolean;
   minified?: boolean;
+  store_id?: string;
 }
 
 export const getEmployeesService = async (
