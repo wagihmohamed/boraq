@@ -41,14 +41,14 @@ export const AddEmployee = () => {
   } = useEmployeeDetails(Number(loggedInUserId), !isAdminOrAdminAssistant);
   const { data: branches = { data: [] } } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: repositories = { data: [] } } = useRepositories({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants(
-    { size: 1000, only_title_and_id: true },
+    { size: 1000, minified: true },
     isAdminOrAdminAssistant
   );
   const form = useForm({

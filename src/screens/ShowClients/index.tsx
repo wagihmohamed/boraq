@@ -12,9 +12,9 @@ export const ShowClient = () => {
   const navigate = useNavigate();
   const { data: branches } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
-  const { data: tenants } = useTenants({ size: 1000, only_title_and_id: true });
+  const { data: tenants } = useTenants({ size: 1000, minified: true });
   const {
     data: clientDetails,
     isLoading,

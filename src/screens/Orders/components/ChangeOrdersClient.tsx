@@ -16,7 +16,7 @@ export const ChangeOrdersClient = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: clientsData } = useClients({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
 

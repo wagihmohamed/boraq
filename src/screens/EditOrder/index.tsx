@@ -50,16 +50,16 @@ export const EditOrder = () => {
   const queryClient = useQueryClient();
   const { data: employeesData } = useEmployees({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
     roles: ['DELIVERY_AGENT'],
   });
   const { data: colors = { data: [] } } = useColors({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: sizes = { data: [] } } = useSizes({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const {
     data: orderDetails = {
@@ -158,22 +158,22 @@ export const EditOrder = () => {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 1000, only_title_and_id: true });
+  } = useLocations({ size: 1000, minified: true });
 
   const { data: repositories } = useRepositories({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: branches } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, only_title_and_id: true });
+  } = useStores({ size: 1000, minified: true });
 
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: (data: EditOrderPayload) => {
@@ -199,7 +199,7 @@ export const EditOrder = () => {
     data: productsData = {
       data: [],
     },
-  } = useProducts({ size: 1000, only_title_and_id: true });
+  } = useProducts({ size: 1000, minified: true });
 
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({

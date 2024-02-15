@@ -31,7 +31,7 @@ export const AddStore = () => {
     data: clients = {
       data: [],
     },
-  } = useClients({ size: 1000, only_title_and_id: true });
+  } = useClients({ size: 1000, minified: true });
   const clientOptions = clients.data.map((client) => ({
     label: client.name,
     value: client.id.toString(),

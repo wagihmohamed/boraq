@@ -73,7 +73,7 @@ export const OrdersSheet = () => {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, only_title_and_id: true });
+  } = useStores({ size: 1000, minified: true });
 
   const { mutate: createOrder, isLoading } = useMutation({
     mutationFn: (data: CreateOrderPayload) => {

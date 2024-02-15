@@ -40,14 +40,14 @@ export const EditEmployee = () => {
   } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: branches } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   // const { data: tenants = { data: [] } } = useTenants(
-  //   { size: 1000, only_title_and_id: true },
+  //   { size: 1000, minified: true },
   //   !isAdminOrAdminAssistant
   // );
 

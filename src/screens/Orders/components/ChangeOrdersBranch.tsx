@@ -16,7 +16,7 @@ export const ChangeOrdersBranch = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: branchesData } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
 

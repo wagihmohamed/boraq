@@ -2,7 +2,7 @@ import { AppLayout } from '@/components/AppLayout';
 import { useOrders } from '@/hooks/useOrders';
 import { useEffect, useState } from 'react';
 import { columns } from './columns';
-import { OrdersFilter } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { LoadingOverlay } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { CustomOrdersFilter } from './components/OrdersFilter';
@@ -78,7 +78,10 @@ export const OrdersScreen = () => {
 
   const {
     data: orders = {
-      data: [],
+      data: {
+        orders: [],
+        ordersMetaData: {} as OrdersMetaData,
+      },
       pagesCount: 0,
     },
     isError,
@@ -103,7 +106,7 @@ export const OrdersScreen = () => {
             role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''
           }
           columns={columns}
-          data={orders.data}
+          data={orders.data.orders}
           setFilters={setFilters}
           filters={{
             ...filters,

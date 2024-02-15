@@ -37,13 +37,13 @@ export interface GetProductsResponse {
 }
 
 export const getProductsService = async (
-  { page = 1, size = 10, only_title_and_id }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetProductsResponse>(getProductsendpoint, {
     params: {
       page,
       size,
-      only_title_and_id,
+      minified,
     },
   });
   return response.data;

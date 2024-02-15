@@ -10,7 +10,7 @@ export function useBranches(
     size = 10,
     governorate,
     location_id,
-    only_title_and_id,
+    minified,
   }: BranchFilters = {
     page: 1,
     size: 10,
@@ -19,7 +19,7 @@ export function useBranches(
   return useQuery({
     queryKey: [
       'branches',
-      { page, size, governorate, location_id, only_title_and_id },
+      { page, size, governorate, location_id, minified },
     ],
     queryFn: () =>
       getBranchesService({
@@ -27,7 +27,7 @@ export function useBranches(
         size,
         governorate,
         location_id,
-        only_title_and_id,
+        minified,
       }),
   });
 }

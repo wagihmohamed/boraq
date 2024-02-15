@@ -7,7 +7,7 @@ import { Divider, LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { ReportsStatistics } from '../../ReportsStatistics';
 import { ClientOrdersFilter } from './ClientOrders';
-import { OrdersFilter } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { ordersFilterInitialState } from '@/screens/Orders';
 import { useOrders } from '@/hooks/useOrders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
@@ -29,7 +29,10 @@ export const ClientReportsView = () => {
     useReports(reportsFilter);
   const {
     data: orders = {
-      data: [],
+      data: {
+        orders: [],
+        ordersMetaData: {} as OrdersMetaData,
+      },
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
@@ -46,7 +49,7 @@ export const ClientReportsView = () => {
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <OrdersTable
           columns={ordersColumns}
-          data={orders.data}
+          data={orders.data.orders}
           setFilters={setOrdersFilter}
           filters={{
             ...ordersFilter,
@@ -55,7 +58,7 @@ export const ClientReportsView = () => {
         />
         <ClientOrdersStatistics
           storeID={ordersFilter.store_id || ''}
-          orders={orders.data}
+          orders={orders.data.orders}
         />
       </div>
       <Divider my="md" size="md" color="red" />

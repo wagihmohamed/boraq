@@ -33,7 +33,7 @@ export const getBranchesService = async (
     size = 10,
     governorate,
     location_id,
-    only_title_and_id,
+    minified,
   }: BranchFilters = {
     page: 1,
     size: 10,
@@ -45,7 +45,7 @@ export const getBranchesService = async (
       size,
       governorate: governorate || undefined,
       location_id: location_id || undefined,
-      only_title_and_id: only_title_and_id || undefined,
+      minified: minified || undefined,
     },
   });
   return response.data;

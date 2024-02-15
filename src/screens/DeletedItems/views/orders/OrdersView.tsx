@@ -1,7 +1,7 @@
 import { useOrders } from '@/hooks/useOrders';
 import { useState } from 'react';
 import { columns } from './columns';
-import { OrdersFilter } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { LoadingOverlay } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { CustomDeletedOrdersFilter } from './CustomDeletedOrdersFilter';
@@ -40,7 +40,10 @@ export const DeletedOrdersView = () => {
 
   const {
     data: orders = {
-      data: [],
+      data: {
+        orders: [],
+        ordersMetaData: {} as OrdersMetaData,
+      },
       pagesCount: 0,
     },
     isInitialLoading,
@@ -61,7 +64,7 @@ export const DeletedOrdersView = () => {
         <LoadingOverlay visible={isInitialLoading} />
         <OrdersTable
           columns={columns}
-          data={orders.data}
+          data={orders.data.orders}
           setFilters={setOrdersFilters}
           filters={{
             ...ordersFilters,

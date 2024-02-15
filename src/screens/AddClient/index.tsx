@@ -29,11 +29,11 @@ export const AddClient = () => {
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const { data: branches } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants({
     size: 500,
-    only_title_and_id: true,
+    minified: true,
   });
 
   const transformedTenants = tenants.data?.map((tenant) => ({

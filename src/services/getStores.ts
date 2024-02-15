@@ -27,7 +27,7 @@ export interface GetStoresResponse {
 }
 
 export const getStoresService = async (
-  { page = 1, size = 10, deleted = false, only_title_and_id }: Filters = {
+  { page = 1, size = 10, deleted = false, minified }: Filters = {
     page: 1,
     size: 10,
   }
@@ -37,7 +37,7 @@ export const getStoresService = async (
       page,
       size,
       deleted,
-      only_title_and_id,
+      minified,
     },
   });
   return response.data;

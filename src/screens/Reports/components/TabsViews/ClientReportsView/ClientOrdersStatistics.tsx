@@ -22,7 +22,7 @@ export const ClientOrdersStatistics = ({
       ordersIDs,
       type: 'CLIENT',
       storeID: Number(storeID),
-      // TODO : REPLACE THE CLIENT ID WITH THE REAL CLIENT ID
+      // TODO : REPLACE THE CLIENT ID WITH THE REAL CLIENT ID THAT WILL BE PASSED FROM THE PARENT COMPONENT SAME AS THE STORE ID
       clientID: 13,
     };
     toast.promise(createReport(mutationParams), {

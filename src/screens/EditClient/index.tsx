@@ -26,14 +26,14 @@ export const EditClient = () => {
   const queryClient = useQueryClient();
   const { data: branches } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const {
     data: clientDetails,
     isLoading,
     isError,
   } = useClientDetails(parseInt(id));
-  // const { data: tenants = { data: [] } } = useTenants({ size: 500, only_title_and_id: true });
+  // const { data: tenants = { data: [] } } = useTenants({ size: 500, minified: true });
 
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id.toString(),

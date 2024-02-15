@@ -42,26 +42,26 @@ export const CustomOrdersFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, only_title_and_id: true });
+  } = useClients({ size: 1000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, only_title_and_id: true });
+  } = useStores({ size: 1000, minified: true });
 
   const {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 1000, only_title_and_id: true });
+  } = useLocations({ size: 1000, minified: true });
   const {
     data: employeesData = {
       data: [],
     },
   } = useEmployees({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
     roles: ['DELIVERY_AGENT'],
   });
 

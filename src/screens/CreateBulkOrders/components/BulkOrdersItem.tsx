@@ -44,7 +44,7 @@ export const BulkOrdersItem = ({
     data: productsData = {
       data: [],
     },
-  } = useProducts({ size: 1000, only_title_and_id: true });
+  } = useProducts({ size: 1000, minified: true });
   const numberFields = form.values.orders[index].recipientPhones.map(
     (
       phone: {

@@ -7,7 +7,7 @@ import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
 import { GovernorateOrdersFilters } from './GovernorateOrders';
-import { OrdersFilter } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { ordersFilterInitialState } from '@/screens/Orders';
 import { columns as ordersColumns } from '../../../../Orders/columns';
 import { useOrders } from '@/hooks/useOrders';
@@ -27,7 +27,10 @@ export const GovernorateReportsView = () => {
 
   const {
     data: orders = {
-      data: [],
+      data: {
+        orders: [],
+        ordersMetaData: {} as OrdersMetaData,
+      },
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
@@ -44,7 +47,7 @@ export const GovernorateReportsView = () => {
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <DataTable
           columns={ordersColumns}
-          data={orders.data}
+          data={orders.data.orders}
           setFilters={setGovernorateFilter}
           filters={{
             ...setGovernorateFilter,
@@ -55,7 +58,7 @@ export const GovernorateReportsView = () => {
           governorate={
             governorateFilter.governorate as keyof typeof governorateArabicNames
           }
-          orders={orders.data}
+          orders={orders.data.orders}
         />
       </div>
       <Divider my="md" size="md" color="red" />

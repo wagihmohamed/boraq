@@ -77,11 +77,26 @@ export interface Order {
   };
 }
 
+export interface OrdersMetaData {
+  count: number;
+  totalCost: number;
+  paidAmount: number;
+  clientNet: number;
+  deliveryCost: number;
+  countByStatus: Array<{
+    status: keyof typeof orderStatusArabicNames;
+    count: number;
+  }>;
+}
+
 export interface GetOrdersResponse {
   status: string;
   page: number;
   pagesCount: number;
-  data: Order[];
+  data: {
+    orders: Order[];
+    ordersMetaData: OrdersMetaData;
+  };
 }
 
 export interface OrdersFilter extends Filters {

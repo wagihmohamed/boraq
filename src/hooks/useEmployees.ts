@@ -14,7 +14,7 @@ export const useEmployees = (
     size = 10,
     roles,
     deleted,
-    only_title_and_id,
+    minified,
     ...reset
   }: EmployeesFilters = {
     page: 1,
@@ -24,7 +24,7 @@ export const useEmployees = (
   return useQuery({
     queryKey: [
       'employees',
-      { page, size, roles, deleted, only_title_and_id, ...reset },
+      { page, size, roles, deleted, minified, ...reset },
     ],
     queryFn: () =>
       getEmployeesService({
@@ -32,7 +32,7 @@ export const useEmployees = (
         size,
         roles,
         deleted,
-        only_title_and_id,
+        minified,
         ...reset,
       }),
   });

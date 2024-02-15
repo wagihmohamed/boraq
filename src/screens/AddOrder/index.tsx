@@ -75,14 +75,14 @@ export const AddOrder = () => {
     },
   } = useLocations({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
     governorate: form.values.governorate as keyof typeof governorateArabicNames,
   });
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, only_title_and_id: true });
+  } = useStores({ size: 1000, minified: true });
 
   const {
     data: branchesData = {
@@ -90,7 +90,7 @@ export const AddOrder = () => {
     },
   } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
     location_id: Number(form.values.locationID),
   });
 
@@ -117,7 +117,7 @@ export const AddOrder = () => {
     data: productsData = {
       data: [],
     },
-  } = useProducts({ size: 1000, only_title_and_id: true });
+  } = useProducts({ size: 1000, minified: true });
 
   const handleCreateOrder = (values: z.infer<typeof addOrderSchema>) => {
     if (!values.withProducts) {

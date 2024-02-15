@@ -47,13 +47,13 @@ export const ExportReportModal = () => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, only_title_and_id: true });
+  } = useClients({ size: 1000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, only_title_and_id: true });
+  } = useStores({ size: 1000, minified: true });
 
   const {
     data: branchesData = {
@@ -61,18 +61,18 @@ export const ExportReportModal = () => {
     },
   } = useBranches({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
   });
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 1000, only_title_and_id: true });
+  } = useRepositories({ size: 1000, minified: true });
   const {
     data: tenantsData = {
       data: [],
     },
-  } = useTenants({ size: 1000, only_title_and_id: true });
+  } = useTenants({ size: 1000, minified: true });
 
   const {
     data: deliveryAgentsData = {
@@ -80,7 +80,7 @@ export const ExportReportModal = () => {
     },
   } = useEmployees({
     size: 1000,
-    only_title_and_id: true,
+    minified: true,
     roles: ['DELIVERY_AGENT'],
   });
 
