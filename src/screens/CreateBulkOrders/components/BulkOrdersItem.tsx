@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable import/no-cycle */
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
@@ -22,6 +23,7 @@ import { randomId } from '@mantine/hooks';
 import { UseFormReturnType } from '@mantine/form';
 import { OrderBulkFormValues } from '..';
 import { useProducts } from '@/hooks/useProducts';
+import { formatMobileNumber } from '@/lib/formateMobileNumber';
 
 interface BulkOrdersItemProps {
   index: number;
@@ -45,6 +47,7 @@ export const BulkOrdersItem = ({
       data: [],
     },
   } = useProducts({ size: 1000, minified: true });
+
   const numberFields = form.values.orders[index].recipientPhones.map(
     (
       phone: {
@@ -60,11 +63,13 @@ export const BulkOrdersItem = ({
             label={`رقم المستلم ${phoneArrayIndex + 1}`}
             placeholder=""
             size="md"
+            type="text"
             withAsterisk
             style={{ flex: 1 }}
             {...form.getInputProps(
               `orders.${index}.recipientPhones.${phoneArrayIndex}.phone`
             )}
+            value={formatMobileNumber(phone.phone)}
           />
           <ActionIcon
             color="red"
