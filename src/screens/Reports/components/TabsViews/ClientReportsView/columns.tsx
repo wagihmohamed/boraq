@@ -36,6 +36,13 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
+    accessorKey: 'clientReport.client.phone',
+    header: 'رقم العميل',
+    accessorFn: ({ clientReport }) => {
+      return clientReport?.client.phone || '';
+    },
+  },
+  {
     accessorKey: 'clientReport.store.name',
     header: 'المتجر',
     accessorFn: ({ clientReport }) => {
