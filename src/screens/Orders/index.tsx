@@ -9,6 +9,7 @@ import { CustomOrdersFilter } from './components/OrdersFilter';
 import { OrdersTable } from './components/OrdersTable';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/store/authStore';
+import { OrdersStatistics } from './components/OrdersStatistics';
 
 export const ordersFilterInitialState: OrdersFilter = {
   page: 1,
@@ -102,6 +103,7 @@ export const OrdersScreen = () => {
       />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
+        <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
         <OrdersTable
           navigationURL={
             role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''

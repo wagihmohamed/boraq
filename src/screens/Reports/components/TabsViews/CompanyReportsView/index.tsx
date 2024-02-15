@@ -54,7 +54,10 @@ export const CompanyReportsView = () => {
             pagesCount: orders.pagesCount,
           }}
         />
-        <CompanyOrdersStatistics orders={orders.data.orders} />
+        <CompanyOrdersStatistics
+          orders={orders.data.orders}
+          ordersMetaData={orders.data.ordersMetaData}
+        />
       </div>
       <Divider my="md" size="md" color="red" />
       <Divider my="md" size="md" color="red" />

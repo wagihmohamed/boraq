@@ -59,6 +59,7 @@ export const GovernorateReportsView = () => {
             governorateFilter.governorate as keyof typeof governorateArabicNames
           }
           orders={orders.data.orders}
+          ordersMetaData={orders.data.ordersMetaData}
         />
       </div>
       <Divider my="md" size="md" color="red" />

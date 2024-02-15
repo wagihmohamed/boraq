@@ -58,6 +58,7 @@ export const ClientReportsView = () => {
         />
         <ClientOrdersStatistics
           storeID={ordersFilter.store_id || ''}
+          ordersMetaData={orders.data.ordersMetaData}
           orders={orders.data.orders}
         />
       </div>

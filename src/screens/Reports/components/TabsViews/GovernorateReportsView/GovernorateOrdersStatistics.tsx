@@ -1,4 +1,4 @@
-import { Order } from '@/services/getOrders';
+import { Order, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
 import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
@@ -9,11 +9,13 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 interface GovernorateOrdersStatisticsProps {
   orders: Order[];
   governorate: keyof typeof governorateArabicNames;
+  ordersMetaData: OrdersMetaData;
 }
 
 export const GovernorateOrdersStatistics = ({
   orders,
   governorate,
+  ordersMetaData,
 }: GovernorateOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
@@ -33,16 +35,19 @@ export const GovernorateOrdersStatistics = ({
   return (
     <Grid align="center" className="mt-4" grow>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="عدد الطلبيات" value={4} />
+        <StatisticsItem title="عدد الطلبيات" value={ordersMetaData.count} />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="المبلغ الكلي" value={273000} />
+        <StatisticsItem title="المبلغ الكلي" value={ordersMetaData.totalCost} />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="مبلغ التوصيل" value={26000} />
+        <StatisticsItem
+          title="مبلغ التوصيل"
+          value={ordersMetaData.deliveryCost}
+        />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="الصافي للعميل" value={247000} />
+        <StatisticsItem title="صافي العميل" value={ordersMetaData.clientNet} />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button

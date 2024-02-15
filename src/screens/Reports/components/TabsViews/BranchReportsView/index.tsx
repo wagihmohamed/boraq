@@ -56,6 +56,7 @@ export const BranchReportsView = () => {
         <BranchesOrdersStatistics
           branchId={ordersFilter.store_id || ''}
           orders={orders.data.orders}
+          ordersMetaData={orders.data.ordersMetaData}
         />
       </div>
       <Divider my="md" size="md" color="red" />
