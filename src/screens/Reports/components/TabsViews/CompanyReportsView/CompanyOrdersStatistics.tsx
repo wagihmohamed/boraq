@@ -21,7 +21,7 @@ export const CompanyOrdersStatistics = ({
 
     const mutationParams: CreateReportPayload = {
       ordersIDs,
-      type: 'CLIENT',
+      type: 'COMPANY',
       companyID: Number(companyID),
     };
     toast.promise(createReport(mutationParams), {
