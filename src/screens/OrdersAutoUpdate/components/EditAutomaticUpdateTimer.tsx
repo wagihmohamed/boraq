@@ -1,5 +1,13 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, NumberInput } from '@mantine/core';
+import {
+  Modal,
+  Button,
+  Select,
+  NumberInput,
+  ActionIcon,
+  rem,
+  Switch,
+} from '@mantine/core';
 import {
   governorateArabicNames,
   governorateArray,
@@ -8,29 +16,33 @@ import { orderStatusArray } from '@/lib/orderStatusArabicNames';
 import { useForm, zodResolver } from '@mantine/form';
 import { orderStatusAutomaticUpdateCreateSchema } from './AddAutomaticUpdateTimer.zod';
 import { z } from 'zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  CreateAutomaticUpdateDatePayload,
-  createAutomaticUpdateDateService,
-} from '@/services/createAutomaticUpdateDate';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
+import { CreateAutomaticUpdateDatePayload } from '@/services/createAutomaticUpdateDate';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
+import { AutomaticUpdate } from '@/services/getAutomaticUpdates';
+import { IconPencil } from '@tabler/icons-react';
+import { useEditAutomaticUpdateTimer } from '@/hooks/useEditAutomaticUpdateTimer';
 
-export const AddAutomaticUpdateTimer = () => {
-  const queryClient = useQueryClient();
+export const EditAutomaticUpdateTimer = ({
+  branch,
+  enabled,
+  governorate,
+  id,
+  newOrderStatus,
+  orderStatus,
+  checkAfter,
+}: AutomaticUpdate) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm({
     validate: zodResolver(orderStatusAutomaticUpdateCreateSchema),
     initialValues: {
-      governorate: '',
-      orderStatus: '',
-      newOrderStatus: '',
-      checkAfter: 0,
-      branchID: '',
+      governorate,
+      orderStatus,
+      newOrderStatus,
+      checkAfter,
+      branchID: String(branch.id),
+      enabled,
     },
   });
 
@@ -44,20 +56,7 @@ export const AddAutomaticUpdateTimer = () => {
     governorate: form.values.governorate as keyof typeof governorateArabicNames,
   });
 
-  const { mutate: createDate, isLoading } = useMutation({
-    mutationFn: (data: CreateAutomaticUpdateDatePayload) =>
-      createAutomaticUpdateDateService(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['automaticUpdates'],
-      });
-      toast.success('تم اضافة الموعد بنجاح');
-      close();
-    },
-    onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ ما');
-    },
-  });
+  const { mutate: editDate, isLoading } = useEditAutomaticUpdateTimer();
 
   const handleSubmit = (
     values: z.infer<typeof orderStatusAutomaticUpdateCreateSchema>
@@ -66,18 +65,26 @@ export const AddAutomaticUpdateTimer = () => {
       form.setFieldError('checkAfter', 'لا يمكن ان يكون الموعد صفر');
       return;
     }
-    createDate({
-      checkAfter: values.checkAfter,
-      branchID: Number(values.branchID),
-      governorate:
-        values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
-      orderStatus:
-        values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
-      newOrderStatus:
-        values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
-      // returnCondition:
-      //   values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
-    });
+    editDate(
+      {
+        id,
+        data: {
+          checkAfter: values.checkAfter,
+          branchID: Number(values.branchID),
+          governorate:
+            values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
+          orderStatus:
+            values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+          newOrderStatus:
+            values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+        },
+      },
+      {
+        onSuccess: () => {
+          close();
+        },
+      }
+    );
   };
 
   return (
@@ -85,7 +92,7 @@ export const AddAutomaticUpdateTimer = () => {
       <Modal
         opened={opened}
         onClose={close}
-        title="اضافة موعد تحديث الطلبات"
+        title="تعديل موعد تحديث الطلبات"
         centered
       >
         <form className="space-y-4" onSubmit={form.onSubmit(handleSubmit)}>
@@ -132,30 +139,14 @@ export const AddAutomaticUpdateTimer = () => {
             allowDecimal={false}
             {...form.getInputProps('checkAfter')}
           />
-          {/* <NumberInput
-            label="يوميا علي الساعة"
-            placeholder="يوميا علي الساعة (24 ساعة)"
-            allowNegative={false}
-            allowDecimal={false}
-            clampBehavior="strict"
-            max={24}
-            {...form.getInputProps('updateAt')}
-          /> */}
-          {/* <Radio.Group
-            name="orderReturnCondition"
-            label="اختر حالة الارجاع"
-            withAsterisk
-            {...form.getInputProps('returnCondition')}
-          >
-            <div className="flex items-center gap-4">
-              {orderReturnConditionArray.map((item) => (
-                <Radio key={item.value} value={item.value} label={item.label} />
-              ))}
-            </div>
-          </Radio.Group> */}
+          <Switch
+            label="تفعيل"
+            {...form.getInputProps('enabled')}
+            defaultChecked={enabled}
+          />
           <div className="flex items-center gap-4">
             <Button loading={isLoading} disabled={isLoading} type="submit">
-              اضافة
+              تعديل
             </Button>
             <Button type="reset" onClick={close} variant="outline">
               الغاء
@@ -164,7 +155,14 @@ export const AddAutomaticUpdateTimer = () => {
         </form>
       </Modal>
 
-      <Button onClick={open}>اضافة موعد تحديث الطلبات</Button>
+      <ActionIcon
+        onClick={() => {
+          open();
+        }}
+        variant="filled"
+      >
+        <IconPencil style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+      </ActionIcon>
     </>
   );
 };

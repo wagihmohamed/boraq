@@ -16,9 +16,13 @@ export interface AutomaticUpdate {
   };
   orderStatus: keyof typeof orderStatusArabicNames;
   governorate: keyof typeof governorateArabicNames;
-  returnCondition: ReturnCondition;
-  updateAt: number;
+  branch: {
+    id: number;
+    name: string;
+  };
+  newOrderStatus: keyof typeof governorateArabicNames;
   checkAfter: number;
+  enabled: boolean;
 }
 
 export interface GetAutomaticUpdateResponse {

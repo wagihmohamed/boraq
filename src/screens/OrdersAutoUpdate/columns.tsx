@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { orderReturnConditionArabicNames } from '@/lib/orderReturnConditionArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { APIError } from '@/models';
 import { deleteAutomaticUpdateDateService } from '@/services/deleteAutomaticUpdateDate';
 import { AutomaticUpdate } from '@/services/getAutomaticUpdates';
-import { ActionIcon, rem } from '@mantine/core';
+import { ActionIcon, Switch, rem } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
+import { EditAutomaticUpdateTimer } from './components/EditAutomaticUpdateTimer';
+import { useEditAutomaticUpdateTimer } from '@/hooks/useEditAutomaticUpdateTimer';
 
 export const columns: ColumnDef<AutomaticUpdate>[] = [
   {
@@ -32,24 +33,39 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
       return <div>{governorateArabicNames[row.original.governorate]}</div>;
     },
   },
-  {
-    accessorKey: 'returnCondition',
-    header: 'شرط الارجاع',
-    cell: ({ row }) => {
-      return (
-        <div>
-          {orderReturnConditionArabicNames[row.original.returnCondition]}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: 'returnCondition',
+  //   header: 'شرط الارجاع',
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div>
+  //         {orderReturnConditionArabicNames[row.original.returnCondition]}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: 'updateAt',
-    header: 'القيمة بالساعة',
+    header: 'يوميا علي الساعة',
   },
   {
-    accessorKey: 'checkAfter',
-    header: 'يوميا علي الساعة',
+    accessorKey: 'enabled',
+    header: 'مفعل',
+    cell: ({ row }) => {
+      const { mutate: editDate, isLoading } = useEditAutomaticUpdateTimer();
+      return (
+        <Switch
+          checked={row.original.enabled}
+          disabled={isLoading}
+          onChange={(event) => {
+            editDate({
+              id: row.original.id,
+              data: { enabled: event.currentTarget.checked },
+            });
+          }}
+        />
+      );
+    },
   },
   {
     id: 'action',
@@ -76,9 +92,15 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
       };
 
       return (
-        <ActionIcon onClick={handleDelete} variant="filled">
-          <IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-        </ActionIcon>
+        <div className="flex items-center gap-2">
+          <EditAutomaticUpdateTimer {...row.original} />
+          <ActionIcon onClick={handleDelete} variant="filled">
+            <IconTrash
+              style={{ width: rem(16), height: rem(16) }}
+              stroke={1.5}
+            />
+          </ActionIcon>
+        </div>
       );
     },
   },

@@ -58,7 +58,7 @@ export const ClientOrdersStatistics = ({
         <StatisticsItem
           title="عدد طلبات الراجعة"
           value={
-            ordersMetaData.countByStatus.find(
+            ordersMetaData?.countByStatus?.find(
               (status) => status.status === 'RETURNED'
             )?.count || 0
           }
@@ -68,7 +68,7 @@ export const ClientOrdersStatistics = ({
         <StatisticsItem
           title="عدد الطلبات الواصلة"
           value={
-            ordersMetaData.countByStatus.find(
+            ordersMetaData?.countByStatus?.find(
               (status) => status.status === 'DELIVERED'
             )?.count || 0
           }
@@ -78,7 +78,7 @@ export const ClientOrdersStatistics = ({
         <StatisticsItem
           title="عدد الطلبات الراجعة جزئياً"
           value={
-            ordersMetaData.countByStatus.find(
+            ordersMetaData?.countByStatus?.find(
               (status) => status.status === 'PARTIALLY_RETURNED'
             )?.count || 0
           }
