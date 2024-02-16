@@ -54,6 +54,7 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
     header: 'مفعل',
     cell: ({ row }) => {
       const { mutate: editDate, isLoading } = useEditAutomaticUpdateTimer();
+
       return (
         <Switch
           checked={row.original.enabled}

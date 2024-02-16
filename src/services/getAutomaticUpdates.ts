@@ -41,7 +41,7 @@ export const getAutomaticUpdatesService = async (
       params: {
         page,
         size,
-        minified,
+        minified: minified || undefined,
       },
     }
   );
