@@ -9,7 +9,6 @@ export const useLocations = (
 ) => {
   return useQuery({
     queryKey: ['locations', { page, size, minified, ...reset }],
-    queryFn: () =>
-      getLocationsService({ page, size, minified, ...reset }),
+    queryFn: () => getLocationsService({ page, size, minified, ...reset }),
   });
 };

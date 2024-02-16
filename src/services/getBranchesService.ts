@@ -28,13 +28,7 @@ export interface BranchFilters extends Filters {
 }
 
 export const getBranchesService = async (
-  {
-    page = 1,
-    size = 10,
-    governorate,
-    location_id,
-    minified,
-  }: BranchFilters = {
+  { page = 1, size = 10, governorate, location_id, minified }: BranchFilters = {
     page: 1,
     size: 10,
   }

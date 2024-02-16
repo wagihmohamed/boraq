@@ -1,5 +1,11 @@
-import { governorateArray } from '@/lib/governorateArabicNames ';
-import { orderStatusArray } from '@/lib/orderStatusArabicNames';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
+import {
+  orderStatusArabicNames,
+  orderStatusArray,
+} from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
 import { useClients } from '@/hooks/useClients';
 import { useStores } from '@/hooks/useStores';
@@ -24,6 +30,8 @@ import { ChangeOrdersBranch } from './ChangeOrdersBranch';
 import { ChangeOrdersClient } from './ChangeOrdersClient';
 import { ChangeOrdersDelivery } from './ChangeOrdersDelivery';
 import { ChangeOrdersStatus } from './ChangeOrdersStatus';
+import { useAutomaticUpdates } from '@/hooks/useAutomaticUpdates';
+import { useAuth } from '@/store/authStore';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -38,6 +46,7 @@ export const CustomOrdersFilter = ({
   search,
   setSearch,
 }: OrdersFilter) => {
+  const { role } = useAuth();
   const {
     data: clientsData = {
       data: [],
@@ -65,6 +74,11 @@ export const CustomOrdersFilter = ({
     roles: ['DELIVERY_AGENT'],
   });
 
+  const { data: automaticUpdatesData } = useAutomaticUpdates(
+    filters,
+    role === 'COMPANY_MANAGER'
+  );
+
   const handleResetRangeDate = () => {
     setFilters({
       ...filters,
@@ -72,6 +86,15 @@ export const CustomOrdersFilter = ({
       end_date: null,
     });
   };
+
+  const transformedAutomaticUpdates = automaticUpdatesData?.data.map(
+    (update) => ({
+      value: update.id.toString(),
+      label: `${orderStatusArabicNames[update.orderStatus]} - ${
+        governorateArabicNames[update.governorate]
+      } - ${update.branch.name}`,
+    })
+  );
 
   const convertDateFormat = (date: Date | null): string | null => {
     if (date) {
@@ -257,6 +280,25 @@ export const CustomOrdersFilter = ({
                   ]}
                 />
               </Grid.Col>
+              {role === 'COMPANY_MANAGER' && (
+                <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+                  <Select
+                    value={filters.automatic_update_id}
+                    allowDeselect
+                    label="طلبات التحديث التلقائي"
+                    searchable
+                    clearable
+                    onChange={(e) => {
+                      setFilters({
+                        ...filters,
+                        automatic_update_id: e || '',
+                      });
+                    }}
+                    placeholder="اختر طلب التحديث التلقائي"
+                    data={transformedAutomaticUpdates}
+                  />
+                </Grid.Col>
+              )}
               <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   label="كشف شركة"
