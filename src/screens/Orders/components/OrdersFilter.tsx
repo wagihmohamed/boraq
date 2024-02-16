@@ -394,7 +394,7 @@ export const CustomOrdersFilter = ({
                   <DateTimePicker
                     className="w-60"
                     valueFormat="DD MMM YYYY hh:mm A"
-                    label="بداية تاريخ الكشف"
+                    label="تاريخ توصيل الطلب"
                     value={
                       filters.delivery_date
                         ? new Date(filters.delivery_date)
@@ -414,7 +414,7 @@ export const CustomOrdersFilter = ({
                   <DateTimePicker
                     className="w-60"
                     valueFormat="DD MMM YYYY hh:mm A"
-                    label="بداية تاريخ الكشف"
+                    label="بداية تاريخ الطلب"
                     value={
                       filters.start_date ? new Date(filters.start_date) : null
                     }
@@ -432,7 +432,7 @@ export const CustomOrdersFilter = ({
                   <DateTimePicker
                     className="w-60"
                     valueFormat="DD MMM YYYY hh:mm A"
-                    label="نهاية تاريخ الكشف"
+                    label="نهاية تاريخ الطلب"
                     placeholder="اختر تاريخ النهاية"
                     value={filters.end_date ? new Date(filters.end_date) : null}
                     locale="ar"
