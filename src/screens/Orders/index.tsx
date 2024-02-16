@@ -34,6 +34,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   status: '',
   store_id: '',
   branch_id: '',
+  automatic_update_id: '',
 };
 
 interface OrdersSearchParameters {
@@ -41,6 +42,7 @@ interface OrdersSearchParameters {
   orders_end_date: string;
   orders_start_date: string;
   branch_id: string;
+  automatic_update_id: string;
 }
 
 export const OrdersScreen = () => {
@@ -72,10 +74,17 @@ export const OrdersScreen = () => {
         start_date: new Date(locationState?.orders_start_date),
       }));
     }
+    if (locationState?.automatic_update_id) {
+      setFilters((prev) => ({
+        ...prev,
+        automatic_update_id: locationState?.automatic_update_id,
+      }));
+    }
   }, [
     locationState?.delivery_agent_id,
     locationState?.orders_end_date,
     locationState?.orders_start_date,
+    locationState?.automatic_update_id,
   ]);
 
   const {

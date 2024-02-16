@@ -126,6 +126,7 @@ export interface OrdersFilter extends Filters {
   governorate_report?: string | null;
   company_report?: string | null;
   branch_id?: string | null;
+  automatic_update_id?: string | null;
 }
 
 export const getOrdersService = async (
@@ -158,6 +159,7 @@ export const getOrdersService = async (
     governorate_report,
     company_report,
     branch_id,
+    automatic_update_id,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -190,6 +192,7 @@ export const getOrdersService = async (
       governorate_report: getReportParam(governorate_report),
       company_report: getReportParam(company_report),
       branch_id: branch_id || undefined,
+      automatic_update_id: automatic_update_id || undefined,
     },
   });
   return response.data;

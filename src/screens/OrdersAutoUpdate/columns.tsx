@@ -4,7 +4,7 @@ import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { APIError } from '@/models';
 import { deleteAutomaticUpdateDateService } from '@/services/deleteAutomaticUpdateDate';
 import { AutomaticUpdate } from '@/services/getAutomaticUpdates';
-import { ActionIcon, Switch, rem } from '@mantine/core';
+import { ActionIcon, Button, Switch, rem } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { EditAutomaticUpdateTimer } from './components/EditAutomaticUpdateTimer';
 import { useEditAutomaticUpdateTimer } from '@/hooks/useEditAutomaticUpdateTimer';
+import { useNavigate } from 'react-router-dom';
 
 export const columns: ColumnDef<AutomaticUpdate>[] = [
   {
@@ -64,6 +65,25 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
             });
           }}
         />
+      );
+    },
+  },
+  {
+    header: 'السجل',
+    cell: ({ row }) => {
+      const navigate = useNavigate();
+
+      const handleNavigate = () => {
+        navigate('/orders', {
+          state: {
+            automatic_update_id: row.original.id,
+          },
+        });
+      };
+      return (
+        <Button onClick={handleNavigate} variant="subtle" size="xs">
+          عرض السجل
+        </Button>
       );
     },
   },
