@@ -11,8 +11,8 @@ import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { ordersFilterInitialState } from '@/screens/Orders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { useOrders } from '@/hooks/useOrders';
-import { columns as ordersColumns } from '../../../../Orders/columns';
 import { BranchesOrdersStatistics } from './BranchesOrdersStatistics';
+import { reportsOrdersColumns } from '../reportsOrdersColumns';
 
 export const BranchReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -46,7 +46,7 @@ export const BranchReportsView = () => {
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <OrdersTable
-          columns={ordersColumns}
+          columns={reportsOrdersColumns}
           data={orders.data.orders}
           setFilters={setOrdersFilter}
           filters={{

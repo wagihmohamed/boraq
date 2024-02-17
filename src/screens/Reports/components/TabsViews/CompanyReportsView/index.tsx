@@ -11,8 +11,8 @@ import { ordersFilterInitialState } from '@/screens/Orders';
 import { useOrders } from '@/hooks/useOrders';
 import { CompanyOrdersFilter } from './CompanyOrders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
-import { columns as ordersColumns } from '../../../../Orders/columns';
 import { CompanyOrdersStatistics } from './CompanyOrdersStatistics';
+import { reportsOrdersColumns } from '../reportsOrdersColumns';
 
 export const CompanyReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -47,7 +47,7 @@ export const CompanyReportsView = () => {
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <OrdersTable
-          columns={ordersColumns}
+          columns={reportsOrdersColumns}
           data={orders.data.orders}
           setFilters={setOrdersFilter}
           filters={{

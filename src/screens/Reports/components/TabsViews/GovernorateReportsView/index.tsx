@@ -9,10 +9,10 @@ import { ReportsStatistics } from '../../ReportsStatistics';
 import { GovernorateOrdersFilters } from './GovernorateOrders';
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { ordersFilterInitialState } from '@/screens/Orders';
-import { columns as ordersColumns } from '../../../../Orders/columns';
 import { useOrders } from '@/hooks/useOrders';
 import { GovernorateOrdersStatistics } from './GovernorateOrdersStatistics';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import { reportsOrdersColumns } from '../reportsOrdersColumns';
 
 export const GovernorateReportsView = () => {
   const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>({
@@ -47,7 +47,7 @@ export const GovernorateReportsView = () => {
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <DataTable
-          columns={ordersColumns}
+          columns={reportsOrdersColumns}
           data={orders.data.orders}
           setFilters={setGovernorateFilter}
           filters={{

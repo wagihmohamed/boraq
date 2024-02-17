@@ -11,8 +11,8 @@ import { ordersFilterInitialState } from '@/screens/Orders';
 import { useOrders } from '@/hooks/useOrders';
 import { DeliveryAgentStatistics } from './DeliveryAgentStatistics';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
-import { columns as ordersColumns } from '../../../../Orders/columns';
 import { DeliveryAgentOrdersFilter } from './DeliveryAgentOrders';
+import { reportsOrdersColumns } from '../reportsOrdersColumns';
 
 export const DeliveryAgentReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -46,7 +46,7 @@ export const DeliveryAgentReportsView = () => {
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
         <LoadingOverlay visible={isOrdersInitialLoading} />
         <OrdersTable
-          columns={ordersColumns}
+          columns={reportsOrdersColumns}
           data={orders.data.orders}
           setFilters={setOrdersFilter}
           filters={{
