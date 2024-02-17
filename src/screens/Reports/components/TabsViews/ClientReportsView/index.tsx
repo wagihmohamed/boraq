@@ -4,7 +4,6 @@ import { columns } from './columns';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { Divider, LoadingOverlay } from '@mantine/core';
-import { ReportsFilter } from '../../ReportsFilter';
 import { ReportsStatistics } from '../../ReportsStatistics';
 import { ClientOrdersFilter } from './ClientOrders';
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
@@ -28,6 +27,7 @@ export const ClientReportsView = () => {
 
   const { data: reports, isInitialLoading: isReportsInitialLoading } =
     useReports(reportsFilter);
+
   const {
     data: orders = {
       data: {
@@ -44,6 +44,8 @@ export const ClientReportsView = () => {
       <ClientOrdersFilter
         ordersFilters={ordersFilter}
         setOrdersFilters={setOrdersFilter}
+        reportsFilters={reportsFilter}
+        setReportsFilters={setReportFilters}
       />
       <div className="relative mt-12 mb-12">
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
@@ -65,7 +67,7 @@ export const ClientReportsView = () => {
       </div>
       <Divider my="md" size="md" color="red" />
       <Divider my="md" size="md" color="red" />
-      <ReportsFilter filters={reportsFilter} setFilters={setReportFilters} />
+      {/* <ReportsFilter filters={reportsFilter} setFilters={setReportFilters} /> */}
       <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-7">
         <LoadingOverlay visible={isReportsInitialLoading} />
