@@ -21,7 +21,9 @@ export interface AutomaticUpdate {
     name: string;
   };
   newOrderStatus: keyof typeof governorateArabicNames;
+  returnCondition: keyof typeof orderStatusArabicNames;
   checkAfter: number;
+  updateAt: string;
   enabled: boolean;
 }
 

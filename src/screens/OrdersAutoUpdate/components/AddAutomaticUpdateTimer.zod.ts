@@ -31,4 +31,11 @@ export const orderStatusAutomaticUpdateCreateSchema = z.object({
       invalid_type_error: 'يجب ادخال وقت التحديث',
     })
     .min(0, { message: 'يجب ادخال وقت التحديث' }),
+  updateAt: z
+    .number({
+      required_error: 'يجب ادخال وقت التحديث',
+      invalid_type_error: 'يجب ادخال وقت التحديث',
+    })
+    .min(0, { message: 'يجب ادخال وقت التحديث' }),
+  enabled: z.boolean().optional(),
 });

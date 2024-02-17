@@ -11,6 +11,7 @@ export interface EditAutomaticUpdateDatePayload {
   checkAfter?: number;
   branchID?: number;
   enabled?: boolean;
+  updateAt?: number;
 }
 
 export const editAutomaticUpdateService = async (

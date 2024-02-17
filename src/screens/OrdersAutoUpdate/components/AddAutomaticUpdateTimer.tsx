@@ -31,6 +31,7 @@ export const AddAutomaticUpdateTimer = () => {
       newOrderStatus: '',
       checkAfter: 0,
       branchID: '',
+      updateAt: 0,
     },
   });
 
@@ -69,6 +70,7 @@ export const AddAutomaticUpdateTimer = () => {
     createDate({
       checkAfter: values.checkAfter,
       branchID: Number(values.branchID),
+      updateAt: values.updateAt,
       governorate:
         values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
       orderStatus:
@@ -132,7 +134,7 @@ export const AddAutomaticUpdateTimer = () => {
             allowDecimal={false}
             {...form.getInputProps('checkAfter')}
           />
-          {/* <NumberInput
+          <NumberInput
             label="يوميا علي الساعة"
             placeholder="يوميا علي الساعة (24 ساعة)"
             allowNegative={false}
@@ -140,7 +142,7 @@ export const AddAutomaticUpdateTimer = () => {
             clampBehavior="strict"
             max={24}
             {...form.getInputProps('updateAt')}
-          /> */}
+          />
           {/* <Radio.Group
             name="orderReturnCondition"
             label="اختر حالة الارجاع"

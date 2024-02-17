@@ -31,6 +31,7 @@ export const EditAutomaticUpdateTimer = ({
   newOrderStatus,
   orderStatus,
   checkAfter,
+  updateAt,
 }: AutomaticUpdate) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -43,6 +44,7 @@ export const EditAutomaticUpdateTimer = ({
       checkAfter,
       branchID: String(branch.id),
       enabled,
+      updateAt: Number(updateAt),
     },
   });
 
@@ -77,6 +79,8 @@ export const EditAutomaticUpdateTimer = ({
             values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
           newOrderStatus:
             values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+          updateAt: values.updateAt,
+          enabled: values.enabled,
         },
       },
       {
@@ -138,6 +142,15 @@ export const EditAutomaticUpdateTimer = ({
             allowNegative={false}
             allowDecimal={false}
             {...form.getInputProps('checkAfter')}
+          />
+          <NumberInput
+            label="يوميا علي الساعة"
+            placeholder="يوميا علي الساعة (24 ساعة)"
+            allowNegative={false}
+            allowDecimal={false}
+            clampBehavior="strict"
+            max={24}
+            {...form.getInputProps('updateAt')}
           />
           <Switch
             label="تفعيل"

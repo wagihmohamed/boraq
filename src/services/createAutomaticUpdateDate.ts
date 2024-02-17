@@ -10,6 +10,7 @@ export interface CreateAutomaticUpdateDatePayload {
   // returnCondition: keyof typeof orderReturnConditionArabicNames;
   checkAfter: number;
   branchID: number;
+  updateAt: number;
 }
 
 export const createAutomaticUpdateDateService = async (

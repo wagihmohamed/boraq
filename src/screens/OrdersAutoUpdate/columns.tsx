@@ -34,20 +34,13 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
       return <div>{governorateArabicNames[row.original.governorate]}</div>;
     },
   },
-  // {
-  //   accessorKey: 'returnCondition',
-  //   header: 'شرط الارجاع',
-  //   cell: ({ row }) => {
-  //     return (
-  //       <div>
-  //         {orderReturnConditionArabicNames[row.original.returnCondition]}
-  //       </div>
-  //     );
-  //   },
-  // },
   {
     accessorKey: 'checkAfter',
     header: 'التحقق بعد',
+  },
+  {
+    accessorKey: 'updateAt',
+    header: 'القيمة بالساعة',
   },
   {
     accessorKey: 'enabled',
