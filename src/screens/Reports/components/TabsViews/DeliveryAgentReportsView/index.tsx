@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
 import { Divider, LoadingOverlay } from '@mantine/core';
-import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
@@ -41,6 +40,8 @@ export const DeliveryAgentReportsView = () => {
       <DeliveryAgentOrdersFilter
         ordersFilters={ordersFilter}
         setOrdersFilters={setOrdersFilter}
+        reportsFilters={filters}
+        setReportsFilters={setFilters}
       />
       <div className="relative mt-12 mb-12">
         <p className="text-center -mb-5 md:text-3xl text-2xl">الطلبات</p>
@@ -62,7 +63,6 @@ export const DeliveryAgentReportsView = () => {
       </div>
       <Divider my="md" size="md" color="red" />
       <Divider my="md" size="md" color="red" />
-      <ReportsFilter filters={filters} setFilters={setFilters} />
       <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
