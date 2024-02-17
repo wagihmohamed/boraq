@@ -15,9 +15,10 @@ import { GovernorateOrdersStatistics } from './GovernorateOrdersStatistics';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export const GovernorateReportsView = () => {
-  const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    governorate_report: '0',
+  });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,

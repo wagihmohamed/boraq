@@ -15,9 +15,10 @@ import { columns as ordersColumns } from '../../../../Orders/columns';
 import { BranchesOrdersStatistics } from './BranchesOrdersStatistics';
 
 export const BranchReportsView = () => {
-  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    branch_report: '0',
+  });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,

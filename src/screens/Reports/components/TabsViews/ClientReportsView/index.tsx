@@ -15,9 +15,10 @@ import { columns as ordersColumns } from '../../../../Orders/columns';
 import { ClientOrdersStatistics } from './ClientOrdersStatistics';
 
 export const ClientReportsView = () => {
-  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    client_report: '0',
+  });
 
   const [reportsFilter, setReportFilters] = useState<ReportsFilters>({
     page: 1,

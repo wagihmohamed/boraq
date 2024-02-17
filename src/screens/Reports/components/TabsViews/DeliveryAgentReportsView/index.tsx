@@ -15,9 +15,10 @@ import { columns as ordersColumns } from '../../../../Orders/columns';
 import { DeliveryAgentOrdersFilter } from './DeliveryAgentOrders';
 
 export const DeliveryAgentReportsView = () => {
-  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    delivery_agent_report: '0',
+  });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
