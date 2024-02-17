@@ -6,25 +6,20 @@ import {
   clientTypeArabicNames,
   clientTypeArray,
 } from '@/lib/clientTypeArabicNames';
-import { APIError } from '@/models';
-import { createClientsService } from '@/services/createClients';
 import { useAuth } from '@/store/authStore';
 import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
 import { FileWithPath } from '@mantine/dropzone';
 import { useForm, zodResolver } from '@mantine/form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { addClientSchema } from './schema';
+import { useCreateClient } from '@/hooks/useCreateClient';
 
 export const AddClient = () => {
   const navigate = useNavigate();
-  const { role, id: loggedInUserId, companyID: loggedInComapnyId } = useAuth();
-  const queryClient = useQueryClient();
+  const { role, id: loggedInUserId, companyID: loggedInCompanyId } = useAuth();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const { data: branches } = useBranches({
@@ -62,26 +57,12 @@ export const AddClient = () => {
 
   useEffect(() => {
     if (loggedInUserId) {
-      form.setFieldValue('companyID', loggedInComapnyId.toString());
+      form.setFieldValue('companyID', loggedInCompanyId.toString());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUserId]);
 
-  const { mutate: createClientAction, isLoading } = useMutation({
-    mutationFn: (data: FormData) => {
-      return createClientsService(data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['clients'],
-      });
-      toast.success('تم اضافة العميل بنجاح');
-      navigate('/clients');
-    },
-    onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ ما');
-    },
-  });
+  const { mutate: createClientAction, isLoading } = useCreateClient();
 
   const handleSubmit = (values: z.infer<typeof addClientSchema>) => {
     const formData = new FormData();
@@ -95,9 +76,13 @@ export const AddClient = () => {
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
-      formData.append('companyID', loggedInComapnyId.toString());
+      formData.append('companyID', loggedInCompanyId.toString());
     }
-    createClientAction(formData);
+    createClientAction(formData, {
+      onSuccess: () => {
+        navigate('/clients');
+      },
+    });
   };
 
   return (

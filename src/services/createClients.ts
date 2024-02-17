@@ -1,6 +1,7 @@
 import { api } from '@/api';
 import { createClientendpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
+import { AxiosResponse } from 'axios';
 
 export interface CreateClientPayload {
   name: string;
@@ -12,8 +13,22 @@ export interface CreateClientPayload {
   username: string;
 }
 
+interface CreateClientServiceResponse {
+  status: string;
+  data: {
+    id: number;
+    name: string;
+    username: string;
+    phone: string;
+    role: keyof typeof clientTypeArabicNames;
+  };
+}
+
 export const createClientsService = async (data: FormData) => {
-  const response = await api.post<FormData>(createClientendpoint, data, {
+  const response = await api.post<
+    FormData,
+    AxiosResponse<CreateClientServiceResponse>
+  >(createClientendpoint, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
