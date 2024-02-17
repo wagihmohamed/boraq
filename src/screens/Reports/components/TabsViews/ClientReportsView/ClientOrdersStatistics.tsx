@@ -19,22 +19,24 @@ export const ClientOrdersStatistics = ({
 }: ClientOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
-  const { mutate: getClientId, data: clientDetails } = useClientByStoreId();
+  const { mutate: getClientId } = useClientByStoreId();
 
   const handleCreateReport = () => {
     const ordersIDs = orders.map((order) => order.id);
-    getClientId(storeID);
-
-    const mutationParams: CreateReportPayload = {
-      ordersIDs,
-      type: 'CLIENT',
-      storeID: Number(storeID),
-      clientID: clientDetails?.data[0].id,
-    };
-    toast.promise(createReport(mutationParams), {
-      loading: 'جاري تصدير الكشف',
-      success: 'تم تصدير الكشف بنجاح',
-      error: (error) => error.message || 'حدث خطأ ما',
+    getClientId(storeID, {
+      onSuccess({ data }) {
+        const mutationParams: CreateReportPayload = {
+          ordersIDs,
+          type: 'CLIENT',
+          storeID: Number(storeID),
+          clientID: data[0].id,
+        };
+        toast.promise(createReport(mutationParams), {
+          loading: 'جاري تصدير الكشف',
+          success: 'تم تصدير الكشف بنجاح',
+          error: (error) => error.message || 'حدث خطأ ما',
+        });
+      },
     });
   };
   return (
