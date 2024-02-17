@@ -8,7 +8,7 @@ export const reportOrderStatuses: { label: string; value: string }[] = [
     value: 'PARTIALLY_RETURNED',
   },
   {
-    label: 'تم الإرجاع',
+    label: 'استبدال',
     value: 'RETURNED',
   },
 ];

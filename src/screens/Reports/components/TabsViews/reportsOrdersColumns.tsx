@@ -10,7 +10,6 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import {
   ActionIcon,
   Badge,
-  Checkbox,
   Flex,
   HoverCard,
   Menu,
@@ -20,7 +19,6 @@ import {
 import { IconFileTypePdf } from '@tabler/icons-react';
 import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import toast from 'react-hot-toast';
-import { useOrdersStore } from '@/store/ordersStore';
 import { DeleteOrder } from '@/screens/Orders/components/DeleteOrder';
 import { OrderTimelineModal } from '@/screens/Orders/components/OrderTimelineModal';
 import { useDisclosure } from '@mantine/hooks';
@@ -28,58 +26,6 @@ import { useState } from 'react';
 import { ChangeOrderStatus } from '@/screens/Orders/components/ChangeOrderStatus';
 
 export const reportsOrdersColumns: ColumnDef<Order>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => {
-      const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
-
-      return (
-        <Checkbox
-          checked={
-            table.getRowModel().rows.length > 0 &&
-            table
-              .getRowModel()
-              .rows.every((row) => isOrderExist(row.original.id.toString()))
-          }
-          onChange={(event) => {
-            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
-              id: row.original.id.toString(),
-              name: row.original.recipientName,
-            }));
-
-            const isAllSelected = event.currentTarget.checked;
-
-            if (isAllSelected) {
-              setAllOrders(allTableRowsIds);
-              table.toggleAllPageRowsSelected(true);
-            } else {
-              table.toggleAllPageRowsSelected(false);
-              deleteAllOrders();
-            }
-          }}
-        />
-      );
-    },
-    cell: ({ row }) => {
-      const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
-      return (
-        <Checkbox
-          checked={isOrderExist(row.original.id.toString())}
-          onChange={(value) => {
-            const isChecked = value.currentTarget.checked;
-            const { id, recipientName } = row.original;
-            if (isChecked) {
-              addOrder({ id: id.toString(), name: recipientName });
-              row.toggleSelected(true);
-            } else {
-              row.toggleSelected(false);
-              deleteOrder(id.toString());
-            }
-          }}
-        />
-      );
-    },
-  },
   {
     accessorKey: 'receiptNumber',
     header: 'رقم الفاتورة',
