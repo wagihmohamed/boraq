@@ -22,10 +22,7 @@ export const useEmployees = (
   }
 ) => {
   return useQuery({
-    queryKey: [
-      'employees',
-      { page, size, roles, deleted, minified, ...reset },
-    ],
+    queryKey: ['employees', { page, size, roles, deleted, minified, ...reset }],
     queryFn: () =>
       getEmployeesService({
         page,

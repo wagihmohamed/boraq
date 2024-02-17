@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable import/no-cycle */
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';

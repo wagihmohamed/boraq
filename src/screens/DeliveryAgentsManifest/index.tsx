@@ -95,9 +95,9 @@ export const DeliveryAgentsManifest = () => {
                     value={
                       orders_start_date && orders_end_date
                         ? [
-                          new Date(orders_start_date),
-                          new Date(orders_end_date),
-                        ]
+                            new Date(orders_start_date),
+                            new Date(orders_end_date),
+                          ]
                         : [null, null]
                     }
                     onChange={(date) => {
