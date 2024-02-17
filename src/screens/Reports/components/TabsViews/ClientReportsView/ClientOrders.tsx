@@ -50,9 +50,17 @@ export const ClientOrdersFilter = ({
     ],
   });
 
-  const handleResetRangeDate = () => {
+  const handleResetOrdersRangeDate = () => {
     setOrdersFilters({
       ...ordersFilters,
+      start_date: null,
+      end_date: null,
+    });
+  };
+
+  const handleResetReportsRangeDate = () => {
+    setReportsFilters({
+      ...reportsFilters,
       start_date: null,
       end_date: null,
     });
@@ -196,7 +204,7 @@ export const ClientOrdersFilter = ({
             />
             {ordersFilters.end_date && ordersFilters.start_date && (
               <Button
-                onClick={handleResetRangeDate}
+                onClick={handleResetOrdersRangeDate}
                 className="mt-6"
                 variant="outline"
               >
@@ -249,7 +257,7 @@ export const ClientOrdersFilter = ({
             />
             {reportsFilters.end_date && reportsFilters.start_date && (
               <Button
-                onClick={handleResetRangeDate}
+                onClick={handleResetReportsRangeDate}
                 className="mt-6"
                 variant="outline"
               >
