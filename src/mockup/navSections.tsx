@@ -60,7 +60,7 @@ export const navSections: NavSection[] = [
   },
   {
     link: '/orders-bulk-create',
-    label: 'انشاء طلبات جماعية',
+    label: 'انشاء طلب',
     enLabel: 'orders bulk create',
     icon: IconPackages,
     roles: ['ACCOUNTANT', 'DATA_ENTRY', 'COMPANY_MANAGER'],

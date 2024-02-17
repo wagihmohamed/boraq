@@ -116,7 +116,9 @@ export const OrdersScreen = () => {
         <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
         <OrdersTable
           navigationURL={
-            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/orders-bulk-create'
+              : ''
           }
           columns={columns}
           data={orders.data.orders}
