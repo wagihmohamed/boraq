@@ -18,6 +18,7 @@ import { MoreHorizontal } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DeleteReport } from '../../DeleteReport';
 import { ChangeReportStatus } from '../../ChangeReportStatus';
+import Arabic from 'date-fns/locale/ar-EG';
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -62,8 +63,10 @@ export const columns: ColumnDef<IReport>[] = [
     header: 'تاريخ الإنشاء',
     accessorFn: ({ createdAt }) => {
       const stringToDate = parseISO(createdAt);
-      const formatedDate = format(stringToDate, 'dd/MM/yyyy HH:mm');
-      return formatedDate;
+      const formattedDate = format(stringToDate, 'dd/MM/yyyy HH:mm a', {
+        locale: Arabic,
+      });
+      return formattedDate;
     },
   },
   {

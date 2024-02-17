@@ -8,6 +8,7 @@ import { ActionIcon } from '@mantine/core';
 import { IconRotate } from '@tabler/icons-react';
 import { useActivateReport } from '@/hooks/useActivateReport';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
+import Arabic from 'date-fns/locale/ar-EG';
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -41,8 +42,10 @@ export const columns: ColumnDef<IReport>[] = [
     header: 'تاريخ الإنشاء',
     accessorFn: ({ createdAt }) => {
       const stringToDate = parseISO(createdAt);
-      const formatedDate = format(stringToDate, 'dd/MM/yyyy HH:mm');
-      return formatedDate;
+      const formattedDate = format(stringToDate, 'dd/MM/yyyy HH:mm a', {
+        locale: Arabic,
+      });
+      return formattedDate;
     },
   },
   {
