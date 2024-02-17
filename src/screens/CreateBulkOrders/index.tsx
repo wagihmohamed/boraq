@@ -19,6 +19,7 @@ import {
 } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { z } from 'zod';
+import { CreateStoreModal } from './components/CreateStoreModal';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -213,6 +214,7 @@ export const CreateBulkOrders = () => {
 
   return (
     <AppLayout>
+      <CreateStoreModal />
       <div className="flex items-center gap-4 mb-6">
         <TextInput
           label="عدد الطلبات"
