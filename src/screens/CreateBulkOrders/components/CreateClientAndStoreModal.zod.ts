@@ -32,7 +32,7 @@ export const createClientAndStoreModalSchema = z
       .min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     storeName: z
       .string()
-      .min(3, { message: 'يجب ان يكون اسم المنتج اكثر من 3 احرف' }),
+      .min(2, { message: 'يجب ان يكون اسم المتجر اكثر من 2 احرف' }),
     notes: z.string().optional().nullable(),
     logo: z.any(),
   })
