@@ -9,6 +9,6 @@ export const reportOrderStatuses: { label: string; value: string }[] = [
   },
   {
     label: 'استبدال',
-    value: 'RETURNED',
+    value: 'REPLACED',
   },
 ];

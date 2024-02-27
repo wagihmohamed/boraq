@@ -4,7 +4,7 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, Badge, Checkbox, Flex, Text } from '@mantine/core';
+import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
 import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
 import { format, parseISO } from 'date-fns';
@@ -93,7 +93,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { recipientAddress, governorate } = row.original;
       return (
-        <Text size="sm">
+        <Text truncate maw={rem(200)} size="sm">
           {governorateArabicNames[governorate]} - {recipientAddress}
         </Text>
       );

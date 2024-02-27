@@ -111,7 +111,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { recipientAddress, governorate } = row.original;
       return (
-        <Text size="sm">
+        <Text truncate maw={rem(200)} size="sm">
           {governorateArabicNames[governorate]} - {recipientAddress}
         </Text>
       );
