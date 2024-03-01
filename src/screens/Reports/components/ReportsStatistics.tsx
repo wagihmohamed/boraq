@@ -1,4 +1,4 @@
-import { Grid } from '@mantine/core';
+import { Button, Grid, Menu, rem } from '@mantine/core';
 import { ReportsMetaData } from '@/services/getReports';
 import { StatisticsItem } from './StatisticsItem';
 
@@ -73,6 +73,19 @@ export const ReportsStatistics = ({
           title="صافي المندوب"
           value={reportsMetaData?.deliveryAgentNet || 0}
         />
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Menu shadow="md" width={rem(180)}>
+          <Menu.Target>
+            <Button>انشاء تقارير</Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>اختار النوع</Menu.Label>
+            <Menu.Item>تصدير الكل </Menu.Item>
+            <Menu.Item>تصدير الصفحة الحالية</Menu.Item>
+            <Menu.Item>تصدير الصفوف المحددة </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </Grid.Col>
     </Grid>
   );
