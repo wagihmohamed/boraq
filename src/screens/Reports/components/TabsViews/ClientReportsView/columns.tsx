@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 // import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Report as IReport } from '@/services/getReports';
@@ -5,7 +6,7 @@ import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { format, parseISO } from 'date-fns';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, HoverCard, Text, rem } from '@mantine/core';
+import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
 import { IconFileTypePdf } from '@tabler/icons-react';
 import {
   DropdownMenuContent,
@@ -19,8 +20,68 @@ import toast from 'react-hot-toast';
 import { DeleteReport } from '../../DeleteReport';
 import { ChangeReportStatus } from '../../ChangeReportStatus';
 import Arabic from 'date-fns/locale/ar-EG';
+import { useClientReportStoreStore } from '@/store/useClientReportsStore';
 
 export const columns: ColumnDef<IReport>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => {
+      const { deleteAllClientReport, setAllClientReport, isClientReportExist } =
+        useClientReportStoreStore();
+
+      return (
+        <Checkbox
+          checked={
+            table.getRowModel().rows.length > 0 &&
+            table
+              .getRowModel()
+              .rows.every((row) =>
+                isClientReportExist(row.original.id.toString())
+              )
+          }
+          onChange={(event) => {
+            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
+              id: row.original.id.toString(),
+              name: row.original.clientReport?.client.name || '',
+            }));
+
+            const isAllSelected = event.currentTarget.checked;
+
+            if (isAllSelected) {
+              setAllClientReport(allTableRowsIds);
+              table.toggleAllPageRowsSelected(true);
+            } else {
+              table.toggleAllPageRowsSelected(false);
+              deleteAllClientReport();
+            }
+          }}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const { addClientReport, deleteClientReport, isClientReportExist } =
+        useClientReportStoreStore();
+      return (
+        <Checkbox
+          checked={isClientReportExist(row.original.id.toString())}
+          onChange={(value) => {
+            const isChecked = value.currentTarget.checked;
+            const { id, clientReport } = row.original;
+            if (isChecked) {
+              addClientReport({
+                id: id.toString(),
+                name: clientReport?.client.name || '',
+              });
+              row.toggleSelected(true);
+            } else {
+              row.toggleSelected(false);
+              deleteClientReport(id.toString());
+            }
+          }}
+        />
+      );
+    },
+  },
   {
     accessorKey: 'id',
     header: 'رقم الكشف',

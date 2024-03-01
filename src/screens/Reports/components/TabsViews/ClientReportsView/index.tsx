@@ -68,7 +68,13 @@ export const ClientReportsView = () => {
       <Divider my="md" size="md" color="red" />
       <Divider my="md" size="md" color="red" />
       {/* <ReportsFilter filters={reportsFilter} setFilters={setReportFilters} /> */}
-      <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
+      <ReportsStatistics
+        params={reportsFilter}
+        currentPageReportsIDs={
+          reports?.data?.reports.map((report) => report.id) || []
+        }
+        reportsMetaData={reports?.data?.reportsMetaData}
+      />
       <div className="relative mt-7">
         <LoadingOverlay visible={isReportsInitialLoading} />
         <DataTable

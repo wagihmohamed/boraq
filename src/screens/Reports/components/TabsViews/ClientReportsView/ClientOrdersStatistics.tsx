@@ -42,19 +42,28 @@ export const ClientOrdersStatistics = ({
   return (
     <Grid align="center" className="mt-4" grow>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="عدد الطلبيات" value={ordersMetaData.count} />
+        <StatisticsItem
+          title="عدد الطلبيات"
+          value={ordersMetaData.count || 0}
+        />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="المبلغ الكلي" value={ordersMetaData.totalCost} />
+        <StatisticsItem
+          title="المبلغ الكلي"
+          value={ordersMetaData.totalCost || 0}
+        />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <StatisticsItem
           title="مبلغ التوصيل"
-          value={ordersMetaData.deliveryCost}
+          value={ordersMetaData.deliveryCost || 0}
         />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
-        <StatisticsItem title="صافي العميل" value={ordersMetaData.clientNet} />
+        <StatisticsItem
+          title="صافي العميل"
+          value={ordersMetaData.clientNet || 0}
+        />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <StatisticsItem

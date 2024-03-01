@@ -79,3 +79,4 @@ export const getAutomaticUpdateDetailsendpoint = '/automatic-updates/';
 export const createAutomaticUpdateendpoint = '/automatic-updates';
 export const editAutomaticUpdateendpoint = '/automatic-updates/';
 export const deleteAutomaticUpdateendpoint = '/automatic-updates/';
+export const exportClientReportendpoint = '/reports/pdf';
