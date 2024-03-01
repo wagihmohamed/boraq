@@ -74,6 +74,7 @@ export const ClientReportsView = () => {
           reports?.data?.reports.map((report) => report.id) || []
         }
         reportsMetaData={reports?.data?.reportsMetaData}
+        tapType="CLIENT"
       />
       <div className="relative mt-7">
         <LoadingOverlay visible={isReportsInitialLoading} />

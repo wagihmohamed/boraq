@@ -7,14 +7,16 @@ import toast from 'react-hot-toast';
 
 interface ReportsStatisticsProps {
   reportsMetaData?: ReportsMetaData;
-  currentPageReportsIDs: number[];
-  params: ReportsFilters;
+  currentPageReportsIDs?: number[];
+  params?: ReportsFilters;
+  tapType?: 'CLIENT';
 }
 
 export const ReportsStatistics = ({
   reportsMetaData,
   currentPageReportsIDs,
   params,
+  tapType,
 }: ReportsStatisticsProps) => {
   const { mutateAsync: crateClientReportPDF, isLoading } =
     useCreateClientReportPDF();
@@ -33,6 +35,7 @@ export const ReportsStatistics = ({
   };
 
   const handleExportCurrentPage = () => {
+    if (!currentPageReportsIDs) return;
     toast.promise(
       crateClientReportPDF({
         reportsIDs: currentPageReportsIDs,
@@ -48,7 +51,11 @@ export const ReportsStatistics = ({
 
   const handleExportAll = () => {
     toast.promise(
-      crateClientReportPDF({ reportsIDs: '*', type: 'CLIENT', params }),
+      crateClientReportPDF({
+        reportsIDs: '*',
+        type: 'CLIENT',
+        params: params || {},
+      }),
       {
         loading: 'جاري تحميل جميع تقرير العميل...',
         success: 'تم تحميل جميع تقرير العميل بنجاح',
@@ -122,31 +129,33 @@ export const ReportsStatistics = ({
           value={reportsMetaData?.deliveryAgentNet || 0}
         />
       </Grid.Col>
-      <Grid.Col span={12}>
-        <Menu shadow="md" width={rem(180)}>
-          <Menu.Target>
-            <Button>انشاء تقارير</Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Label>اختار النوع</Menu.Label>
-            <Menu.Item disabled={isLoading} onClick={handleExportAll}>
-              تصدير الكل{' '}
-            </Menu.Item>
-            <Menu.Item
-              disabled={currentPageReportsIDs.length === 0 || isLoading}
-              onClick={handleExportCurrentPage}
-            >
-              تصدير الصفحة الحالية
-            </Menu.Item>
-            <Menu.Item
-              disabled={reports.length === 0 || isLoading}
-              onClick={handleExportSelectedReports}
-            >
-              تصدير الصفوف المحددة
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      </Grid.Col>
+      {tapType === 'CLIENT' && (
+        <Grid.Col span={12}>
+          <Menu shadow="md" width={rem(180)}>
+            <Menu.Target>
+              <Button>انشاء تقارير</Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>اختار النوع</Menu.Label>
+              <Menu.Item disabled={isLoading} onClick={handleExportAll}>
+                تصدير الكل{' '}
+              </Menu.Item>
+              <Menu.Item
+                disabled={currentPageReportsIDs?.length === 0 || isLoading}
+                onClick={handleExportCurrentPage}
+              >
+                تصدير الصفحة الحالية
+              </Menu.Item>
+              <Menu.Item
+                disabled={reports.length === 0 || isLoading}
+                onClick={handleExportSelectedReports}
+              >
+                تصدير الصفوف المحددة
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Grid.Col>
+      )}
     </Grid>
   );
 };
