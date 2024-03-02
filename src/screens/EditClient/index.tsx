@@ -1,21 +1,21 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useForm, zodResolver } from '@mantine/form';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { editClientSchema } from './schema';
-import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
+import { ImageUploader } from '@/components/CustomDropZone';
 import { useBranches } from '@/hooks/useBranches';
 import { useClientDetails } from '@/hooks/useClientDetails';
-import { useEffect } from 'react';
 import { clientTypeArray } from '@/lib/clientTypeArabicNames';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
-import { editClientService } from '@/services/editClient';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { ImageUploader } from '@/components/CustomDropZone';
+import { editClientService } from '@/services/editClient';
+import { Button, Grid, PasswordInput, Select, TextInput } from '@mantine/core';
 import { FileWithPath } from '@mantine/dropzone';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { editClientSchema } from './schema';
 
 export const EditClient = () => {
   const { id = '' } = useParams();
@@ -24,13 +24,16 @@ export const EditClient = () => {
   // const isAdminOrAdminAssistant =
   //   role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const queryClient = useQueryClient();
-  const { data: branches } = useBranches({ size: 500 });
+  const { data: branches } = useBranches({
+    size: 1000,
+    minified: true,
+  });
   const {
     data: clientDetails,
     isLoading,
     isError,
   } = useClientDetails(parseInt(id));
-  // const { data: tenants = { data: [] } } = useTenants({ size: 500 });
+  // const { data: tenants = { data: [] } } = useTenants({ size: 500, minified: true });
 
   const transformedBranches = branches?.data.map((branch) => ({
     value: branch.id.toString(),

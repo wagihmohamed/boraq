@@ -54,6 +54,7 @@ import { OrdersSheet } from './screens/OrdersSheet';
 import { OrdersAutoUpdate } from './screens/OrdersAutoUpdate';
 import { RolesRoute } from './components/RolesRoute';
 import { useAuth } from './store/authStore';
+import { RepositoryEntries } from './screens/RepositoryEntries';
 
 function App() {
   const navigate = useNavigate();
@@ -152,6 +153,7 @@ function App() {
 
         {role === 'REPOSITORIY_EMPLOYEE' ? (
           <Route element={<RolesRoute roles={['REPOSITORIY_EMPLOYEE']} />}>
+            <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/repositories" element={<RepositoriesScreen />} />
             <Route path="/repositories/:id/show" element={<ShowRepository />} />
             <Route
@@ -165,6 +167,7 @@ function App() {
 
         {role === 'BRANCH_MANAGER' ? (
           <Route element={<RolesRoute roles={['BRANCH_MANAGER']} />}>
+            <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/employees/add" element={<AddEmployee />} />
             <Route path="/repositories" element={<RepositoriesScreen />} />
             <Route path="/repositories/add" element={<AddRepositoryScreen />} />
@@ -195,6 +198,7 @@ function App() {
 
         {role === 'ACCOUNTANT' ? (
           <Route element={<RolesRoute roles={['ACCOUNTANT']} />}>
+            <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/repositories" element={<RepositoriesScreen />} />
             <Route path="/repositories/add" element={<AddRepositoryScreen />} />
             <Route
@@ -225,6 +229,11 @@ function App() {
 
         {role === 'COMPANY_MANAGER' ? (
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
+            <Route path="/repository-entries" element={<RepositoryEntries />} />
+            <Route path="/clients" element={<ClientsScreen />} />
+            <Route path="/clients/add" element={<AddClient />} />
+            <Route path="/clients/:id/show" element={<ShowClient />} />
+            <Route path="/clients/:id/edit" element={<EditClient />} />
             <Route path="/orders-sheet" element={<OrdersSheet />} />
             <Route path="/orders-bulk-create" element={<CreateBulkOrders />} />
             <Route
@@ -265,7 +274,7 @@ function App() {
             <Route path="/home/add" element={<AddProduct />} />
             <Route path="/home/:id/show" element={<ProductScreen />} />
             <Route path="/home/:id/edit" element={<EditProductScreen />} />
-            <Route path="/orders-auto-apdate" element={<OrdersAutoUpdate />} />
+            <Route path="/orders-auto-update" element={<OrdersAutoUpdate />} />
           </Route>
         ) : null}
 

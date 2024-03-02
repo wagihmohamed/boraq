@@ -1,20 +1,23 @@
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select } from '@mantine/core';
 import { useBranches } from '@/hooks/useBranches';
-import { useState } from 'react';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { useOrdersStore } from '@/store/ordersStore';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EditOrderPayload, editOrderService } from '@/services/editOrder';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { EditOrderPayload, editOrderService } from '@/services/editOrder';
+import { useOrdersStore } from '@/store/ordersStore';
+import { Button, Modal, Select } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const ChangeOrdersBranch = () => {
   const queryClient = useQueryClient();
   const { orders: selectedOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: branchesData } = useBranches({ size: 1000 });
+  const { data: branchesData } = useBranches({
+    size: 1000,
+    minified: true,
+  });
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
 
   const { mutate: editOrder, isLoading } = useMutation({

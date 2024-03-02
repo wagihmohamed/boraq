@@ -17,12 +17,13 @@ export interface GetSizesResponse {
 }
 
 export const getSizesService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetSizesResponse>(getSizesendpoint, {
     params: {
       page,
       size,
+      minified,
     },
   });
   return response.data;

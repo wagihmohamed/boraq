@@ -33,6 +33,7 @@ export interface Report {
     client: {
       id: number;
       name: string;
+      phone: string;
     };
     store: {
       id: number;

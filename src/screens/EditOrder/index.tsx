@@ -1,8 +1,23 @@
 import { AppLayout } from '@/components/AppLayout';
-import { useForm, zodResolver } from '@mantine/form';
-import { editOrderSchema } from './schema';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useBranches } from '@/hooks/useBranches';
+import { useColors } from '@/hooks/useColors';
+import { useEmployees } from '@/hooks/useEmployees';
+import { useLocations } from '@/hooks/useLocations';
+import { useOrderDetails } from '@/hooks/useOrderDetails';
+import { useProducts } from '@/hooks/useProducts';
+import { useRepositories } from '@/hooks/useRepositories';
+import { useSizes } from '@/hooks/useSizes';
+import { useStores } from '@/hooks/useStores';
+import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
+import { getSelectOptions } from '@/lib/getSelectOptions';
+import { governorateArray } from '@/lib/governorateArabicNames ';
+import {
+  orderStatusArabicNames,
+  orderStatusArray,
+} from '@/lib/orderStatusArabicNames';
+import { APIError } from '@/models';
+import { EditOrderPayload, editOrderService } from '@/services/editOrder';
+import { OrderDetails } from '@/services/getOrderDetails';
 import {
   ActionIcon,
   Button,
@@ -14,46 +29,38 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { deliveryTypesArray } from '@/lib/deliveryTypesArabicNames';
-import { governorateArray } from '@/lib/governorateArabicNames ';
-import { useLocations } from '@/hooks/useLocations';
-import { useStores } from '@/hooks/useStores';
-import { getSelectOptions } from '@/lib/getSelectOptions';
-import { z } from 'zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
-import { useProducts } from '@/hooks/useProducts';
-import { useColors } from '@/hooks/useColors';
-import { useSizes } from '@/hooks/useSizes';
-import { useOrderDetails } from '@/hooks/useOrderDetails';
-import { useEffect } from 'react';
-import { OrderDetails } from '@/services/getOrderDetails';
-import { EditOrderPayload, editOrderService } from '@/services/editOrder';
-import {
-  orderStatusArabicNames,
-  orderStatusArray,
-} from '@/lib/orderStatusArabicNames';
-import { useEmployees } from '@/hooks/useEmployees';
 import { DatePicker } from '@mantine/dates';
-import 'dayjs/locale/ar';
-import { parseISO, format } from 'date-fns';
-import { useRepositories } from '@/hooks/useRepositories';
-import { useBranches } from '@/hooks/useBranches';
+import { useForm, zodResolver } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { IconTrash, IconPlus } from '@tabler/icons-react';
+import { IconPlus, IconTrash } from '@tabler/icons-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { format, parseISO } from 'date-fns';
+import 'dayjs/locale/ar';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { editOrderSchema } from './schema';
 
 export const EditOrder = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: employeesData } = useEmployees({
-    size: 200,
+    size: 1000,
+    minified: true,
     roles: ['DELIVERY_AGENT'],
   });
-  const { data: colors = { data: [] } } = useColors({ size: 1000 });
-  const { data: sizes = { data: [] } } = useSizes({ size: 1000 });
+  const { data: colors = { data: [] } } = useColors({
+    size: 1000,
+    minified: true,
+  });
+  const { data: sizes = { data: [] } } = useSizes({
+    size: 1000,
+    minified: true,
+  });
   const {
     data: orderDetails = {
       data: {} as OrderDetails,
@@ -151,16 +158,22 @@ export const EditOrder = () => {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 1000 });
+  } = useLocations({ size: 1000, minified: true });
 
-  const { data: repositories } = useRepositories({ size: 1000 });
-  const { data: branches } = useBranches({ size: 1000 });
+  const { data: repositories } = useRepositories({
+    size: 1000,
+    minified: true,
+  });
+  const { data: branches } = useBranches({
+    size: 1000,
+    minified: true,
+  });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000 });
+  } = useStores({ size: 1000, minified: true });
 
   const { mutate: editOrder, isLoading } = useMutation({
     mutationFn: (data: EditOrderPayload) => {
@@ -186,7 +199,7 @@ export const EditOrder = () => {
     data: productsData = {
       data: [],
     },
-  } = useProducts({ size: 1000 });
+  } = useProducts({ size: 1000, minified: true });
 
   const handleEditOrder = (values: z.infer<typeof editOrderSchema>) => {
     editOrder({

@@ -3,7 +3,13 @@ import { DataTable } from './data-table';
 import { columns } from './columns';
 import { EmployeesFilters, useEmployees } from '@/hooks/useEmployees';
 import { useState } from 'react';
-import { Grid, LoadingOverlay, MultiSelect, Select } from '@mantine/core';
+import {
+  Accordion,
+  Grid,
+  LoadingOverlay,
+  MultiSelect,
+  Select,
+} from '@mantine/core';
 import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -33,63 +39,77 @@ export const Employees = () => {
     });
   };
 
-  const { data: branchesData } = useBranches({ size: 1000 });
-  const { data: locationsData } = useLocations({ size: 1000 });
+  const { data: branchesData } = useBranches({
+    size: 1000,
+    minified: true,
+  });
+  const { data: locationsData } = useLocations({
+    size: 1000,
+    minified: true,
+  });
 
   return (
     <AppLayout isError={isError}>
-      <Grid className="mt-4 my-10">
-        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
-          <MultiSelect
-            label="الدور"
-            data={rolesArray.filter(
-              (role) =>
-                role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
-            )}
-            clearable
-            searchable
-            limit={50}
-            placeholder="الدور"
-            value={filters.roles}
-            onChange={handleSelect}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
-          <Select
-            label="الفروع"
-            data={getSelectOptions(branchesData?.data || [])}
-            clearable
-            searchable
-            limit={50}
-            placeholder="اختار الفرع"
-            value={filters.branch_id?.toString()}
-            onChange={(e) => {
-              setFilters({
-                ...filters,
-                branch_id: e,
-              });
-            }}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
-          <Select
-            label="المناطق"
-            data={getSelectOptions(locationsData?.data || [])}
-            clearable
-            placeholder="اختار المنطقة"
-            disabled={
-              !filters.branch_id || !filters.roles?.includes('DELIVERY_AGENT')
-            }
-            value={filters.location_id}
-            onChange={(e) => {
-              setFilters({
-                ...filters,
-                location_id: e,
-              });
-            }}
-          />
-        </Grid.Col>
-      </Grid>
+      <Accordion variant="separated">
+        <Accordion.Item className="rounded-md mb-8" value="employees-filter">
+          <Accordion.Control> الفلاتر</Accordion.Control>
+          <Accordion.Panel>
+            <Grid className="mt-4 my-10">
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <MultiSelect
+                  label="الدور"
+                  data={rolesArray.filter(
+                    (role) =>
+                      role.value !== 'ADMIN' && role.value !== 'ADMIN_ASSISTANT'
+                  )}
+                  clearable
+                  searchable
+                  limit={50}
+                  placeholder="الدور"
+                  value={filters.roles}
+                  onChange={handleSelect}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <Select
+                  label="الفروع"
+                  data={getSelectOptions(branchesData?.data || [])}
+                  clearable
+                  searchable
+                  limit={50}
+                  placeholder="اختار الفرع"
+                  value={filters.branch_id?.toString()}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      branch_id: e,
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <Select
+                  label="المناطق"
+                  data={getSelectOptions(locationsData?.data || [])}
+                  clearable
+                  placeholder="اختار المنطقة"
+                  disabled={
+                    !filters.branch_id ||
+                    !filters.roles?.includes('DELIVERY_AGENT')
+                  }
+                  value={filters.location_id}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      location_id: e,
+                    });
+                  }}
+                />
+              </Grid.Col>
+            </Grid>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable

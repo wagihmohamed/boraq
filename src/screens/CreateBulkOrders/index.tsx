@@ -1,10 +1,10 @@
 /* eslint-disable import/no-cycle */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
-import { orderBulkSchema } from './schema';
+import { createBulkOfOrdersSchema } from './schema';
 import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Grid, Select, TextInput } from '@mantine/core';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
@@ -13,11 +13,19 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
-import { governorateArabicNames } from '@/lib/governorateArabicNames ';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
+import { getSelectOptions } from '@/lib/getSelectOptions';
+import { z } from 'zod';
+import { CreateStoreModal } from './components/CreateStoreModal';
+import { CreateClientAndStoreModal } from './components/CreateClientAndStoreModal';
 
 export interface OrderBulkFormValues {
   orders: {
     id: string;
+    withProducts: boolean;
     recipientPhones: {
       phone: string;
       key: string;
@@ -31,17 +39,45 @@ export interface OrderBulkFormValues {
     governorate: string;
     recipientName: string;
     recipientAddress: string;
+    receiptNumber: string;
+    details: string;
+    products?: {
+      productID: string;
+      quantity: string;
+      colorID: string;
+      sizeID: string;
+      label?: string;
+    }[];
   }[];
 }
 
+const createBulkOrdersSelect = [
+  {
+    label: 'صفحة',
+    value: 'page',
+  },
+  {
+    label: 'محافظة',
+    value: 'governorate',
+  },
+];
+
 export const CreateBulkOrders = () => {
   const [ordersTotals, setOrdersTotals] = useState(1);
+  const [createBulkOrdersBy, setCreateBulkOrdersBy] = useState<string | null>(
+    'governorate'
+  );
+  const [selectedGovernorate, setSelectedGovernorate] = useState<
+    string | null
+  >();
+  const [selectedStore, setSelectedStore] = useState<string | null>();
   const queryClient = useQueryClient();
   const form = useForm<OrderBulkFormValues>({
     initialValues: {
       orders: [
         {
           id: randomId(),
+          withProducts: false,
           recipientPhones: [
             {
               phone: '',
@@ -57,10 +93,12 @@ export const CreateBulkOrders = () => {
           governorate: '',
           recipientName: '',
           recipientAddress: '',
+          receiptNumber: '',
+          details: '',
         },
       ],
     },
-    validate: zodResolver(orderBulkSchema),
+    validate: zodResolver(createBulkOfOrdersSchema),
   });
 
   const {
@@ -68,7 +106,8 @@ export const CreateBulkOrders = () => {
       data: [],
     },
   } = useLocations({
-    size: 500,
+    size: 1000,
+    minified: true,
     governorate: form.values.orders[0]
       .governorate as keyof typeof governorateArabicNames,
   });
@@ -77,7 +116,7 @@ export const CreateBulkOrders = () => {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 500 });
+  } = useStores({ size: 1000, minified: true });
 
   const ordersArray = form.values.orders;
 
@@ -87,6 +126,7 @@ export const CreateBulkOrders = () => {
     for (let i = 0; i < newAddedOrdersCount; i += 1) {
       newOrdersArray.push({
         id: randomId(),
+        withProducts: false,
         recipientPhones: [
           {
             phone: '',
@@ -102,12 +142,17 @@ export const CreateBulkOrders = () => {
         governorate: '',
         recipientName: '',
         recipientAddress: '',
+        receiptNumber: '',
+        details: '',
       });
     }
 
     form.setValues({ orders: newOrdersArray });
   };
   const handleDeleteOrder = (index: number) => {
+    if (ordersArray.length === 1) {
+      return;
+    }
     form.removeListItem('orders', index);
   };
 
@@ -130,34 +175,55 @@ export const CreateBulkOrders = () => {
     },
   });
 
-  const handleSubmit = () => {
-    if (!form.isValid()) return;
-    const orders = form.values.orders.map((order) => {
+  const handleSubmit = (values: z.infer<typeof createBulkOfOrdersSchema>) => {
+    const ordersArray = values.orders.map((order) => {
+      if (order.withProducts) {
+        return {
+          withProducts: order.withProducts,
+          governorate: selectedGovernorate || order.governorate || '',
+          recipientAddress: order.details,
+          recipientName: order.recipientName,
+          recipientPhones: order.recipientPhones.map((phone) => phone.phone),
+          storeID: Number(selectedStore || order.storeID),
+          details: order.details,
+          notes: order.notes,
+          products: order.products?.map((product) => {
+            return {
+              productID: Number(product.productID),
+              quantity: Number(product.quantity),
+              colorID: Number(product.colorID),
+              sizeID: Number(product.sizeID),
+            };
+          }),
+        };
+      }
       return {
-        withProducts: false,
-        totalCost: Number(order.totalCost),
-        quantity: Number(order.quantity),
-        weight: Number(order.weight),
-        recipientPhones: order.recipientPhones.map((phone) => phone.phone),
-        storeID: parseInt(order.storeID as string),
-        locationID: parseInt(order.locationID as string),
-        deliveryType: order.deliveryType,
-        governorate: order.governorate,
+        withProducts: order.withProducts,
+        governorate: selectedGovernorate || order.governorate || '',
+        recipientAddress: order.details,
         recipientName: order.recipientName,
-        recipientAddress: order.recipientAddress,
+        recipientPhones: order.recipientPhones.map((phone) => phone.phone),
+        storeID: Number(selectedStore || order.storeID),
+        details: order.details,
+        notes: order.notes,
+        totalCost: Number(order.totalCost),
       };
     });
-    createOrder(orders);
+
+    createOrder(ordersArray);
   };
 
   return (
     <AppLayout>
+      <div className="flex gap-4 flex-wrap">
+        <CreateStoreModal />
+        <CreateClientAndStoreModal />
+      </div>
       <div className="flex items-center gap-4 mb-6">
         <TextInput
           label="عدد الطلبات"
           type="number"
           size="md"
-          className="w-full"
           value={ordersTotals}
           onChange={(e) => {
             setOrdersTotals(parseInt(e.currentTarget.value));
@@ -167,11 +233,58 @@ export const CreateBulkOrders = () => {
           size="md"
           variant="outline"
           color="blue"
+          className="mt-6"
           onClick={handleAddOrdersToForm}
         >
           انشاء
         </Button>
       </div>
+      <Grid>
+        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+          <Select
+            data={createBulkOrdersSelect}
+            value={createBulkOrdersBy}
+            label="ادخال حسب"
+            placeholder="اختر الطريقة"
+            onChange={(e) => {
+              setCreateBulkOrdersBy(e);
+              setSelectedGovernorate(null);
+              setSelectedStore(null);
+            }}
+            size="md"
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+          {createBulkOrdersBy === 'governorate' && (
+            <Select
+              data={governorateArray}
+              label="المحافظة"
+              value={selectedGovernorate}
+              onChange={(e) => {
+                setSelectedGovernorate(e);
+              }}
+              searchable
+              allowDeselect={false}
+              placeholder="اختر المحافظة"
+              size="md"
+            />
+          )}
+          {createBulkOrdersBy === 'page' && (
+            <Select
+              data={getSelectOptions(storesData?.data || [])}
+              label="المتجر"
+              searchable
+              value={selectedStore}
+              onChange={(e) => {
+                setSelectedStore(e);
+              }}
+              allowDeselect={false}
+              placeholder="اختر المتجر"
+              size="md"
+            />
+          )}
+        </Grid.Col>
+      </Grid>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
@@ -180,12 +293,17 @@ export const CreateBulkOrders = () => {
             index={index}
             locationsData={locationsData.data}
             storesData={storesData.data}
+            createBulkOrdersBy={createBulkOrdersBy}
             key={order.id}
           />
         ))}
         <Button
           loading={isLoading}
-          disabled={isLoading}
+          disabled={
+            isLoading ||
+            (createBulkOrdersBy === 'page' && !selectedStore) ||
+            (createBulkOrdersBy === 'governorate' && !selectedGovernorate)
+          }
           type="submit"
           fullWidth
           mt="xl"

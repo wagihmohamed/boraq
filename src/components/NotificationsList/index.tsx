@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
+import Arabic from 'date-fns/locale/ar-EG';
 
 export const NotificationsList = () => {
   const queryClient = useQueryClient();
@@ -22,7 +23,7 @@ export const NotificationsList = () => {
   const flattenNotifications = notifications?.pages
     ?.map((item) => item.data)
     ?.flat();
-  const isUnsean = flattenNotifications?.some((item) => !item.seen);
+  const isUnseen = flattenNotifications?.some((item) => !item.seen);
 
   const { mutate: markMessageAsRead } = useMutation({
     mutationFn: (id: number) => markNotificationAsSeenService({ id }),
@@ -70,7 +71,7 @@ export const NotificationsList = () => {
       <Menu.Target>
         <Button variant="subtle" className="relative">
           <IconBell className="text-white" />
-          {isUnsean && (
+          {isUnseen && (
             <div className="absolute top-0 right-2 w-3 h-3 bg-primary rounded-full animate-pulse" />
           )}
         </Button>
@@ -84,7 +85,7 @@ export const NotificationsList = () => {
               onClick={() => {
                 markAllNotificationsAsRead();
               }}
-              disabled={!isUnsean}
+              disabled={!isUnseen}
               variant="transparent"
               style={{ width: rem(130) }}
             >
@@ -114,7 +115,13 @@ export const NotificationsList = () => {
                         {item.title}
                       </Text>
                       <Text size="xs" c="white">
-                        {format(parseISO(item.createdAt), 'dd/MM/yyyy')}
+                        {format(
+                          parseISO(item.createdAt),
+                          'dd/MM/yyyy HH:mm a',
+                          {
+                            locale: Arabic,
+                          }
+                        )}
                       </Text>
                     </div>
                     <p>{item.content}</p>

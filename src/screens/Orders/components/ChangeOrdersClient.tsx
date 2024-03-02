@@ -14,7 +14,10 @@ export const ChangeOrdersClient = () => {
   const queryClient = useQueryClient();
   const { orders: selectedOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: clientsData } = useClients({ size: 1000 });
+  const { data: clientsData } = useClients({
+    size: 1000,
+    minified: true,
+  });
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
 
   const { mutate: editOrder, isLoading } = useMutation({

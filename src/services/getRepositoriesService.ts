@@ -29,7 +29,7 @@ export interface GetRepositoriesResponse {
 }
 
 export const getRepositoriesService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetRepositoriesResponse>(
     getRepositoriesendpoint,
@@ -37,6 +37,7 @@ export const getRepositoriesService = async (
       params: {
         page,
         size,
+        minified,
       },
     }
   );

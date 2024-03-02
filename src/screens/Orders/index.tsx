@@ -2,13 +2,14 @@ import { AppLayout } from '@/components/AppLayout';
 import { useOrders } from '@/hooks/useOrders';
 import { useEffect, useState } from 'react';
 import { columns } from './columns';
-import { OrdersFilter } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { LoadingOverlay } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { CustomOrdersFilter } from './components/OrdersFilter';
 import { OrdersTable } from './components/OrdersTable';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/store/authStore';
+import { OrdersStatistics } from './components/OrdersStatistics';
 
 export const ordersFilterInitialState: OrdersFilter = {
   page: 1,
@@ -32,6 +33,9 @@ export const ordersFilterInitialState: OrdersFilter = {
   statuses: [],
   status: '',
   store_id: '',
+  branch_id: '',
+  automatic_update_id: '',
+  minified: true,
 };
 
 interface OrdersSearchParameters {
@@ -39,6 +43,7 @@ interface OrdersSearchParameters {
   orders_end_date: string;
   orders_start_date: string;
   branch_id: string;
+  automatic_update_id: string;
 }
 
 export const OrdersScreen = () => {
@@ -70,15 +75,25 @@ export const OrdersScreen = () => {
         start_date: new Date(locationState?.orders_start_date),
       }));
     }
+    if (locationState?.automatic_update_id) {
+      setFilters((prev) => ({
+        ...prev,
+        automatic_update_id: locationState?.automatic_update_id,
+      }));
+    }
   }, [
     locationState?.delivery_agent_id,
     locationState?.orders_end_date,
     locationState?.orders_start_date,
+    locationState?.automatic_update_id,
   ]);
 
   const {
     data: orders = {
-      data: [],
+      data: {
+        orders: [],
+        ordersMetaData: {} as OrdersMetaData,
+      },
       pagesCount: 0,
     },
     isError,
@@ -98,12 +113,15 @@ export const OrdersScreen = () => {
       />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
+        <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
         <OrdersTable
           navigationURL={
-            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN' ? '/orders/add' : ''
+            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+              ? '/orders-bulk-create'
+              : ''
           }
           columns={columns}
-          data={orders.data}
+          data={orders.data.orders}
           setFilters={setFilters}
           filters={{
             ...filters,

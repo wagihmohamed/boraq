@@ -26,12 +26,13 @@ export interface GetTenantsResponse {
 }
 
 export const getTenantsService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetTenantsResponse>(getTenantsendpoint, {
     params: {
       page,
       size,
+      minified,
     },
   });
   return response.data;

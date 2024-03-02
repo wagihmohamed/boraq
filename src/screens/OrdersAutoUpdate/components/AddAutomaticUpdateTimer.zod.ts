@@ -8,6 +8,13 @@ export const orderStatusAutomaticUpdateCreateSchema = z.object({
     .nonempty({
       message: 'يجب ادخال حالة الطلب',
     }),
+  newOrderStatus: z
+    .string({
+      required_error: 'يجب ادخال حالة الطلب',
+    })
+    .nonempty({
+      message: 'يجب ادخال حالة الطلب',
+    }),
   governorate: z
     .string({
       required_error: 'يجب ادخال المحافظة',
@@ -15,24 +22,20 @@ export const orderStatusAutomaticUpdateCreateSchema = z.object({
     .nonempty({
       message: 'يجب ادخال المحافظة',
     }),
-  returnCondition: z
-    .string({
-      required_error: 'يجب ادخال حالة الارجاع',
-    })
-    .nonempty({
-      message: 'يجب ادخال حالة الارجاع',
-    }),
-  updateAt: z
-    .number({
-      required_error: 'يجب ادخال وقت التحديث',
-      invalid_type_error: 'يجب ادخال وقت التحديث',
-    })
-    .min(0, { message: 'يجب ادخال وقت التحديث' })
-    .max(24, { message: 'لا يمكن ان يكون وقت التحديث اكثر من 24 ساعة' }),
+  branchID: z.string({
+    required_error: 'يجب ادخال الفرع',
+  }),
   checkAfter: z
     .number({
       required_error: 'يجب ادخال وقت التحديث',
       invalid_type_error: 'يجب ادخال وقت التحديث',
     })
     .min(0, { message: 'يجب ادخال وقت التحديث' }),
+  updateAt: z
+    .number({
+      required_error: 'يجب ادخال وقت التحديث',
+      invalid_type_error: 'يجب ادخال وقت التحديث',
+    })
+    .min(0, { message: 'يجب ادخال وقت التحديث' }),
+  enabled: z.boolean().optional(),
 });

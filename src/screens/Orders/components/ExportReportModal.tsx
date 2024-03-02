@@ -1,28 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, Grid, Menu } from '@mantine/core';
-import { useCreateReport } from '@/hooks/useCreateReport';
-import { useOrdersStore } from '@/store/ordersStore';
-import { reportTypeArray } from '@/lib/reportTypeArabicNames';
+import { useBranches } from '@/hooks/useBranches';
 import { useClients } from '@/hooks/useClients';
+import { useCreateReport } from '@/hooks/useCreateReport';
+import { useRepositories } from '@/hooks/useRepositories';
 import { useStores } from '@/hooks/useStores';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { useBranches } from '@/hooks/useBranches';
-import { useRepositories } from '@/hooks/useRepositories';
+import { reportTypeArray } from '@/lib/reportTypeArabicNames';
+import { useOrdersStore } from '@/store/ordersStore';
+import { Button, Grid, Menu, Modal, Select } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 import { useEmployees } from '@/hooks/useEmployees';
+import { useOrderReceipt } from '@/hooks/useOrderReceipt';
 import { useTenants } from '@/hooks/useTenants';
-import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
-import toast from 'react-hot-toast';
-import { createReportSchema } from './ExportReportModa.zod';
 import {
   governorateArabicNames,
   governorateArray,
 } from '@/lib/governorateArabicNames ';
 import { CreateReportPayload } from '@/services/createReport';
+import { useForm, zodResolver } from '@mantine/form';
 import { useEffect } from 'react';
-import { useOrderReceipt } from '@/hooks/useOrderReceipt';
+import toast from 'react-hot-toast';
+import { z } from 'zod';
+import { createReportSchema } from './ExportReportModal.zod';
 
 export const ExportReportModal = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -47,35 +47,42 @@ export const ExportReportModal = () => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000 });
+  } = useClients({ size: 1000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000 });
+  } = useStores({ size: 1000, minified: true });
 
   const {
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 1000 });
+  } = useBranches({
+    size: 1000,
+    minified: true,
+  });
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 1000 });
+  } = useRepositories({ size: 1000, minified: true });
   const {
     data: tenantsData = {
       data: [],
     },
-  } = useTenants({ size: 1000 });
+  } = useTenants({ size: 1000, minified: true });
 
   const {
     data: deliveryAgentsData = {
       data: [],
     },
-  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({
+    size: 1000,
+    minified: true,
+    roles: ['DELIVERY_AGENT'],
+  });
 
   const { mutateAsync, isLoading } = useCreateReport();
   const { mutateAsync: exportReceipt } = useOrderReceipt('مجموعة فواتير');

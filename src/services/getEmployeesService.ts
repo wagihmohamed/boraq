@@ -56,6 +56,8 @@ export interface Filters {
   pagesCount?: number;
   roles?: (keyof typeof rolesArabicNames)[];
   deleted?: boolean;
+  minified?: boolean;
+  store_id?: string;
 }
 
 export const getEmployeesService = async (
@@ -66,6 +68,7 @@ export const getEmployeesService = async (
     deleted = false,
     branch_id,
     location_id,
+    minified,
   }: EmployeesFilters = {
     page: 1,
     size: 10,
@@ -79,6 +82,7 @@ export const getEmployeesService = async (
       deleted,
       branch_id: Number(branch_id) || undefined,
       location_id: Number(location_id) || undefined,
+      minified,
     },
   });
   return response.data;

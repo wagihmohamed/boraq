@@ -1,26 +1,26 @@
 import { AppLayout } from '@/components/AppLayout';
-import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
-import { ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { editLocationSchema } from './schema';
-import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 import { useBranches } from '@/hooks/useBranches';
 import { useEmployees } from '@/hooks/useEmployees';
+import { useLocationDetails } from '@/hooks/useLocationDetails';
 import {
   governorateArabicNames,
   governorateArray,
 } from '@/lib/governorateArabicNames ';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { useLocationDetails } from '@/hooks/useLocationDetails';
-import { useEffect } from 'react';
 import {
   EditLocationPayload,
   editLocationService,
 } from '@/services/editLocation';
+import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { editLocationSchema } from './schema';
 
 export const EditLocation = () => {
   const { id = '' } = useParams();
@@ -44,13 +44,20 @@ export const EditLocation = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches({ size: 1000 });
+  } = useBranches({
+    size: 1000,
+    minified: true,
+  });
 
   const {
     data: employees = {
       data: [],
     },
-  } = useEmployees({ size: 1000, roles: ['DELIVERY_AGENT'] });
+  } = useEmployees({
+    size: 1000,
+    minified: true,
+    roles: ['DELIVERY_AGENT'],
+  });
 
   useEffect(() => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(

@@ -16,6 +16,7 @@ export const ChangeOrdersDelivery = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: deliveryAgents } = useEmployees({
     size: 1000,
+    minified: true,
     roles: ['DELIVERY_AGENT'],
   });
   const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);

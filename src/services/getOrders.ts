@@ -77,11 +77,26 @@ export interface Order {
   };
 }
 
+export interface OrdersMetaData {
+  count: number;
+  totalCost: number;
+  paidAmount: number;
+  clientNet: number;
+  deliveryCost: number;
+  countByStatus: Array<{
+    status: keyof typeof orderStatusArabicNames;
+    count: number;
+  }>;
+}
+
 export interface GetOrdersResponse {
   status: string;
   page: number;
   pagesCount: number;
-  data: Order[];
+  data: {
+    orders: Order[];
+    ordersMetaData: OrdersMetaData;
+  };
 }
 
 export interface OrdersFilter extends Filters {
@@ -110,6 +125,8 @@ export interface OrdersFilter extends Filters {
   delivery_agent_report?: string | null;
   governorate_report?: string | null;
   company_report?: string | null;
+  branch_id?: string | null;
+  automatic_update_id?: string | null;
 }
 
 export const getOrdersService = async (
@@ -141,6 +158,8 @@ export const getOrdersService = async (
     delivery_agent_report,
     governorate_report,
     company_report,
+    branch_id,
+    automatic_update_id,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -172,6 +191,8 @@ export const getOrdersService = async (
       delivery_agent_report: getReportParam(delivery_agent_report),
       governorate_report: getReportParam(governorate_report),
       company_report: getReportParam(company_report),
+      branch_id: branch_id || undefined,
+      automatic_update_id: automatic_update_id || undefined,
     },
   });
   return response.data;

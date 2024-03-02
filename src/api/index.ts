@@ -2,7 +2,7 @@ import { authStore } from '@/store/authStore';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const baseURL = import.meta.env.VITE_DEV_BASE_URL as string;
+const baseURL = import.meta.env.VITE_PROD_BASE_URL as string;
 export const IMAGE_BASE_URL = import.meta.env.VITE_DEV_IMAGE_BASE_URL as string;
 
 export const api = axios.create({

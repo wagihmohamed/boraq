@@ -5,18 +5,13 @@ import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { createProductSchema } from './schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createStoreService } from '@/services/createStore';
 import { useClients } from '@/hooks/useClients';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
 import { ImageUploader } from '@/components/CustomDropZone';
 import { FileWithPath } from '@mantine/dropzone';
+import { useCreateStore } from '@/hooks/useCreateStore';
 
 export const AddStore = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const form = useForm({
     validate: zodResolver(createProductSchema),
     initialValues: {
@@ -31,27 +26,13 @@ export const AddStore = () => {
     data: clients = {
       data: [],
     },
-  } = useClients({ size: 500 });
+  } = useClients({ size: 1000, minified: true });
   const clientOptions = clients.data.map((client) => ({
     label: client.name,
     value: client.id.toString(),
   }));
 
-  const { mutate: createStoreAction, isLoading } = useMutation({
-    mutationFn: (data: FormData) => {
-      return createStoreService(data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['stores'],
-      });
-      toast.success('تم اضافة المتجر بنجاح');
-      navigate('/stores');
-    },
-    onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ ما');
-    },
-  });
+  const { mutate: createStoreAction, isLoading } = useCreateStore();
 
   const handleSubmit = (values: z.infer<typeof createProductSchema>) => {
     const formData = new FormData();

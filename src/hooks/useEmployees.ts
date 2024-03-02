@@ -9,14 +9,28 @@ export interface EmployeesFilters extends Filters {
 }
 
 export const useEmployees = (
-  { page = 1, size = 10, roles, deleted, ...reset }: EmployeesFilters = {
+  {
+    page = 1,
+    size = 10,
+    roles,
+    deleted,
+    minified,
+    ...reset
+  }: EmployeesFilters = {
     page: 1,
     size: 10,
   }
 ) => {
   return useQuery({
-    queryKey: ['employees', { page, size, roles, deleted, ...reset }],
+    queryKey: ['employees', { page, size, roles, deleted, minified, ...reset }],
     queryFn: () =>
-      getEmployeesService({ page, size, roles, deleted, ...reset }),
+      getEmployeesService({
+        page,
+        size,
+        roles,
+        deleted,
+        minified,
+        ...reset,
+      }),
   });
 };

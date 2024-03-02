@@ -16,9 +16,15 @@ export interface AutomaticUpdate {
   };
   orderStatus: keyof typeof orderStatusArabicNames;
   governorate: keyof typeof governorateArabicNames;
-  returnCondition: ReturnCondition;
-  updateAt: number;
+  branch: {
+    id: number;
+    name: string;
+  };
+  newOrderStatus: keyof typeof governorateArabicNames;
+  returnCondition: keyof typeof orderStatusArabicNames;
   checkAfter: number;
+  updateAt: string;
+  enabled: boolean;
 }
 
 export interface GetAutomaticUpdateResponse {
@@ -29,7 +35,7 @@ export interface GetAutomaticUpdateResponse {
 }
 
 export const getAutomaticUpdatesService = async (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified = false }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetAutomaticUpdateResponse>(
     getAutomaticUpdatesendpoint,
@@ -37,6 +43,7 @@ export const getAutomaticUpdatesService = async (
       params: {
         page,
         size,
+        minified: minified || undefined,
       },
     }
   );

@@ -27,13 +27,17 @@ export interface GetStoresResponse {
 }
 
 export const getStoresService = async (
-  { page = 1, size = 10, deleted = false }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, deleted = false, minified }: Filters = {
+    page: 1,
+    size: 10,
+  }
 ) => {
   const response = await api.get<GetStoresResponse>(getStoresendpoint, {
     params: {
       page,
       size,
       deleted,
+      minified,
     },
   });
   return response.data;

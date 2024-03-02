@@ -2,11 +2,21 @@ import { AppLayout } from '@/components/AppLayout';
 import { useState } from 'react';
 import { ReportsFilters } from '@/services/getReports';
 import { useReports } from '@/hooks/useReports';
-import { DataTable } from '../Employees/data-table';
-import { columns } from './columns';
-import { ReportsFilter } from './components/ReportsFilter';
-import { LoadingOverlay } from '@mantine/core';
-import { ReportsStatistics } from './components/ReportsStatistics';
+import { Paper, Tabs } from '@mantine/core';
+import { ClientReportsView } from './components/TabsViews/ClientReportsView';
+import { CompanyReportsView } from './components/TabsViews/CompanyReportsView';
+import { BranchReportsView } from './components/TabsViews/BranchReportsView';
+import { RepositoryReportsView } from './components/TabsViews/RepositoryReportsView';
+import { GovernorateReportsView } from './components/TabsViews/GovernorateReportsView';
+import { DeliveryAgentReportsView } from './components/TabsViews/DeliveryAgentReportsView';
+
+type ReportsTabsTypes =
+  | 'COMPANY'
+  | 'REPOSITORY'
+  | 'GOVERNORATE'
+  | 'DELIVERY_AGENT'
+  | 'BRANCH'
+  | 'CLIENT';
 
 export const reportsFilterInitialState: ReportsFilters = {
   page: 1,
@@ -24,29 +34,53 @@ export const reportsFilterInitialState: ReportsFilters = {
 };
 
 export const ReportsScreen = () => {
-  const [filters, setFilters] = useState<ReportsFilters>({
-    page: 1,
-    size: 10,
-  });
+  const [activeTab, setActiveTab] = useState<ReportsTabsTypes>('CLIENT');
 
-  const { data: reports, isError, isInitialLoading } = useReports(filters);
+  const { isError, isInitialLoading } = useReports();
 
   return (
-    <AppLayout isError={isError}>
-      <ReportsFilter filters={filters} setFilters={setFilters} />
-      <div className="relative mt-12">
-        <LoadingOverlay visible={isInitialLoading} />
-        <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
-        <DataTable
-          data={reports?.data?.reports || []}
-          columns={columns}
-          filters={{
-            ...filters,
-            pagesCount: reports?.pagesCount || 0,
-          }}
-          setFilters={setFilters}
-        />
-      </div>
+    <AppLayout isLoading={isInitialLoading} isError={isError}>
+      <Tabs
+        keepMounted={false}
+        variant="pills"
+        radius="md"
+        defaultValue="COMPANY"
+        value={activeTab}
+        onChange={(e: ReportsTabsTypes | null) => {
+          if (e) {
+            setActiveTab(e);
+          }
+        }}
+      >
+        <Paper className="mb-6 py-2 rounded px-3" withBorder>
+          <Tabs.List grow>
+            <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
+            <Tabs.Tab value="GOVERNORATE">محافظة</Tabs.Tab>
+            <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
+            <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
+            <Tabs.Tab value="CLIENT">عميل</Tabs.Tab>
+            <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
+          </Tabs.List>
+        </Paper>
+        <Tabs.Panel value="COMPANY">
+          <CompanyReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="GOVERNORATE">
+          <GovernorateReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="BRANCH">
+          <BranchReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="REPOSITORY">
+          <RepositoryReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="CLIENT">
+          <ClientReportsView />
+        </Tabs.Panel>
+        <Tabs.Panel value="DELIVERY_AGENT">
+          <DeliveryAgentReportsView />
+        </Tabs.Panel>
+      </Tabs>
     </AppLayout>
   );
 };

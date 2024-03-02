@@ -7,7 +7,7 @@ export const editProductSchema = z.object({
       invalid_type_error: 'يجب ان يكون اسم المنتج نص',
       required_error: 'يجب ادخال اسم المنتج',
     })
-    .min(3, { message: 'يجب ان يكون اسم المنتج اكثر من 3 احرف' }),
+    .min(2, { message: 'يجب ان يكون اسم المتجر اكثر من 2 احرف' }),
   client: z
     .string({
       invalid_type_error: 'يجب ان يكون العميل نص',

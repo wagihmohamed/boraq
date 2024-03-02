@@ -19,6 +19,7 @@ import {
   IconPackages,
   IconFileSpreadsheet,
   IconRefresh,
+  IconArrowBackUp,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -60,7 +61,7 @@ export const navSections: NavSection[] = [
   },
   {
     link: '/orders-bulk-create',
-    label: 'انشاء طلبات جماعية',
+    label: 'انشاء طلب',
     enLabel: 'orders bulk create',
     icon: IconPackages,
     roles: ['ACCOUNTANT', 'DATA_ENTRY', 'COMPANY_MANAGER'],
@@ -73,7 +74,7 @@ export const navSections: NavSection[] = [
     roles: ['DATA_ENTRY', 'COMPANY_MANAGER'],
   },
   {
-    link: '/orders-auto-apdate',
+    link: '/orders-auto-update',
     label: 'التحديث التلقائي للطلبات',
     enLabel: 'orders auto update',
     icon: IconRefresh,
@@ -90,6 +91,7 @@ export const navSections: NavSection[] = [
       'ACCOUNTANT',
       'DATA_ENTRY',
       'BRANCH_MANAGER',
+      'COMPANY_MANAGER',
     ],
   },
   {
@@ -192,6 +194,13 @@ export const navSections: NavSection[] = [
       'CLIENT_ASSISTANT',
       'COMPANY_MANAGER',
     ],
+  },
+  {
+    link: '/repository-entries',
+    label: 'ادخال رواجع المخزن',
+    enLabel: 'repository entries',
+    icon: IconArrowBackUp,
+    roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
   },
   {
     link: '/banners',

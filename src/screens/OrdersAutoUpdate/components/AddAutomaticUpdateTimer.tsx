@@ -1,11 +1,13 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, NumberInput, Radio } from '@mantine/core';
-import { governorateArray } from '@/lib/governorateArabicNames ';
+import { Modal, Button, Select, NumberInput } from '@mantine/core';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
 import { orderStatusArray } from '@/lib/orderStatusArabicNames';
 import { useForm, zodResolver } from '@mantine/form';
 import { orderStatusAutomaticUpdateCreateSchema } from './AddAutomaticUpdateTimer.zod';
 import { z } from 'zod';
-import { orderReturnConditionArray } from '@/lib/orderReturnConditionArabicNames';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   CreateAutomaticUpdateDatePayload,
@@ -14,6 +16,8 @@ import {
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
+import { useBranches } from '@/hooks/useBranches';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const AddAutomaticUpdateTimer = () => {
   const queryClient = useQueryClient();
@@ -24,10 +28,21 @@ export const AddAutomaticUpdateTimer = () => {
     initialValues: {
       governorate: '',
       orderStatus: '',
-      returnCondition: '',
-      updateAt: 0,
+      newOrderStatus: '',
       checkAfter: 0,
+      branchID: '',
+      updateAt: 0,
     },
+  });
+
+  const {
+    data: branches = {
+      data: [],
+    },
+  } = useBranches({
+    size: 1000,
+    minified: true,
+    governorate: form.values.governorate as keyof typeof governorateArabicNames,
   });
 
   const { mutate: createDate, isLoading } = useMutation({
@@ -48,27 +63,22 @@ export const AddAutomaticUpdateTimer = () => {
   const handleSubmit = (
     values: z.infer<typeof orderStatusAutomaticUpdateCreateSchema>
   ) => {
-    if (values.updateAt === 0) {
-      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد صفر');
-      return;
-    }
     if (values.checkAfter === 0) {
       form.setFieldError('checkAfter', 'لا يمكن ان يكون الموعد صفر');
       return;
     }
-    if (values.updateAt > 24) {
-      form.setFieldError('updateAt', 'لا يمكن ان يكون الموعد اكبر من 24');
-      return;
-    }
     createDate({
       checkAfter: values.checkAfter,
+      branchID: Number(values.branchID),
+      updateAt: values.updateAt,
       governorate:
         values.governorate as CreateAutomaticUpdateDatePayload['governorate'],
       orderStatus:
         values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
-      returnCondition:
-        values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
-      updateAt: values.updateAt,
+      newOrderStatus:
+        values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
+      // returnCondition:
+      //   values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
     });
   };
 
@@ -90,12 +100,32 @@ export const AddAutomaticUpdateTimer = () => {
             {...form.getInputProps('governorate')}
           />
           <Select
+            label="الفرع"
+            searchable
+            placeholder="اختر الفرع"
+            {...form.getInputProps('branchID')}
+            limit={100}
+            data={getSelectOptions(branches.data)}
+          />
+          <Select
             data={orderStatusArray}
             label="اختر حالة الطلب"
             placeholder="اختر حالة الطلب"
             clearable
             searchable
             {...form.getInputProps('orderStatus')}
+          />
+          <Select
+            data={orderStatusArray.filter(
+              (item) => item.value !== form.values.orderStatus
+            )}
+            description="يجب اختيار حالة الطلب اولاً"
+            disabled={!form.values.orderStatus}
+            label="اختر حالة الطلب الجديدة"
+            placeholder="اختر حالة الطلب الجديدة"
+            clearable
+            searchable
+            {...form.getInputProps('newOrderStatus')}
           />
           <NumberInput
             label="القيمة (بالساعة)"
@@ -113,7 +143,7 @@ export const AddAutomaticUpdateTimer = () => {
             max={24}
             {...form.getInputProps('updateAt')}
           />
-          <Radio.Group
+          {/* <Radio.Group
             name="orderReturnCondition"
             label="اختر حالة الارجاع"
             withAsterisk
@@ -124,7 +154,7 @@ export const AddAutomaticUpdateTimer = () => {
                 <Radio key={item.value} value={item.value} label={item.label} />
               ))}
             </div>
-          </Radio.Group>
+          </Radio.Group> */}
           <div className="flex items-center gap-4">
             <Button loading={isLoading} disabled={isLoading} type="submit">
               اضافة

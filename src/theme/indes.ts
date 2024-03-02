@@ -1,4 +1,4 @@
-import { createTheme, MantineColorsTuple } from '@mantine/core';
+import { createTheme, MantineColorsTuple, Select } from '@mantine/core';
 
 const myColor: MantineColorsTuple = [
   '#ffebea',
@@ -18,4 +18,11 @@ export const theme = createTheme({
     myColor,
   },
   primaryColor: 'myColor',
+  components: {
+    Select: Select.extend({
+      defaultProps: {
+        nothingFoundMessage: 'لا يوجد نتائج',
+      },
+    }),
+  },
 });

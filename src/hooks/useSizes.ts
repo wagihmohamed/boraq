@@ -3,10 +3,10 @@ import { getSizesService } from '@/services/getSizes';
 import { useQuery } from '@tanstack/react-query';
 
 export const useSizes = (
-  { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
+  { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   return useQuery({
-    queryKey: ['sizes', { page, size }],
-    queryFn: () => getSizesService({ page, size }),
+    queryKey: ['sizes', { page, size, minified }],
+    queryFn: () => getSizesService({ page, size, minified }),
   });
 };
