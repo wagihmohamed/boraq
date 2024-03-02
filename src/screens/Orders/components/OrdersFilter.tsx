@@ -17,9 +17,11 @@ import {
   Accordion,
   Button,
   Grid,
+  Menu,
   MultiSelect,
   Select,
   TextInput,
+  rem,
 } from '@mantine/core';
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -32,12 +34,16 @@ import { ChangeOrdersDelivery } from './ChangeOrdersDelivery';
 import { ChangeOrdersStatus } from './ChangeOrdersStatus';
 import { useAutomaticUpdates } from '@/hooks/useAutomaticUpdates';
 import { useAuth } from '@/store/authStore';
+import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
+import toast from 'react-hot-toast';
+import { useOrdersStore } from '@/store/ordersStore';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
   setFilters: React.Dispatch<React.SetStateAction<IOrdersFilter>>;
   search: string;
   setSearch: (newValue: string) => void;
+  currentPageOrdersIDs?: number[];
 }
 
 export const CustomOrdersFilter = ({
@@ -45,8 +51,12 @@ export const CustomOrdersFilter = ({
   setFilters,
   search,
   setSearch,
+  currentPageOrdersIDs,
 }: OrdersFilter) => {
   const { role } = useAuth();
+  const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
+  const { mutateAsync: crateOrdersDocumentationPDF, isLoading } =
+    useCreateReportsDocumentation();
   const {
     data: clientsData = {
       data: [],
@@ -104,12 +114,89 @@ export const CustomOrdersFilter = ({
     return null;
   };
 
+  const handleCreateOrdersDocumentationForSelectedOrders = () => {
+    const selectedReportsIDs = selectedOrders.map((order) => Number(order.id));
+    toast.promise(
+      crateOrdersDocumentationPDF(
+        {
+          ordersIDs: selectedReportsIDs,
+          type: 'GENERAL',
+          params: filters,
+        },
+        {
+          onSuccess: () => {
+            deleteAllOrders();
+          },
+        }
+      ),
+      {
+        loading: 'جاري تحميل تقرير...',
+        success: 'تم تحميل تقرير بنجاح',
+        error: (error) => error.message || 'حدث خطأ ما',
+      }
+    );
+  };
+
+  const handleExportCurrentPage = () => {
+    if (!currentPageOrdersIDs) return;
+    toast.promise(
+      crateOrdersDocumentationPDF({
+        ordersIDs: currentPageOrdersIDs,
+        type: 'GENERAL',
+        params: filters,
+      }),
+      {
+        loading: 'جاري تحميل تقرير...',
+        success: 'تم تحميل تقرير بنجاح',
+        error: (error) => error.message || 'حدث خطأ ما',
+      }
+    );
+  };
+
+  const handleExportAll = () => {
+    toast.promise(
+      crateOrdersDocumentationPDF({
+        ordersIDs: '*',
+        type: 'GENERAL',
+        params: filters || {},
+      }),
+      {
+        loading: 'جاري تحميل تقرير بكلل المنتجات',
+        success: 'تم تحميل تقرير بكل المنتجات بنجاح',
+        error: (error) => error.message || 'حدث خطأ ما',
+      }
+    );
+  };
+
   return (
     <>
       <Grid align="center" gutter="lg" className="mb-4">
         <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
           <div className="flex items-center gap-2 flex-wrap">
             <ExportReportModal />
+            <Menu shadow="md" width={rem(180)}>
+              <Menu.Target>
+                <Button>انشاء تقارير</Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>اختار النوع</Menu.Label>
+                <Menu.Item disabled={isLoading} onClick={handleExportAll}>
+                  تصدير الكل{' '}
+                </Menu.Item>
+                <Menu.Item
+                  disabled={currentPageOrdersIDs?.length === 0 || isLoading}
+                  onClick={handleExportCurrentPage}
+                >
+                  تصدير الصفحة الحالية
+                </Menu.Item>
+                <Menu.Item
+                  disabled={selectedOrders.length === 0 || isLoading}
+                  onClick={handleCreateOrdersDocumentationForSelectedOrders}
+                >
+                  تصدير الصفوف المحددة
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
             <ChangeOrdersBranch />
             <ChangeOrdersClient />
             <ChangeOrdersDelivery />

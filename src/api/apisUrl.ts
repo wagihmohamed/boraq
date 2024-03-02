@@ -80,3 +80,4 @@ export const createAutomaticUpdateendpoint = '/automatic-updates';
 export const editAutomaticUpdateendpoint = '/automatic-updates/';
 export const deleteAutomaticUpdateendpoint = '/automatic-updates/';
 export const exportClientReportendpoint = '/reports/pdf';
+export const createOrdersDocumentationendpoint = '/orders/pdf';

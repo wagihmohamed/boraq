@@ -109,6 +109,7 @@ export const OrdersScreen = () => {
         filters={filters}
         search={search}
         setFilters={setFilters}
+        currentPageOrdersIDs={orders.data.orders.map((order) => order.id)}
         setSearch={setSearch}
       />
       <div className="relative mt-12">
