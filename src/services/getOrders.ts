@@ -5,6 +5,7 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { getReportParam } from '@/lib/getReportParam';
+import { orderSecondaryStatusArabicNames } from '@/lib/orderSecondaryStatusArabicNames';
 
 export interface Order {
   id: number;
@@ -22,6 +23,7 @@ export interface Order {
   details: string;
   notes: string;
   status: keyof typeof orderStatusArabicNames;
+  secondaryStatus: keyof typeof orderSecondaryStatusArabicNames;
   deliveryType: keyof typeof deliveryTypesArabicNames;
   clientID: number;
   deliveryAgentID: number;
@@ -75,6 +77,15 @@ export interface Order {
     id: number;
     companyId: number;
   };
+  client: {
+    id: number;
+    name: string;
+    phone: string;
+  };
+  store: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface OrdersMetaData {
@@ -108,6 +119,7 @@ export interface OrdersFilter extends Filters {
   governorate?: string;
   status?: string;
   statuses?: string[];
+  secondaryStatuses?: string[];
   delivery_type?: string;
   delivery_agent_id?: string;
   client_id?: string;
@@ -160,6 +172,7 @@ export const getOrdersService = async (
     company_report,
     branch_id,
     automatic_update_id,
+    secondaryStatuses,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -185,6 +198,7 @@ export const getOrdersService = async (
       recipient_address: recipient_address || undefined,
       deleted,
       statuses: statuses?.join(',') || undefined,
+      secondaryStatuses: secondaryStatuses?.join(',') || undefined,
       client_report: getReportParam(client_report),
       repository_report: getReportParam(repository_report),
       branch_report: getReportParam(branch_report),
