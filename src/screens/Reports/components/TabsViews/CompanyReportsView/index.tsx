@@ -60,7 +60,8 @@ export const CompanyReportsView = () => {
           }}
         />
         <CompanyOrdersStatistics
-          orders={orders.data.orders}
+          ordersLength={orders.data.orders.length}
+          ordersParams={ordersFilter}
           ordersMetaData={orders.data.ordersMetaData}
         />
       </div>

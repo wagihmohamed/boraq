@@ -6,6 +6,10 @@ export const reduceUnusedReportsFilters = (params?: OrdersFilter) => {
         if (
           params &&
           params[key as keyof OrdersFilter] &&
+          params[key as keyof OrdersFilter] !== '0' &&
+          params[key as keyof OrdersFilter] !== '' &&
+          params[key as keyof OrdersFilter] !== undefined &&
+          params[key as keyof OrdersFilter] !== 0 &&
           key !== 'page' &&
           key !== 'size'
         ) {
