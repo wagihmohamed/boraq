@@ -5,19 +5,13 @@ import { useDeliveryAgentsManifest } from '@/hooks/useDeliveryAgentsManifest';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ManifestFilters } from '@/services/getDeliveryAgentManifest';
 import { useManifestStore } from '@/store/manifestStore';
-import {
-  Accordion,
-  Button,
-  LoadingOverlay,
-  Paper,
-  Select,
-} from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
-import { format, parseISO } from 'date-fns';
+import { Accordion, Button, LoadingOverlay, Select } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 import 'dayjs/locale/ar';
 import { useState } from 'react';
 import { DataTable } from '../Employees/data-table';
 import { columns } from './columns';
+import { convertDateFormat } from '@/lib/convertDate';
 
 export const DeliveryAgentsManifest = () => {
   const {
@@ -52,14 +46,6 @@ export const DeliveryAgentsManifest = () => {
     minified: true,
   });
 
-  const convertDateFormat = (date: Date | null): string | null => {
-    if (date) {
-      const parsedDate = parseISO(date.toISOString());
-      return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    }
-    return null;
-  };
-
   return (
     <AppLayout isError={isError}>
       <Accordion variant="separated">
@@ -86,32 +72,43 @@ export const DeliveryAgentsManifest = () => {
               <h1 className="font-bold mb-2 text-lg mt-4">
                 تاريخ بداية ونهاية الطلبيات
               </h1>
-              <div className="">
-                <Paper withBorder mb={10} maw="fit-content" radius="md" p={6}>
-                  <DatePicker
-                    locale="ar"
-                    type="range"
-                    allowSingleDateInRange
-                    value={
-                      orders_start_date && orders_end_date
-                        ? [
-                            new Date(orders_start_date),
-                            new Date(orders_end_date),
-                          ]
-                        : [null, null]
-                    }
-                    onChange={(date) => {
-                      const formatedStartDate = convertDateFormat(date[0]);
-                      const formatedEndDate = convertDateFormat(date[1]);
-                      setOrdersStartDate(formatedStartDate);
-                      setOrdersEndDate(formatedEndDate);
-                    }}
-                  />
-                </Paper>
-
-                <Button className="mt-4" size="md" onClick={resetFilters}>
-                  اعادة تعيين
-                </Button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <DateTimePicker
+                  className="w-60"
+                  valueFormat="DD MMM YYYY hh:mm A"
+                  label="بداية تاريخ الطلب"
+                  value={orders_start_date ? new Date(orders_start_date) : null}
+                  placeholder="اختر تاريخ البداية"
+                  locale="ar"
+                  clearable
+                  onChange={(date) => {
+                    const formattedDate = convertDateFormat(date);
+                    setOrdersStartDate(formattedDate);
+                  }}
+                />
+                <DateTimePicker
+                  className="w-60"
+                  valueFormat="DD MMM YYYY hh:mm A"
+                  label="نهاية تاريخ الطلب"
+                  placeholder="اختر تاريخ النهاية"
+                  value={orders_end_date ? new Date(orders_end_date) : null}
+                  locale="ar"
+                  clearable
+                  onChange={(date) => {
+                    const formattedDate = convertDateFormat(date);
+                    setOrdersEndDate(formattedDate);
+                  }}
+                />
+                {orders_end_date && orders_start_date && (
+                  <Button
+                    onClick={resetFilters}
+                    fullWidth
+                    className="mt-3"
+                    variant="outline"
+                  >
+                    الحذف
+                  </Button>
+                )}
               </div>
             </div>
           </Accordion.Panel>
