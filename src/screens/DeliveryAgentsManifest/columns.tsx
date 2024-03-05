@@ -43,8 +43,7 @@ export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
     header: 'تحميل مانفيست',
     cell: ({ row }) => {
       const { id } = row.original;
-      const { orders_end_date, orders_start_date, branch_id } =
-        useManifestStore();
+      const { orders_end_date, orders_start_date } = useManifestStore();
       const { mutateAsync: crateDeliveryAgentManifest, isLoading } =
         useCreateReportsDocumentation();
 
@@ -54,7 +53,6 @@ export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
             type: 'DELIVERY_AGENT_MANIFEST',
             params: {
               delivery_agent_id: id,
-              branch_id: branch_id || undefined,
               orders_end_date: orders_end_date || undefined,
               orders_start_date: orders_start_date || undefined,
             },
@@ -67,10 +65,13 @@ export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
           }
         );
       };
+
+      const hasOrders = row.original.ordersCount > 0;
+
       return (
         <Button
           onClick={handleCreateDeliveryAgentManifest}
-          disabled={isLoading}
+          disabled={isLoading || !hasOrders}
         >
           تحميل مانفيست
         </Button>
