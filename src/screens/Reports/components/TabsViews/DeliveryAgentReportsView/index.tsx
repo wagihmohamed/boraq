@@ -63,7 +63,8 @@ export const DeliveryAgentReportsView = () => {
         />
         <DeliveryAgentStatistics
           deliveryAgentID={ordersFilter.delivery_agent_id || ''}
-          orders={orders.data.orders}
+          ordersLength={orders.data.orders.length}
+          ordersParams={ordersFilter}
           ordersMetaData={orders.data.ordersMetaData}
         />
       </div>

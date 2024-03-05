@@ -1,4 +1,4 @@
-import { Order, OrdersMetaData } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
 import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
@@ -6,23 +6,24 @@ import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
 
 interface DeliveryAgentOrdersStatisticsProps {
-  orders: Order[];
+  ordersParams: OrdersFilter;
+  ordersLength: number;
   deliveryAgentID: string;
   ordersMetaData: OrdersMetaData;
 }
 
 export const DeliveryAgentStatistics = ({
-  orders,
+  ordersLength,
+  ordersParams,
   deliveryAgentID,
   ordersMetaData,
 }: DeliveryAgentOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const handleCreateReport = () => {
-    const ordersIDs = orders.map((order) => order.id);
-
     const mutationParams: CreateReportPayload = {
-      ordersIDs,
+      ordersIDs: '*',
+      params: ordersParams,
       type: 'DELIVERY_AGENT',
       deliveryAgentID: Number(deliveryAgentID),
     };
@@ -51,7 +52,7 @@ export const DeliveryAgentStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          disabled={orders.length === 0 || isLoading || !deliveryAgentID}
+          disabled={ordersLength === 0 || isLoading || !deliveryAgentID}
           onClick={handleCreateReport}
           loading={isLoading}
         >
