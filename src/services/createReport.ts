@@ -42,7 +42,10 @@ export const createReportService = async (data: CreateReportPayload) => {
   try {
     const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
       createReportendpoint,
-      data,
+      {
+        ...data,
+        params: undefined,
+      },
       {
         responseType: 'arraybuffer',
         params: reduceUnusedReportsFilters(data.params),

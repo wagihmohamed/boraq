@@ -1,4 +1,4 @@
-import { Order, OrdersMetaData } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
 import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
@@ -7,30 +7,33 @@ import { CreateReportPayload } from '@/services/createReport';
 import { useClientByStoreId } from '@/hooks/useClients';
 
 interface ClientOrdersStatisticsProps {
-  orders: Order[];
   storeID: string;
   ordersMetaData: OrdersMetaData;
+  ordersParams: OrdersFilter;
+  ordersLength: number;
 }
 
 export const ClientOrdersStatistics = ({
-  orders,
   storeID,
   ordersMetaData,
+  ordersLength,
+  ordersParams,
 }: ClientOrdersStatisticsProps) => {
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const { mutate: getClientId } = useClientByStoreId();
 
   const handleCreateReport = () => {
-    const ordersIDs = orders.map((order) => order.id);
     getClientId(storeID, {
       onSuccess({ data }) {
         const mutationParams: CreateReportPayload = {
-          ordersIDs,
+          ordersIDs: '*',
+          params: ordersParams,
           type: 'CLIENT',
           storeID: Number(storeID),
           clientID: data[0].id,
         };
+
         toast.promise(createReport(mutationParams), {
           loading: 'جاري تصدير الكشف',
           success: 'تم تصدير الكشف بنجاح',
@@ -97,7 +100,7 @@ export const ClientOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          disabled={orders.length === 0 || isLoading || !storeID}
+          disabled={ordersLength === 0 || isLoading || !storeID}
           onClick={handleCreateReport}
           loading={isLoading}
         >

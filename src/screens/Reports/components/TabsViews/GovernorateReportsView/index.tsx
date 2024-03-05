@@ -34,7 +34,13 @@ export const GovernorateReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(governorateFilter, !!governorateFilter.governorate);
+  } = useOrders(
+    {
+      ...governorateFilter,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    },
+    !!governorateFilter.governorate
+  );
 
   return (
     <>

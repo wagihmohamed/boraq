@@ -34,7 +34,10 @@ export const CompanyReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(ordersFilter);
+  } = useOrders({
+    ...ordersFilter,
+    statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+  });
 
   return (
     <>

@@ -34,7 +34,13 @@ export const DeliveryAgentReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(ordersFilter, !!ordersFilter.delivery_agent_id);
+  } = useOrders(
+    {
+      ...ordersFilter,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    },
+    !!ordersFilter.delivery_agent_id
+  );
   return (
     <>
       <DeliveryAgentOrdersFilter

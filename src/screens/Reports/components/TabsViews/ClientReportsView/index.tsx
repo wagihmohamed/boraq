@@ -37,7 +37,13 @@ export const ClientReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(ordersFilter, !!ordersFilter.store_id);
+  } = useOrders(
+    {
+      ...ordersFilter,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    },
+    !!ordersFilter.store_id
+  );
 
   return (
     <>
@@ -62,7 +68,8 @@ export const ClientReportsView = () => {
         <ClientOrdersStatistics
           storeID={ordersFilter.store_id || ''}
           ordersMetaData={orders.data.ordersMetaData}
-          orders={orders.data.orders}
+          ordersLength={orders.data.orders.length}
+          ordersParams={ordersFilter}
         />
       </div>
       <Divider my="md" size="md" color="red" />
