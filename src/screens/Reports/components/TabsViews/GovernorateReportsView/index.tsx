@@ -66,7 +66,8 @@ export const GovernorateReportsView = () => {
           governorate={
             governorateFilter.governorate as keyof typeof governorateArabicNames
           }
-          orders={orders.data.orders}
+          ordersLength={orders.data.orders.length}
+          ordersParams={governorateFilter}
           ordersMetaData={orders.data.ordersMetaData}
         />
       </div>
