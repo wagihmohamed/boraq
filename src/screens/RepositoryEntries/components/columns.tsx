@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import { Order } from '@/services/getOrders';
 import { useRepositoryOrdersStore } from '@/store/repositoryEntriesOrders';
-import { Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
+import { Badge, Checkbox, Flex, Menu, Text, rem } from '@mantine/core';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { orderSecondaryStatusArabicNames } from '@/lib/orderSecondaryStatusArabicNames';
+import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
+import { SelectRepositoryModal } from './SelectRepositoryModal';
+import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -145,34 +143,65 @@ export const columns: ColumnDef<Order>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;
+      const [
+        changeStatusOpened,
+        { open: openChangeStatus, close: closeChangeStatus },
+      ] = useDisclosure(false);
+      const [isMenuOpen, setMenuOpen] = useState(false);
+
+      const { mutate: changeStatus, isLoading } = useChangeOrderStatus();
+
+      const handleChangeStatus = (
+        status: keyof typeof orderStatusArabicNames
+      ) => {
+        changeStatus({
+          id,
+          data: {
+            status,
+          },
+        });
+      };
+
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
+        <Menu
+          position="bottom-end"
+          zIndex={150}
+          opened={isMenuOpen}
+          onChange={() => {
+            if (changeStatusOpened) return;
+            setMenuOpen(!isMenuOpen);
+          }}
+        >
+          <Menu.Target>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/repositories/${id}/show`}
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item
+              disabled={isLoading}
+              onClick={() => {
+                handleChangeStatus('RESEND');
+              }}
             >
-              عرض
-            </Link>
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/repositories/${id}/edit`}
+              اعادة ارسال الطلب
+            </Menu.Item>
+            <Menu.Item
+              disabled={isLoading}
+              onClick={() => {
+                handleChangeStatus('RETURNED');
+              }}
             >
-              تعديل
-            </Link>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              ارجاع الطلب الي المندوب
+            </Menu.Item>
+            <SelectRepositoryModal
+              close={closeChangeStatus}
+              id={id}
+              open={openChangeStatus}
+              opened={changeStatusOpened}
+            />
+          </Menu.Dropdown>
+        </Menu>
       );
     },
   },
