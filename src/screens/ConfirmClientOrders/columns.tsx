@@ -7,6 +7,7 @@ import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
+import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -133,30 +134,35 @@ export const columns: ColumnDef<Order>[] = [
       const { id } = row.original;
       const { mutate: changeOrderConfirmedStatus, isLoading } =
         useChangeOrderStatus();
-
-      const handleChangeOrderStatus = (confirmed: boolean) => {
+      const { mutate: deleteLocation, isLoading: isDeletingOrderLoading } =
+        useDeactivateOrder();
+      const handleChangeOrderStatus = () => {
         changeOrderConfirmedStatus({
           id,
           data: {
-            confirmed,
+            confirmed: true,
           },
         });
       };
+
+      const handleDeleteOrder = () => {
+        deleteLocation(id);
+      };
+
       return (
         <div className="flex items-center gap-4">
           <ActionIcon
             variant="filled"
             color="teal"
-            disabled={isLoading}
-            onClick={() => handleChangeOrderStatus(true)}
+            disabled={isLoading || isDeletingOrderLoading}
+            onClick={handleChangeOrderStatus}
           >
             <IconCheck />
           </ActionIcon>
           <ActionIcon
             variant="filled"
-            disabled={isLoading}
-            // TODO: handle change order status
-            onClick={() => handleChangeOrderStatus(false)}
+            disabled={isDeletingOrderLoading || isLoading}
+            onClick={handleDeleteOrder}
           >
             <IconX />
           </ActionIcon>

@@ -16,7 +16,8 @@ export const ConfirmClientOrders = () => {
     ...ordersFilterInitialState,
     confirmed: false,
   });
-  const [search, setSearch] = useDebouncedState('', 300);
+  const [search] = useDebouncedState('', 300);
+  // const [search, setSearch] = useDebouncedState('', 300);
 
   const {
     data: orders = {
