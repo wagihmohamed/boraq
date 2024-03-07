@@ -10,9 +10,10 @@ import { columns } from './columns';
 import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
 import toast from 'react-hot-toast';
 import { ClientOrdersActions } from './components/ClientOrdersActions';
+import { useOrderDetailsAction } from '@/hooks/useOrderDetailsAction';
 
 export const ConfirmClientOrders = () => {
-  const [receiptNumber, setReceiptNumber] = useDebouncedState('', 300);
+  const [receiptNumber, setReceiptNumber] = useState('');
   const [filters, setFilters] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     confirmed: false,
@@ -36,13 +37,12 @@ export const ConfirmClientOrders = () => {
 
   const { mutate: changeOrderConfirmedStatus, isLoading } =
     useChangeOrderStatus();
-  const { data: orderDetails } = useOrders(
-    {
-      confirmed: false,
-      search: receiptNumber,
-    },
-    receiptNumber.length > 0
-  );
+
+  const {
+    mutate: getOrderDetails,
+    reset: resetOrderDetails,
+    isLoading: isGettingOrderDetailsLoading,
+  } = useOrderDetailsAction();
 
   const handleChangeOrderStatus = () => {
     if (receiptNumber.length === 0) {
@@ -50,33 +50,37 @@ export const ConfirmClientOrders = () => {
       return;
     }
 
-    if (!orderDetails?.data.orders.length) {
-      toast.error('الطلب غير موجود');
-      return;
-    }
+    getOrderDetails(Number(receiptNumber), {
+      onSuccess: ({ data }) => {
+        if (!data.id) {
+          toast.error('الطلب غير موجود');
+          return;
+        }
 
-    if (orderDetails?.data.orders[0].confirmed) {
-      toast.error('الطلب مؤكد مسبقاً');
-      return;
-    }
-
-    changeOrderConfirmedStatus(
-      {
-        id: orderDetails.data.orders[0].id,
-        data: {
-          confirmed: true,
-        },
+        if (data.confirmed) {
+          toast.error('الطلب مؤكد مسبقاً');
+          return;
+        }
+        changeOrderConfirmedStatus(
+          {
+            id: data.id,
+            data: {
+              confirmed: true,
+            },
+          },
+          {
+            onSuccess: () => {
+              setReceiptNumber('');
+              toast.success('تم تعديل حالة الطلب بنجاح');
+              resetOrderDetails();
+            },
+            onError: () => {
+              toast.error('حدث خطأ أثناء تأكيد الوصل');
+            },
+          }
+        );
       },
-      {
-        onSuccess: () => {
-          setReceiptNumber('');
-          toast.success('تم تعديل حالة الطلب بنجاح');
-        },
-        onError: () => {
-          toast.error('حدث خطأ أثناء تأكيد الوصل');
-        },
-      }
-    );
+    });
   };
 
   return (
@@ -85,7 +89,7 @@ export const ConfirmClientOrders = () => {
       <div className="flex gap-4 items-center">
         <TextInput
           placeholder="أدخل رقم الوصل"
-          defaultValue={receiptNumber}
+          value={receiptNumber}
           className="w-1/4"
           onChange={(event) => setReceiptNumber(event.currentTarget.value)}
           label="تأكيد مباشر برقم الوصل"
@@ -93,7 +97,7 @@ export const ConfirmClientOrders = () => {
         />
         <Button
           className="mt-6"
-          disabled={isLoading}
+          disabled={isLoading || isGettingOrderDetailsLoading}
           onClick={handleChangeOrderStatus}
         >
           تأكيد

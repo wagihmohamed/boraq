@@ -51,6 +51,7 @@ export interface OrderDetails {
     id: number;
     name: string;
   } | null;
+  confirmed: boolean;
 }
 
 export interface Color {
