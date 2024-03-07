@@ -4,16 +4,18 @@ import { Order } from '@/services/getOrders';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
-import { useOrdersStore } from '@/store/ordersStore';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
 import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
+import { useClientOrdersStore } from '@/store/confirmClientOrders';
+import toast from 'react-hot-toast';
 
 export const columns: ColumnDef<Order>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
+      const { deleteAllClientOrders, setAllClientOrders, isClientOrderExist } =
+        useClientOrdersStore();
 
       return (
         <Checkbox
@@ -21,7 +23,9 @@ export const columns: ColumnDef<Order>[] = [
             table.getRowModel().rows.length > 0 &&
             table
               .getRowModel()
-              .rows.every((row) => isOrderExist(row.original.id.toString()))
+              .rows.every((row) =>
+                isClientOrderExist(row.original.id.toString())
+              )
           }
           onChange={(event) => {
             const allTableRowsIds = table.getRowModel().rows.map((row) => ({
@@ -32,30 +36,31 @@ export const columns: ColumnDef<Order>[] = [
             const isAllSelected = event.currentTarget.checked;
 
             if (isAllSelected) {
-              setAllOrders(allTableRowsIds);
+              setAllClientOrders(allTableRowsIds);
               table.toggleAllPageRowsSelected(true);
             } else {
               table.toggleAllPageRowsSelected(false);
-              deleteAllOrders();
+              deleteAllClientOrders();
             }
           }}
         />
       );
     },
     cell: ({ row }) => {
-      const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
+      const { addClientOrder, deleteClientOrder, isClientOrderExist } =
+        useClientOrdersStore();
       return (
         <Checkbox
-          checked={isOrderExist(row.original.id.toString())}
+          checked={isClientOrderExist(row.original.id.toString())}
           onChange={(value) => {
             const isChecked = value.currentTarget.checked;
             const { id, recipientName } = row.original;
             if (isChecked) {
-              addOrder({ id: id.toString(), name: recipientName });
+              addClientOrder({ id: id.toString(), name: recipientName });
               row.toggleSelected(true);
             } else {
               row.toggleSelected(false);
-              deleteOrder(id.toString());
+              deleteClientOrder(id.toString());
             }
           }}
         />
@@ -132,21 +137,32 @@ export const columns: ColumnDef<Order>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;
-      const { mutate: changeOrderConfirmedStatus, isLoading } =
-        useChangeOrderStatus();
-      const { mutate: deleteLocation, isLoading: isDeletingOrderLoading } =
+      const { mutate: confirmOrder, isLoading } = useChangeOrderStatus();
+      const { mutate: deleteOrder, isLoading: isDeletingOrderLoading } =
         useDeactivateOrder();
-      const handleChangeOrderStatus = () => {
-        changeOrderConfirmedStatus({
-          id,
-          data: {
-            confirmed: true,
+
+      const handleConfirmOrder = () => {
+        confirmOrder(
+          {
+            id,
+            data: {
+              confirmed: true,
+            },
           },
-        });
+          {
+            onSuccess: () => {
+              toast.success('تم تعديل حالة الطلب بنجاح');
+            },
+          }
+        );
       };
 
       const handleDeleteOrder = () => {
-        deleteLocation(id);
+        deleteOrder(id, {
+          onSuccess: () => {
+            toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
+          },
+        });
       };
 
       return (
@@ -155,7 +171,7 @@ export const columns: ColumnDef<Order>[] = [
             variant="filled"
             color="teal"
             disabled={isLoading || isDeletingOrderLoading}
-            onClick={handleChangeOrderStatus}
+            onClick={handleConfirmOrder}
           >
             <IconCheck />
           </ActionIcon>

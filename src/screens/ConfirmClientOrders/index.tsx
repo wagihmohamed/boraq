@@ -9,6 +9,7 @@ import { OrdersTable } from '../Orders/components/OrdersTable';
 import { columns } from './columns';
 import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
 import toast from 'react-hot-toast';
+import { ClientOrdersActions } from './components/ClientOrdersActions';
 
 export const ConfirmClientOrders = () => {
   const [receiptNumber, setReceiptNumber] = useDebouncedState('', 300);
@@ -69,6 +70,7 @@ export const ConfirmClientOrders = () => {
       {
         onSuccess: () => {
           setReceiptNumber('');
+          toast.success('تم تعديل حالة الطلب بنجاح');
         },
         onError: () => {
           toast.error('حدث خطأ أثناء تأكيد الوصل');
@@ -79,6 +81,7 @@ export const ConfirmClientOrders = () => {
 
   return (
     <AppLayout isError={isError}>
+      <ClientOrdersActions />
       <div className="flex gap-4 items-center">
         <TextInput
           placeholder="أدخل رقم الوصل"

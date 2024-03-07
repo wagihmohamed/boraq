@@ -1,5 +1,6 @@
 import { Modal, Button } from '@mantine/core';
 import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
+import toast from 'react-hot-toast';
 
 interface Props {
   id: number;
@@ -9,12 +10,13 @@ interface Props {
 }
 
 export const DeleteOrder = ({ id, close, open, opened }: Props) => {
-  const { mutate: deleteLocation, isLoading } = useDeactivateOrder();
+  const { mutate: deleteOrder, isLoading } = useDeactivateOrder();
 
   const handleDelete = () => {
-    deleteLocation(id, {
+    deleteOrder(id, {
       onSuccess: () => {
         close();
+        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
       },
     });
   };

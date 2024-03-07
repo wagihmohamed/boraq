@@ -15,6 +15,7 @@ import {
 } from '@/lib/orderStatusArabicNames';
 import { useState } from 'react';
 import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
+import toast from 'react-hot-toast';
 
 interface Props {
   id: number;
@@ -41,10 +42,18 @@ export const ChangeOrderStatus = ({
     if (!orderStatus) {
       return;
     }
-    changeStatus({
-      id,
-      data: { status: orderStatus },
-    });
+    changeStatus(
+      {
+        id,
+        data: { status: orderStatus },
+      },
+      {
+        onSuccess: () => {
+          toast.success('تم تعديل حالة الطلب بنجاح');
+          close();
+        },
+      }
+    );
   };
 
   return (

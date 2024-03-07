@@ -3,6 +3,7 @@ import { useRepositories } from '@/hooks/useRepositories';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { Button, Menu, Modal, Select } from '@mantine/core';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
   id: number;
@@ -35,6 +36,7 @@ export const SelectRepositoryModal = ({ close, id, open, opened }: Props) => {
         {
           onSuccess: () => {
             close();
+            toast.success('تم تعديل حالة الطلب بنجاح');
           },
         }
       );

@@ -12,6 +12,7 @@ import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
 import { SelectRepositoryModal } from './SelectRepositoryModal';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -154,12 +155,19 @@ export const columns: ColumnDef<Order>[] = [
       const handleChangeStatus = (
         status: keyof typeof orderStatusArabicNames
       ) => {
-        changeStatus({
-          id,
-          data: {
-            status,
+        changeStatus(
+          {
+            id,
+            data: {
+              status,
+            },
           },
-        });
+          {
+            onSuccess: () => {
+              toast.success('تم تعديل حالة الطلب بنجاح');
+            },
+          }
+        );
       };
 
       return (

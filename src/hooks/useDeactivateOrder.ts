@@ -12,7 +12,6 @@ export const useDeactivateOrder = () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
-      toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

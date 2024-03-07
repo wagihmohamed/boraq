@@ -17,7 +17,6 @@ export const useChangeOrderStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
-      toast.success('تم تعديل حالة الطلب بنجاح');
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
