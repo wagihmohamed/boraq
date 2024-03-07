@@ -86,6 +86,7 @@ export interface Order {
     id: number;
     name: string;
   };
+  confirmed: boolean;
 }
 
 export interface OrdersMetaData {
@@ -139,6 +140,9 @@ export interface OrdersFilter extends Filters {
   company_report?: string | null;
   branch_id?: string | null;
   automatic_update_id?: string | null;
+  confirmed?: boolean;
+  company_id?: string;
+  repository_id?: string;
 }
 
 export const getOrdersService = async (
@@ -173,6 +177,9 @@ export const getOrdersService = async (
     branch_id,
     automatic_update_id,
     secondaryStatuses,
+    confirmed = true,
+    company_id,
+    repository_id,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
@@ -207,6 +214,9 @@ export const getOrdersService = async (
       company_report: getReportParam(company_report),
       branch_id: branch_id || undefined,
       automatic_update_id: automatic_update_id || undefined,
+      confirmed,
+      company_id: company_id || undefined,
+      repository_id: repository_id || undefined,
     },
   });
   return response.data;

@@ -55,6 +55,7 @@ import { OrdersAutoUpdate } from './screens/OrdersAutoUpdate';
 import { RolesRoute } from './components/RolesRoute';
 import { useAuth } from './store/authStore';
 import { RepositoryEntries } from './screens/RepositoryEntries';
+import { ConfirmClientOrders } from './screens/ConfirmClientOrders';
 
 function App() {
   const navigate = useNavigate();
@@ -133,6 +134,10 @@ function App() {
             />
             <Route path="/deleted" element={<DeletedScreen />} />
             <Route path="/repositories/:id/show" element={<ShowRepository />} />
+            <Route
+              path="/client-orders-confirm"
+              element={<ConfirmClientOrders />}
+            />
           </Route>
         ) : null}
 
@@ -162,6 +167,10 @@ function App() {
             />
             <Route path="/repositories/add" element={<AddRepositoryScreen />} />
             <Route path="/reports" element={<ReportsScreen />} />
+            <Route
+              path="/client-orders-confirm"
+              element={<ConfirmClientOrders />}
+            />
           </Route>
         ) : null}
 
@@ -275,6 +284,10 @@ function App() {
             <Route path="/home/:id/show" element={<ProductScreen />} />
             <Route path="/home/:id/edit" element={<EditProductScreen />} />
             <Route path="/orders-auto-update" element={<OrdersAutoUpdate />} />
+            <Route
+              path="/client-orders-confirm"
+              element={<ConfirmClientOrders />}
+            />
           </Route>
         ) : null}
 

@@ -16,6 +16,7 @@ export interface EditOrderPayload {
   repositoryID?: number;
   branchID?: number;
   clientID?: number;
+  confirmed?: boolean;
 }
 
 export const editOrderService = async ({

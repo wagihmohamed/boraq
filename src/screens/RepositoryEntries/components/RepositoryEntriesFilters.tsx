@@ -3,6 +3,7 @@ import { useClients } from '@/hooks/useClients';
 import { useEmployees } from '@/hooks/useEmployees';
 import { useRepositories } from '@/hooks/useRepositories';
 import { useStores } from '@/hooks/useStores';
+import { useTenants } from '@/hooks/useTenants';
 import { convertDateFormat } from '@/lib/convertDate';
 import { withReportsDataOptions } from '@/lib/getReportParam';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -53,6 +54,15 @@ export const RepositoryEntriesFilters = ({
     size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
+  });
+
+  const { data: tenants = { data: [] } } = useTenants({
+    size: 100000,
+    minified: true,
+  });
+  const { data: repositories = { data: [] } } = useRepositories({
+    size: 100000,
+    minified: true,
   });
 
   const handleResetRangeDate = () => {
@@ -197,6 +207,40 @@ export const RepositoryEntriesFilters = ({
                     });
                   }}
                   value={filters.store_id}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
+                <Select
+                  searchable
+                  label="الشركة"
+                  placeholder="اختار الشركة"
+                  data={getSelectOptions(tenants.data)}
+                  limit={100}
+                  clearable
+                  value={filters.company_id}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      company_id: e || '',
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
+                <Select
+                  searchable
+                  label="المخزن"
+                  placeholder="اختار المخزن"
+                  data={getSelectOptions(repositories.data)}
+                  limit={100}
+                  clearable
+                  value={filters.repository_id}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      repository_id: e || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>

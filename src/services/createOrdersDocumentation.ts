@@ -80,6 +80,7 @@ export const createOrdersDocumentationService = async (
                 branch_id: data.params.branch_id || undefined,
                 automatic_update_id:
                   data.params.automatic_update_id || undefined,
+                confirmed: data.params.confirmed || false,
               }
             : data.params,
       }

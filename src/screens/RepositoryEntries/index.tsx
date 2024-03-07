@@ -11,13 +11,18 @@ import { useDebouncedState } from '@mantine/hooks';
 import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
 import toast from 'react-hot-toast';
 import { useCreateReport } from '@/hooks/useCreateReport';
-import { useAuth } from '@/store/authStore';
+
+const repositoryEntriesInitialStatuses = [
+  'RETURNED',
+  'PARTIALLY_RETURNED',
+  'REPLACED',
+];
 
 export const RepositoryEntries = () => {
-  const { companyID } = useAuth();
-  const [filters, setFilters] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [filters, setFilters] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    confirmed: true,
+  });
 
   const [search, setSearch] = useDebouncedState('', 300);
 
@@ -33,7 +38,9 @@ export const RepositoryEntries = () => {
   } = useOrders({
     ...filters,
     search,
-    statuses: ['RETURNED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    statuses: filters.statuses?.length
+      ? filters.statuses
+      : repositoryEntriesInitialStatuses,
   });
 
   const { mutateAsync: createGeneralReport, isLoading: isCreatingReport } =
@@ -48,6 +55,9 @@ export const RepositoryEntries = () => {
         ordersIDs: '*',
         params: {
           ...filters,
+          statuses: filters.statuses?.length
+            ? filters.statuses
+            : repositoryEntriesInitialStatuses,
           search,
         },
       }),
@@ -63,10 +73,17 @@ export const RepositoryEntries = () => {
     toast.promise(
       createReport({
         type,
-        companyID: type === 'COMPANY' ? Number(companyID) : undefined,
+        companyID: type === 'COMPANY' ? Number(filters.company_id) : undefined,
+        clientID: type === 'CLIENT' ? Number(filters.client_id) : undefined,
+        storeID: type === 'CLIENT' ? Number(filters.store_id) : undefined,
+        repositoryID:
+          type === 'REPOSITORY' ? Number(filters.repository_id) : undefined,
         ordersIDs: '*',
         params: {
           ...filters,
+          statuses: filters.statuses?.length
+            ? filters.statuses
+            : repositoryEntriesInitialStatuses,
           search,
         },
       }),
@@ -87,6 +104,10 @@ export const RepositoryEntries = () => {
         <Button
           disabled={isCreateReportLoading}
           onClick={() => {
+            if (!filters.company_id) {
+              toast.error('يجب اختيار شركة');
+              return;
+            }
             handleCreateReport('COMPANY');
           }}
         >
@@ -99,10 +120,27 @@ export const RepositoryEntries = () => {
               toast.error('يجب اختيار عميل');
               return;
             }
+
+            if (filters.client_id && !filters.store_id) {
+              toast.error('يجب اختيار العميل و المتجر');
+              return;
+            }
             handleCreateReport('CLIENT');
           }}
         >
           انشاء كشف رواجع للعميل
+        </Button>
+        <Button
+          disabled={isCreateReportLoading}
+          onClick={() => {
+            if (!filters.repository_id) {
+              toast.error('يجب اختيار مخزن');
+              return;
+            }
+            handleCreateReport('REPOSITORY');
+          }}
+        >
+          انشاء كشف رواجع للمخزن
         </Button>
       </div>
       <RepositoryEntriesFilters
