@@ -39,6 +39,10 @@ export interface Report {
       id: number;
       name: string;
     };
+    branch: {
+      id: number;
+      name: string;
+    };
     clientReportOrders: {
       id: number;
       receiptNumber: string;
