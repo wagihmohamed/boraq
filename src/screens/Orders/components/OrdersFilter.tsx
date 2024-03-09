@@ -61,13 +61,13 @@ export const CustomOrdersFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 10000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 10000, minified: true });
 
   const {
     data: locationsData = {

@@ -11,6 +11,7 @@ import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
 import toast from 'react-hot-toast';
 import { ClientOrdersActions } from './components/ClientOrdersActions';
 import { useOrderDetailsAction } from '@/hooks/useOrderDetailsAction';
+import { ClientOrdersFilters } from './components/ClientOrdersFilters';
 
 export const ConfirmClientOrders = () => {
   const [receiptNumber, setReceiptNumber] = useState('');
@@ -18,8 +19,7 @@ export const ConfirmClientOrders = () => {
     ...ordersFilterInitialState,
     confirmed: false,
   });
-  const [search] = useDebouncedState('', 300);
-  // const [search, setSearch] = useDebouncedState('', 300);
+  const [search, setSearch] = useDebouncedState('', 300);
 
   const {
     data: orders = {
@@ -86,6 +86,12 @@ export const ConfirmClientOrders = () => {
   return (
     <AppLayout isError={isError}>
       <ClientOrdersActions />
+      <ClientOrdersFilters
+        filters={filters}
+        search={search}
+        setFilters={setFilters}
+        setSearch={setSearch}
+      />
       <div className="flex gap-4 items-center">
         <TextInput
           placeholder="أدخل رقم الوصل"
