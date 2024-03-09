@@ -1,4 +1,4 @@
-import { changeReportStatusendpoint } from '@/api/apisUrl';
+import { changeReportStatusEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 
@@ -11,7 +11,7 @@ export const changeReportStatusService = async (
   payload: ChangeReportStatusPayload
 ) => {
   const response = await api.patch(
-    `${changeReportStatusendpoint}${reportId}`,
+    `${changeReportStatusEndpoint}${reportId}`,
     payload
   );
   return response.data;

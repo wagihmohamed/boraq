@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteReportendpoint } from '@/api/apisUrl';
+import { deleteReportEndpoint } from '@/api/apisUrl';
 
 export const activateReportService = async ({ id }: { id: number }) => {
-  const response = await api.patch(`${deleteReportendpoint + id}/reactivate`);
+  const response = await api.patch(`${deleteReportEndpoint + id}/reactivate`);
   return response.data;
 };

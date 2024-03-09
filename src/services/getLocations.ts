@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getLocationsendpoint } from '@/api/apisUrl';
+import { getLocationsEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Branch } from './getBranchesService';
 import { Employee, Filters } from './getEmployeesService';
@@ -37,7 +37,7 @@ export const getLocationsService = async (
     minified,
   }: LocationFilters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetLocationsResponse>(getLocationsendpoint, {
+  const response = await api.get<GetLocationsResponse>(getLocationsEndpoint, {
     params: {
       page,
       size,

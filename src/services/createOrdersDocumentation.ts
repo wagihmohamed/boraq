@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createOrdersDocumentationendpoint } from '@/api/apisUrl';
+import { createOrdersDocumentationEndpoint } from '@/api/apisUrl';
 import { AxiosError, AxiosResponse } from 'axios';
 import FileSaver from 'file-saver';
 import { OrdersFilter } from './getOrders';
@@ -34,7 +34,7 @@ export const createOrdersDocumentationService = async (
       CreateOrdersDocumentationReportPDFPayload,
       AxiosResponse<never>
     >(
-      createOrdersDocumentationendpoint,
+      createOrdersDocumentationEndpoint,
       {
         type: data.type,
         ordersIDs: data.ordersIDs,

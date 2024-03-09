@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { exportClientReportendpoint } from '@/api/apisUrl';
+import { exportClientReportEndpoint } from '@/api/apisUrl';
 import { AxiosError, AxiosResponse } from 'axios';
 import FileSaver from 'file-saver';
 import { ReportsFilters } from './getReports';
@@ -26,7 +26,7 @@ export const createClientPDFService = async (
     const response = await api.post<
       CreateClientReportPDFPayload,
       AxiosResponse<never>
-    >(exportClientReportendpoint, data, {
+    >(exportClientReportEndpoint, data, {
       responseType: 'arraybuffer',
       params: data.reportsIDs === '*' ? data.params : undefined,
     });

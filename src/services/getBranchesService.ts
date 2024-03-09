@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getBranchesendpoint } from '@/api/apisUrl';
+import { getBranchesEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Filters } from './getEmployeesService';
 
@@ -33,7 +33,7 @@ export const getBranchesService = async (
     size: 10,
   }
 ) => {
-  const response = await api.get<GetRepositoriesResponse>(getBranchesendpoint, {
+  const response = await api.get<GetRepositoriesResponse>(getBranchesEndpoint, {
     params: {
       page,
       size,

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createBranchendpoint } from '@/api/apisUrl';
+import { createBranchEndpoint } from '@/api/apisUrl';
 
 export interface CreateBranchPayload {
   name: string;
@@ -10,7 +10,7 @@ export interface CreateBranchPayload {
 
 export const createBranchService = async (data: CreateBranchPayload) => {
   const response = await api.post<CreateBranchPayload>(
-    createBranchendpoint,
+    createBranchEndpoint,
     data
   );
   return response.data;

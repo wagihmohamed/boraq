@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '@/api';
-import { createReportendpoint } from '@/api/apisUrl';
+import { createReportEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -41,7 +41,7 @@ export type CreateReportPayload =
 export const createReportService = async (data: CreateReportPayload) => {
   try {
     const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
-      createReportendpoint,
+      createReportEndpoint,
       {
         ...data,
         params: undefined,

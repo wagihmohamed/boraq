@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editCategoryendpoint } from '@/api/apisUrl';
+import { editCategoryEndpoint } from '@/api/apisUrl';
 
 export const editCategoryService = async ({
   title,
@@ -11,6 +11,6 @@ export const editCategoryService = async ({
   const response = await api.patch<{
     title: string;
     id: number;
-  }>(editCategoryendpoint + id, { title });
+  }>(editCategoryEndpoint + id, { title });
   return response.data;
 };

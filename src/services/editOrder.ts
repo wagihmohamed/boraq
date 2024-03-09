@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editOrderendpoint } from '@/api/apisUrl';
+import { editOrderEndpoint } from '@/api/apisUrl';
 import { orderSecondaryStatusArabicNames } from '@/lib/orderSecondaryStatusArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
@@ -29,7 +29,7 @@ export const editOrderService = async ({
   id: number;
 }) => {
   const response = await api.patch<EditOrderPayload>(
-    editOrderendpoint + id,
+    editOrderEndpoint + id,
     data
   );
   return response.data;

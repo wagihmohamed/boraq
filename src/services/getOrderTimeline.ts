@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getOrderDetailsendpoint } from '@/api/apisUrl';
+import { getOrderDetailsEndpoint } from '@/api/apisUrl';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
@@ -136,7 +136,7 @@ export interface OrderTimeline {
 
 export const getOrderTimeline = async (orderId: number) => {
   const response = await api.get<OrderTimeline>(
-    `${getOrderDetailsendpoint}${orderId}/timeline`
+    `${getOrderDetailsEndpoint}${orderId}/timeline`
   );
   return response.data;
 };

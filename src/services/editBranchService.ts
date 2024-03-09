@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editBranchendpoint } from '@/api/apisUrl';
+import { editBranchEndpoint } from '@/api/apisUrl';
 
 export interface EditBranchPayload {
   name: string;
@@ -16,7 +16,7 @@ export const editBranchService = async ({
   id: number;
 }) => {
   const response = await api.patch<EditBranchPayload>(
-    editBranchendpoint + id,
+    editBranchEndpoint + id,
     data
   );
   return response.data;

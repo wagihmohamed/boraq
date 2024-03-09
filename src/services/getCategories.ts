@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getCategoriesendpoint } from '@/api/apisUrl';
+import { getCategoriesEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Category {
@@ -19,7 +19,7 @@ export interface GetCategoriesResponse {
 export const getCategoriesService = async (
   { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetCategoriesResponse>(getCategoriesendpoint, {
+  const response = await api.get<GetCategoriesResponse>(getCategoriesEndpoint, {
     params: {
       page,
       size,

@@ -1,4 +1,4 @@
-import { editAutomaticUpdateendpoint } from '@/api/apisUrl';
+import { editAutomaticUpdateEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
@@ -18,6 +18,6 @@ export const editAutomaticUpdateService = async (
   id: number,
   payload: EditAutomaticUpdateDatePayload
 ) => {
-  const { data } = await api.patch(editAutomaticUpdateendpoint + id, payload);
+  const { data } = await api.patch(editAutomaticUpdateEndpoint + id, payload);
   return data;
 };

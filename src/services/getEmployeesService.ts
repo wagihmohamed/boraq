@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getEmployeesendpoint } from '@/api/apisUrl';
+import { getEmployeesEndpoint } from '@/api/apisUrl';
 import { EmployeesFilters } from '@/hooks/useEmployees';
 import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
@@ -76,7 +76,7 @@ export const getEmployeesService = async (
     size: 10,
   }
 ) => {
-  const response = await api.get<GetEmployeesResponse>(getEmployeesendpoint, {
+  const response = await api.get<GetEmployeesResponse>(getEmployeesEndpoint, {
     params: {
       page,
       size,

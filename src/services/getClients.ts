@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getClientsendpoint } from '@/api/apisUrl';
+import { getClientsEndpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 import { Branch } from './getBranchesService';
 import { Filters } from './getEmployeesService';
@@ -40,7 +40,7 @@ export const getClientsService = async (
     size: 10,
   }
 ) => {
-  const response = await api.get<GetClientsResponse>(getClientsendpoint, {
+  const response = await api.get<GetClientsResponse>(getClientsEndpoint, {
     params: {
       page,
       size,

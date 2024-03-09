@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getLocationDetailsendpoint } from '@/api/apisUrl';
+import { getLocationDetailsEndpoint } from '@/api/apisUrl';
 import { Location } from './getLocations';
 
 export interface GetLocationDetailsResponse {
@@ -9,7 +9,7 @@ export interface GetLocationDetailsResponse {
 
 export const getLocationDetailsService = async (id: number) => {
   const response = await api.get<GetLocationDetailsResponse>(
-    getLocationDetailsendpoint + id
+    getLocationDetailsEndpoint + id
   );
   return response.data;
 };

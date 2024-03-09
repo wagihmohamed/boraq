@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getOrdersendpoint } from '@/api/apisUrl';
+import { getOrdersEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
@@ -184,7 +184,7 @@ export const getOrdersService = async (
     from,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
+  const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
     params: {
       page,
       size,

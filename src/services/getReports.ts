@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getReportsendpoint } from '@/api/apisUrl';
+import { getReportsEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
@@ -159,7 +159,7 @@ export const getReportsService = async (
     created_by_id,
   }: ReportsFilters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetReportsResponse>(getReportsendpoint, {
+  const response = await api.get<GetReportsResponse>(getReportsEndpoint, {
     params: {
       start_date: start_date || undefined,
       end_date: end_date || undefined,

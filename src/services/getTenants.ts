@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getTenantsendpoint } from '@/api/apisUrl';
+import { getTenantsEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Tenant {
@@ -28,7 +28,7 @@ export interface GetTenantsResponse {
 export const getTenantsService = async (
   { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetTenantsResponse>(getTenantsendpoint, {
+  const response = await api.get<GetTenantsResponse>(getTenantsEndpoint, {
     params: {
       page,
       size,

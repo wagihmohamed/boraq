@@ -1,11 +1,11 @@
 import { api } from '@/api';
-import { deleteAutomaticUpdateendpoint } from '@/api/apisUrl';
+import { deleteAutomaticUpdateEndpoint } from '@/api/apisUrl';
 
 export const deleteAutomaticUpdateDateService = async ({
   id,
 }: {
   id: number;
 }) => {
-  const response = await api.delete(deleteAutomaticUpdateendpoint + id);
+  const response = await api.delete(deleteAutomaticUpdateEndpoint + id);
   return response.data;
 };

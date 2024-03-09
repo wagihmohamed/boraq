@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editSizeendpoint } from '@/api/apisUrl';
+import { editSizeEndpoint } from '@/api/apisUrl';
 
 export const editSizeService = async ({
   title,
@@ -11,6 +11,6 @@ export const editSizeService = async ({
   const response = await api.patch<{
     title: string;
     id: number;
-  }>(editSizeendpoint + id, { title });
+  }>(editSizeEndpoint + id, { title });
   return response.data;
 };

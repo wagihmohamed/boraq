@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createEmployeeendpoint } from '@/api/apisUrl';
+import { createEmployeeEndpoint } from '@/api/apisUrl';
 import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 
@@ -16,7 +16,7 @@ export interface CreateEmployeePayload {
 }
 
 export const createEmployeeService = async (data: FormData) => {
-  const response = await api.post<FormData>(createEmployeeendpoint, data, {
+  const response = await api.post<FormData>(createEmployeeEndpoint, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

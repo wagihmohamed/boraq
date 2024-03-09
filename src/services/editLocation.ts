@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editLocationendpoint } from '@/api/apisUrl';
+import { editLocationEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 
 export interface EditLocationPayload {
@@ -17,7 +17,7 @@ export const editLocationService = async ({
   id: number;
 }) => {
   const response = await api.patch<EditLocationPayload>(
-    editLocationendpoint + id,
+    editLocationEndpoint + id,
     data
   );
   return response.data;
@@ -28,7 +28,7 @@ export const editLocationDeliveryAgentsService = async ({
   deliveryAgentsIDs,
 }: EditLocationPayload) => {
   const response = await api.patch<EditLocationPayload>(
-    editLocationendpoint + branchID,
+    editLocationEndpoint + branchID,
     { deliveryAgentsIDs }
   );
   return response.data;

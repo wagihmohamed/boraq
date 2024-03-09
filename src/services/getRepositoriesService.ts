@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getRepositoriesendpoint } from '@/api/apisUrl';
+import { getRepositoriesEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Repository {
@@ -32,7 +32,7 @@ export const getRepositoriesService = async (
   { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetRepositoriesResponse>(
-    getRepositoriesendpoint,
+    getRepositoriesEndpoint,
     {
       params: {
         page,

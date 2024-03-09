@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteClientendpoint } from '@/api/apisUrl';
+import { deleteClientEndpoint } from '@/api/apisUrl';
 
 export const reactivateClientService = async ({ id }: { id: number }) => {
-  const response = await api.patch(`${deleteClientendpoint + id}/reactivate`);
+  const response = await api.patch(`${deleteClientEndpoint + id}/reactivate`);
   return response.data;
 };

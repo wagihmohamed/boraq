@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createOrderendpoint } from '@/api/apisUrl';
+import { createOrderEndpoint } from '@/api/apisUrl';
 
 export interface CreateOrderItem {
   withProducts: boolean;
@@ -29,7 +29,7 @@ export type CreateOrderPayload = CreateOrderItem | CreateOrderItem[];
 
 export const createOrderService = async (data: CreateOrderPayload) => {
   const response = await api.post<CreateOrderPayload>(
-    createOrderendpoint,
+    createOrderEndpoint,
     data
   );
   return response.data;

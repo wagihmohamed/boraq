@@ -1,4 +1,4 @@
-import { getAutomaticUpdatesendpoint } from '@/api/apisUrl';
+import { getAutomaticUpdatesEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
@@ -38,7 +38,7 @@ export const getAutomaticUpdatesService = async (
   { page = 1, size = 10, minified = false }: Filters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetAutomaticUpdateResponse>(
-    getAutomaticUpdatesendpoint,
+    getAutomaticUpdatesEndpoint,
     {
       params: {
         page,

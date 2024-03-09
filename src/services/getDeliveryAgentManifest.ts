@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getEmployeesendpoint } from '@/api/apisUrl';
+import { getEmployeesEndpoint } from '@/api/apisUrl';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { permissionsArabicNames } from '@/lib/persmissionArabicNames';
 
@@ -74,7 +74,7 @@ export const getDeliveryAgentManifest = async ({
   branch_id,
 }: ManifestFilters = {}) => {
   const response = await api.get<IDeliveryAgentManifestResponse>(
-    getEmployeesendpoint,
+    getEmployeesEndpoint,
     {
       params: {
         roles: 'DELIVERY_AGENT',

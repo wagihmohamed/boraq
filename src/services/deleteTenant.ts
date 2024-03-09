@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteTenantendpoint } from '@/api/apisUrl';
+import { deleteTenantEndpoint } from '@/api/apisUrl';
 
 export const deleteTenantService = async ({ id }: { id: number }) => {
-  const response = await api.delete(deleteTenantendpoint + id);
+  const response = await api.delete(deleteTenantEndpoint + id);
   return response.data;
 };

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editColorendpoint } from '@/api/apisUrl';
+import { editColorEndpoint } from '@/api/apisUrl';
 
 export const editColorService = async ({
   title,
@@ -14,6 +14,6 @@ export const editColorService = async ({
     title: string;
     id: number;
     code: string;
-  }>(editColorendpoint + id, { title, code });
+  }>(editColorEndpoint + id, { title, code });
   return response.data;
 };
