@@ -112,6 +112,9 @@ export const orderTimelineTypeArabicNames = {
   REPORT_CREATE: 'إنشاء كشف',
   REPORT_DELETE: 'حذف كشف',
   PAID_AMOUNT_CHANGE: 'تغيير المبلغ المدفوع',
+  REPOSITORY_CHANGE: 'تغيير المخزن',
+  BRANCH_CHANGE: 'تغيير الفرع',
+  CLIENT_CHANGE: 'تغيير العميل',
 };
 
 export interface OrderTimeline {

@@ -48,6 +48,12 @@ export const renderTimelineDescription = ({
       return `تم انشاء كشف ${reportTypeArabicNames[reportType]} بواسطة ${by.name}`;
     case 'REPORT_DELETE':
       return ` تم حذف كشف  بواسطة ${by.name}`;
+    case 'REPOSITORY_CHANGE':
+      return ` تم تغيير المخزن من ${old.name} الى ${newStatus.name} بواسطة ${by.name}`;
+    case 'BRANCH_CHANGE':
+      return ` تم تغيير الفرع من ${old.name} الى ${newStatus.name} بواسطة ${by.name}`;
+    case 'CLIENT_CHANGE':
+      return ` تم تغيير العميل من ${old.name} الى ${newStatus.name} بواسطة ${by.name}`;
     default:
       return null;
   }
