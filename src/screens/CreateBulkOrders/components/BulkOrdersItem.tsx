@@ -69,6 +69,7 @@ export const BulkOrdersItem = ({
               `orders.${index}.recipientPhones.${phoneArrayIndex}.phone`
             )}
             value={formatMobileNumber(phone.phone)}
+            maxLength={11}
           />
           <ActionIcon
             color="red"

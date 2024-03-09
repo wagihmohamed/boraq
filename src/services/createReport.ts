@@ -40,8 +40,6 @@ export type CreateReportPayload =
 
 export const createReportService = async (data: CreateReportPayload) => {
   try {
-    console.log(data.params);
-
     const response = await api.post<CreateReportPayload, AxiosResponse<any>>(
       createReportendpoint,
       {
