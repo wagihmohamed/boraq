@@ -1,9 +1,6 @@
 import { Modal, Button } from '@mantine/core';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
 import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
-import { deactivateOrderService } from '@/services/deactivateOrder';
 
 interface Props {
   id: number;
@@ -13,23 +10,15 @@ interface Props {
 }
 
 export const DeleteOrder = ({ id, close, open, opened }: Props) => {
-  const queryClient = useQueryClient();
-  const { mutate: deleteLocation, isLoading } = useMutation({
-    mutationFn: (id: number) => deactivateOrderService({ id }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['orders'],
-      });
-      toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
-      close();
-    },
-    onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ ما');
-    },
-  });
+  const { mutate: deleteOrder, isLoading } = useDeactivateOrder();
 
   const handleDelete = () => {
-    deleteLocation(id);
+    deleteOrder(id, {
+      onSuccess: () => {
+        close();
+        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
+      },
+    });
   };
 
   return (

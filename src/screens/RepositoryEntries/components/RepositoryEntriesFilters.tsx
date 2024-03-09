@@ -3,14 +3,36 @@ import { useClients } from '@/hooks/useClients';
 import { useEmployees } from '@/hooks/useEmployees';
 import { useRepositories } from '@/hooks/useRepositories';
 import { useStores } from '@/hooks/useStores';
+import { useTenants } from '@/hooks/useTenants';
+import { convertDateFormat } from '@/lib/convertDate';
 import { withReportsDataOptions } from '@/lib/getReportParam';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { repositoryEntriesStatuses } from '@/lib/repositoryEntriesStatuses';
-import { Accordion, Button, Grid, Select, TextInput } from '@mantine/core';
+import { OrdersFilter } from '@/services/getOrders';
+import {
+  Accordion,
+  Button,
+  Grid,
+  MultiSelect,
+  Select,
+  TextInput,
+} from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 
-export const RepositoryEntriesFilters = () => {
+interface RepositoryEntriesFiltersProps {
+  filters: OrdersFilter;
+  setFilters: React.Dispatch<React.SetStateAction<OrdersFilter>>;
+  search: string;
+  setSearch: (newValue: string) => void;
+}
+
+export const RepositoryEntriesFilters = ({
+  filters,
+  setFilters,
+  search,
+  setSearch,
+}: RepositoryEntriesFiltersProps) => {
   const { data: repositoriesData } = useRepositories({
     size: 100000,
     minified: true,
@@ -34,12 +56,21 @@ export const RepositoryEntriesFilters = () => {
     roles: ['DELIVERY_AGENT'],
   });
 
+  const { data: tenants = { data: [] } } = useTenants({
+    size: 100000,
+    minified: true,
+  });
+  const { data: repositories = { data: [] } } = useRepositories({
+    size: 100000,
+    minified: true,
+  });
+
   const handleResetRangeDate = () => {
-    // setFilters({
-    //   ...filters,
-    //   start_date: null,
-    //   end_date: null,
-    // });
+    setFilters({
+      ...filters,
+      start_date: null,
+      end_date: null,
+    });
   };
 
   return (
@@ -51,9 +82,12 @@ export const RepositoryEntriesFilters = () => {
             <Grid gutter="lg">
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
                 <TextInput
-                  size="md"
-                  placeholder="رقم الوصل"
-                  label="رقم الوصل"
+                  placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
+                  defaultValue={search}
+                  label="بحث"
+                  onChange={(e) => {
+                    setSearch(e.currentTarget.value);
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -64,6 +98,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="المخزن"
                   label="المخزن"
                   limit={100}
+                  value={filters.repository_id}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      repository_id: value,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -74,6 +115,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="الفرع"
                   label="الفرع"
                   limit={100}
+                  value={filters.branch_id}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      branch_id: value,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -84,6 +132,13 @@ export const RepositoryEntriesFilters = () => {
                   limit={100}
                   data={governorateArray}
                   clearable
+                  value={filters.governorate}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      governorate: value || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -94,16 +149,30 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="الفرع المرسل اليه"
                   label="الفرع المرسل اليه"
                   limit={100}
+                  value={filters.branch_id}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      branch_id: value,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
-                <Select
+                <MultiSelect
                   data={repositoryEntriesStatuses}
                   searchable
                   clearable
                   placeholder="الحالة"
                   label="الحالة"
                   limit={100}
+                  value={filters.statuses}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      statuses: e || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -114,6 +183,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="العميل"
                   label="العميل"
                   limit={100}
+                  value={filters.client_id}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      client_id: value || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -124,6 +200,47 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="المتجر"
                   label="المتجر"
                   limit={100}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      store_id: e || '',
+                    });
+                  }}
+                  value={filters.store_id}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
+                <Select
+                  searchable
+                  label="الشركة"
+                  placeholder="اختار الشركة"
+                  data={getSelectOptions(tenants.data)}
+                  limit={100}
+                  clearable
+                  value={filters.company_id}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      company_id: e || '',
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
+                <Select
+                  searchable
+                  label="المخزن"
+                  placeholder="اختار المخزن"
+                  data={getSelectOptions(repositories.data)}
+                  limit={100}
+                  clearable
+                  value={filters.repository_id}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      repository_id: e || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -134,6 +251,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="مندوب التوصيل"
                   label="مندوب التوصيل"
                   limit={100}
+                  value={filters.delivery_agent_id?.toString()}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      delivery_agent_id: e || '',
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -141,6 +265,13 @@ export const RepositoryEntriesFilters = () => {
                   label="كشف رواجع عميل"
                   placeholder="كشف رواجع عميل"
                   data={withReportsDataOptions}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      client_report: e,
+                    });
+                  }}
+                  defaultValue={filters.client_report}
                   clearable
                 />
               </Grid.Col>
@@ -150,6 +281,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="كشف رواجع للشركة"
                   data={withReportsDataOptions}
                   clearable
+                  defaultValue={filters.company_report}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      company_report: e,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
@@ -158,6 +296,13 @@ export const RepositoryEntriesFilters = () => {
                   placeholder="كشف المخزن"
                   data={withReportsDataOptions}
                   clearable
+                  defaultValue={filters.repository_report}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      repository_report: e,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 12, lg: 12, sm: 12, xs: 12 }}>
@@ -166,45 +311,45 @@ export const RepositoryEntriesFilters = () => {
                     className="w-60"
                     valueFormat="DD MMM YYYY hh:mm A"
                     label="بداية تاريخ الطلب"
-                    // value={
-                    //   filters.start_date ? new Date(filters.start_date) : null
-                    // }
+                    value={
+                      filters.start_date ? new Date(filters.start_date) : null
+                    }
                     placeholder="اختر تاريخ البداية"
                     locale="ar"
                     clearable
-                    // onChange={(date) => {
-                    //   const formattedDate = convertDateFormat(date);
-                    //   setFilters({
-                    //     ...filters,
-                    //     start_date: formattedDate,
-                    //   });
-                    // }}
+                    onChange={(date) => {
+                      const formattedDate = convertDateFormat(date);
+                      setFilters({
+                        ...filters,
+                        start_date: formattedDate,
+                      });
+                    }}
                   />
                   <DateTimePicker
                     className="w-60"
                     valueFormat="DD MMM YYYY hh:mm A"
                     label="نهاية تاريخ الطلب"
                     placeholder="اختر تاريخ النهاية"
-                    // value={filters.end_date ? new Date(filters.end_date) : null}
+                    value={filters.end_date ? new Date(filters.end_date) : null}
                     locale="ar"
                     clearable
-                    // onChange={(date) => {
-                    //   const formattedDate = convertDateFormat(date);
-                    //   setFilters({
-                    //     ...filters,
-                    //     end_date: formattedDate,
-                    //   });
-                    // }}
+                    onChange={(date) => {
+                      const formattedDate = convertDateFormat(date);
+                      setFilters({
+                        ...filters,
+                        end_date: formattedDate,
+                      });
+                    }}
                   />
-                  {/* {filters.end_date && filters.start_date && ( */}
-                  <Button
-                    onClick={handleResetRangeDate}
-                    className="mt-6"
-                    variant="outline"
-                  >
-                    الحذف
-                  </Button>
-                  {/* )} */}
+                  {filters.end_date && filters.start_date && (
+                    <Button
+                      onClick={handleResetRangeDate}
+                      className="mt-6"
+                      variant="outline"
+                    >
+                      الحذف
+                    </Button>
+                  )}
                 </div>
               </Grid.Col>
             </Grid>

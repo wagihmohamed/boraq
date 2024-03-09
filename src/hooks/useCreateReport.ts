@@ -15,6 +15,9 @@ export const useCreateReport = () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['timeline'],
+      });
     },
   });
 };

@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteColorendpoint } from '@/api/apisUrl';
+import { deleteColorEndpoint } from '@/api/apisUrl';
 
 export const deleteColorService = async ({ id }: { id: number }) => {
-  const response = await api.delete(deleteColorendpoint + id);
+  const response = await api.delete(deleteColorEndpoint + id);
   return response.data;
 };

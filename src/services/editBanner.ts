@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editBannerendpoint } from '@/api/apisUrl';
+import { editBannerEndpoint } from '@/api/apisUrl';
 
 export const editBannerService = async ({
   data,
@@ -8,7 +8,7 @@ export const editBannerService = async ({
   data: FormData;
   id: number;
 }) => {
-  const response = await api.patch<FormData>(editBannerendpoint + id, data, {
+  const response = await api.patch<FormData>(editBannerEndpoint + id, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getBranchDetailsendpoint } from '@/api/apisUrl';
+import { getBranchDetailsEndpoint } from '@/api/apisUrl';
 
 export interface Branch {
   id: number;
@@ -16,7 +16,7 @@ export interface GetBranchesResponse {
 
 export const getBranchDetails = async (id: number) => {
   const response = await api.get<GetBranchesResponse>(
-    getBranchDetailsendpoint + id
+    getBranchDetailsEndpoint + id
   );
   return response.data;
 };

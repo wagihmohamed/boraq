@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getEmployeeDetailsendpoint } from '@/api/apisUrl';
+import { getEmployeeDetailsEndpoint } from '@/api/apisUrl';
 import { Employee } from './getEmployeesService';
 
 export interface GetEmployeeDetailsResponse {
@@ -9,7 +9,7 @@ export interface GetEmployeeDetailsResponse {
 
 export const getEmployeeDetailsService = async (id: number) => {
   const response = await api.get<GetEmployeeDetailsResponse>(
-    getEmployeeDetailsendpoint + id
+    getEmployeeDetailsEndpoint + id
   );
   return response.data;
 };

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getColorsendpoint } from '@/api/apisUrl';
+import { getColorsEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Color {
@@ -20,7 +20,7 @@ export interface GetColorsResponse {
 export const getColorsService = async (
   { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetColorsResponse>(getColorsendpoint, {
+  const response = await api.get<GetColorsResponse>(getColorsEndpoint, {
     params: {
       page,
       size,

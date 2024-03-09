@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getSizesendpoint } from '@/api/apisUrl';
+import { getSizesEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Size {
@@ -19,7 +19,7 @@ export interface GetSizesResponse {
 export const getSizesService = async (
   { page = 1, size = 10, minified }: Filters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetSizesResponse>(getSizesendpoint, {
+  const response = await api.get<GetSizesResponse>(getSizesEndpoint, {
     params: {
       page,
       size,

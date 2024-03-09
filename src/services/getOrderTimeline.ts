@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getOrderDetailsendpoint } from '@/api/apisUrl';
+import { getOrderDetailsEndpoint } from '@/api/apisUrl';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
@@ -112,6 +112,9 @@ export const orderTimelineTypeArabicNames = {
   REPORT_CREATE: 'إنشاء كشف',
   REPORT_DELETE: 'حذف كشف',
   PAID_AMOUNT_CHANGE: 'تغيير المبلغ المدفوع',
+  REPOSITORY_CHANGE: 'تغيير المخزن',
+  BRANCH_CHANGE: 'تغيير الفرع',
+  CLIENT_CHANGE: 'تغيير العميل',
 };
 
 export interface OrderTimeline {
@@ -133,7 +136,7 @@ export interface OrderTimeline {
 
 export const getOrderTimeline = async (orderId: number) => {
   const response = await api.get<OrderTimeline>(
-    `${getOrderDetailsendpoint}${orderId}/timeline`
+    `${getOrderDetailsEndpoint}${orderId}/timeline`
   );
   return response.data;
 };

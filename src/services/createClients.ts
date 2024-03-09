@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createClientendpoint } from '@/api/apisUrl';
+import { createClientEndpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 import { AxiosResponse } from 'axios';
 
@@ -28,7 +28,7 @@ export const createClientsService = async (data: FormData) => {
   const response = await api.post<
     FormData,
     AxiosResponse<CreateClientServiceResponse>
-  >(createClientendpoint, data, {
+  >(createClientEndpoint, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

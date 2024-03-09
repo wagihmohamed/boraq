@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editClientendpoint } from '@/api/apisUrl';
+import { editClientEndpoint } from '@/api/apisUrl';
 import { clientTypeArabicNames } from '@/lib/clientTypeArabicNames';
 
 export interface EditClientPayload {
@@ -18,7 +18,7 @@ export const editClientService = async ({
   data: FormData;
   id: number;
 }) => {
-  const response = await api.patch<FormData>(editClientendpoint + id, data, {
+  const response = await api.patch<FormData>(editClientEndpoint + id, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

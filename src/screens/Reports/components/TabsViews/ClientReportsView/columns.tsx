@@ -112,6 +112,13 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
+    accessorKey: 'clientReport.branch.name',
+    header: 'الفرع',
+    accessorFn: ({ clientReport }) => {
+      return clientReport?.branch.name || '';
+    },
+  },
+  {
     accessorKey: 'baghdadOrdersCount',
     header: 'عدد الطلبات في بغداد',
   },

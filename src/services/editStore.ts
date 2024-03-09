@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { editStoreendpoint } from '@/api/apisUrl';
+import { editStoreEndpoint } from '@/api/apisUrl';
 
 export interface EditStorePayload {
   clientID: number;
@@ -17,7 +17,7 @@ export const editStoreService = async ({
   const response = await api.patch<{
     title: string;
     id: number;
-  }>(editStoreendpoint + id, data, {
+  }>(editStoreEndpoint + id, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

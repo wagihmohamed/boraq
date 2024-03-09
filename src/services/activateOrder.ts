@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteOrderendpoint } from '@/api/apisUrl';
+import { deleteOrderEndpoint } from '@/api/apisUrl';
 
 export const activateOrderService = async ({ id }: { id: number }) => {
-  const response = await api.patch(`${deleteOrderendpoint + id}/reactivate`);
+  const response = await api.patch(`${deleteOrderEndpoint + id}/reactivate`);
   return response.data;
 };

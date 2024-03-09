@@ -1,4 +1,4 @@
-import { ordersStatisticsendpoint } from '@/api/apisUrl';
+import { ordersStatisticsEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
@@ -59,7 +59,7 @@ export const getOrdersStatisticsService = async (
   filters: OrdersStatisticsFilter
 ) => {
   const response = await api.get<OrdersStatisticsResponse>(
-    ordersStatisticsendpoint,
+    ordersStatisticsEndpoint,
     {
       params: {
         store_id: filters?.store_id || undefined,

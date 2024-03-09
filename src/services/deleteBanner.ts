@@ -1,7 +1,7 @@
 import { api } from '@/api';
-import { deleteBannerendpoint } from '@/api/apisUrl';
+import { deleteBannerEndpoint } from '@/api/apisUrl';
 
 export const deleteBannerService = async ({ id }: { id: number }) => {
-  const response = await api.delete(deleteBannerendpoint + id);
+  const response = await api.delete(deleteBannerEndpoint + id);
   return response.data;
 };

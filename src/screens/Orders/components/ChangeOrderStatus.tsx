@@ -1,9 +1,4 @@
 import { Modal, Button } from '@mantine/core';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import { APIError } from '@/models';
-import { EditOrderPayload, editOrderService } from '@/services/editOrder';
 import {
   Card,
   CardContent,
@@ -19,6 +14,8 @@ import {
   orderStatusArray,
 } from '@/lib/orderStatusArabicNames';
 import { useState } from 'react';
+import { useChangeOrderStatus } from '@/hooks/useChangeOrderStatus';
+import toast from 'react-hot-toast';
 
 interface Props {
   id: number;
@@ -38,33 +35,25 @@ export const ChangeOrderStatus = ({
   const [orderStatus, setOrderStatus] = useState<
     keyof typeof orderStatusArabicNames | undefined
   >(status);
-  const queryClient = useQueryClient();
-  const { mutate: changeStatus, isLoading } = useMutation({
-    mutationFn: (data: EditOrderPayload) => {
-      return editOrderService({
-        id,
-        data,
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['orders'],
-      });
-      toast.success('تم تعديلل حاالة الطلب بنجاح');
-      close();
-    },
-    onError: (error: AxiosError<APIError>) => {
-      toast.error(error.response?.data.message || 'حدث خطأ ما');
-    },
-  });
+
+  const { mutate: changeStatus, isLoading } = useChangeOrderStatus();
 
   const handleChangeStatus = () => {
     if (!orderStatus) {
       return;
     }
-    changeStatus({
-      status: orderStatus,
-    });
+    changeStatus(
+      {
+        id,
+        data: { status: orderStatus },
+      },
+      {
+        onSuccess: () => {
+          toast.success('تم تعديل حالة الطلب بنجاح');
+          close();
+        },
+      }
+    );
   };
 
   return (

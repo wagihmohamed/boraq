@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createTenantendpoint } from '@/api/apisUrl';
+import { createTenantEndpoint } from '@/api/apisUrl';
 
 export interface CreateTenantPayload {
   name: string;
@@ -17,7 +17,7 @@ export interface CreateTenantPayload {
 }
 
 export const createTenantService = async (data: FormData) => {
-  const response = await api.post<FormData>(createTenantendpoint, data, {
+  const response = await api.post<FormData>(createTenantEndpoint, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

@@ -1,30 +1,35 @@
-import { Order, OrdersMetaData } from '@/services/getOrders';
+import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
 import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
-import { useAuth } from '@/store/authStore';
 
 interface CompanyOrdersStatisticsProps {
-  orders: Order[];
+  ordersParams: OrdersFilter;
+  ordersLength: number;
   ordersMetaData: OrdersMetaData;
+  company_id: string;
 }
 
 export const CompanyOrdersStatistics = ({
-  orders,
+  ordersLength,
+  ordersParams,
   ordersMetaData,
+  company_id,
 }: CompanyOrdersStatisticsProps) => {
-  const { companyID } = useAuth();
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const handleCreateReport = () => {
-    const ordersIDs = orders.map((order) => order.id);
-
+    if (!company_id) {
+      toast.error('يرجى اختيار شركة');
+      return;
+    }
     const mutationParams: CreateReportPayload = {
-      ordersIDs,
+      ordersIDs: '*',
+      params: ordersParams,
       type: 'COMPANY',
-      companyID: Number(companyID),
+      companyID: Number(company_id),
     };
     toast.promise(createReport(mutationParams), {
       loading: 'جاري تصدير الكشف',
@@ -51,7 +56,7 @@ export const CompanyOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
         <Button
-          disabled={orders.length === 0 || isLoading}
+          disabled={ordersLength === 0 || isLoading}
           onClick={handleCreateReport}
           loading={isLoading}
         >

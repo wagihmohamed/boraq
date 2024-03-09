@@ -1,11 +1,11 @@
 import { api } from '@/api';
-import { validateTokenendpoint } from '@/api/apisUrl';
+import { validateTokenEndpoint } from '@/api/apisUrl';
 import { authStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 
 export const validateToken = async () => {
   try {
-    const response = await api.post(validateTokenendpoint);
+    const response = await api.post(validateTokenEndpoint);
     return response;
   } catch (e) {
     authStore.getState().logout();

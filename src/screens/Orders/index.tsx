@@ -35,7 +35,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   store_id: '',
   branch_id: '',
   automatic_update_id: '',
-  minified: true,
+  minified: false,
 };
 
 interface OrdersSearchParameters {
@@ -109,6 +109,7 @@ export const OrdersScreen = () => {
         filters={filters}
         search={search}
         setFilters={setFilters}
+        currentPageOrdersIDs={orders.data.orders.map((order) => order.id)}
         setSearch={setSearch}
       />
       <div className="relative mt-12">

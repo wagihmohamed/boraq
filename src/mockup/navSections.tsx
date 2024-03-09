@@ -20,6 +20,7 @@ import {
   IconFileSpreadsheet,
   IconRefresh,
   IconArrowBackUp,
+  IconCheck,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -159,6 +160,18 @@ export const navSections: NavSection[] = [
     roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
   },
   {
+    link: '/client-orders-confirm',
+    label: 'تأكيد طلبات العملاء',
+    enLabel: 'client orders confirm',
+    icon: IconCheck,
+    roles: [
+      'ADMIN',
+      'ADMIN_ASSISTANT',
+      'COMPANY_MANAGER',
+      'REPOSITORIY_EMPLOYEE',
+    ],
+  },
+  {
     link: '/employees/add',
     label: 'اضافة مندوب',
     enLabel: 'employees',
@@ -200,7 +213,12 @@ export const navSections: NavSection[] = [
     label: 'ادخال رواجع المخزن',
     enLabel: 'repository entries',
     icon: IconArrowBackUp,
-    roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
+    roles: [
+      'ADMIN',
+      'ADMIN_ASSISTANT',
+      'COMPANY_MANAGER',
+      'REPOSITORIY_EMPLOYEE',
+    ],
   },
   {
     link: '/banners',

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getProductDetailsendpoint } from '@/api/apisUrl';
+import { getProductDetailsEndpoint } from '@/api/apisUrl';
 
 export interface ProductDetails {
   id: number;
@@ -33,7 +33,7 @@ export interface GetProductsResponse {
 
 export const getProductDetailsService = async (id: number) => {
   const response = await api.get<GetProductsResponse>(
-    getProductDetailsendpoint + id
+    getProductDetailsEndpoint + id
   );
   return response.data;
 };

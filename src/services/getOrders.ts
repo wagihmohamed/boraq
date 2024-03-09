@@ -1,10 +1,11 @@
 import { api } from '@/api';
-import { getOrdersendpoint } from '@/api/apisUrl';
+import { getOrdersEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { getReportParam } from '@/lib/getReportParam';
+import { orderSecondaryStatusArabicNames } from '@/lib/orderSecondaryStatusArabicNames';
 
 export interface Order {
   id: number;
@@ -22,6 +23,7 @@ export interface Order {
   details: string;
   notes: string;
   status: keyof typeof orderStatusArabicNames;
+  secondaryStatus: keyof typeof orderSecondaryStatusArabicNames;
   deliveryType: keyof typeof deliveryTypesArabicNames;
   clientID: number;
   deliveryAgentID: number;
@@ -75,6 +77,16 @@ export interface Order {
     id: number;
     companyId: number;
   };
+  client: {
+    id: number;
+    name: string;
+    phone: string;
+  };
+  store: {
+    id: number;
+    name: string;
+  };
+  confirmed: boolean;
 }
 
 export interface OrdersMetaData {
@@ -108,6 +120,7 @@ export interface OrdersFilter extends Filters {
   governorate?: string;
   status?: string;
   statuses?: string[];
+  secondaryStatuses?: string[];
   delivery_type?: string;
   delivery_agent_id?: string;
   client_id?: string;
@@ -127,6 +140,10 @@ export interface OrdersFilter extends Filters {
   company_report?: string | null;
   branch_id?: string | null;
   automatic_update_id?: string | null;
+  confirmed?: boolean;
+  company_id?: string;
+  repository_id?: string | null;
+  from?: string;
 }
 
 export const getOrdersService = async (
@@ -160,9 +177,14 @@ export const getOrdersService = async (
     company_report,
     branch_id,
     automatic_update_id,
+    secondaryStatuses,
+    confirmed = true,
+    company_id,
+    repository_id,
+    from,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetOrdersResponse>(getOrdersendpoint, {
+  const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
     params: {
       page,
       size,
@@ -185,6 +207,7 @@ export const getOrdersService = async (
       recipient_address: recipient_address || undefined,
       deleted,
       statuses: statuses?.join(',') || undefined,
+      secondaryStatuses: secondaryStatuses?.join(',') || undefined,
       client_report: getReportParam(client_report),
       repository_report: getReportParam(repository_report),
       branch_report: getReportParam(branch_report),
@@ -193,6 +216,9 @@ export const getOrdersService = async (
       company_report: getReportParam(company_report),
       branch_id: branch_id || undefined,
       automatic_update_id: automatic_update_id || undefined,
+      confirmed: from === 'DELETED' ? undefined : confirmed,
+      company_id: company_id || undefined,
+      repository_id: repository_id || undefined,
     },
   });
   return response.data;

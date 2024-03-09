@@ -1,4 +1,4 @@
-import { createAutomaticUpdateendpoint } from '@/api/apisUrl';
+import { createAutomaticUpdateEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
@@ -16,6 +16,6 @@ export interface CreateAutomaticUpdateDatePayload {
 export const createAutomaticUpdateDateService = async (
   payload: CreateAutomaticUpdateDatePayload
 ) => {
-  const { data } = await api.post(createAutomaticUpdateendpoint, payload);
+  const { data } = await api.post(createAutomaticUpdateEndpoint, payload);
   return data;
 };

@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getOrderDetailsendpoint } from '@/api/apisUrl';
+import { getOrderDetailsEndpoint } from '@/api/apisUrl';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
@@ -51,6 +51,7 @@ export interface OrderDetails {
     id: number;
     name: string;
   } | null;
+  confirmed: boolean;
 }
 
 export interface Color {
@@ -83,7 +84,7 @@ export interface GetOrderDetailsResponse {
 
 export const getOrderDetailsService = async (id: number) => {
   const response = await api.get<GetOrderDetailsResponse>(
-    getOrderDetailsendpoint + id
+    getOrderDetailsEndpoint + id
   );
   return response.data;
 };

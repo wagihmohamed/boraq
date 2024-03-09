@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { createStoreendpoint } from '@/api/apisUrl';
+import { createStoreEndpoint } from '@/api/apisUrl';
 
 export interface CreateStorePayload {
   name: string;
@@ -8,7 +8,7 @@ export interface CreateStorePayload {
 }
 
 export const createStoreService = async (data: FormData) => {
-  const response = await api.post<FormData>(createStoreendpoint, data, {
+  const response = await api.post<FormData>(createStoreEndpoint, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

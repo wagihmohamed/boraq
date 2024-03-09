@@ -32,6 +32,9 @@ export const ChangeOrdersDelivery = () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['timeline'],
+      });
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

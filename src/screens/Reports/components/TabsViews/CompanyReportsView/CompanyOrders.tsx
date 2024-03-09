@@ -16,6 +16,7 @@ import { useEmployees } from '@/hooks/useEmployees';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { reportStatusArray } from '@/lib/reportStatusArabicNames';
+import { useTenants } from '@/hooks/useTenants';
 
 interface IReportsFilter {
   ordersFilters: OrdersFilter;
@@ -49,6 +50,12 @@ export const CompanyOrdersFilter = ({
       'REPOSITORIY_EMPLOYEE',
     ],
   });
+
+  const {
+    data: tenantsData = {
+      data: [],
+    },
+  } = useTenants({ size: 1000, minified: true });
 
   const handleResetOrdersRangeDate = () => {
     setOrdersFilters({
@@ -88,6 +95,23 @@ export const CompanyOrdersFilter = ({
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
           <Select
+            value={ordersFilters.company_id}
+            allowDeselect
+            label="الشركة"
+            searchable
+            clearable
+            onChange={(e) => {
+              setOrdersFilters({
+                ...reportsFilters,
+                company_id: e || '',
+              });
+            }}
+            placeholder="اختر ساحب الكشف"
+            data={getSelectOptions(tenantsData.data)}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+          <Select
             value={reportsFilters.governorate}
             allowDeselect
             label="المحافظة"
@@ -111,6 +135,8 @@ export const CompanyOrdersFilter = ({
           <TextInput
             label="اجور توصيل بغداد"
             placeholder="اجور توصيل بغداد"
+            // TODO baghdad_delivery_cost
+            // TODO governorates_delivery_cost
             // value={ordersFilters.delivery_fees || ''}
             // onChange={(e) => {
             //   setOrdersFilters({

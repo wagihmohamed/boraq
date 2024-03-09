@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getNotificationsendpoint } from '@/api/apisUrl';
+import { getNotificationsEndpoint } from '@/api/apisUrl';
 
 export interface Notification {
   id: number;
@@ -18,7 +18,7 @@ export interface GetNotificationsResponse {
 
 export const getNotificationsService = async (page = 1) => {
   const response = await api.get<GetNotificationsResponse>(
-    getNotificationsendpoint,
+    getNotificationsEndpoint,
     {
       params: {
         page,

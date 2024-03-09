@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
 import { IDeliveryAgentManifest } from '@/services/getDeliveryAgentManifest';
 import { useManifestStore } from '@/store/manifestStore';
 import { Button } from '@mantine/core';
 import { ColumnDef } from '@tanstack/react-table';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
@@ -34,6 +36,46 @@ export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
         });
       };
       return <Button onClick={handleClick}>عرض الطلبيات</Button>;
+    },
+  },
+  {
+    id: 'createManifest',
+    header: 'تحميل مانفيست',
+    cell: ({ row }) => {
+      const { id } = row.original;
+      const { orders_end_date, orders_start_date } = useManifestStore();
+      const { mutateAsync: crateDeliveryAgentManifest, isLoading } =
+        useCreateReportsDocumentation();
+
+      const handleCreateDeliveryAgentManifest = async () => {
+        toast.promise(
+          crateDeliveryAgentManifest({
+            type: 'DELIVERY_AGENT_MANIFEST',
+            params: {
+              delivery_agent_id: id,
+              orders_end_date: orders_end_date || undefined,
+              orders_start_date: orders_start_date || undefined,
+            },
+            ordersIDs: '*',
+          }),
+          {
+            loading: 'جاري تحميل تقرير...',
+            success: 'تم تحميل تقرير بنجاح',
+            error: (error) => error.message || 'حدث خطأ ما',
+          }
+        );
+      };
+
+      const hasOrders = row.original.ordersCount > 0;
+
+      return (
+        <Button
+          onClick={handleCreateDeliveryAgentManifest}
+          disabled={isLoading || !hasOrders}
+        >
+          تحميل مانفيست
+        </Button>
+      );
     },
   },
 ];

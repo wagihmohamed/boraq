@@ -34,7 +34,13 @@ export const GovernorateReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(governorateFilter, !!governorateFilter.governorate);
+  } = useOrders(
+    {
+      ...governorateFilter,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    },
+    !!governorateFilter.governorate
+  );
 
   return (
     <>
@@ -60,7 +66,8 @@ export const GovernorateReportsView = () => {
           governorate={
             governorateFilter.governorate as keyof typeof governorateArabicNames
           }
-          orders={orders.data.orders}
+          ordersLength={orders.data.orders.length}
+          ordersParams={governorateFilter}
           ordersMetaData={orders.data.ordersMetaData}
         />
       </div>

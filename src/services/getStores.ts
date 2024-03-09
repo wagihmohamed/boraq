@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getStoresendpoint } from '@/api/apisUrl';
+import { getStoresEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Store {
@@ -32,7 +32,7 @@ export const getStoresService = async (
     size: 10,
   }
 ) => {
-  const response = await api.get<GetStoresResponse>(getStoresendpoint, {
+  const response = await api.get<GetStoresResponse>(getStoresEndpoint, {
     params: {
       page,
       size,

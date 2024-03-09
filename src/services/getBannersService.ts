@@ -1,5 +1,5 @@
 import { api } from '@/api';
-import { getBannersendpoint } from '@/api/apisUrl';
+import { getBannersEndpoint } from '@/api/apisUrl';
 import { Filters } from './getEmployeesService';
 
 export interface Banner {
@@ -25,7 +25,7 @@ export interface GetBannersResponse {
 export const getBannersService = async (
   { page = 1, size = 10 }: Filters = { page: 1, size: 10 }
 ) => {
-  const response = await api.get<GetBannersResponse>(getBannersendpoint, {
+  const response = await api.get<GetBannersResponse>(getBannersEndpoint, {
     params: {
       page,
       size,
