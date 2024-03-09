@@ -160,6 +160,7 @@ export const columns: ColumnDef<Order>[] = [
             id,
             data: {
               status,
+              secondaryStatus: status === 'RETURNED' ? 'WITH_AGENT' : undefined,
             },
           },
           {

@@ -34,10 +34,13 @@ export const CompanyReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders({
-    ...ordersFilter,
-    statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
-  });
+  } = useOrders(
+    {
+      ...ordersFilter,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+    },
+    !!ordersFilter.company_id
+  );
 
   return (
     <>
@@ -62,6 +65,7 @@ export const CompanyReportsView = () => {
         <CompanyOrdersStatistics
           ordersLength={orders.data.orders.length}
           ordersParams={ordersFilter}
+          company_id={ordersFilter.company_id || ''}
           ordersMetaData={orders.data.ordersMetaData}
         />
       </div>

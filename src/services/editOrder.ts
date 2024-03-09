@@ -1,5 +1,6 @@
 import { api } from '@/api';
 import { editOrderendpoint } from '@/api/apisUrl';
+import { orderSecondaryStatusArabicNames } from '@/lib/orderSecondaryStatusArabicNames';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 
 export interface EditOrderPayload {
@@ -17,6 +18,7 @@ export interface EditOrderPayload {
   branchID?: number;
   clientID?: number;
   confirmed?: boolean;
+  secondaryStatus?: keyof typeof orderSecondaryStatusArabicNames;
 }
 
 export const editOrderService = async ({

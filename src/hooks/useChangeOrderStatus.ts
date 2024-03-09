@@ -17,6 +17,9 @@ export const useChangeOrderStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ['orders'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['orderTimeline'],
+      });
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

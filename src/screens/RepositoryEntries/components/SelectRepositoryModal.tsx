@@ -31,6 +31,7 @@ export const SelectRepositoryModal = ({ close, id, open, opened }: Props) => {
           data: {
             repositoryID: Number(selectedRepository),
             status: 'RETURNED',
+            secondaryStatus: 'IN_REPOSITORY',
           },
         },
         {
