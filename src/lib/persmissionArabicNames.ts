@@ -3,7 +3,7 @@ enum Permission {
   ADD_CLIENT = ' اضافة عميل',
   ADD_LOCATION = ' اضافة منطقة',
   ADD_DELIVERY_AGENT = 'اضافة مندوب',
-  ADD_ORDER = ' اضافة طلبة',
+  ADD_ORDER = ' اضافة طلب',
   DELETE_ORDER = ' مسح طلبية',
   CHANGE_ORDER_STATUS = 'تغيير حالة طلبية',
   CHANGE_CLOSED_ORDER_STATUS = 'تغيير حالة طلبية مغلقة',

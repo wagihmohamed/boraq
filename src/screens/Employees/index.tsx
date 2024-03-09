@@ -14,6 +14,10 @@ import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { useLocations } from '@/hooks/useLocations';
+import {
+  permissionsArabicNames,
+  permissionsArray,
+} from '@/lib/persmissionArabicNames';
 
 export const Employees = () => {
   const [filters, setFilters] = useState<EmployeesFilters>({
@@ -36,6 +40,15 @@ export const Employees = () => {
     setFilters({
       ...filters,
       roles: value,
+    });
+  };
+
+  const handleChangePermissions = (
+    value: (keyof typeof permissionsArabicNames)[]
+  ) => {
+    setFilters({
+      ...filters,
+      permissions: value,
     });
   };
 
@@ -68,6 +81,18 @@ export const Employees = () => {
                   placeholder="الدور"
                   value={filters.roles}
                   onChange={handleSelect}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <MultiSelect
+                  label="الصلاحيات"
+                  data={permissionsArray}
+                  clearable
+                  searchable
+                  limit={50}
+                  placeholder="الصلاحيات"
+                  value={filters.permissions}
+                  onChange={handleChangePermissions}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
