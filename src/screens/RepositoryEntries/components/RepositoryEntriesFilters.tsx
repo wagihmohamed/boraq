@@ -98,13 +98,13 @@ export const RepositoryEntriesFilters = ({
                   placeholder="المخزن"
                   label="المخزن"
                   limit={100}
-                  // value={filters.repository_id}
-                  // onChange={(value) => {
-                  //   setFilters({
-                  //     ...filters,
-                  //     repository_id: value,
-                  //   });
-                  // }}
+                  value={filters.repository_id}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      repository_id: value,
+                    });
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>

@@ -142,7 +142,7 @@ export interface OrdersFilter extends Filters {
   automatic_update_id?: string | null;
   confirmed?: boolean;
   company_id?: string;
-  repository_id?: string;
+  repository_id?: string | null;
   from?: string;
 }
 
