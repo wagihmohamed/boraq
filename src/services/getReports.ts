@@ -139,6 +139,7 @@ export interface ReportsFilters extends Filters {
   status?: string;
   type?: string;
   created_by_id?: string;
+  company_id?: string;
 }
 
 export const getReportsService = async (

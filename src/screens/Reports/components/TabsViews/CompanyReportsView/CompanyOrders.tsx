@@ -102,6 +102,10 @@ export const CompanyOrdersFilter = ({
             clearable
             onChange={(e) => {
               setOrdersFilters({
+                ...ordersFilters,
+                company_id: e || '',
+              });
+              setReportsFilters({
                 ...reportsFilters,
                 company_id: e || '',
               });
