@@ -58,6 +58,10 @@ export const columns: ColumnDef<Client>[] = [
     },
   },
   {
+    header: 'تم الانشاء بواسطة',
+    accessorKey: 'createdBy.name',
+  },
+  {
     header: 'تكلفة التوصيل',
     cell: ({ row }) => {
       const { id, governoratesDeliveryCosts } = row.original;
