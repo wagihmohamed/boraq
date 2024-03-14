@@ -29,3 +29,8 @@ export interface Branch {
   phone: string;
   createdAt: Date;
 }
+
+export interface CustomSelectOption {
+  label: string;
+  value: string;
+}
