@@ -12,7 +12,7 @@ import { useClients } from '@/hooks/useClients';
 
 export const ChangeOrdersClient = () => {
   const queryClient = useQueryClient();
-  const { orders: selectedOrders } = useOrdersStore();
+  const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: clientsData } = useClients({
     size: 1000,
@@ -34,6 +34,7 @@ export const ChangeOrdersClient = () => {
       queryClient.invalidateQueries({
         queryKey: ['timeline'],
       });
+      deleteAllOrders();
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

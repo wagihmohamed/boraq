@@ -14,7 +14,7 @@ import {
 
 export const ChangeOrdersStatus = () => {
   const queryClient = useQueryClient();
-  const { orders: selectedOrders } = useOrdersStore();
+  const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedBranch, setSelectedBranch] = useState<
     keyof typeof orderStatusArabicNames | null
@@ -34,6 +34,7 @@ export const ChangeOrdersStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ['timeline'],
       });
+      deleteAllOrders();
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

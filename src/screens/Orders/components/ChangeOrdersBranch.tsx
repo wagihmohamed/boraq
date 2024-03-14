@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 export const ChangeOrdersBranch = () => {
   const queryClient = useQueryClient();
-  const { orders: selectedOrders } = useOrdersStore();
+  const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: branchesData } = useBranches({
     size: 1000,
@@ -34,6 +34,7 @@ export const ChangeOrdersBranch = () => {
       queryClient.invalidateQueries({
         queryKey: ['timeline'],
       });
+      deleteAllOrders();
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
