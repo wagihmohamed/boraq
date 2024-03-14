@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { Order } from '@/services/getOrders';
-import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
@@ -10,6 +9,7 @@ import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
 import { format, parseISO } from 'date-fns';
 import { IconRotate } from '@tabler/icons-react';
 import { useActivateOrder } from '@/hooks/useActivateOrder';
+import { OrdersBadge } from '@/components/OrdersBadge';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -149,8 +149,9 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'status',
     header: 'الحالة',
-    accessorFn: ({ status }) => {
-      return orderStatusArabicNames[status];
+    cell: ({ row }) => {
+      const { status } = row.original;
+      return <OrdersBadge status={status} />;
     },
   },
   {

@@ -4,7 +4,6 @@ import { MoreHorizontal } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Order } from '@/services/getOrders';
-import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import {
@@ -24,6 +23,7 @@ import { OrderTimelineModal } from '@/screens/Orders/components/OrderTimelineMod
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ChangeOrderStatus } from '@/screens/Orders/components/ChangeOrderStatus';
+import { OrdersBadge } from '@/components/OrdersBadge';
 
 export const reportsOrdersColumns: ColumnDef<Order>[] = [
   {
@@ -116,8 +116,9 @@ export const reportsOrdersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: 'status',
     header: 'الحالة',
-    accessorFn: ({ status }) => {
-      return orderStatusArabicNames[status];
+    cell: ({ row }) => {
+      const { status } = row.original;
+      return <OrdersBadge status={status} />;
     },
   },
   {
