@@ -22,9 +22,7 @@ export const createBulkOfOrdersSchema = z.object({
   orders: z.array(
     z
       .object({
-        recipientName: z
-          .string()
-          .min(1, { message: 'الرجاء ادخال اسم المستلم' }),
+        recipientName: z.string(),
         recipientPhones: z.array(
           z.object(
             {

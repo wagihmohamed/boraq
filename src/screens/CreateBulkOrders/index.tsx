@@ -169,6 +169,9 @@ export const CreateBulkOrders = () => {
         queryKey: ['ordersStatistics'],
       });
       form.reset();
+      setOrdersTotals(1);
+      setSelectedGovernorate(null);
+      setSelectedStore(null);
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
@@ -182,7 +185,7 @@ export const CreateBulkOrders = () => {
           withProducts: order.withProducts,
           governorate: selectedGovernorate || order.governorate || '',
           recipientAddress: order.details,
-          recipientName: order.recipientName,
+          recipientName: order.recipientName || 'افتراضي',
           recipientPhones: order.recipientPhones.map((phone) => phone.phone),
           storeID: Number(selectedStore || order.storeID),
           details: order.details,
@@ -201,7 +204,7 @@ export const CreateBulkOrders = () => {
         withProducts: order.withProducts,
         governorate: selectedGovernorate || order.governorate || '',
         recipientAddress: order.details,
-        recipientName: order.recipientName,
+        recipientName: order.recipientName || 'افتراضي',
         recipientPhones: order.recipientPhones.map((phone) => phone.phone),
         storeID: Number(selectedStore || order.storeID),
         details: order.details,
