@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
-import { APIError } from '@/models';
+import { APIError, CustomSelectOption } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
 import {
@@ -21,6 +21,7 @@ import { getSelectOptions } from '@/lib/getSelectOptions';
 import { z } from 'zod';
 import { CreateStoreModal } from './components/CreateStoreModal';
 import { CreateClientAndStoreModal } from './components/CreateClientAndStoreModal';
+import { CustomSelect } from '@/components/CustomSelect';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -70,7 +71,8 @@ export const CreateBulkOrders = () => {
   const [selectedGovernorate, setSelectedGovernorate] = useState<
     string | null
   >();
-  const [selectedStore, setSelectedStore] = useState<string | null>();
+  const [selectedStore, setSelectedStore] =
+    useState<CustomSelectOption | null>();
   const queryClient = useQueryClient();
   const form = useForm<OrderBulkFormValues>({
     initialValues: {
@@ -187,7 +189,7 @@ export const CreateBulkOrders = () => {
           recipientAddress: order.details,
           recipientName: order.recipientName || 'افتراضي',
           recipientPhones: order.recipientPhones.map((phone) => phone.phone),
-          storeID: Number(selectedStore || order.storeID),
+          storeID: Number(selectedStore?.value || order.storeID),
           details: order.details,
           notes: order.notes,
           products: order.products?.map((product) => {
@@ -206,7 +208,7 @@ export const CreateBulkOrders = () => {
         recipientAddress: order.details,
         recipientName: order.recipientName || 'افتراضي',
         recipientPhones: order.recipientPhones.map((phone) => phone.phone),
-        storeID: Number(selectedStore || order.storeID),
+        storeID: Number(selectedStore?.value || order.storeID),
         details: order.details,
         notes: order.notes,
         totalCost: Number(order.totalCost),
@@ -222,6 +224,13 @@ export const CreateBulkOrders = () => {
         <CreateStoreModal />
         <CreateClientAndStoreModal />
       </div>
+      <CustomSelect
+        value={selectedStore}
+        onChange={(newValue) => {
+          setSelectedStore(newValue as CustomSelectOption);
+        }}
+        options={getSelectOptions(storesData?.data)}
+      />
       <div className="flex items-center gap-4 mb-6">
         <TextInput
           label="عدد الطلبات"
@@ -246,6 +255,7 @@ export const CreateBulkOrders = () => {
         <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
           <Select
             data={createBulkOrdersSelect}
+            allowDeselect={false}
             value={createBulkOrdersBy}
             label="ادخال حسب"
             placeholder="اختر الطريقة"
@@ -257,7 +267,11 @@ export const CreateBulkOrders = () => {
             size="md"
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+        <Grid.Col
+          className="z-1000"
+          // h={400}
+          span={{ base: 12, xs: 12, sm: 12, md: 6 }}
+        >
           {createBulkOrdersBy === 'governorate' && (
             <Select
               data={governorateArray}
@@ -273,17 +287,13 @@ export const CreateBulkOrders = () => {
             />
           )}
           {createBulkOrdersBy === 'page' && (
-            <Select
-              data={getSelectOptions(storesData?.data || [])}
-              label="المتجر"
-              searchable
+            <CustomSelect
               value={selectedStore}
-              onChange={(e) => {
-                setSelectedStore(e);
+              label="المتجر"
+              onChange={(newValue) => {
+                setSelectedStore(newValue as CustomSelectOption);
               }}
-              allowDeselect={false}
-              placeholder="اختر المتجر"
-              size="md"
+              options={getSelectOptions(storesData?.data)}
             />
           )}
         </Grid.Col>
