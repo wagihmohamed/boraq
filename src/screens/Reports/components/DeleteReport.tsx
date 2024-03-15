@@ -35,7 +35,13 @@ export const DeleteReport = ({ id }: { id: number }) => {
         </div>
       </Modal>
 
-      <Button className="mb-2" fullWidth variant="filled" onClick={open}>
+      <Button
+        size="xs"
+        className="mb-2"
+        fullWidth
+        variant="filled"
+        onClick={open}
+      >
         مسح
       </Button>
     </>

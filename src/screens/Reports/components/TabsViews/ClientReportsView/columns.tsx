@@ -179,7 +179,6 @@ export const columns: ColumnDef<IReport>[] = [
 
       const pdfTitle = `${reportNameMap[type]} - ${reportTypeArabicNames[type]}`;
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutateAsync: getReportPDF } = useReportsPDF(pdfTitle);
 
       const handleDownload = () => {

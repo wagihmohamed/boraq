@@ -2,14 +2,13 @@ import { Modal, Button } from '@mantine/core';
 import toast from 'react-hot-toast';
 import { useDisclosure } from '@mantine/hooks';
 import { useRepositoryReportsStore } from '@/store/repositoryReportsOrders';
-import { useChangeReportStatus } from '@/hooks/useChangeReportStatus';
+import { useEditReport } from '@/hooks/useEditReport';
 
 export const ChangeReportsPaidStatus = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { repositoryReportsOrders, deleteAllRepositoryReportsOrders } =
     useRepositoryReportsStore();
-  const { mutateAsync: changeReportStatus, isLoading } =
-    useChangeReportStatus();
+  const { mutateAsync: changeReportStatus, isLoading } = useEditReport();
 
   const handleDelete = async () => {
     await Promise.all(

@@ -1,7 +1,7 @@
 import { Switch } from '@mantine/core';
 import toast from 'react-hot-toast';
-import { useChangeReportStatus } from '@/hooks/useChangeReportStatus';
-import { ChangeReportStatusPayload } from '@/services/changeReportStatusService';
+import { useEditReport } from '@/hooks/useEditReport';
+import { ChangeReportStatusPayload } from '@/services/editReportService';
 
 export const ChangeReportStatus = ({
   id,
@@ -10,7 +10,7 @@ export const ChangeReportStatus = ({
   id: number;
   initialStatus: ChangeReportStatusPayload['status'];
 }) => {
-  const { mutate: changeReportStatus } = useChangeReportStatus();
+  const { mutate: changeReportStatus } = useEditReport();
 
   const handleEdit = (status: 'UNPAID' | 'PAID') => {
     changeReportStatus(
