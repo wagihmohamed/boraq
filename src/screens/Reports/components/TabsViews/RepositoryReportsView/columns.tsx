@@ -43,7 +43,7 @@ export const columns: ColumnDef<IReport>[] = [
           onChange={(event) => {
             const allTableRowsIds = table.getRowModel().rows.map((row) => ({
               id: row.original.id.toString(),
-              name: row.original.type,
+              status: row.original.status,
             }));
 
             const isAllSelected = event.currentTarget.checked;
@@ -67,9 +67,9 @@ export const columns: ColumnDef<IReport>[] = [
           checked={isOrderExist(row.original.id.toString())}
           onChange={(value) => {
             const isChecked = value.currentTarget.checked;
-            const { id, type } = row.original;
+            const { id, status } = row.original;
             if (isChecked) {
-              addOrder({ id: id.toString(), name: type });
+              addOrder({ id: id.toString(), status });
               row.toggleSelected(true);
             } else {
               row.toggleSelected(false);

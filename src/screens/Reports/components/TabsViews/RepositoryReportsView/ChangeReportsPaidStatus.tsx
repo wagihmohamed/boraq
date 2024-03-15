@@ -2,30 +2,39 @@ import { Modal, Button } from '@mantine/core';
 import toast from 'react-hot-toast';
 import { useDisclosure } from '@mantine/hooks';
 import { useRepositoryReportsStore } from '@/store/repositoryReportsOrders';
-import { useDeactivateReport } from '@/hooks/useDeactivateReport';
+import { useChangeReportStatus } from '@/hooks/useChangeReportStatus';
 
-export const DeleteAllSelectedRepositoryOrders = () => {
+export const ChangeReportsPaidStatus = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { repositoryReportsOrders, deleteAllRepositoryReportsOrders } =
     useRepositoryReportsStore();
-  const { mutateAsync: deleteReport, isLoading } = useDeactivateReport();
+  const { mutateAsync: changeReportStatus, isLoading } =
+    useChangeReportStatus();
 
   const handleDelete = async () => {
     await Promise.all(
       repositoryReportsOrders.map(async (order) => {
-        await deleteReport(Number(order.id));
+        await changeReportStatus({
+          status: order.status === 'PAID' ? 'UNPAID' : 'PAID',
+          id: Number(order.id),
+        });
       })
     );
 
-    toast.success('تم اضافة الكشوفات لقائمة المحذوفات بنجاح');
+    toast.success('تم تعديل حالة الكشوفات بنجاح');
     deleteAllRepositoryReportsOrders();
     close();
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="مسح الكشوفات" centered>
-        هل انت متأكد من مسح الكشوفات؟
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="تعديل حالة الكشوفات"
+        centered
+      >
+        هل انت متأكد من تعديل حالة الكشوفات؟
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isLoading}
@@ -33,7 +42,7 @@ export const DeleteAllSelectedRepositoryOrders = () => {
             variant="filled"
             onClick={handleDelete}
           >
-            مسح
+            تعديل
           </Button>
           <Button variant="outline" onClick={close} className="mr-4">
             إلغاء
@@ -46,7 +55,7 @@ export const DeleteAllSelectedRepositoryOrders = () => {
         variant="filled"
         onClick={open}
       >
-        مسح الصفوف المحددة
+        تغير حالة الكشوفات المحددة
       </Button>
     </>
   );

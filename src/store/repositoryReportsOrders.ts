@@ -5,15 +5,15 @@ import { immer } from 'zustand/middleware/immer';
 interface IRepositoryReportsOrdersStore {
   repositoryReportsOrders: {
     id: string;
-    name: string;
+    status: string;
   }[];
 }
 
 type Actions = {
-  addOrder: (order: { id: string; name: string }) => void;
+  addOrder: (order: { id: string; status: string }) => void;
   deleteOrder: (id: string) => void;
   setAllRepositoryReportsOrders: (
-    repositoryReportsOrders: { id: string; name: string }[]
+    repositoryReportsOrders: { id: string; status: string }[]
   ) => void;
   deleteAllRepositoryReportsOrders: () => void;
   isOrderExist: (id: string) => boolean;
