@@ -6,6 +6,7 @@ import { LoadingOverlay } from '@mantine/core';
 import { ReportsFilter } from '../../ReportsFilter';
 import { columns } from './columns';
 import { ReportsStatistics } from '../../ReportsStatistics';
+import { DeleteAllSelectedRepositoryOrders } from './DeleteAllSelectedRepositoryReports';
 
 export const RepositoryReportsView = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
@@ -17,6 +18,9 @@ export const RepositoryReportsView = () => {
 
   return (
     <>
+      <div className="mb-4">
+        <DeleteAllSelectedRepositoryOrders />
+      </div>
       <ReportsFilter filters={filters} setFilters={setFilters} />
       <ReportsStatistics reportsMetaData={reports?.data?.reportsMetaData} />
       <div className="relative mt-12">
