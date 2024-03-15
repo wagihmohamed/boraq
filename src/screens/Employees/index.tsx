@@ -53,11 +53,11 @@ export const Employees = () => {
   };
 
   const { data: branchesData } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: locationsData } = useLocations({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 

@@ -39,19 +39,19 @@ export const StatisticsFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 1000, minified: true });
+  } = useLocations({ size: 100000, minified: true });
 
   const convertDateFormat = (date: Date | null): string | null => {
     if (date) {

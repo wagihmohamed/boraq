@@ -15,7 +15,7 @@ export const ChangeOrdersBranch = () => {
   const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: branchesData } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);

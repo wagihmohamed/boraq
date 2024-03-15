@@ -25,7 +25,7 @@ export const EditClient = () => {
   //   role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const queryClient = useQueryClient();
   const { data: branches } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const {

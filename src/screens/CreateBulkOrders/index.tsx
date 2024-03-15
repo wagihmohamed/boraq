@@ -106,7 +106,7 @@ export const CreateBulkOrders = () => {
       data: [],
     },
   } = useLocations({
-    size: 1000,
+    size: 100000,
     minified: true,
     governorate: form.values.orders[0]
       .governorate as keyof typeof governorateArabicNames,
@@ -116,7 +116,7 @@ export const CreateBulkOrders = () => {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const ordersArray = form.values.orders;
 

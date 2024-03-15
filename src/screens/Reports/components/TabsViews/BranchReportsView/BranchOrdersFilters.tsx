@@ -28,14 +28,14 @@ export const BranchOrdersFilters = ({
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 1000, minified: true });
+  } = useBranches({ size: 100000, minified: true });
 
   const {
     data: reportCreatedBy = {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',

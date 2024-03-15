@@ -45,7 +45,7 @@ export const EditLocation = () => {
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 
@@ -54,7 +54,7 @@ export const EditLocation = () => {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });

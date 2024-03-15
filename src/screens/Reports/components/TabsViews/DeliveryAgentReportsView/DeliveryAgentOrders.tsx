@@ -28,14 +28,14 @@ export const DeliveryAgentOrdersFilter = ({
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 1000, minified: true });
+  } = useBranches({ size: 100000, minified: true });
 
   const {
     data: employees = {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
     branch_id: ordersFilters.branch_id,
@@ -46,7 +46,7 @@ export const DeliveryAgentOrdersFilter = ({
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',

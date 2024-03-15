@@ -42,7 +42,7 @@ export const DeliveryAgentsManifest = () => {
   });
 
   const { data: branchesData } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 

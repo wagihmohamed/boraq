@@ -40,7 +40,7 @@ export const AddAutomaticUpdateTimer = () => {
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
     governorate: form.values.governorate as keyof typeof governorateArabicNames,
   });

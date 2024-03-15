@@ -26,7 +26,7 @@ export const LocationsFilter = ({
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const {
@@ -34,7 +34,7 @@ export const LocationsFilter = ({
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });

@@ -61,11 +61,11 @@ export const CreateClientAndStoreModal = () => {
   }, [loggedInCompanyId]);
 
   const { data: branches } = useBranches({
-    size: 10000,
+    size: 100000,
     minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants({
-    size: 10000,
+    size: 100000,
     minified: true,
   });
 

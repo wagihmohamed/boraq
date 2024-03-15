@@ -15,7 +15,7 @@ export const ChangeOrdersClient = () => {
   const { orders: selectedOrders, deleteAllOrders } = useOrdersStore();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: clientsData } = useClients({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const [selectedClient, setSelectedClient] = useState<string | null>(null);

@@ -18,7 +18,7 @@ export const ChangeLocationDeliveryAgent = () => {
   const { locations: selectedLocations } = useLocationsStore();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: deliveryAgents } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });

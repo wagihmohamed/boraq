@@ -20,7 +20,7 @@ const EditStore = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id = '' } = useParams();
-  const { data: clients } = useClients({ size: 1000, minified: true });
+  const { data: clients } = useClients({ size: 100000, minified: true });
   const clientOptions = clients?.data.map((client) => ({
     label: client.name,
     value: client.id.toString(),

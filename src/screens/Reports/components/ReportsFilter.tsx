@@ -21,26 +21,26 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 1000, minified: true });
+  } = useRepositories({ size: 100000, minified: true });
 
   const {
     data: employeesData = {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });
@@ -50,7 +50,7 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',

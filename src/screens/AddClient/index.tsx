@@ -23,7 +23,7 @@ export const AddClient = () => {
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const { data: branches } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants({

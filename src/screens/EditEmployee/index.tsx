@@ -39,15 +39,15 @@ export const EditEmployee = () => {
     isError,
   } = useEmployeeDetails(parseInt(id));
   const { data: repositories } = useRepositories({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: branches } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   // const { data: tenants = { data: [] } } = useTenants(
-  //   { size: 1000, minified: true },
+  //   { size: 100000, minified: true },
   //   !isAdminOrAdminAssistant
   // );
 

@@ -34,7 +34,7 @@ export const AddLocation = () => {
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 
@@ -43,7 +43,7 @@ export const AddLocation = () => {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
     branch_id: form.values.branch,
