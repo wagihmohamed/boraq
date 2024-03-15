@@ -144,7 +144,6 @@ export const CreateClientAndStoreModal = () => {
               <TextInput
                 label="اسم العميل"
                 placeholder=""
-                size="md"
                 className="w-full"
                 {...form.getInputProps('clientName')}
               />
@@ -153,9 +152,17 @@ export const CreateClientAndStoreModal = () => {
               <TextInput
                 label="اسم المستخدم"
                 placeholder=""
-                size="md"
                 className="w-full"
                 {...form.getInputProps('username')}
+              />
+            </Grid.Col>
+            <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
+              <TextInput
+                label="اسم المتجر"
+                placeholder="اسم المتجر"
+                variant="filled"
+                className="mb-4"
+                {...form.getInputProps('storeName')}
               />
             </Grid.Col>
             <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
@@ -170,7 +177,6 @@ export const CreateClientAndStoreModal = () => {
               <TextInput
                 label="رقم الهاتف"
                 placeholder=""
-                size="md"
                 className="w-full"
                 {...form.getInputProps('phone')}
               />
@@ -217,7 +223,6 @@ export const CreateClientAndStoreModal = () => {
                 label="كلمة المرور"
                 placeholder="*******"
                 mt="md"
-                size="md"
                 className="w-full"
                 {...form.getInputProps('password')}
               />
@@ -227,7 +232,6 @@ export const CreateClientAndStoreModal = () => {
                 label="تأكيد كلمة المرور"
                 placeholder="*******"
                 mt="md"
-                size="md"
                 className="w-full"
                 {...form.getInputProps('confirmPassword')}
               />
@@ -238,15 +242,6 @@ export const CreateClientAndStoreModal = () => {
                 variant="dashed"
                 labelPosition="center"
                 label={<Box>المتجر</Box>}
-              />
-            </Grid.Col>
-            <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
-              <TextInput
-                label="اسم المتجر"
-                placeholder="اسم المتجر"
-                variant="filled"
-                className="mb-4"
-                {...form.getInputProps('storeName')}
               />
             </Grid.Col>
             {/* <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
