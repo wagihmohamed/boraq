@@ -117,6 +117,8 @@ export const Employees = () => {
                   label="المناطق"
                   data={getSelectOptions(locationsData?.data || [])}
                   clearable
+                  limit={50}
+                  searchable
                   placeholder="اختار المنطقة"
                   disabled={
                     !filters.branch_id ||

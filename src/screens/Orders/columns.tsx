@@ -27,6 +27,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
+import { OrderInquiryEmployees } from './components/OrderInquiryEmployees';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -372,7 +373,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { id, recipientName, status } = row.original;
+      const { id, recipientName, status, inquiryEmployees } = row.original;
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
@@ -393,6 +394,11 @@ export const columns: ColumnDef<Order>[] = [
         { open: openChangeStatus, close: closeChangeStatus },
       ] = useDisclosure(false);
 
+      const [
+        editInquiryEmployeesOpened,
+        { open: openEditInquiryEmployees, close: closeEditInquiryEmployees },
+      ] = useDisclosure(false);
+
       const [isMenuOpen, setMenuOpen] = useState(false);
 
       return (
@@ -400,7 +406,13 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (timelineOpened || deleteOpened || changeStatusOpened) return;
+            if (
+              timelineOpened ||
+              deleteOpened ||
+              changeStatusOpened ||
+              editInquiryEmployeesOpened
+            )
+              return;
             setMenuOpen(!isMenuOpen);
           }}
         >
@@ -447,7 +459,13 @@ export const columns: ColumnDef<Order>[] = [
               open={openChangeStatus}
               status={status}
             />
-            <div className="flex justify-center">
+            <OrderInquiryEmployees
+              inquiryEmployees={inquiryEmployees}
+              opened={editInquiryEmployeesOpened}
+              close={closeEditInquiryEmployees}
+              open={openEditInquiryEmployees}
+            />
+            <div className="flex justify-center mt-2">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>
                   <ActionIcon variant="filled" onClick={handleDownload}>
