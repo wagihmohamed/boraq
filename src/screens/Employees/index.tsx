@@ -80,7 +80,9 @@ export const Employees = () => {
                   limit={50}
                   placeholder="الدور"
                   value={filters.roles}
-                  onChange={handleSelect}
+                  onChange={(e) =>
+                    handleSelect(e as (keyof typeof rolesArabicNames)[])
+                  }
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
@@ -92,7 +94,11 @@ export const Employees = () => {
                   limit={50}
                   placeholder="الصلاحيات"
                   value={filters.permissions}
-                  onChange={handleChangePermissions}
+                  onChange={(e) =>
+                    handleChangePermissions(
+                      e as (keyof typeof permissionsArabicNames)[]
+                    )
+                  }
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
