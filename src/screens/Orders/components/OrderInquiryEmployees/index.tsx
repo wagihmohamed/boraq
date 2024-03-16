@@ -4,7 +4,6 @@ import { useEditOrder } from '@/hooks/useEditOrder';
 import { useEmployees } from '@/hooks/useEmployees';
 import { useLocations } from '@/hooks/useLocations';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { OrderInquiryEmployee } from '@/services/getOrders';
 import {
   Button,
   ComboboxItem,
@@ -13,15 +12,20 @@ import {
   Modal,
   Select,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-type PartialInquiryEmployee = Partial<OrderInquiryEmployee[]>;
+type PartialInquiryEmployee = {
+  id: number;
+  name: string;
+}[];
 
 interface Props {
+  orderID: number;
   inquiryEmployees: PartialInquiryEmployee;
   opened: boolean;
   close: () => void;
   open: () => void;
+  closeMenu: () => void;
 }
 
 export const OrderInquiryEmployees = ({
@@ -29,7 +33,10 @@ export const OrderInquiryEmployees = ({
   inquiryEmployees,
   open,
   opened,
+  orderID,
+  closeMenu,
 }: Props) => {
+  const selectRef = useRef<HTMLInputElement>(null);
   const [selectedEmployees, setSelectedEmployees] =
     useState<PartialInquiryEmployee>(inquiryEmployees);
   const [selectedEmployee, setSelectedEmployee] =
@@ -62,10 +69,16 @@ export const OrderInquiryEmployees = ({
   const { mutate: editInquiryEmployees, isLoading: isEditLoading } =
     useEditOrder();
 
-  const handleAddEmployee = (employeeId: string) => {
+  const handleAddEmployee = (employee: ComboboxItem) => {
+    if (selectedEmployees?.find((emp) => emp?.id === Number(employee.value))) {
+      return;
+    }
     setSelectedEmployees([
       ...selectedEmployees,
-      { id: Number(employeeId), avatar: '', name: '', phone: '' },
+      {
+        id: Number(employee.value),
+        name: employee.label,
+      },
     ]);
   };
 
@@ -76,34 +89,22 @@ export const OrderInquiryEmployees = ({
     setSelectedEmployees(filteredEmployees);
   };
 
-  const handleAddOrDeleteEmployee = (employeeId: string | null) => {
-    if (employeeId) {
-      if (
-        selectedEmployees.some(
-          (employee) => employee?.id === Number(employeeId)
-        )
-      ) {
-        handleRemoveEmployee(employeeId);
-      } else {
-        handleAddEmployee(employeeId);
-      }
-    }
-  };
-
   const handleEdit = () => {
     if (selectedEmployees) {
+      const inquiryEmployeesIDs = selectedEmployees.map(
+        (employee) => (employee?.id && employee.id) || 0
+      );
       editInquiryEmployees(
         {
-          id: 'id',
+          id: orderID,
           data: {
-            inquiryEmployeesIDs: selectedEmployees.map(
-              (employee) => employee?.id || 0
-            ),
+            inquiryEmployeesIDs,
           },
         },
         {
           onSuccess: () => {
             close();
+            closeMenu();
           },
         }
       );
@@ -118,7 +119,10 @@ export const OrderInquiryEmployees = ({
       <Modal
         title="تغيير  موظفي الدعم"
         opened={opened}
-        onClose={close}
+        onClose={() => {
+          close();
+          closeMenu();
+        }}
         centered
         size="65%"
         className="relative"
@@ -160,11 +164,14 @@ export const OrderInquiryEmployees = ({
               data={getSelectOptions(inquiryEmployee?.data || [])}
               clearable
               searchable
+              checkIconPosition="right"
+              allowDeselect={false}
               limit={50}
               value={selectedEmployee ? selectedEmployee.value : null}
               onChange={(_, option) => {
-                setSelectedEmployee(option);
-                handleAddOrDeleteEmployee(option.value);
+                handleAddEmployee(option);
+                setSelectedEmployee(null);
+                selectRef.current?.blur();
               }}
             />
           </Grid.Col>
@@ -184,9 +191,7 @@ export const OrderInquiryEmployees = ({
                 <UserInfoIcons
                   onclick={() => {
                     if (employee?.id) {
-                      handleAddOrDeleteEmployee(
-                        employee?.id.toString() || null
-                      );
+                      handleRemoveEmployee(employee?.id.toString());
                     }
                   }}
                   {...employee}
@@ -203,7 +208,7 @@ export const OrderInquiryEmployees = ({
         <div className="mt-4 flex items-center gap-4">
           <Button
             loading={isEditLoading}
-            disabled={isEditLoading || !selectedEmployees.length}
+            disabled={isEditLoading}
             onClick={handleEdit}
             fullWidth
             variant="filled"

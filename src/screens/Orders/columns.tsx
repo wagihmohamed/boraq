@@ -460,7 +460,12 @@ export const columns: ColumnDef<Order>[] = [
               status={status}
             />
             <OrderInquiryEmployees
-              inquiryEmployees={inquiryEmployees}
+              closeMenu={() => setMenuOpen(false)}
+              orderID={id}
+              inquiryEmployees={inquiryEmployees.map((employee) => ({
+                name: employee.name,
+                id: employee.id,
+              }))}
               opened={editInquiryEmployeesOpened}
               close={closeEditInquiryEmployees}
               open={openEditInquiryEmployees}

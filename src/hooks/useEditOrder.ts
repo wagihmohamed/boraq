@@ -7,9 +7,9 @@ import toast from 'react-hot-toast';
 export const useEditOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: EditOrderPayload }) => {
+    mutationFn: ({ id, data }: { id: number; data: EditOrderPayload }) => {
       return editOrderService({
-        id: parseInt(id),
+        id,
         data,
       });
     },
