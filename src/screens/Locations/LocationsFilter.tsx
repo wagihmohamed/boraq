@@ -26,7 +26,7 @@ export const LocationsFilter = ({
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const {
@@ -34,7 +34,7 @@ export const LocationsFilter = ({
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });
@@ -62,10 +62,11 @@ export const LocationsFilter = ({
                 label="المحافظة"
                 searchable
                 clearable
-                onChange={(e: keyof typeof governorateArabicNames) => {
+                onChange={(e) => {
                   setFilters({
                     ...filters,
-                    governorate: e || '',
+                    governorate:
+                      (e as keyof typeof governorateArabicNames) || '',
                   });
                 }}
                 placeholder="اختر المحافظة"

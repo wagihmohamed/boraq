@@ -87,6 +87,14 @@ export interface Order {
     name: string;
   };
   confirmed: boolean;
+  inquiryEmployees: OrderInquiryEmployee[];
+}
+
+export interface OrderInquiryEmployee {
+  id: number;
+  name: string;
+  phone: string;
+  avatar: string | null;
 }
 
 export interface OrdersMetaData {

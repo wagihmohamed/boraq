@@ -1,17 +1,19 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
-// import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Report as IReport } from '@/services/getReports';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { format, parseISO } from 'date-fns';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, HoverCard, Text, rem } from '@mantine/core';
-import { IconFileTypePdf } from '@tabler/icons-react';
 import {
-  DropdownMenuContent,
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  ActionIcon,
+  Checkbox,
+  HoverCard,
+  Menu,
+  Text,
+  rem,
+} from '@mantine/core';
+import { IconFileTypePdf } from '@tabler/icons-react';
 import { useReportsPDF } from '@/hooks/useReportsPDF';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
@@ -19,8 +21,69 @@ import toast from 'react-hot-toast';
 import { DeleteReport } from '../../DeleteReport';
 import { ChangeReportStatus } from '../../ChangeReportStatus';
 import Arabic from 'date-fns/locale/ar-EG';
+import { useRepositoryReportsStore } from '@/store/repositoryReportsOrders';
+import { ChangeReportRepository } from './ChangeReportRepository';
+import { useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
 
 export const columns: ColumnDef<IReport>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => {
+      const {
+        deleteAllRepositoryReportsOrders,
+        setAllRepositoryReportsOrders,
+        isOrderExist,
+      } = useRepositoryReportsStore();
+
+      return (
+        <Checkbox
+          checked={
+            table.getRowModel().rows.length > 0 &&
+            table
+              .getRowModel()
+              .rows.every((row) => isOrderExist(row.original.id.toString()))
+          }
+          onChange={(event) => {
+            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
+              id: row.original.id.toString(),
+              status: row.original.status,
+            }));
+
+            const isAllSelected = event.currentTarget.checked;
+
+            if (isAllSelected) {
+              setAllRepositoryReportsOrders(allTableRowsIds);
+              table.toggleAllPageRowsSelected(true);
+            } else {
+              table.toggleAllPageRowsSelected(false);
+              deleteAllRepositoryReportsOrders();
+            }
+          }}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const { addOrder, deleteOrder, isOrderExist } =
+        useRepositoryReportsStore();
+      return (
+        <Checkbox
+          checked={isOrderExist(row.original.id.toString())}
+          onChange={(value) => {
+            const isChecked = value.currentTarget.checked;
+            const { id, status } = row.original;
+            if (isChecked) {
+              addOrder({ id: id.toString(), status });
+              row.toggleSelected(true);
+            } else {
+              row.toggleSelected(false);
+              deleteOrder(id.toString());
+            }
+          }}
+        />
+      );
+    },
+  },
   {
     accessorKey: 'id',
     header: 'رقم الكشف',
@@ -97,7 +160,6 @@ export const columns: ColumnDef<IReport>[] = [
 
       const pdfTitle = `${reportNameMap[type]} - ${reportTypeArabicNames[type]}`;
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { mutateAsync: getReportPDF } = useReportsPDF(pdfTitle);
 
       const handleDownload = () => {
@@ -108,15 +170,36 @@ export const columns: ColumnDef<IReport>[] = [
         });
       };
 
+      const [isMenuOpen, setMenuOpen] = useState(false);
+
+      const [
+        changeRepositoryOpened,
+        { open: openChangeRepository, close: closeChangeRepository },
+      ] = useDisclosure(false);
+
       return (
-        <DropdownMenu dir="rtl">
-          <DropdownMenuTrigger asChild>
+        <Menu
+          zIndex={150}
+          opened={isMenuOpen}
+          onChange={() => {
+            if (changeRepositoryOpened) return;
+            setMenuOpen(!isMenuOpen);
+          }}
+        >
+          <Menu.Target>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
+          </Menu.Target>
+          <Menu.Dropdown>
             <DeleteReport id={id} />
+            <ChangeReportRepository
+              opened={changeRepositoryOpened}
+              close={closeChangeRepository}
+              open={openChangeRepository}
+              setMenuOpen={setMenuOpen}
+              id={id}
+            />
             <ChangeReportStatus initialStatus={status} id={id} />
             <div className="flex justify-center">
               <HoverCard width={rem(120)} shadow="md">
@@ -130,8 +213,8 @@ export const columns: ColumnDef<IReport>[] = [
                 </HoverCard.Dropdown>
               </HoverCard>
             </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </Menu.Dropdown>
+        </Menu>
       );
     },
   },

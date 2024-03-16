@@ -26,7 +26,7 @@ export const EditRepositoryScreen = () => {
     isError,
   } = useRepositoryDetails(parseInt(id));
   const { data: branches } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const form = useForm({

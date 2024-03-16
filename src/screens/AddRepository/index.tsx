@@ -21,7 +21,7 @@ export const AddRepositoryScreen = () => {
     data: branches = {
       data: [],
     },
-  } = useBranches({ size: 1000, minified: true });
+  } = useBranches({ size: 100000, minified: true });
   const queryClient = useQueryClient();
   const { mutate: createRepository, isLoading } = useMutation({
     mutationFn: ({ branchID, name }: CreateRepositoryPayload) => {

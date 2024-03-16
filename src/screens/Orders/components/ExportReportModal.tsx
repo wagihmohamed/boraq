@@ -47,39 +47,39 @@ export const ExportReportModal = () => {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const {
     data: branchesData = {
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const {
     data: repositoriesData = {
       data: [],
     },
-  } = useRepositories({ size: 1000, minified: true });
+  } = useRepositories({ size: 100000, minified: true });
   const {
     data: tenantsData = {
       data: [],
     },
-  } = useTenants({ size: 1000, minified: true });
+  } = useTenants({ size: 100000, minified: true });
 
   const {
     data: deliveryAgentsData = {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });

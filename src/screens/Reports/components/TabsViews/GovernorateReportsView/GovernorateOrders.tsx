@@ -28,7 +28,7 @@ export const GovernorateOrdersFilters = ({
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',

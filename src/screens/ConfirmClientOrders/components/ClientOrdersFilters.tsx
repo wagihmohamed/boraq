@@ -32,13 +32,13 @@ export const ClientOrdersFilters = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 10000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 10000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const handleResetRangeDate = () => {
     setFilters({

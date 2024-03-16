@@ -11,10 +11,10 @@ export const ShowClient = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const { data: branches } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
-  const { data: tenants } = useTenants({ size: 1000, minified: true });
+  const { data: tenants } = useTenants({ size: 100000, minified: true });
   const {
     data: clientDetails,
     isLoading,

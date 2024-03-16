@@ -45,7 +45,9 @@ export const DeletedEmployees = () => {
               clearable
               placeholder="الدور"
               value={filters.roles}
-              onChange={handleSelect}
+              onChange={(e) =>
+                handleSelect(e as (keyof typeof rolesArabicNames)[])
+              }
             />
           </Accordion.Panel>
         </Accordion.Item>

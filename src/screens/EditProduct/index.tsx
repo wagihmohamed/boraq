@@ -51,7 +51,7 @@ export const EditProductScreen = () => {
   });
 
   const { data: categories } = useCategory({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const categoryOptions = useMemo(() => {
@@ -89,7 +89,7 @@ export const EditProductScreen = () => {
   }, [categoryOptions, productDetails]);
 
   const { data: colors = { data: [] } } = useColors({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const colorsOptions = colors.data.map((color) => ({
@@ -97,7 +97,7 @@ export const EditProductScreen = () => {
     label: color.title,
   }));
   const { data: sizes = { data: [] } } = useSizes({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const sizesOptions = sizes.data.map((size) => ({

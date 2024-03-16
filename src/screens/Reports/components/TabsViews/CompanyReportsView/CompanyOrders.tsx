@@ -36,7 +36,7 @@ export const CompanyOrdersFilter = ({
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',
@@ -55,7 +55,7 @@ export const CompanyOrdersFilter = ({
     data: tenantsData = {
       data: [],
     },
-  } = useTenants({ size: 1000, minified: true });
+  } = useTenants({ size: 100000, minified: true });
 
   const handleResetOrdersRangeDate = () => {
     setOrdersFilters({

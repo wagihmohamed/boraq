@@ -53,11 +53,11 @@ export const Employees = () => {
   };
 
   const { data: branchesData } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: locationsData } = useLocations({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 
@@ -80,7 +80,9 @@ export const Employees = () => {
                   limit={50}
                   placeholder="الدور"
                   value={filters.roles}
-                  onChange={handleSelect}
+                  onChange={(e) =>
+                    handleSelect(e as (keyof typeof rolesArabicNames)[])
+                  }
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
@@ -92,7 +94,11 @@ export const Employees = () => {
                   limit={50}
                   placeholder="الصلاحيات"
                   value={filters.permissions}
-                  onChange={handleChangePermissions}
+                  onChange={(e) =>
+                    handleChangePermissions(
+                      e as (keyof typeof permissionsArabicNames)[]
+                    )
+                  }
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
@@ -117,6 +123,8 @@ export const Employees = () => {
                   label="المناطق"
                   data={getSelectOptions(locationsData?.data || [])}
                   clearable
+                  limit={50}
+                  searchable
                   placeholder="اختار المنطقة"
                   disabled={
                     !filters.branch_id ||

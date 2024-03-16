@@ -11,6 +11,8 @@ import { useDebouncedState } from '@mantine/hooks';
 import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
 import toast from 'react-hot-toast';
 import { useCreateReport } from '@/hooks/useCreateReport';
+import { ChangeOrdersRepositories } from './components/ChangeOrdersRepositories';
+import { DeleteSelectedRepositoryEntriesModal } from './components/DeleteSelectedRepositoryEntriesModal';
 
 const repositoryEntriesInitialStatuses = [
   'RETURNED',
@@ -98,6 +100,8 @@ export const RepositoryEntries = () => {
   return (
     <AppLayout isError={isError}>
       <div className="flex items-center mb-6 gap-6 flex-wrap">
+        <DeleteSelectedRepositoryEntriesModal />
+        <ChangeOrdersRepositories />
         <Button disabled={isCreatingReport} onClick={handleCreateGeneralReport}>
           انشاء تقرير
         </Button>

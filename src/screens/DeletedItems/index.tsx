@@ -23,9 +23,9 @@ export const DeletedScreen = () => {
         radius="md"
         defaultValue="STORES"
         value={activeTab}
-        onChange={(e: TabsTypes | null) => {
+        onChange={(e: string | null) => {
           if (e) {
-            setActiveTab(e);
+            setActiveTab(e as TabsTypes);
           }
         }}
       >

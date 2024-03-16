@@ -3,10 +3,11 @@ import { api } from '@/api';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 
 export interface ChangeReportStatusPayload {
-  status: keyof typeof reportStatusArabicNames;
+  status?: keyof typeof reportStatusArabicNames;
+  repositoryID?: number;
 }
 
-export const changeReportStatusService = async (
+export const editReportService = async (
   reportId: number,
   payload: ChangeReportStatusPayload
 ) => {

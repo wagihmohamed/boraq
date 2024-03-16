@@ -39,19 +39,19 @@ export const StatisticsFilter = ({
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const {
     data: locationsData = {
       data: [],
     },
-  } = useLocations({ size: 1000, minified: true });
+  } = useLocations({ size: 100000, minified: true });
 
   const convertDateFormat = (date: Date | null): string | null => {
     if (date) {
@@ -81,10 +81,11 @@ export const StatisticsFilter = ({
                 label="الحالة"
                 searchable
                 clearable
-                onChange={(e: (keyof typeof orderStatusArabicNames)[]) => {
+                onChange={(e) => {
                   setStatisticsFilter({
                     ...statisticsFilter,
-                    statuseses: e || '',
+                    statuseses:
+                      (e as (keyof typeof orderStatusArabicNames)[]) || '',
                   });
                 }}
                 placeholder="اختر الحالة"
@@ -115,11 +116,11 @@ export const StatisticsFilter = ({
                 label="نوع التوصيل"
                 searchable
                 clearable
-                onChange={(e: keyof typeof deliveryTypesArabicNames | null) => {
+                onChange={(e) => {
                   if (e) {
                     setStatisticsFilter({
                       ...statisticsFilter,
-                      delivery_type: e,
+                      delivery_type: e as keyof typeof deliveryTypesArabicNames,
                     });
                   } else {
                     setStatisticsFilter({

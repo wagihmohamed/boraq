@@ -28,14 +28,14 @@ export const ClientOrdersFilter = ({
     data: storesData = {
       data: [],
     },
-  } = useStores({ size: 1000, minified: true });
+  } = useStores({ size: 100000, minified: true });
 
   const {
     data: reportCreatedBy = {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: [
       'ACCOUNTANT',

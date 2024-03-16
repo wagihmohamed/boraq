@@ -24,17 +24,17 @@ export const AddProduct = () => {
     data: categories = {
       data: [],
     },
-  } = useCategory({ size: 1000, minified: true });
+  } = useCategory({ size: 100000, minified: true });
   const { data: colors = { data: [] } } = useColors({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: sizes = { data: [] } } = useSizes({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: storesData } = useStores({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const colorsOptions = colors.data.map((color) => ({

@@ -25,7 +25,7 @@ export const CreateStoreModal = () => {
     data: clients = {
       data: [],
     },
-  } = useClients({ size: 1000, minified: true });
+  } = useClients({ size: 100000, minified: true });
 
   const clientOptions = clients.data.map((client) => ({
     label: client.name,

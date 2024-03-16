@@ -40,15 +40,15 @@ export const AddEmployee = () => {
     isError: isFetchingBranchManagerDetailsError,
   } = useEmployeeDetails(Number(loggedInUserId), !isAdminOrAdminAssistant);
   const { data: branches = { data: [] } } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: repositories = { data: [] } } = useRepositories({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants(
-    { size: 1000, minified: true },
+    { size: 100000, minified: true },
     isAdminOrAdminAssistant
   );
   const form = useForm({

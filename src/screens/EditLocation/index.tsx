@@ -21,6 +21,7 @@ import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { editLocationSchema } from './schema';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const EditLocation = () => {
   const { id = '' } = useParams();
@@ -45,7 +46,7 @@ export const EditLocation = () => {
       data: [],
     },
   } = useBranches({
-    size: 1000,
+    size: 100000,
     minified: true,
   });
 
@@ -54,7 +55,7 @@ export const EditLocation = () => {
       data: [],
     },
   } = useEmployees({
-    size: 1000,
+    size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
   });
@@ -71,16 +72,6 @@ export const EditLocation = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationDetails]);
-
-  const deliveryAgents = employees.data.map((employee) => ({
-    value: employee.id.toString(),
-    label: employee.name,
-  }));
-
-  const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id.toString(),
-    label: branch.name,
-  }));
 
   const { mutate: editLocationAction, isLoading: isEditing } = useMutation({
     mutationFn: ({
@@ -152,13 +143,13 @@ export const EditLocation = () => {
           label="الفرع"
           searchable
           {...form.getInputProps('branch')}
-          limit={100}
-          data={transformedBranches}
+          limit={50}
+          data={getSelectOptions(branches.data)}
         />
         <MultiSelect
           label="المندوبين"
-          data={deliveryAgents}
-          limit={100}
+          data={getSelectOptions(employees.data)}
+          limit={50}
           searchable
           {...form.getInputProps('deliveryAgentsIDs')}
         />
