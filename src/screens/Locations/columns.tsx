@@ -88,6 +88,7 @@ export const columns: ColumnDef<Location>[] = [
     header: 'اسم المندوب',
     cell: ({ row }) => {
       const { deliveryAgents } = row.original;
+      // eslint-disable-next-line no-nested-ternary
       return deliveryAgents.length > 1 ? (
         <Flex gap="xs">
           <Text size="sm">{deliveryAgents[0].name}</Text>
@@ -95,6 +96,8 @@ export const columns: ColumnDef<Location>[] = [
             {deliveryAgents.length - 1}+
           </Badge>
         </Flex>
+      ) : deliveryAgents.length === 1 ? (
+        <Text size="sm">{deliveryAgents[0].name}</Text>
       ) : (
         <Text size="sm">لا يوجد</Text>
       );
