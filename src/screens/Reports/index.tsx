@@ -46,9 +46,9 @@ export const ReportsScreen = () => {
         radius="md"
         defaultValue="COMPANY"
         value={activeTab}
-        onChange={(e: ReportsTabsTypes | null) => {
+        onChange={(e) => {
           if (e) {
-            setActiveTab(e);
+            setActiveTab(e as ReportsTabsTypes);
           }
         }}
       >

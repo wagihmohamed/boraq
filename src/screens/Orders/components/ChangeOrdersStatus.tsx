@@ -64,8 +64,8 @@ export const ChangeOrdersStatus = () => {
           label="الحالة"
           searchable
           clearable
-          onChange={(e: keyof typeof orderStatusArabicNames | null) => {
-            setSelectedBranch(e);
+          onChange={(e) => {
+            setSelectedBranch(e as keyof typeof orderStatusArabicNames);
           }}
           placeholder="اختر الحالة"
           data={orderStatusArray}

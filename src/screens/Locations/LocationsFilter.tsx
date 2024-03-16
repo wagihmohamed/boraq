@@ -62,10 +62,11 @@ export const LocationsFilter = ({
                 label="المحافظة"
                 searchable
                 clearable
-                onChange={(e: keyof typeof governorateArabicNames) => {
+                onChange={(e) => {
                   setFilters({
                     ...filters,
-                    governorate: e || '',
+                    governorate:
+                      (e as keyof typeof governorateArabicNames) || '',
                   });
                 }}
                 placeholder="اختر المحافظة"

@@ -81,10 +81,11 @@ export const StatisticsFilter = ({
                 label="الحالة"
                 searchable
                 clearable
-                onChange={(e: (keyof typeof orderStatusArabicNames)[]) => {
+                onChange={(e) => {
                   setStatisticsFilter({
                     ...statisticsFilter,
-                    statuseses: e || '',
+                    statuseses:
+                      (e as (keyof typeof orderStatusArabicNames)[]) || '',
                   });
                 }}
                 placeholder="اختر الحالة"
@@ -115,11 +116,11 @@ export const StatisticsFilter = ({
                 label="نوع التوصيل"
                 searchable
                 clearable
-                onChange={(e: keyof typeof deliveryTypesArabicNames | null) => {
+                onChange={(e) => {
                   if (e) {
                     setStatisticsFilter({
                       ...statisticsFilter,
-                      delivery_type: e,
+                      delivery_type: e as keyof typeof deliveryTypesArabicNames,
                     });
                   } else {
                     setStatisticsFilter({
