@@ -47,7 +47,7 @@ export const addOrderSchema = z
     z.object({
       withProducts: z.literal(false),
       totalCost: z
-        .string()
+        .number()
         .min(1, { message: 'الرجاء ادخال السعر' })
         .optional(),
       quantity: z

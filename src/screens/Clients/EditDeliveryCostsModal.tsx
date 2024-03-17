@@ -46,7 +46,7 @@ export const EditDeliveryCostsModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [governoratesDeliveryCosts]);
 
-  const { mutate: editClientAction, isLoading: isEditting } = useMutation({
+  const { mutate: editClientAction, isLoading: isEditing } = useMutation({
     mutationFn: (data: FormData) => {
       return editClientService({ id: clientId, data });
     },
@@ -106,8 +106,8 @@ export const EditDeliveryCostsModal = ({
           ))}
           <Grid.Col span={{ base: 12, xs: 12, md: 6, sm: 12, lg: 6 }}>
             <Button
-              loading={isEditting}
-              disabled={isEditting}
+              loading={isEditing}
+              disabled={isEditing}
               fullWidth
               variant="filled"
               onClick={handleSubmit}

@@ -22,9 +22,13 @@ export const orderStatusAutomaticUpdateCreateSchema = z.object({
     .nonempty({
       message: 'يجب ادخال المحافظة',
     }),
-  branchID: z.string({
-    required_error: 'يجب ادخال الفرع',
-  }),
+  branchID: z
+    .string({
+      required_error: 'يجب ادخال الفرع',
+    })
+    .nonempty({
+      message: 'يجب ادخال المحافظة',
+    }),
   checkAfter: z
     .number({
       required_error: 'يجب ادخال وقت التحديث',
