@@ -12,6 +12,7 @@ import {
   Button,
   Grid,
   MultiSelect,
+  NumberInput,
   PasswordInput,
   Select,
   TextInput,
@@ -192,9 +193,8 @@ export const EditEmployee = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="الراتب"
-              type="number"
               placeholder=""
               size="md"
               className="w-full"
