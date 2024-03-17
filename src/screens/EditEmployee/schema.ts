@@ -18,7 +18,7 @@ export const editEmployeeSchema = z
         message: 'الرجاء ادخال الأجرة',
       }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
-    repository: z.string().min(1, { message: 'الرجاء اختيار المخزن' }),
+    repository: z.string(),
     role: z
       .string({
         required_error: 'الرجاء اختيار الادوار',

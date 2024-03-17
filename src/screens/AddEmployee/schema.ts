@@ -11,7 +11,7 @@ export const addEmployeeSchema = z
     avatar: z.any(),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
-    store: z.string().min(1, { message: 'الرجاء اختيار المخزن' }),
+    store: z.string(),
     roles: z
       .string({
         required_error: 'الرجاء اختيار الادوار',
