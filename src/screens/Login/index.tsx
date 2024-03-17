@@ -11,7 +11,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 
 const schema = z.object({
-  usename: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 احرف' }),
+  username: z.string().min(3, { message: 'يجب ان يكون اكثر من 3 احرف' }),
   password: z
     .string()
     .min(6, { message: 'كلمة المرور يجب ان تكون اكثر من 6 احرف' }),
@@ -41,13 +41,13 @@ export const LoginScreen = () => {
   const form = useForm({
     validate: zodResolver(schema),
     initialValues: {
-      usename: '',
+      username: '',
       password: '',
     },
   });
 
   const handleSubmit = (values: z.infer<typeof schema>) => {
-    login({ password: values.password, username: values.usename });
+    login({ password: values.password, username: values.username });
   };
 
   return (
@@ -61,11 +61,11 @@ export const LoginScreen = () => {
         </Title>
 
         <TextInput
-          label="البريد الالكتروني"
+          label="رقم الهاتف"
           placeholder=""
           size="md"
           className="w-full"
-          {...form.getInputProps('usename')}
+          {...form.getInputProps('username')}
         />
         <PasswordInput
           label="كلمة المرور"

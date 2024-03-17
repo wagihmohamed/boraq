@@ -10,20 +10,6 @@ export const editClientSchema = z
     }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     avatar: z.any(),
-    // .refine((files) => {
-    //   if (files && Array.isArray(files) && files.length > 0) {
-    //     const file = files[0];
-    //     return !file.type || ACCEPTED_IMAGE_TYPES.includes(file.type);
-    //   }
-    //   return true;
-    // }, 'يجب أن تكون الصورة من نوع .jpg, .jpeg, .png أو .webp')
-    // .refine((files) => {
-    //   if (files && Array.isArray(files) && files.length > 0) {
-    //     const file = files[0];
-    //     return !file.size || file.size <= MAX_FILE_SIZE;
-    //   }
-    //   return true;
-    // }, 'الحد الأقصى 5 ميجا'),
     type: z.string().min(1, { message: 'الرجاء اختيار نوع الحساب' }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     password: z

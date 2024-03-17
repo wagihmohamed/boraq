@@ -1,25 +1,14 @@
-// import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
 
 export const addEmployeeSchema = z
   .object({
-    username: z.string().min(3, { message: 'اسم المستخدم يجب ان يكون 3 احرف' }),
     name: z.string().min(3, { message: 'الاسم يجب ان يكون اكثر من 3 احرف' }),
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
     salary: z.string().min(0),
     avatar: z.any(),
-    // .refine((files) => files?.length === 1, 'الصوره مطلوبة')
-    // .refine(
-    //   (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-    //   'الحد الاقصي 5 ميجا'
-    // )
-    // .refine(
-    //   (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-    //   'يجب ان تكون الصورة من نوع .jpg, .jpeg, .png او .webp'
-    // ),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     store: z.string().min(1, { message: 'الرجاء اختيار المخزن' }),

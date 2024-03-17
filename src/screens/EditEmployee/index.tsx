@@ -30,7 +30,7 @@ import { editEmployeeSchema } from './schema';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
-  const { role, companyID: loggedInComapnyId } = useAuth();
+  const { role, companyID: loggedInCompanyId } = useAuth();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const navigate = useNavigate();
@@ -47,10 +47,6 @@ export const EditEmployee = () => {
     size: 100000,
     minified: true,
   });
-  // const { data: tenants = { data: [] } } = useTenants(
-  //   { size: 100000, minified: true },
-  //   !isAdminOrAdminAssistant
-  // );
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -128,7 +124,7 @@ export const EditEmployee = () => {
 
   const handleSubmit = (values: z.infer<typeof editEmployeeSchema>) => {
     const formData = new FormData();
-    formData.append('username', values.username);
+    formData.append('username', values.phone);
     formData.append('name', values.name);
     formData.append('phone', values.phone);
     formData.append('salary', String(values.salary));
@@ -138,7 +134,7 @@ export const EditEmployee = () => {
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
-      formData.append('companyID', loggedInComapnyId.toString());
+      formData.append('companyID', loggedInCompanyId.toString());
     }
     formData.append('permissions', JSON.stringify(values.permissions));
     if (values.password) {
@@ -174,7 +170,7 @@ export const EditEmployee = () => {
               {...form.getInputProps('name')}
             />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+          {/* <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
               label="اسم المستخدم"
               placeholder=""
@@ -182,7 +178,7 @@ export const EditEmployee = () => {
               className="w-full"
               {...form.getInputProps('username')}
             />
-          </Grid.Col>
+          </Grid.Col> */}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
               label="رقم الهاتف"
@@ -198,13 +194,14 @@ export const EditEmployee = () => {
               placeholder=""
               size="md"
               className="w-full"
+              allowNegative={false}
               {...form.getInputProps('salary')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="أجرة التوصيل"
-              type="number"
+              allowNegative={false}
               placeholder=""
               size="md"
               className="w-full"

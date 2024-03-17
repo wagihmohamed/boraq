@@ -143,18 +143,6 @@ export const AddAutomaticUpdateTimer = () => {
             max={24}
             {...form.getInputProps('updateAt')}
           />
-          {/* <Radio.Group
-            name="orderReturnCondition"
-            label="اختر حالة الارجاع"
-            withAsterisk
-            {...form.getInputProps('returnCondition')}
-          >
-            <div className="flex items-center gap-4">
-              {orderReturnConditionArray.map((item) => (
-                <Radio key={item.value} value={item.value} label={item.label} />
-              ))}
-            </div>
-          </Radio.Group> */}
           <div className="flex items-center gap-4">
             <Button loading={isLoading} disabled={isLoading} type="submit">
               اضافة

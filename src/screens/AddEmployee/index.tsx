@@ -27,6 +27,7 @@ import { useTenants } from '@/hooks/useTenants';
 import { useAuth } from '@/store/authStore';
 import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
 import { useEffect } from 'react';
+import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
@@ -80,20 +81,6 @@ export const AddEmployee = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeDetails, isBranchManager]);
 
-  const transformedBranches = branches.data?.map((branch) => ({
-    value: branch.id.toString(),
-    label: branch.name,
-  }));
-
-  const transformedTenants = tenants.data?.map((tenant) => ({
-    value: tenant.id.toString(),
-    label: tenant.name,
-  }));
-
-  const transformedRepositories = repositories.data?.map((repository) => ({
-    value: repository.id.toString(),
-    label: repository.name,
-  }));
   const queryClient = useQueryClient();
   const { mutate: createBranchAction, isLoading } = useMutation({
     mutationFn: (data: FormData) => {
@@ -114,7 +101,7 @@ export const AddEmployee = () => {
   const handleSubmit = (values: z.infer<typeof addEmployeeSchema>) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('username', values.username);
+    formData.append('username', values.phone);
     formData.append('phone', values.phone);
     formData.append('salary', values.salary);
     formData.append('branchID', values.branch);
@@ -166,15 +153,6 @@ export const AddEmployee = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
-              label="اسم المستخدم"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('username')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
               label="رقم الهاتف"
               placeholder=""
               size="md"
@@ -209,7 +187,7 @@ export const AddEmployee = () => {
                 label="الفرع"
                 placeholder="اختار الفرع"
                 disabled
-                data={transformedBranches}
+                data={getSelectOptions(branches.data || [])}
                 limit={100}
                 value={employeeDetails?.data.branch.id.toString()}
               />
@@ -218,7 +196,7 @@ export const AddEmployee = () => {
                 searchable
                 label="الفرع"
                 placeholder="اختار الفرع"
-                data={transformedBranches}
+                data={getSelectOptions(branches.data || [])}
                 limit={100}
                 {...form.getInputProps('branch')}
               />
@@ -229,7 +207,7 @@ export const AddEmployee = () => {
               searchable
               label="المخزن"
               placeholder="اختار المخزن"
-              data={transformedRepositories}
+              data={getSelectOptions(repositories.data || [])}
               limit={100}
               {...form.getInputProps('store')}
             />
@@ -240,7 +218,7 @@ export const AddEmployee = () => {
                 searchable
                 label="الشركة"
                 placeholder="اختار الشركة"
-                data={transformedTenants}
+                data={getSelectOptions(tenants.data || [])}
                 limit={100}
                 {...form.getInputProps('companyID')}
               />
