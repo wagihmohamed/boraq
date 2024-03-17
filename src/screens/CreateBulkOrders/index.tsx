@@ -30,7 +30,7 @@ export interface OrderBulkFormValues {
       phone: string;
       key: string;
     }[];
-    totalCost: string;
+    totalCost: number;
     quantity: string;
     weight: string;
     storeID: string;
@@ -84,7 +84,7 @@ export const CreateBulkOrders = () => {
               key: randomId(),
             },
           ],
-          totalCost: '',
+          totalCost: 0,
           quantity: '1',
           weight: '1',
           storeID: '',
@@ -133,7 +133,7 @@ export const CreateBulkOrders = () => {
             key: randomId(),
           },
         ],
-        totalCost: '',
+        totalCost: 0,
         quantity: '1',
         weight: '1',
         storeID: '',

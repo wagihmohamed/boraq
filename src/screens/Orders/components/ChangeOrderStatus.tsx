@@ -40,6 +40,11 @@ export const ChangeOrderStatus = ({
 
   const { mutate: changeStatus, isLoading } = useChangeOrderStatus();
 
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
+
   const handleChangeStatus = () => {
     if (!orderStatus) {
       return;
@@ -52,8 +57,7 @@ export const ChangeOrderStatus = ({
       {
         onSuccess: () => {
           toast.success('تم تعديل حالة الطلب بنجاح');
-          close();
-          closeMenu();
+          handleClose();
         },
       }
     );
@@ -61,15 +65,7 @@ export const ChangeOrderStatus = ({
 
   return (
     <>
-      <Modal
-        opened={opened}
-        onClose={() => {
-          close();
-          closeMenu();
-        }}
-        title="مسح الطلب"
-        centered
-      >
+      <Modal opened={opened} onClose={handleClose} title="مسح الطلب" centered>
         <Card>
           <CardHeader>
             <CardTitle>تعديل حالة الطلب</CardTitle>

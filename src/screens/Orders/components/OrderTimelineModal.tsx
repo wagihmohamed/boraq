@@ -26,16 +26,18 @@ export const OrderTimelineModal = ({
 }: Props) => {
   const { data: orderTimelineDate, isLoading } = useOrderTimeline(id);
 
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
+
   return (
     <>
       <Modal
         withinPortal
         opened={opened}
         centered
-        onClose={() => {
-          close();
-          closeMenu();
-        }}
+        onClose={handleClose}
         title="مسار الطلب"
       >
         {isLoading ? (
