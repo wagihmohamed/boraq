@@ -4,6 +4,8 @@ import { Button, Grid } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
+// eslint-disable-next-line import/no-cycle
+import { deliveryAgentInitialStatuses } from '.';
 
 interface DeliveryAgentOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -23,10 +25,16 @@ export const DeliveryAgentStatistics = ({
   const handleCreateReport = () => {
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
-      params: ordersParams,
+      params: {
+        ...ordersParams,
+        statuses: ordersParams.statuses?.length
+          ? ordersParams.statuses
+          : deliveryAgentInitialStatuses,
+      },
       type: 'DELIVERY_AGENT',
       deliveryAgentID: Number(deliveryAgentID),
     };
+
     toast.promise(createReport(mutationParams), {
       loading: 'جاري تصدير الكشف',
       success: 'تم تصدير الكشف بنجاح',

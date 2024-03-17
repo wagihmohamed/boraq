@@ -13,6 +13,12 @@ import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { DeliveryAgentOrdersFilter } from './DeliveryAgentOrders';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
 
+export const deliveryAgentInitialStatuses = [
+  'DELIVERED',
+  'PARTIALLY_RETURNED',
+  'REPLACED',
+];
+
 export const DeliveryAgentReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
@@ -37,7 +43,9 @@ export const DeliveryAgentReportsView = () => {
   } = useOrders(
     {
       ...ordersFilter,
-      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+      statuses: ordersFilter.statuses?.length
+        ? ordersFilter.statuses
+        : deliveryAgentInitialStatuses,
     },
     !!ordersFilter.delivery_agent_id
   );
