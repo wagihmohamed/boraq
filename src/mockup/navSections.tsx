@@ -21,6 +21,7 @@ import {
   IconRefresh,
   IconArrowBackUp,
   IconCheck,
+  IconCoin,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -177,6 +178,13 @@ export const navSections: NavSection[] = [
     enLabel: 'employees',
     icon: IconUserCheck,
     roles: ['BRANCH_MANAGER'],
+  },
+  {
+    link: '/treasury',
+    label: 'الخزنة',
+    enLabel: 'treasury',
+    icon: IconCoin,
+    roles: ['ACCOUNTANT', 'COMPANY_MANAGER'],
   },
   {
     link: '/repositories',

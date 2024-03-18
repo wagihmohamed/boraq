@@ -14,6 +14,7 @@ export interface Report {
   };
   type: keyof typeof reportTypeArabicNames;
   createdAt: string;
+  companyNet: number;
   updatedAt: string;
   confirm: boolean;
   companyReport: {
