@@ -28,6 +28,7 @@ enum Permission {
   DELETE_DELIVERY_AGENT_REPORT = 'مسح كشف مندوب',
   DELETE_CLIENT_REPORT = 'مسح كشف عميل',
   DELETE_BRANCH_REPORT = 'مسح كشف فرع',
+  CONFIRM_ORDER = 'تأكيد طلب',
 }
 
 export const permissionsArabicNames = {
@@ -60,6 +61,7 @@ export const permissionsArabicNames = {
   DELETE_DELIVERY_AGENT_REPORT: 'مسح كشف مندوب',
   DELETE_CLIENT_REPORT: 'مسح كشف عميل',
   DELETE_BRANCH_REPORT: 'مسح كشف فرع',
+  CONFIRM_ORDER: 'تأكيد طلب',
 };
 
 export const permissionsArray: { label: string; value: string }[] =
