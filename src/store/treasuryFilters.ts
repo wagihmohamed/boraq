@@ -19,7 +19,7 @@ type Actions = {
   isReportExist: (id: string) => boolean;
 };
 
-const repositoryReportsOrdersStore = create<
+const treasuryReportsOrdersStore = create<
   IRepositoryReportsOrdersStore & Actions
 >()(
   immer((set) => ({
@@ -58,5 +58,5 @@ const repositoryReportsOrdersStore = create<
   }))
 );
 
-export const useRepositoryReportsStore = () =>
-  repositoryReportsOrdersStore((state) => state);
+export const useTreasuryReportsStore = () =>
+  treasuryReportsOrdersStore((state) => state);

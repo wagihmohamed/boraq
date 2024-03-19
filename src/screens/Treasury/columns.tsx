@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 // import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Report as IReport } from '@/services/getReports';
@@ -5,7 +6,7 @@ import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { format, parseISO } from 'date-fns';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, HoverCard, Text, rem } from '@mantine/core';
+import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
 import {
   IconArrowDownLeft,
   IconArrowUpRight,
@@ -22,8 +23,66 @@ import { MoreHorizontal } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DeleteReport } from '../Reports/components/DeleteReport';
 import Arabic from 'date-fns/locale/ar-EG';
+import { useTreasuryReportsStore } from '@/store/treasuryFilters';
 
 export const columns: ColumnDef<IReport>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => {
+      const {
+        deleteAllTreasuryReportsOrders,
+        setAllTreasuryReportsOrders,
+        isReportExist,
+      } = useTreasuryReportsStore();
+
+      return (
+        <Checkbox
+          checked={
+            table.getRowModel().rows.length > 0 &&
+            table
+              .getRowModel()
+              .rows.every((row) => isReportExist(row.original.id.toString()))
+          }
+          onChange={(event) => {
+            const allTableRowsIds = table.getRowModel().rows.map((row) => ({
+              id: row.original.id.toString(),
+              status: row.original.status,
+            }));
+
+            const isAllSelected = event.currentTarget.checked;
+
+            if (isAllSelected) {
+              setAllTreasuryReportsOrders(allTableRowsIds);
+              table.toggleAllPageRowsSelected(true);
+            } else {
+              table.toggleAllPageRowsSelected(false);
+              deleteAllTreasuryReportsOrders();
+            }
+          }}
+        />
+      );
+    },
+    cell: ({ row }) => {
+      const { addTreasuryReport, deleteTreasuryReport, isReportExist } =
+        useTreasuryReportsStore();
+      return (
+        <Checkbox
+          checked={isReportExist(row.original.id.toString())}
+          onChange={(value) => {
+            const isChecked = value.currentTarget.checked;
+            const { id, status } = row.original;
+            if (isChecked) {
+              addTreasuryReport({ id: id.toString(), status });
+              row.toggleSelected(true);
+            } else {
+              row.toggleSelected(false);
+              deleteTreasuryReport(id.toString());
+            }
+          }}
+        />
+      );
+    },
+  },
   {
     accessorKey: 'id',
     header: 'رقم الكشف',
