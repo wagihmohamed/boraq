@@ -19,7 +19,6 @@ export const TreasuryScreen = () => {
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
-    type: 'GOVERNORATE',
   });
 
   const { isError, isInitialLoading, data, isLoading } = useReports({
