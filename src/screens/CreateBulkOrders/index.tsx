@@ -108,8 +108,8 @@ export const CreateBulkOrders = () => {
   } = useLocations({
     size: 100000,
     minified: true,
-    governorate: form.values.orders[0]
-      .governorate as keyof typeof governorateArabicNames,
+    governorate:
+      (selectedGovernorate as keyof typeof governorateArabicNames) || undefined,
   });
 
   const {
