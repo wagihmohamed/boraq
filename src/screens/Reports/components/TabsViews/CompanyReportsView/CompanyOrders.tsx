@@ -1,11 +1,4 @@
-import {
-  Button,
-  Grid,
-  MultiSelect,
-  Paper,
-  Select,
-  TextInput,
-} from '@mantine/core';
+import { Button, Grid, MultiSelect, Paper, Select } from '@mantine/core';
 import { OrdersFilter } from '@/services/getOrders';
 import { convertDateFormat } from '@/lib/convertDate';
 import { DateTimePicker } from '@mantine/dates';
@@ -133,21 +126,6 @@ export const CompanyOrdersFilter = ({
             }}
             placeholder="اختر المحافظة"
             data={governorateArray}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
-          <TextInput
-            label="اجور توصيل بغداد"
-            placeholder="اجور توصيل بغداد"
-            // TODO baghdad_delivery_cost
-            // TODO governorates_delivery_cost
-            // value={ordersFilters.delivery_fees || ''}
-            // onChange={(e) => {
-            //   setOrdersFilters({
-            //     ...ordersFilters,
-            //     delivery_fees: e || '',
-            //   });
-            // }}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
