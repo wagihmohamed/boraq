@@ -31,7 +31,7 @@ import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
-  const { role, id: loggedInUserId, companyID: loggedInComapnyId } = useAuth();
+  const { role, id: loggedInUserId, companyID: loggedInCompanyId } = useAuth();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const isBranchManager = role === 'BRANCH_MANAGER';
@@ -58,7 +58,6 @@ export const AddEmployee = () => {
       username: '',
       name: '',
       phone: '',
-      salary: '',
       branch: '',
       store: '',
       roles: '',
@@ -67,7 +66,6 @@ export const AddEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
-      deliveryCost: '',
     },
   });
 
@@ -103,7 +101,6 @@ export const AddEmployee = () => {
     formData.append('name', values.name);
     formData.append('username', values.phone);
     formData.append('phone', values.phone);
-    formData.append('salary', values.salary);
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.store);
     formData.append('role', values.roles);
@@ -112,10 +109,9 @@ export const AddEmployee = () => {
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
-      formData.append('companyID', loggedInComapnyId.toString());
+      formData.append('companyID', loggedInCompanyId.toString());
     }
     formData.append('permissions', JSON.stringify(values.permissions));
-    formData.append('deliveryCost', values.deliveryCost);
     createBranchAction(formData);
   };
 
@@ -158,26 +154,6 @@ export const AddEmployee = () => {
               size="md"
               className="w-full"
               {...form.getInputProps('phone')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="الراتب"
-              type="number"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('salary')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="أجرة التوصيل"
-              type="number"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('deliveryCost')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

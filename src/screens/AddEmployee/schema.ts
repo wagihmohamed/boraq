@@ -7,7 +7,6 @@ export const addEmployeeSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
-    salary: z.string().min(0),
     avatar: z.any(),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
@@ -21,7 +20,6 @@ export const addEmployeeSchema = z
     permissions: z.array(
       z.string({ required_error: 'الرجاء اختيار الصلاحيات' })
     ),
-    deliveryCost: z.string(),
     password: z.string().min(6, { message: 'كلمة المرور يجب ان تكون 6 احرف' }),
     confirmPassword: z
       .string()

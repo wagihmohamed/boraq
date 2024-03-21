@@ -9,14 +9,6 @@ export const editEmployeeSchema = z
     }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
     avatar: z.any(),
-    deliveryCost: z.number(),
-    salary: z
-      .number({
-        required_error: 'الرجاء ادخال الأجرة',
-      })
-      .refine((value) => value > 0, {
-        message: 'الرجاء ادخال الأجرة',
-      }),
     branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
     repository: z.string(),
     role: z

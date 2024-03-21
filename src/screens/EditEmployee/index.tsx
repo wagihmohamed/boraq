@@ -12,7 +12,6 @@ import {
   Button,
   Grid,
   MultiSelect,
-  NumberInput,
   PasswordInput,
   Select,
   TextInput,
@@ -54,7 +53,6 @@ export const EditEmployee = () => {
       username: '',
       name: '',
       phone: '',
-      salary: 0,
       branch: '',
       repository: '',
       role: '',
@@ -63,7 +61,6 @@ export const EditEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
-      deliveryCost: 0,
     },
   });
 
@@ -74,14 +71,12 @@ export const EditEmployee = () => {
         username: employeeDetails.data.username,
         name: employeeDetails.data.name,
         phone: employeeDetails.data.phone,
-        salary: employeeDetails.data.salary,
         branch: employeeDetails.data.branch?.id.toString(),
         repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
         companyID: employeeDetails.data.company?.id.toString(),
         permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
-        deliveryCost: employeeDetails.data.deliveryCost,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,7 +122,6 @@ export const EditEmployee = () => {
     formData.append('username', values.phone);
     formData.append('name', values.name);
     formData.append('phone', values.phone);
-    formData.append('salary', String(values.salary));
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
@@ -143,7 +137,6 @@ export const EditEmployee = () => {
     if (values.avatar[0] instanceof File) {
       formData.append('avatar', (values?.avatar[0] as File) || '');
     }
-    formData.append('deliveryCost', String(values.deliveryCost));
     editEmployeeAction(formData);
   };
 
@@ -186,26 +179,6 @@ export const EditEmployee = () => {
               size="md"
               className="w-full"
               {...form.getInputProps('phone')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <NumberInput
-              label="الراتب"
-              placeholder=""
-              size="md"
-              className="w-full"
-              allowNegative={false}
-              {...form.getInputProps('salary')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <NumberInput
-              label="أجرة التوصيل"
-              allowNegative={false}
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('deliveryCost')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
