@@ -1,4 +1,3 @@
-// import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/lib/consts';
 import { isValidIraqiPhoneNumber } from '@/lib/testIraqiPhoneNumber';
 import { z } from 'zod';
 
@@ -8,7 +7,7 @@ export const editClientSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
-    branch: z.string().min(1, { message: 'الرجاء اختيار الفرع' }),
+    branch: z.string(),
     avatar: z.any(),
     type: z.string().min(1, { message: 'الرجاء اختيار نوع الحساب' }),
     companyID: z.string().min(1, { message: 'الرجاء اختيار الشركة' }),
