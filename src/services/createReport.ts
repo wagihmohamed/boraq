@@ -19,6 +19,9 @@ type CreateReportWithAllOrdersPayload = {
   repositoryID?: number;
   ordersIDs: '*';
   params: OrdersFilter;
+  baghdadDeliveryCost?: number;
+  governoratesDeliveryCost?: number;
+  deliveryAgentDeliveryCost?: number;
 };
 
 export type CreateReportWithIDsPayload = {
@@ -32,6 +35,9 @@ export type CreateReportWithIDsPayload = {
   repositoryID?: number;
   ordersIDs: number[];
   params?: OrdersFilter;
+  baghdadDeliveryCost?: number;
+  governoratesDeliveryCost?: number;
+  deliveryAgentDeliveryCost?: number;
 };
 
 export type CreateReportPayload =
