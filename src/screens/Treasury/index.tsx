@@ -8,6 +8,8 @@ import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { TreasuryFilters } from './components/TreasuryFilters';
 import { Grid, LoadingOverlay } from '@mantine/core';
 import { TreasuryCard } from './components/TreasuryCard';
+import { useAuth } from '@/store/authStore';
+import { useTenantDetails } from '@/hooks/useTenantDetails';
 
 const treasuryInitialStatuses: (keyof typeof reportTypeArabicNames)[] = [
   'DELIVERY_AGENT',
@@ -16,10 +18,16 @@ const treasuryInitialStatuses: (keyof typeof reportTypeArabicNames)[] = [
 ];
 
 export const TreasuryScreen = () => {
+  const { companyID } = useAuth();
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
   });
+
+  const {
+    data: registeredCompanyDetails,
+    isLoading: isRegisteredCompanyLoading,
+  } = useTenantDetails(Number(companyID));
 
   const { isError, isInitialLoading, data, isLoading } = useReports({
     status: 'PAID',
@@ -47,7 +55,7 @@ export const TreasuryScreen = () => {
           title="المبلغ المدفوع"
           value={data?.data.reportsMetaData.paidAmount || 0}
           isLoading={isLoading}
-          color="green"
+          color="indigo"
         />
         <TreasuryCard
           title="تكلفة التوصيل"
@@ -72,6 +80,12 @@ export const TreasuryScreen = () => {
           value={data?.data.reportsMetaData.governoratesOrdersCount || 0}
           isLoading={isLoading}
           color="teal"
+        />
+        <TreasuryCard
+          title="الخزنة"
+          value={registeredCompanyDetails?.data.treasury || 0}
+          isLoading={isRegisteredCompanyLoading}
+          color="green"
         />
       </Grid>
       <div className="relative">

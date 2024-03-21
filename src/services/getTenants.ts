@@ -16,6 +16,7 @@ export interface Tenant {
   additionalPriceForEveryKilogram: number;
   additionalPriceForRemoteAreas: number;
   orderStatusAutomaticUpdate: boolean;
+  treasury: number;
 }
 
 export interface GetTenantsResponse {
