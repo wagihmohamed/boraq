@@ -1,5 +1,12 @@
 import { AppLayout } from '@/components/AppLayout';
-import { Button, Grid, Switch, TextInput, Textarea } from '@mantine/core';
+import {
+  Button,
+  Grid,
+  PasswordInput,
+  Switch,
+  TextInput,
+  Textarea,
+} from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -32,17 +39,19 @@ export const AddTenant = () => {
       additionalPriceForEveryKilogram: '',
       additionalPriceForRemoteAreas: '',
       orderStatusAutomaticUpdate: false,
+      password: '',
+      confirmPassword: '',
     },
   });
 
-  const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
+  const { mutate: createTenantAction, isLoading: isEditing } = useMutation({
     mutationFn: (data: FormData) => {
       return createTenantService(data);
     },
     onSuccess: () => {
       toast.success('تم انشاء الشركة بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['tenantDetails'],
+        queryKey: ['tenants'],
       });
       navigate('/tenants');
     },
@@ -53,31 +62,63 @@ export const AddTenant = () => {
 
   const handleSubmit = (values: z.infer<typeof addTenantSchema>) => {
     const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('phone', values.phone);
-    formData.append('website', values.website);
-    formData.append('logo', values.logo[0]);
-    formData.append('registrationText', values.registrationText);
-    formData.append('governoratePrice', values.governoratePrice);
-    formData.append('deliveryAgentFee', values.deliveryAgentFee);
-    formData.append('baghdadPrice', values.baghdadPrice);
-    formData.append(
-      'additionalPriceForEvery500000IraqiDinar',
-      values.additionalPriceForEvery500000IraqiDinar
-    );
-    formData.append(
-      'additionalPriceForEveryKilogram',
-      values.additionalPriceForEveryKilogram
-    );
-    formData.append(
-      'additionalPriceForRemoteAreas',
-      values.additionalPriceForRemoteAreas
-    );
-    formData.append(
-      'orderStatusAutomaticUpdate',
-      values.orderStatusAutomaticUpdate ? 'true' : 'false'
-    );
-    editTenantAction(formData);
+
+    const companyManager = {
+      username: values.phone,
+      name: `مدير شركة ${values.name}`,
+      phone: values.phone,
+      password: values.password,
+    };
+
+    const companyData = {
+      name: values.name,
+      phone: values.phone,
+      website: values.website,
+      logo: values.logo[0],
+      registrationText: values.registrationText,
+      governoratePrice: values.governoratePrice,
+      deliveryAgentFee: values.deliveryAgentFee,
+      baghdadPrice: values.baghdadPrice,
+      additionalPriceForEvery500000IraqiDinar:
+        values.additionalPriceForEvery500000IraqiDinar,
+      additionalPriceForEveryKilogram: values.additionalPriceForEveryKilogram,
+      additionalPriceForRemoteAreas: values.additionalPriceForRemoteAreas,
+      orderStatusAutomaticUpdate: values.orderStatusAutomaticUpdate,
+    };
+
+    // companyFormData.append('name', values.name);
+    // companyFormData.append('phone', values.phone);
+    // companyFormData.append('website', values.website);
+    // companyFormData.append('logo', values.logo[0]);
+    // companyFormData.append('registrationText', values.registrationText);
+    // companyFormData.append('governoratePrice', values.governoratePrice);
+    // companyFormData.append('deliveryAgentFee', values.deliveryAgentFee);
+    // companyFormData.append('baghdadPrice', values.baghdadPrice);
+    // companyFormData.append(
+    //   'additionalPriceForEvery500000IraqiDinar',
+    //   values.additionalPriceForEvery500000IraqiDinar
+    // );
+    // companyFormData.append(
+    //   'additionalPriceForEveryKilogram',
+    //   values.additionalPriceForEveryKilogram
+    // );
+    // companyFormData.append(
+    //   'additionalPriceForRemoteAreas',
+    //   values.additionalPriceForRemoteAreas
+    // );
+    // companyFormData.append(
+    //   'orderStatusAutomaticUpdate',
+    //   values.orderStatusAutomaticUpdate ? 'true' : 'false'
+    // );
+
+    // companyManagerFormData.append('username', values.phone);
+    // companyManagerFormData.append('name', `مدير شركة ${values.name}`);
+    // companyManagerFormData.append('phone', values.phone);
+    // companyManagerFormData.append('password', values.password);
+
+    formData.append('companyData', JSON.stringify(companyData));
+    formData.append('companyManager', JSON.stringify(companyManager));
+    createTenantAction(formData);
   };
 
   return (
@@ -180,13 +221,33 @@ export const AddTenant = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('password')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="تأكيد كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('confirmPassword')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               type="submit"
               fullWidth
               mt="xl"
               size="md"
-              loading={isEditting}
-              disabled={isEditting}
+              loading={isEditing}
+              disabled={isEditing}
             >
               اضافة
             </Button>

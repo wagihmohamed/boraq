@@ -2,18 +2,8 @@ import { api } from '@/api';
 import { createTenantEndpoint } from '@/api/apisUrl';
 
 export interface CreateTenantPayload {
-  name: string;
-  phone: string;
-  website: string;
-  logo: string;
-  registrationText: string;
-  governoratePrice: number;
-  deliveryAgentFee: number;
-  baghdadPrice: number;
-  additionalPriceForEvery500000IraqiDinar: number;
-  additionalPriceForEveryKilogram: number;
-  additionalPriceForRemoteAreas: number;
-  orderStatusAutomaticUpdate: boolean;
+  companyData: FormData;
+  companyManager: FormData;
 }
 
 export const createTenantService = async (data: FormData) => {
