@@ -1,4 +1,5 @@
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
+import { JWTRole } from '@/store/authStore';
 import {
   IconBox,
   IconUsers,
@@ -29,7 +30,7 @@ interface NavSection {
   label: string;
   enLabel: string;
   icon: typeof IconBox;
-  roles: (keyof typeof rolesArabicNames)[];
+  roles: JWTRole[];
 }
 
 export const navSections: NavSection[] = [
