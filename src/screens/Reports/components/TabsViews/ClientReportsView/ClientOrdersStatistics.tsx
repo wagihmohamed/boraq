@@ -28,6 +28,10 @@ export const ClientOrdersStatistics = ({
   const { mutate: getClientId } = useClientByStoreId();
 
   const handleCreateReport = () => {
+    if (!baghdadDeliveryCost && !governoratesDeliveryCost) {
+      toast.error('الرجاء ادخال اجور التوصيل');
+      return;
+    }
     getClientId(storeID, {
       onSuccess({ data }) {
         const mutationParams: CreateReportPayload = {

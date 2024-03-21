@@ -29,6 +29,10 @@ export const CompanyOrdersStatistics = ({
       toast.error('يرجى اختيار شركة');
       return;
     }
+    if (!baghdadDeliveryCost && !governoratesDeliveryCost) {
+      toast.error('الرجاء ادخال اجور التوصيل');
+      return;
+    }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
       params: ordersParams,

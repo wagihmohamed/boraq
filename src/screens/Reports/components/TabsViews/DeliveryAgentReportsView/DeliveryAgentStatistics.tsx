@@ -27,6 +27,10 @@ export const DeliveryAgentStatistics = ({
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const handleCreateReport = () => {
+    if (!deliveryAgentDeliveryCost) {
+      toast.error('الرجاء ادخال اجور التوصيل');
+      return;
+    }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
       params: {
