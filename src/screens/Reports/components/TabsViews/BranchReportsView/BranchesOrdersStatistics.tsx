@@ -19,13 +19,13 @@ export const BranchesOrdersStatistics = ({
   ordersMetaData,
   ordersLength,
 }: BranchesOrdersStatisticsProps) => {
-  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] = useState<
+  const [deliveryAgentDeliveryCost, setDeliveryAgentDeliveryCost] = useState<
     string | number
   >(0);
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const handleCreateReport = () => {
-    if (!governoratesDeliveryCost) {
+    if (!deliveryAgentDeliveryCost) {
       toast.error('الرجاء ادخال اجور التوصيل');
       return;
     }
@@ -34,12 +34,12 @@ export const BranchesOrdersStatistics = ({
       params: ordersParams,
       type: 'BRANCH',
       branchID: Number(branchId),
-      governoratesDeliveryCost: Number(governoratesDeliveryCost),
+      deliveryAgentDeliveryCost: Number(deliveryAgentDeliveryCost),
     };
     toast.promise(
       createReport(mutationParams, {
         onSuccess: () => {
-          setGovernoratesDeliveryCost(0);
+          setDeliveryAgentDeliveryCost(0);
         },
       }),
       {
@@ -69,10 +69,10 @@ export const BranchesOrdersStatistics = ({
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
         <NumberInput
-          label="اجور توصيل المحافظات"
-          value={governoratesDeliveryCost}
-          onChange={(e) => setGovernoratesDeliveryCost(e)}
-          placeholder="اجور توصيل المحافظات"
+          label="اجور توصيل المندوب"
+          value={deliveryAgentDeliveryCost}
+          onChange={(e) => setDeliveryAgentDeliveryCost(e)}
+          placeholder="اجور توصيل المندوب"
         />
       </Grid.Col>
       <Grid.Col span={{ base: 6, md: 3, lg: 2, sm: 12, xs: 12 }}>
