@@ -43,11 +43,19 @@ export const ClientOrdersStatistics = ({
           governoratesDeliveryCost: Number(governoratesDeliveryCost),
         };
 
-        toast.promise(createReport(mutationParams), {
-          loading: 'جاري تصدير الكشف',
-          success: 'تم تصدير الكشف بنجاح',
-          error: (error) => error.message || 'حدث خطأ ما',
-        });
+        toast.promise(
+          createReport(mutationParams, {
+            onSuccess: () => {
+              setBaghdadDeliveryCost('');
+              setGovernoratesDeliveryCost('');
+            },
+          }),
+          {
+            loading: 'جاري تصدير الكشف',
+            success: 'تم تصدير الكشف بنجاح',
+            error: (error) => error.message || 'حدث خطأ ما',
+          }
+        );
       },
     });
   };

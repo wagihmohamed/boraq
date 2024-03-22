@@ -22,7 +22,7 @@ export const DeliveryAgentStatistics = ({
   ordersMetaData,
 }: DeliveryAgentOrdersStatisticsProps) => {
   const [deliveryAgentDeliveryCost, setDeliveryAgentDeliveryCost] =
-    useState<number>();
+    useState('');
 
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
@@ -40,14 +40,22 @@ export const DeliveryAgentStatistics = ({
           : deliveryAgentInitialStatuses,
       },
       type: 'DELIVERY_AGENT',
+      deliveryAgentDeliveryCost: Number(deliveryAgentDeliveryCost),
       deliveryAgentID: Number(deliveryAgentID),
     };
 
-    toast.promise(createReport(mutationParams), {
-      loading: 'جاري تصدير الكشف',
-      success: 'تم تصدير الكشف بنجاح',
-      error: (error) => error.message || 'حدث خطأ ما',
-    });
+    toast.promise(
+      createReport(mutationParams, {
+        onSuccess: () => {
+          setDeliveryAgentDeliveryCost('');
+        },
+      }),
+      {
+        loading: 'جاري تصدير الكشف',
+        success: 'تم تصدير الكشف بنجاح',
+        error: (error) => error.message || 'حدث خطأ ما',
+      }
+    );
   };
   return (
     <Grid align="center" className="mt-4" grow>
@@ -70,7 +78,7 @@ export const DeliveryAgentStatistics = ({
         <TextInput
           label="اجور توصيل المندوب"
           value={deliveryAgentDeliveryCost}
-          onChange={(e) => setDeliveryAgentDeliveryCost(Number(e.target.value))}
+          onChange={(e) => setDeliveryAgentDeliveryCost(e.target.value)}
           placeholder="اجور توصيل المندوب"
           type="number"
         />
