@@ -1,5 +1,4 @@
 import { ColumnDef } from '@tanstack/react-table';
-// import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Report as IReport } from '@/services/getReports';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
 import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';

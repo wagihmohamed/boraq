@@ -20,9 +20,8 @@ export const ClientOrdersStatistics = ({
   ordersLength,
   ordersParams,
 }: ClientOrdersStatisticsProps) => {
-  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<number>();
-  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] =
-    useState<number>();
+  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState('');
+  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] = useState('');
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const { mutate: getClientId } = useClientByStoreId();
@@ -40,8 +39,8 @@ export const ClientOrdersStatistics = ({
           type: 'CLIENT',
           storeID: Number(storeID),
           clientID: data[0].id,
-          baghdadDeliveryCost,
-          governoratesDeliveryCost,
+          baghdadDeliveryCost: Number(baghdadDeliveryCost),
+          governoratesDeliveryCost: Number(governoratesDeliveryCost),
         };
 
         toast.promise(createReport(mutationParams), {
@@ -102,7 +101,7 @@ export const ClientOrdersStatistics = ({
         <TextInput
           label="اجور توصيل بغداد"
           value={baghdadDeliveryCost}
-          onChange={(e) => setBaghdadDeliveryCost(Number(e.target.value))}
+          onChange={(e) => setBaghdadDeliveryCost(e.target.value)}
           placeholder="اجور توصيل بغداد"
           type="number"
         />
@@ -111,7 +110,7 @@ export const ClientOrdersStatistics = ({
         <TextInput
           label="اجور توصيل المحافظات"
           value={governoratesDeliveryCost}
-          onChange={(e) => setGovernoratesDeliveryCost(Number(e.target.value))}
+          onChange={(e) => setGovernoratesDeliveryCost(e.target.value)}
           placeholder="اجور توصيل المحافظات"
           type="number"
         />

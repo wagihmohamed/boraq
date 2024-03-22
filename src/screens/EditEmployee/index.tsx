@@ -92,11 +92,6 @@ export const EditEmployee = () => {
     label: branch.name,
   }));
 
-  // const transformedTenants = tenants.data?.map((tenant) => ({
-  //   value: tenant.id.toString(),
-  //   label: tenant.name,
-  // }));
-
   const queryClient = useQueryClient();
   const { mutate: editEmployeeAction, isLoading: isEditing } = useMutation({
     mutationFn: (data: FormData) => {
@@ -163,15 +158,6 @@ export const EditEmployee = () => {
               {...form.getInputProps('name')}
             />
           </Grid.Col>
-          {/* <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="اسم المستخدم"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('username')}
-            />
-          </Grid.Col> */}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
               label="رقم الهاتف"
@@ -201,18 +187,6 @@ export const EditEmployee = () => {
               {...form.getInputProps('repository')}
             />
           </Grid.Col>
-          {/* {isAdminOrAdminAssistant && (
-            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-              <Select
-                searchable
-                label="الشركة"
-                placeholder="اختار الشركة"
-                data={transformedTenants}
-                limit={100}
-                {...form.getInputProps('companyID')}
-              />
-            </Grid.Col>
-          )} */}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الادوار"
