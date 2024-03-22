@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { columns } from './components/columns';
 import { AppLayout } from '@/components/AppLayout';
 import { useState } from 'react';

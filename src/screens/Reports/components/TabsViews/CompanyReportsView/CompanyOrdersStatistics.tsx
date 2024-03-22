@@ -1,6 +1,6 @@
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
-import { Button, Grid, TextInput } from '@mantine/core';
+import { Button, Grid, NumberInput } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
@@ -19,9 +19,12 @@ export const CompanyOrdersStatistics = ({
   ordersMetaData,
   company_id,
 }: CompanyOrdersStatisticsProps) => {
-  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<number>();
-  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] =
-    useState<number>();
+  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<
+    number | string
+  >(0);
+  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] = useState<
+    number | string
+  >(0);
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const handleCreateReport = () => {
@@ -38,14 +41,22 @@ export const CompanyOrdersStatistics = ({
       params: ordersParams,
       type: 'COMPANY',
       companyID: Number(company_id),
-      baghdadDeliveryCost,
-      governoratesDeliveryCost,
+      baghdadDeliveryCost: Number(baghdadDeliveryCost),
+      governoratesDeliveryCost: Number(governoratesDeliveryCost),
     };
-    toast.promise(createReport(mutationParams), {
-      loading: 'جاري تصدير الكشف',
-      success: 'تم تصدير الكشف بنجاح',
-      error: (error) => error.message || 'حدث خطأ ما',
-    });
+    toast.promise(
+      createReport(mutationParams, {
+        onSuccess: () => {
+          setBaghdadDeliveryCost(0);
+          setGovernoratesDeliveryCost(0);
+        },
+      }),
+      {
+        loading: 'جاري تصدير الكشف',
+        success: 'تم تصدير الكشف بنجاح',
+        error: (error) => error.message || 'حدث خطأ ما',
+      }
+    );
   };
   return (
     <Grid align="center" className="mt-4" grow>
@@ -65,21 +76,19 @@ export const CompanyOrdersStatistics = ({
         <StatisticsItem title="صافي العميل" value={ordersMetaData.clientNet} />
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <TextInput
+        <NumberInput
           label="اجور توصيل بغداد"
           value={baghdadDeliveryCost}
-          onChange={(e) => setBaghdadDeliveryCost(Number(e.target.value))}
+          onChange={(e) => setBaghdadDeliveryCost(Number(e))}
           placeholder="اجور توصيل بغداد"
-          type="number"
         />
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <TextInput
+        <NumberInput
           label="اجور توصيل المحافظات"
           value={governoratesDeliveryCost}
-          onChange={(e) => setGovernoratesDeliveryCost(Number(e.target.value))}
+          onChange={(e) => setGovernoratesDeliveryCost(Number(e))}
           placeholder="اجور توصيل المحافظات"
-          type="number"
         />
       </Grid.Col>
       <Grid.Col className="mt-6" span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>

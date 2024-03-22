@@ -1,6 +1,6 @@
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
-import { Button, Grid, TextInput } from '@mantine/core';
+import { Button, Grid, NumberInput } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
@@ -20,8 +20,12 @@ export const ClientOrdersStatistics = ({
   ordersLength,
   ordersParams,
 }: ClientOrdersStatisticsProps) => {
-  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState('');
-  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] = useState('');
+  const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<
+    number | string
+  >(0);
+  const [governoratesDeliveryCost, setGovernoratesDeliveryCost] = useState<
+    number | string
+  >(0);
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
   const { mutate: getClientId } = useClientByStoreId();
@@ -46,8 +50,8 @@ export const ClientOrdersStatistics = ({
         toast.promise(
           createReport(mutationParams, {
             onSuccess: () => {
-              setBaghdadDeliveryCost('');
-              setGovernoratesDeliveryCost('');
+              setBaghdadDeliveryCost(0);
+              setGovernoratesDeliveryCost(0);
             },
           }),
           {
@@ -106,21 +110,19 @@ export const ClientOrdersStatistics = ({
         />
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <TextInput
+        <NumberInput
           label="اجور توصيل بغداد"
           value={baghdadDeliveryCost}
-          onChange={(e) => setBaghdadDeliveryCost(e.target.value)}
+          onChange={(e) => setBaghdadDeliveryCost(e)}
           placeholder="اجور توصيل بغداد"
-          type="number"
         />
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <TextInput
+        <NumberInput
           label="اجور توصيل المحافظات"
           value={governoratesDeliveryCost}
-          onChange={(e) => setGovernoratesDeliveryCost(e.target.value)}
+          onChange={(e) => setGovernoratesDeliveryCost(e)}
           placeholder="اجور توصيل المحافظات"
-          type="number"
         />
       </Grid.Col>
       <Grid.Col className="mt-6" span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>

@@ -1,10 +1,9 @@
 import { OrdersFilter, OrdersMetaData } from '@/services/getOrders';
 import { StatisticsItem } from '../../StatisticsItem';
-import { Button, Grid, TextInput } from '@mantine/core';
+import { Button, Grid, NumberInput } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
-// eslint-disable-next-line import/no-cycle
 import { deliveryAgentInitialStatuses } from '.';
 import { useState } from 'react';
 
@@ -21,8 +20,9 @@ export const DeliveryAgentStatistics = ({
   deliveryAgentID,
   ordersMetaData,
 }: DeliveryAgentOrdersStatisticsProps) => {
-  const [deliveryAgentDeliveryCost, setDeliveryAgentDeliveryCost] =
-    useState('');
+  const [deliveryAgentDeliveryCost, setDeliveryAgentDeliveryCost] = useState<
+    number | string
+  >(0);
 
   const { mutateAsync: createReport, isLoading } = useCreateReport();
 
@@ -47,7 +47,7 @@ export const DeliveryAgentStatistics = ({
     toast.promise(
       createReport(mutationParams, {
         onSuccess: () => {
-          setDeliveryAgentDeliveryCost('');
+          setDeliveryAgentDeliveryCost(0);
         },
       }),
       {
@@ -75,12 +75,11 @@ export const DeliveryAgentStatistics = ({
         <StatisticsItem title="صافي العميل" value={ordersMetaData.clientNet} />
       </Grid.Col>
       <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <TextInput
+        <NumberInput
           label="اجور توصيل المندوب"
           value={deliveryAgentDeliveryCost}
-          onChange={(e) => setDeliveryAgentDeliveryCost(e.target.value)}
+          onChange={(e) => setDeliveryAgentDeliveryCost(e)}
           placeholder="اجور توصيل المندوب"
-          type="number"
         />
       </Grid.Col>
       <Grid.Col className="mt-6" span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>

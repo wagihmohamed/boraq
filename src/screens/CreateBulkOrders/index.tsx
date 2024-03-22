@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { createBulkOfOrdersSchema } from './schema';

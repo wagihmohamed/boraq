@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { Location } from '@/services/getLocations';
