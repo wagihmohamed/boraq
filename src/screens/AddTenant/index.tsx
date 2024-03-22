@@ -85,37 +85,6 @@ export const AddTenant = () => {
       additionalPriceForRemoteAreas: values.additionalPriceForRemoteAreas,
       orderStatusAutomaticUpdate: values.orderStatusAutomaticUpdate,
     };
-
-    // companyFormData.append('name', values.name);
-    // companyFormData.append('phone', values.phone);
-    // companyFormData.append('website', values.website);
-    // companyFormData.append('logo', values.logo[0]);
-    // companyFormData.append('registrationText', values.registrationText);
-    // companyFormData.append('governoratePrice', values.governoratePrice);
-    // companyFormData.append('deliveryAgentFee', values.deliveryAgentFee);
-    // companyFormData.append('baghdadPrice', values.baghdadPrice);
-    // companyFormData.append(
-    //   'additionalPriceForEvery500000IraqiDinar',
-    //   values.additionalPriceForEvery500000IraqiDinar
-    // );
-    // companyFormData.append(
-    //   'additionalPriceForEveryKilogram',
-    //   values.additionalPriceForEveryKilogram
-    // );
-    // companyFormData.append(
-    //   'additionalPriceForRemoteAreas',
-    //   values.additionalPriceForRemoteAreas
-    // );
-    // companyFormData.append(
-    //   'orderStatusAutomaticUpdate',
-    //   values.orderStatusAutomaticUpdate ? 'true' : 'false'
-    // );
-
-    // companyManagerFormData.append('username', values.phone);
-    // companyManagerFormData.append('name', `مدير شركة ${values.name}`);
-    // companyManagerFormData.append('phone', values.phone);
-    // companyManagerFormData.append('password', values.password);
-
     formData.append('companyData', JSON.stringify(companyData));
     formData.append('companyManager', JSON.stringify(companyManager));
     createTenantAction(formData);
