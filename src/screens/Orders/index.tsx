@@ -36,6 +36,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   branch_id: '',
   automatic_update_id: '',
   minified: false,
+  confirmed: true,
 };
 
 interface OrdersSearchParameters {
