@@ -103,7 +103,7 @@ export const CompanyOrdersFilter = ({
                 company_id: e || '',
               });
             }}
-            placeholder="اختر ساحب الكشف"
+            placeholder="اختر الشركة "
             data={getSelectOptions(tenantsData.data)}
           />
         </Grid.Col>
