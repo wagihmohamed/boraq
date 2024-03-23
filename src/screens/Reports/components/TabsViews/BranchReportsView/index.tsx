@@ -12,7 +12,7 @@ import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { useOrders } from '@/hooks/useOrders';
 import { BranchesOrdersStatistics } from './BranchesOrdersStatistics';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
-import { repositoryReportsOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
+import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const BranchReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -39,7 +39,7 @@ export const BranchReportsView = () => {
       ...ordersFilter,
       statuses: ordersFilter.statuses?.length
         ? ordersFilter.statuses
-        : repositoryReportsOrderStatuses,
+        : initialReportOrderStatuses,
     },
     !!ordersFilter.branch_id
   );
