@@ -5,6 +5,7 @@ import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
 import { useState } from 'react';
+import { transformOrdersFilterToMatchReportParams } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 interface CompanyOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -38,7 +39,7 @@ export const CompanyOrdersStatistics = ({
     }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
-      params: ordersParams,
+      params: transformOrdersFilterToMatchReportParams(ordersParams),
       type: 'COMPANY',
       companyID: Number(company_id),
       baghdadDeliveryCost: Number(baghdadDeliveryCost),

@@ -5,6 +5,10 @@ import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
 import { useState } from 'react';
+import {
+  repositoryReportsOrderStatuses,
+  transformOrdersFilterToMatchReportParams,
+} from '@/lib/transformOrdersFilterToMatchReportParams';
 
 interface BranchesOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -31,7 +35,10 @@ export const BranchesOrdersStatistics = ({
     }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
-      params: ordersParams,
+      params: transformOrdersFilterToMatchReportParams(
+        ordersParams,
+        repositoryReportsOrderStatuses
+      ),
       type: 'BRANCH',
       branchID: Number(branchId),
       deliveryAgentDeliveryCost: Number(deliveryAgentDeliveryCost),

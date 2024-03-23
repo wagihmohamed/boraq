@@ -4,8 +4,8 @@ import { Button, Grid, NumberInput } from '@mantine/core';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
-import { deliveryAgentInitialStatuses } from '.';
 import { useState } from 'react';
+import { transformOrdersFilterToMatchReportParams } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 interface DeliveryAgentOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -33,12 +33,7 @@ export const DeliveryAgentStatistics = ({
     }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
-      params: {
-        ...ordersParams,
-        statuses: ordersParams.statuses?.length
-          ? ordersParams.statuses
-          : deliveryAgentInitialStatuses,
-      },
+      params: transformOrdersFilterToMatchReportParams(ordersParams),
       type: 'DELIVERY_AGENT',
       deliveryAgentDeliveryCost: Number(deliveryAgentDeliveryCost),
       deliveryAgentID: Number(deliveryAgentID),

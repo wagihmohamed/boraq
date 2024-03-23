@@ -12,12 +12,7 @@ import { DeliveryAgentStatistics } from './DeliveryAgentStatistics';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { DeliveryAgentOrdersFilter } from './DeliveryAgentOrders';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
-
-export const deliveryAgentInitialStatuses = [
-  'DELIVERED',
-  'PARTIALLY_RETURNED',
-  'REPLACED',
-];
+import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const DeliveryAgentReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -45,7 +40,7 @@ export const DeliveryAgentReportsView = () => {
       ...ordersFilter,
       statuses: ordersFilter.statuses?.length
         ? ordersFilter.statuses
-        : deliveryAgentInitialStatuses,
+        : initialReportOrderStatuses,
     },
     !!ordersFilter.delivery_agent_id
   );

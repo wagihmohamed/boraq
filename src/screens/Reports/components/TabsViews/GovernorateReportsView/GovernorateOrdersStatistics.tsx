@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { useState } from 'react';
+import { transformOrdersFilterToMatchReportParams } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 interface GovernorateOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -32,7 +33,7 @@ export const GovernorateOrdersStatistics = ({
     }
     const mutationParams: CreateReportPayload = {
       ordersIDs: '*',
-      params: ordersParams,
+      params: transformOrdersFilterToMatchReportParams(ordersParams),
       type: 'GOVERNORATE',
       governorate,
       governoratesDeliveryCost: Number(governoratesDeliveryCost),

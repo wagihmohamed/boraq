@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { CreateReportPayload } from '@/services/createReport';
 import { useClientByStoreId } from '@/hooks/useClients';
 import { useState } from 'react';
+import { transformOrdersFilterToMatchReportParams } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 interface ClientOrdersStatisticsProps {
   storeID: string;
@@ -35,11 +36,12 @@ export const ClientOrdersStatistics = ({
       toast.error('الرجاء ادخال اجور التوصيل');
       return;
     }
+
     getClientId(storeID, {
       onSuccess({ data }) {
         const mutationParams: CreateReportPayload = {
           ordersIDs: '*',
-          params: ordersParams,
+          params: transformOrdersFilterToMatchReportParams(ordersParams),
           type: 'CLIENT',
           storeID: Number(storeID),
           clientID: data[0].id,
