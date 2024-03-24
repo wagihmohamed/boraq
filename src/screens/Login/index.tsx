@@ -46,8 +46,31 @@ export const LoginScreen = () => {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof schema>) => {
-    login({ password: values.password, username: values.username });
+  const isLocationPermissionGranted = async () => {
+    const isLocationPermissionGranted = await navigator.permissions.query({
+      name: 'geolocation',
+    });
+    return isLocationPermissionGranted;
+  };
+
+  const handleSubmit = async (values: z.infer<typeof schema>) => {
+    await isLocationPermissionGranted().then(({ state }) => {
+      if (state === 'denied') {
+        toast.error('يجب تفعيل صلاحية الموقع للمتابعة');
+        return;
+      }
+
+      if (state === 'prompt') {
+        navigator.geolocation.getCurrentPosition(() => {
+          login({ password: values.password, username: values.username });
+        });
+        return;
+      }
+
+      if (state === 'granted') {
+        login({ password: values.password, username: values.username });
+      }
+    });
   };
 
   return (
