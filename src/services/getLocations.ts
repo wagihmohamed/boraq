@@ -10,6 +10,7 @@ export interface Location {
   governorate: keyof typeof governorateArabicNames;
   branch: Branch;
   deliveryAgents: Employee[];
+  remote: boolean;
 }
 
 export interface GetLocationsResponse {

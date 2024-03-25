@@ -7,6 +7,7 @@ export interface EditLocationPayload {
   governorate?: keyof typeof governorateArabicNames;
   branchID?: number;
   deliveryAgentsIDs?: number[];
+  remote?: boolean;
 }
 
 export const editLocationService = async ({
