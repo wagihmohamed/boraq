@@ -75,9 +75,15 @@ export const AddEmployee = () => {
         'companyID',
         employeeDetails?.data?.company.id.toString()
       );
+      form.setFieldValue(
+        'branch',
+        employeeDetails?.data.branch.id.toString() || ''
+      );
     }
 
     if (isBranchManager) {
+      form.setFieldValue('roles', 'DELIVERY_AGENT');
+
       form.setFieldValue('permissions', [
         'CHANGE_ORDER_STATUS',
         'CHANGE_ORDER_TOTAL_AMOUNT',
@@ -96,7 +102,7 @@ export const AddEmployee = () => {
       queryClient.invalidateQueries({
         queryKey: ['employees'],
       });
-      navigate('/employees');
+      form.reset();
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
@@ -113,6 +119,8 @@ export const AddEmployee = () => {
     formData.append('role', values.roles);
     formData.append('password', values.password);
     formData.append('avatar', values.avatar[0]);
+    // TODO: DELETE THE SALARY LATER
+    formData.append('salary', '220');
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
