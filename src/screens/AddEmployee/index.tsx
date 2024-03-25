@@ -76,6 +76,13 @@ export const AddEmployee = () => {
         employeeDetails?.data?.company.id.toString()
       );
     }
+
+    if (isBranchManager) {
+      form.setFieldValue('permissions', [
+        'CHANGE_ORDER_STATUS',
+        'CHANGE_ORDER_TOTAL_AMOUNT',
+      ] as never);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeDetails, isBranchManager]);
 
@@ -162,7 +169,7 @@ export const AddEmployee = () => {
                 searchable
                 label="الفرع"
                 placeholder="اختار الفرع"
-                disabled
+                readOnly
                 data={getSelectOptions(branches.data || [])}
                 limit={100}
                 value={employeeDetails?.data.branch.id.toString()}
@@ -178,16 +185,18 @@ export const AddEmployee = () => {
               />
             )}
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المخزن"
-              placeholder="اختار المخزن"
-              data={getSelectOptions(repositories.data || [])}
-              limit={100}
-              {...form.getInputProps('store')}
-            />
-          </Grid.Col>
+          {!isBranchManager && (
+            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+              <Select
+                searchable
+                label="المخزن"
+                placeholder="اختار المخزن"
+                data={getSelectOptions(repositories.data || [])}
+                limit={100}
+                {...form.getInputProps('store')}
+              />
+            </Grid.Col>
+          )}
           {isAdminOrAdminAssistant && (
             <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Select
@@ -228,6 +237,7 @@ export const AddEmployee = () => {
             <MultiSelect
               label="الصلاحيات"
               placeholder="اختار الصلاحيات"
+              readOnly={isBranchManager}
               data={permissionsArray}
               {...form.getInputProps('permissions')}
             />
