@@ -318,9 +318,9 @@ export const BulkOrdersItem = ({
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-              <TextInput
+              <NumberInput
                 label="الوزن"
-                type="number"
+                allowDecimal={false}
                 placeholder=""
                 size="md"
                 className="w-full"

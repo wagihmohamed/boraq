@@ -79,7 +79,7 @@ export const createBulkOfOrdersSchema = z.object({
               .min(1, { message: 'الرجاء ادخال الكمية' })
               .optional(),
             weight: z
-              .string()
+              .number()
               .min(1, { message: 'الرجاء ادخال الوزن' })
               .optional(),
           }),
