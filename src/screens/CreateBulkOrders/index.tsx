@@ -31,7 +31,7 @@ export interface OrderBulkFormValues {
     }[];
     totalCost: number;
     quantity: string;
-    weight: string;
+    weight: number;
     storeID: string;
     locationID: string;
     deliveryType: string;
@@ -85,7 +85,7 @@ export const CreateBulkOrders = () => {
           ],
           totalCost: 0,
           quantity: '1',
-          weight: '1',
+          weight: 1,
           storeID: '',
           locationID: '',
           deliveryType: '',
@@ -134,7 +134,7 @@ export const CreateBulkOrders = () => {
         ],
         totalCost: 0,
         quantity: '1',
-        weight: '1',
+        weight: 1,
         storeID: '',
         locationID: '',
         deliveryType: '',
