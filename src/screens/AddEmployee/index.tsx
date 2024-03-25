@@ -73,11 +73,11 @@ export const AddEmployee = () => {
     if (employeeDetails) {
       form.setFieldValue(
         'companyID',
-        employeeDetails?.data?.company.id.toString()
+        employeeDetails?.data?.company?.id.toString()
       );
       form.setFieldValue(
         'branch',
-        employeeDetails?.data.branch.id.toString() || ''
+        employeeDetails?.data.branch?.id.toString() || ''
       );
     }
 

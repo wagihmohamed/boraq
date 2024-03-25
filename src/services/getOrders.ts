@@ -88,6 +88,16 @@ export interface Order {
   };
   confirmed: boolean;
   inquiryEmployees: OrderInquiryEmployee[];
+  forwarded: boolean;
+  forwardedAt: string | null;
+  forwardedBy: {
+    id: number;
+    name: string;
+  } | null;
+  forwardedFrom: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface OrderInquiryEmployee {
@@ -120,6 +130,8 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
+  forwarded_by_id?: number;
+  forwarded_from_id?: string;
   search?: string;
   sort?: string;
   start_date?: Date | string | null;
@@ -152,6 +164,7 @@ export interface OrdersFilter extends Filters {
   company_id?: string;
   repository_id?: string | null;
   from?: string;
+  forwarded?: boolean;
 }
 
 export const getOrdersService = async (
@@ -190,6 +203,9 @@ export const getOrdersService = async (
     company_id,
     repository_id,
     from,
+    forwarded,
+    forwarded_by_id,
+    forwarded_from_id,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
@@ -227,6 +243,9 @@ export const getOrdersService = async (
       confirmed: from === 'DELETED' ? undefined : confirmed,
       company_id: company_id || undefined,
       repository_id: repository_id || undefined,
+      forwarded: forwarded || undefined,
+      forwarded_by_id: forwarded_by_id || undefined,
+      forwarded_from_id: forwarded_from_id || undefined,
     },
   });
   return response.data;
