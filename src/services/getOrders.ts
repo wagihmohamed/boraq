@@ -130,7 +130,7 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
-  forwarded_by_id?: number;
+  forwarded_by_id?: string;
   forwarded_from_id?: string;
   search?: string;
   sort?: string;
