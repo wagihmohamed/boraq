@@ -21,7 +21,7 @@ export const DeleteOrder = ({ id, close, open, opened, closeMenu }: Props) => {
   const handleDelete = () => {
     deleteOrder(id, {
       onSuccess: () => {
-        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
+        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح');
         handleClose();
       },
     });

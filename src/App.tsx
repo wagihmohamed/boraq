@@ -57,6 +57,7 @@ import { useAuth } from './store/authStore';
 import { RepositoryEntries } from './screens/RepositoryEntries';
 import { ConfirmClientOrders } from './screens/ConfirmClientOrders';
 import { TreasuryScreen } from './screens/Treasury';
+import { ForwardedOrders } from './screens/ForwardedOrders';
 
 function App() {
   const navigate = useNavigate();
@@ -241,6 +242,7 @@ function App() {
         {role === 'COMPANY_MANAGER' ? (
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
             <Route path="/treasury" element={<TreasuryScreen />} />
+            <Route path="/forwarded" element={<ForwardedOrders />} />
             <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/clients" element={<ClientsScreen />} />
             <Route path="/clients/add" element={<AddClient />} />
