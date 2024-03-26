@@ -7,7 +7,7 @@ import { useDebouncedState } from '@mantine/hooks';
 import { OrdersTable } from '../Orders/components/OrdersTable';
 import { LoadingOverlay } from '@mantine/core';
 import { columns } from './columns';
-import { CustomOrdersFilter } from '../Orders/components/OrdersFilter';
+import { ForwardedOrdersFilters } from './ForwardedOrdersFilters';
 
 // NEW PAGE IN THE COMMENT BELOW
 // from our company to other company forwarded:true, forwarded_from_id from the useAuth companyID
@@ -37,11 +37,10 @@ export const ForwardedOrders = () => {
 
   return (
     <AppLayout isError={isError}>
-      <CustomOrdersFilter
+      <ForwardedOrdersFilters
         filters={filters}
         search={search}
         setFilters={setFilters}
-        currentPageOrdersIDs={orders.data.orders.map((order) => order.id)}
         setSearch={setSearch}
       />
       <div className="relative mt-12">
