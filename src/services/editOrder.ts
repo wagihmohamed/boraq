@@ -20,6 +20,7 @@ export interface EditOrderPayload {
   confirmed?: boolean;
   secondaryStatus?: keyof typeof orderSecondaryStatusArabicNames;
   inquiryEmployeesIDs?: number[];
+  forwardedCompanyID?: number;
 }
 
 export const editOrderService = async ({

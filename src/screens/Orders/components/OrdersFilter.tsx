@@ -37,6 +37,7 @@ import { useAuth } from '@/store/authStore';
 import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
 import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
+import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -201,6 +202,7 @@ export const CustomOrdersFilter = ({
             <ChangeOrdersClient />
             <ChangeOrdersDelivery />
             <ChangeOrdersStatus />
+            <ForwardOrdersToCompany />
           </div>
         </Grid.Col>
       </Grid>
