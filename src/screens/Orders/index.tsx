@@ -37,6 +37,12 @@ export const ordersFilterInitialState: OrdersFilter = {
   automatic_update_id: '',
   minified: false,
   confirmed: true,
+  branch_report: '0',
+  client_report: '0',
+  company_report: '0',
+  delivery_agent_report: '0',
+  governorate_report: '0',
+  repository_report: '0',
 };
 
 interface OrdersSearchParameters {
@@ -50,9 +56,15 @@ interface OrdersSearchParameters {
 export const OrdersScreen = () => {
   const { role } = useAuth();
   const location = useLocation();
-  const [filters, setFilters] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [filters, setFilters] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    branch_report: undefined,
+    client_report: undefined,
+    company_report: undefined,
+    delivery_agent_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
+  });
   const [search, setSearch] = useDebouncedState('', 300);
 
   const locationState = location.state as OrdersSearchParameters;

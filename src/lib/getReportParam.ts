@@ -9,8 +9,7 @@ export const withReportsDataOptions = [
   },
 ];
 
-export const getReportParam = (value?: string | null): boolean | undefined => {
+export const getReportParam = (value?: string | null): boolean => {
   if (value === '1') return true;
-  if (value === '0') return false;
-  return undefined;
+  return false;
 };
