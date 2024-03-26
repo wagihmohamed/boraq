@@ -29,3 +29,25 @@ export const editEmployeeService = async ({
   });
   return response.data;
 };
+
+export interface EditClientAssistantStoresPayload {
+  data: {
+    storesIDs: number[];
+  };
+  id: number;
+}
+
+export const editClientAssistantStoresService = async (
+  data: EditClientAssistantStoresPayload
+) => {
+  const response = await api.patch<FormData>(
+    editEmployeeEndpoint + data.id,
+    data,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  return response.data;
+};

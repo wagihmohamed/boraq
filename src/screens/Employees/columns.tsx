@@ -11,6 +11,7 @@ import { DeleteEmployee } from './DeleteEmployee';
 import { Link } from 'react-router-dom';
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
 import { Avatar } from '@mantine/core';
+import { AssignClientAssistantToStores } from './AssignClientAssistantToStores';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -45,6 +46,21 @@ export const columns: ColumnDef<Employee>[] = [
     header: 'الفرع',
     accessorFn: ({ branch }) => {
       return branch?.name ?? 'لا يوجد';
+    },
+  },
+  {
+    header: 'المتاجر',
+    cell: ({ row }) => {
+      const { role, id, managedStores } = row.original;
+      if (role === 'CLIENT_ASSISTANT') {
+        return (
+          <AssignClientAssistantToStores
+            id={id}
+            managedStores={managedStores}
+          />
+        );
+      }
+      return '--';
     },
   },
   {
