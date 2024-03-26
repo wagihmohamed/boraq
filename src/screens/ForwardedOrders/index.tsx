@@ -9,10 +9,14 @@ import { LoadingOverlay } from '@mantine/core';
 import { columns } from './columns';
 import { CustomOrdersFilter } from '../Orders/components/OrdersFilter';
 
+// NEW PAGE IN THE COMMENT BELOW
+// from our company to other company forwarded:true, forwarded_from_id from the useAuth companyID
 export const ForwardedOrders = () => {
+  // from other company to our company
   const [filters, setFilters] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     forwarded: true,
+    confirmed: false,
   });
 
   const [search, setSearch] = useDebouncedState('', 300);

@@ -144,7 +144,7 @@ export const columns: ColumnDef<Order>[] = [
         editOrderStatus({
           id,
           data: {
-            forwarded: false,
+            confirmed: true,
           },
         });
       };
