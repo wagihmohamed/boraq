@@ -50,11 +50,9 @@ interface OrdersSearchParameters {
 export const OrdersScreen = () => {
   const { role } = useAuth();
   const location = useLocation();
-  const [filters, setFilters] = useState<OrdersFilter>({
-    ...ordersFilterInitialState,
-    confirmed: true,
-    forwarded: true,
-  });
+  const [filters, setFilters] = useState<OrdersFilter>(
+    ordersFilterInitialState
+  );
   const [search, setSearch] = useDebouncedState('', 300);
 
   const locationState = location.state as OrdersSearchParameters;
