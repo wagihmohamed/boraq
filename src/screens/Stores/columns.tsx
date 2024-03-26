@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { Store } from '@/services/getStores';
 import { DeleteStore } from './delete-store';
 import { Avatar } from '@mantine/core';
+import { ChangeStoreClientAssistant } from './ChangeStoreClientAssistant';
 
 export const columns: ColumnDef<Store>[] = [
   {
@@ -39,6 +40,16 @@ export const columns: ColumnDef<Store>[] = [
         >
           {client.name}
         </Link>
+      );
+    },
+  },
+  {
+    accessorKey: 'clientAssistant.name',
+    header: 'مساعد العميل',
+    cell: ({ row }) => {
+      const { clientAssistant, id } = row.original;
+      return (
+        <ChangeStoreClientAssistant id={id} clientAssistant={clientAssistant} />
       );
     },
   },

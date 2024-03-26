@@ -42,4 +42,5 @@ export const orderStatusAutomaticUpdateCreateSchema = z.object({
     })
     .min(0, { message: 'يجب ادخال وقت التحديث' }),
   enabled: z.boolean().optional(),
+  returnCondition: z.string().optional(),
 });

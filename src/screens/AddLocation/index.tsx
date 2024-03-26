@@ -7,7 +7,7 @@ import {
   CreateLocationPayload,
   createLocationService,
 } from '@/services/createLocation';
-import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
+import { Button, MultiSelect, Select, Switch, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -15,18 +15,19 @@ import { ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { adddLocationSchema } from './schema';
+import { addLocationSchema } from './schema';
 
 export const AddLocation = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const form = useForm({
-    validate: zodResolver(adddLocationSchema),
+    validate: zodResolver(addLocationSchema),
     initialValues: {
       name: '',
       governorate: '',
       branch: '',
       deliveryAgentsIDs: [],
+      remote: false,
     },
   });
   const {
@@ -65,12 +66,14 @@ export const AddLocation = () => {
       deliveryAgentsIDs,
       governorate,
       name,
+      remote,
     }: CreateLocationPayload) => {
       return createLocationService({
         branchID,
         deliveryAgentsIDs,
         governorate,
         name,
+        remote,
       });
     },
     onSuccess: () => {
@@ -85,12 +88,13 @@ export const AddLocation = () => {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof adddLocationSchema>) => {
+  const handleSubmit = (values: z.infer<typeof addLocationSchema>) => {
     createLocationAction({
       branchID: Number(values.branch),
       deliveryAgentsIDs: values.deliveryAgentsIDs.map(Number),
       governorate: values.governorate,
       name: values.name,
+      remote: values.remote,
     });
   };
 
@@ -110,6 +114,9 @@ export const AddLocation = () => {
         onSubmit={form.onSubmit(handleSubmit)}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
       >
+        <div className="col-span-2 flex justify-between">
+          <Switch label="منطقة نائية" {...form.getInputProps('remote')} />
+        </div>
         <TextInput
           label="الاسم"
           placeholder=""

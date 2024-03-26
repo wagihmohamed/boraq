@@ -11,6 +11,7 @@ enum Role {
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
   INQUIRY_EMPLOYEE = 'موظف دعم',
   ADMIN_ASSISTANT = 'مساعد ادمن',
+  CLIENT_ASSISTANT = 'مساعد عميل',
 }
 
 export const rolesArabicNames = {
@@ -26,6 +27,7 @@ export const rolesArabicNames = {
   REPOSITORIY_EMPLOYEE: 'موظف مخزن',
   INQUIRY_EMPLOYEE: 'موظف دعم', // need to clarify
   ADMIN_ASSISTANT: 'مساعد ادمن',
+  CLIENT_ASSISTANT: 'مساعد عميل',
 };
 
 export const rolesArray: { label: string; value: string }[] = Object.entries(
