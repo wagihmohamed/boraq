@@ -41,10 +41,6 @@ export interface Employee {
     name: string;
   };
   deletedAt?: string;
-  managedStores: {
-    id: number;
-    name: string;
-  }[];
 }
 
 export interface GetEmployeesResponse {

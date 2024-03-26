@@ -8,7 +8,7 @@ export const StatisticsItem = ({
   return (
     <div className="flex flex-col items-start justify-start space-y-2 w-full border p-2 rounded-md bg-background">
       <p className="text-md">{title}</p>
-      <p className="text-2xl font-bold text-center">{value || 0}</p>
+      <p className="text-2xl font-bold text-center">{value}</p>
     </div>
   );
 };

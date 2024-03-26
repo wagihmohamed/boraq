@@ -12,7 +12,6 @@ import { useOrders } from '@/hooks/useOrders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { ClientOrdersStatistics } from './ClientOrdersStatistics';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
-import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const ClientReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -41,9 +40,7 @@ export const ClientReportsView = () => {
   } = useOrders(
     {
       ...ordersFilter,
-      statuses: ordersFilter.statuses?.length
-        ? ordersFilter.statuses
-        : initialReportOrderStatuses,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
     },
     !!ordersFilter.store_id
   );

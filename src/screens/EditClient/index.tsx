@@ -16,11 +16,13 @@ import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { editClientSchema } from './schema';
-import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const EditClient = () => {
   const { id = '' } = useParams();
+  // const { role } = useAuth();
   const navigate = useNavigate();
+  // const isAdminOrAdminAssistant =
+  //   role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const queryClient = useQueryClient();
   const { data: branches } = useBranches({
     size: 100000,
@@ -31,7 +33,17 @@ export const EditClient = () => {
     isLoading,
     isError,
   } = useClientDetails(parseInt(id));
+  // const { data: tenants = { data: [] } } = useTenants({ size: 500, minified: true });
 
+  const transformedBranches = branches?.data.map((branch) => ({
+    value: branch.id.toString(),
+    label: branch.name,
+  }));
+
+  // const transformedTenants = tenants.data?.map((tenant) => ({
+  //   value: tenant.id.toString(),
+  //   label: tenant.name,
+  // }));
   const form = useForm({
     validate: zodResolver(editClientSchema),
     initialValues: {
@@ -61,7 +73,7 @@ export const EditClient = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientDetails]);
 
-  const { mutate: editClientAction, isLoading: isEditing } = useMutation({
+  const { mutate: editClientAction, isLoading: isEditting } = useMutation({
     mutationFn: (data: FormData) => {
       return editClientService({ id: parseInt(id), data });
     },
@@ -81,7 +93,6 @@ export const EditClient = () => {
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('phone', values.phone);
-    formData.append('username', values.phone);
     formData.append('branchID', values.branch);
     formData.append('accountType', values.type);
     if (values.password) {
@@ -113,7 +124,7 @@ export const EditClient = () => {
               searchable
               label="الفرع"
               placeholder="اختار الفرع"
-              data={getSelectOptions(branches?.data || [])}
+              data={transformedBranches}
               limit={100}
               {...form.getInputProps('branch')}
             />
@@ -195,8 +206,8 @@ export const EditClient = () => {
 
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
-              loading={isEditing}
-              disabled={isEditing}
+              loading={isEditting}
+              disabled={isEditting}
               type="submit"
               fullWidth
               mt="xl"

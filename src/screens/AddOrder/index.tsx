@@ -42,7 +42,7 @@ export const AddOrder = () => {
     validate: zodResolver(addOrderSchema),
     initialValues: {
       withProducts: false,
-      totalCost: 0,
+      totalCost: '',
       quantity: '1',
       weight: '1',
       recipientName: '',
@@ -133,7 +133,7 @@ export const AddOrder = () => {
         recipientName: values.recipientName,
         recipientPhones: values.recipientPhone.map((phone) => phone.number),
         storeID: Number(values.storeID),
-        totalCost: values.totalCost,
+        totalCost: parseInt(values.totalCost || ''),
         weight: parseInt(values.weight || ''),
         withProducts: values.withProducts,
       });

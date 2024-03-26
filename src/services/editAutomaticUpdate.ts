@@ -2,13 +2,12 @@ import { editAutomaticUpdateEndpoint } from '@/api/apisUrl';
 import { api } from '@/api';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { orderReturnConditionArabicNames } from '@/lib/orderReturnConditionArabicNames';
 
 export interface EditAutomaticUpdateDatePayload {
   orderStatus?: keyof typeof orderStatusArabicNames;
   newOrderStatus?: keyof typeof orderStatusArabicNames;
   governorate?: keyof typeof governorateArabicNames;
-  returnCondition?: keyof typeof orderReturnConditionArabicNames;
+  // returnCondition: keyof typeof orderReturnConditionArabicNames;
   checkAfter?: number;
   branchID?: number;
   enabled?: boolean;

@@ -1,5 +1,4 @@
 import { rolesArabicNames } from '@/lib/rolesArabicNames';
-import { JWTRole } from '@/store/authStore';
 import {
   IconBox,
   IconUsers,
@@ -22,8 +21,6 @@ import {
   IconRefresh,
   IconArrowBackUp,
   IconCheck,
-  IconCoin,
-  IconSend,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -31,7 +28,7 @@ interface NavSection {
   label: string;
   enLabel: string;
   icon: typeof IconBox;
-  roles: JWTRole[];
+  roles: (keyof typeof rolesArabicNames)[];
 }
 
 export const navSections: NavSection[] = [
@@ -163,13 +160,6 @@ export const navSections: NavSection[] = [
     roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
   },
   {
-    link: '/forwarded',
-    label: 'الطلبات المحالة للشركة',
-    enLabel: 'forwarded orders',
-    icon: IconSend,
-    roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
-  },
-  {
     link: '/client-orders-confirm',
     label: 'تأكيد طلبات العملاء',
     enLabel: 'client orders confirm',
@@ -187,13 +177,6 @@ export const navSections: NavSection[] = [
     enLabel: 'employees',
     icon: IconUserCheck,
     roles: ['BRANCH_MANAGER'],
-  },
-  {
-    link: '/treasury',
-    label: 'الخزنة',
-    enLabel: 'treasury',
-    icon: IconCoin,
-    roles: ['ACCOUNTANT', 'COMPANY_MANAGER'],
   },
   {
     link: '/repositories',
@@ -230,7 +213,12 @@ export const navSections: NavSection[] = [
     label: 'ادخال رواجع المخزن',
     enLabel: 'repository entries',
     icon: IconArrowBackUp,
-    roles: ['COMPANY_MANAGER', 'REPOSITORIY_EMPLOYEE'],
+    roles: [
+      'ADMIN',
+      'ADMIN_ASSISTANT',
+      'COMPANY_MANAGER',
+      'REPOSITORIY_EMPLOYEE',
+    ],
   },
   {
     link: '/banners',

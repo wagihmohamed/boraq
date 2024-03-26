@@ -7,29 +7,23 @@ interface Props {
   opened: boolean;
   close: () => void;
   open: () => void;
-  closeMenu: () => void;
 }
 
-export const DeleteOrder = ({ id, close, open, opened, closeMenu }: Props) => {
+export const DeleteOrder = ({ id, close, open, opened }: Props) => {
   const { mutate: deleteOrder, isLoading } = useDeactivateOrder();
-
-  const handleClose = () => {
-    close();
-    closeMenu();
-  };
 
   const handleDelete = () => {
     deleteOrder(id, {
       onSuccess: () => {
-        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح');
-        handleClose();
+        close();
+        toast.success('تم اضافة الطلب الي قائمة المحذوفات بنجاح بنجاح');
       },
     });
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="مسح الطلب" centered>
+      <Modal opened={opened} onClose={close} title="مسح الطلب" centered>
         هل انت متأكد من مسح الطلب؟
         <div className="mt-4 flex items-center gap-4">
           <Button
@@ -40,7 +34,7 @@ export const DeleteOrder = ({ id, close, open, opened, closeMenu }: Props) => {
           >
             مسح
           </Button>
-          <Button variant="outline" onClick={handleClose} className="mr-4">
+          <Button variant="outline" onClick={close} className="mr-4">
             إلغاء
           </Button>
         </div>

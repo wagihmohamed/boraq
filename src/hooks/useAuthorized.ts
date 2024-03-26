@@ -1,6 +1,9 @@
-import { JWTRole, authStore, useAuth } from '@/store/authStore';
+import { rolesArabicNames } from '@/lib/rolesArabicNames';
+import { authStore, useAuth } from '@/store/authStore';
 
-export const useAuthorization = (allowedRoles: JWTRole[]) => {
+export const useAuthorization = (
+  allowedRoles: (keyof typeof rolesArabicNames)[]
+) => {
   const { role } = useAuth();
 
   if (role && allowedRoles.includes(role)) {
@@ -9,7 +12,9 @@ export const useAuthorization = (allowedRoles: JWTRole[]) => {
   return false;
 };
 
-export const isAuthorized = (allowedRoles: JWTRole[]) => {
+export const isAuthorized = (
+  allowedRoles: (keyof typeof rolesArabicNames)[]
+) => {
   const { role } = authStore.getState();
 
   if (role && !allowedRoles.includes(role)) {
@@ -20,7 +25,7 @@ export const isAuthorized = (allowedRoles: JWTRole[]) => {
 };
 
 export const renderChildrenBasedOnRole = (
-  allowedRoles: JWTRole[],
+  allowedRoles: (keyof typeof rolesArabicNames)[],
   children: React.ReactNode
 ) => {
   if (isAuthorized(allowedRoles)) {
@@ -31,7 +36,7 @@ export const renderChildrenBasedOnRole = (
 };
 
 export const hideChildrenBasedOnRole = (
-  allowedRoles: JWTRole[],
+  allowedRoles: (keyof typeof rolesArabicNames)[],
   children: React.ReactNode
 ) => {
   if (isAuthorized(allowedRoles)) {

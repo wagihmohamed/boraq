@@ -11,5 +11,4 @@ export const editLocationSchema = z.object({
   deliveryAgentsIDs: z
     .array(z.string())
     .min(1, { message: 'يجب اختيار على الاقل عامل توصيل واحد' }),
-  remote: z.boolean(),
 });

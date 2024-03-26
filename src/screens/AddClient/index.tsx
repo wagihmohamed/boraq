@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { addClientSchema } from './schema';
 import { useCreateClient } from '@/hooks/useCreateClient';
-import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const AddClient = () => {
   const navigate = useNavigate();
@@ -28,9 +27,18 @@ export const AddClient = () => {
     minified: true,
   });
   const { data: tenants = { data: [] } } = useTenants({
-    size: 100000,
+    size: 500,
     minified: true,
   });
+
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
+  const transformedBranches = branches?.data.map((branch) => ({
+    value: branch.id.toString(),
+    label: branch.name,
+  }));
 
   const form = useForm({
     validate: zodResolver(addClientSchema),
@@ -63,7 +71,7 @@ export const AddClient = () => {
     formData.append('branchID', values.branch);
     formData.append('role', values.type);
     formData.append('password', values.password);
-    formData.append('username', values.phone);
+    formData.append('username', values.username);
     formData.append('avatar', values?.avatar[0] || '');
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
@@ -96,7 +104,7 @@ export const AddClient = () => {
               searchable
               label="الفرع"
               placeholder="اختار الفرع"
-              data={getSelectOptions(branches?.data || [])}
+              data={transformedBranches}
               limit={100}
               {...form.getInputProps('branch')}
             />
@@ -108,6 +116,15 @@ export const AddClient = () => {
               size="md"
               className="w-full"
               {...form.getInputProps('name')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="اسم المستخدم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('username')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
@@ -132,7 +149,7 @@ export const AddClient = () => {
                   searchable
                   label="الشركة"
                   placeholder="اختار الشركة"
-                  data={getSelectOptions(tenants.data || [])}
+                  data={transformedTenants}
                   limit={100}
                   {...form.getInputProps('companyID')}
                 />

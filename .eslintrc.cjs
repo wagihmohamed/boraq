@@ -41,7 +41,6 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/jsx-no-constructed-context-values': 'off',
     '@typescript-eslint/no-shadow': 'off',
-    'import/no-cycle': 'off',
     radix: 'off',
   },
 };

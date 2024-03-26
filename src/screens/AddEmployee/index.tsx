@@ -27,11 +27,10 @@ import { useTenants } from '@/hooks/useTenants';
 import { useAuth } from '@/store/authStore';
 import { useEmployeeDetails } from '@/hooks/useEmployeeDetails';
 import { useEffect } from 'react';
-import { getSelectOptions } from '@/lib/getSelectOptions';
 
 export const AddEmployee = () => {
   const navigate = useNavigate();
-  const { role, id: loggedInUserId, companyID: loggedInCompanyId } = useAuth();
+  const { role, id: loggedInUserId, companyID: loggedInComapnyId } = useAuth();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const isBranchManager = role === 'BRANCH_MANAGER';
@@ -58,6 +57,7 @@ export const AddEmployee = () => {
       username: '',
       name: '',
       phone: '',
+      salary: '',
       branch: '',
       store: '',
       roles: '',
@@ -66,6 +66,7 @@ export const AddEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
+      deliveryCost: '',
     },
   });
 
@@ -73,25 +74,26 @@ export const AddEmployee = () => {
     if (employeeDetails) {
       form.setFieldValue(
         'companyID',
-        employeeDetails?.data?.company?.id.toString()
+        employeeDetails?.data?.company.id.toString()
       );
-      form.setFieldValue(
-        'branch',
-        employeeDetails?.data.branch?.id.toString() || ''
-      );
-    }
-
-    if (isBranchManager) {
-      form.setFieldValue('roles', 'DELIVERY_AGENT');
-
-      form.setFieldValue('permissions', [
-        'CHANGE_ORDER_STATUS',
-        'CHANGE_ORDER_TOTAL_AMOUNT',
-      ] as never);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employeeDetails, isBranchManager]);
 
+  const transformedBranches = branches.data?.map((branch) => ({
+    value: branch.id.toString(),
+    label: branch.name,
+  }));
+
+  const transformedTenants = tenants.data?.map((tenant) => ({
+    value: tenant.id.toString(),
+    label: tenant.name,
+  }));
+
+  const transformedRepositories = repositories.data?.map((repository) => ({
+    value: repository.id.toString(),
+    label: repository.name,
+  }));
   const queryClient = useQueryClient();
   const { mutate: createBranchAction, isLoading } = useMutation({
     mutationFn: (data: FormData) => {
@@ -102,7 +104,7 @@ export const AddEmployee = () => {
       queryClient.invalidateQueries({
         queryKey: ['employees'],
       });
-      form.reset();
+      navigate('/employees');
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
@@ -112,21 +114,21 @@ export const AddEmployee = () => {
   const handleSubmit = (values: z.infer<typeof addEmployeeSchema>) => {
     const formData = new FormData();
     formData.append('name', values.name);
-    formData.append('username', values.phone);
+    formData.append('username', values.username);
     formData.append('phone', values.phone);
+    formData.append('salary', values.salary);
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.store);
     formData.append('role', values.roles);
     formData.append('password', values.password);
     formData.append('avatar', values.avatar[0]);
-    // TODO: DELETE THE SALARY LATER
-    formData.append('salary', '220');
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
-      formData.append('companyID', loggedInCompanyId.toString());
+      formData.append('companyID', loggedInComapnyId.toString());
     }
     formData.append('permissions', JSON.stringify(values.permissions));
+    formData.append('deliveryCost', values.deliveryCost);
     createBranchAction(formData);
   };
 
@@ -164,6 +166,15 @@ export const AddEmployee = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
+              label="اسم المستخدم"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('username')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
               label="رقم الهاتف"
               placeholder=""
               size="md"
@@ -172,13 +183,33 @@ export const AddEmployee = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="الراتب"
+              type="number"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('salary')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <TextInput
+              label="أجرة التوصيل"
+              type="number"
+              placeholder=""
+              size="md"
+              className="w-full"
+              {...form.getInputProps('deliveryCost')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             {isBranchManager ? (
               <Select
                 searchable
                 label="الفرع"
                 placeholder="اختار الفرع"
-                readOnly
-                data={getSelectOptions(branches.data || [])}
+                disabled
+                data={transformedBranches}
                 limit={100}
                 value={employeeDetails?.data.branch.id.toString()}
               />
@@ -187,31 +218,29 @@ export const AddEmployee = () => {
                 searchable
                 label="الفرع"
                 placeholder="اختار الفرع"
-                data={getSelectOptions(branches.data || [])}
+                data={transformedBranches}
                 limit={100}
                 {...form.getInputProps('branch')}
               />
             )}
           </Grid.Col>
-          {!isBranchManager && (
-            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-              <Select
-                searchable
-                label="المخزن"
-                placeholder="اختار المخزن"
-                data={getSelectOptions(repositories.data || [])}
-                limit={100}
-                {...form.getInputProps('store')}
-              />
-            </Grid.Col>
-          )}
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <Select
+              searchable
+              label="المخزن"
+              placeholder="اختار المخزن"
+              data={transformedRepositories}
+              limit={100}
+              {...form.getInputProps('store')}
+            />
+          </Grid.Col>
           {isAdminOrAdminAssistant && (
             <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Select
                 searchable
                 label="الشركة"
                 placeholder="اختار الشركة"
-                data={getSelectOptions(tenants.data || [])}
+                data={transformedTenants}
                 limit={100}
                 {...form.getInputProps('companyID')}
               />
@@ -245,7 +274,6 @@ export const AddEmployee = () => {
             <MultiSelect
               label="الصلاحيات"
               placeholder="اختار الصلاحيات"
-              readOnly={isBranchManager}
               data={permissionsArray}
               {...form.getInputProps('permissions')}
             />

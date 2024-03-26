@@ -188,21 +188,18 @@ export const reportsOrdersColumns: ColumnDef<Order>[] = [
               تعديل
             </Link>
             <DeleteOrder
-              closeMenu={() => setMenuOpen(false)}
               id={id}
               opened={deleteOpened}
               close={closeDelete}
               open={openDelete}
             />
             <OrderTimelineModal
-              closeMenu={() => setMenuOpen(false)}
               opened={timelineOpened}
               close={closeTimeline}
               open={openTimeline}
               id={id}
             />
             <ChangeOrderStatus
-              closeMenu={() => setMenuOpen(false)}
               id={id}
               opened={changeStatusOpened}
               close={closeChangeStatus}

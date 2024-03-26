@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { createBulkOfOrdersSchema } from './schema';
@@ -29,9 +30,9 @@ export interface OrderBulkFormValues {
       phone: string;
       key: string;
     }[];
-    totalCost: number;
+    totalCost: string;
     quantity: string;
-    weight: number;
+    weight: string;
     storeID: string;
     locationID: string;
     deliveryType: string;
@@ -83,9 +84,9 @@ export const CreateBulkOrders = () => {
               key: randomId(),
             },
           ],
-          totalCost: 0,
+          totalCost: '',
           quantity: '1',
-          weight: 1,
+          weight: '1',
           storeID: '',
           locationID: '',
           deliveryType: '',
@@ -107,8 +108,8 @@ export const CreateBulkOrders = () => {
   } = useLocations({
     size: 100000,
     minified: true,
-    governorate:
-      (selectedGovernorate as keyof typeof governorateArabicNames) || undefined,
+    governorate: form.values.orders[0]
+      .governorate as keyof typeof governorateArabicNames,
   });
 
   const {
@@ -132,9 +133,9 @@ export const CreateBulkOrders = () => {
             key: randomId(),
           },
         ],
-        totalCost: 0,
+        totalCost: '',
         quantity: '1',
-        weight: 1,
+        weight: '1',
         storeID: '',
         locationID: '',
         deliveryType: '',

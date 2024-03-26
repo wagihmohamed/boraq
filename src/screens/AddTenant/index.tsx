@@ -1,12 +1,5 @@
 import { AppLayout } from '@/components/AppLayout';
-import {
-  Button,
-  Grid,
-  PasswordInput,
-  Switch,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
+import { Button, Grid, Switch, TextInput, Textarea } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -39,19 +32,17 @@ export const AddTenant = () => {
       additionalPriceForEveryKilogram: '',
       additionalPriceForRemoteAreas: '',
       orderStatusAutomaticUpdate: false,
-      password: '',
-      confirmPassword: '',
     },
   });
 
-  const { mutate: createTenantAction, isLoading: isEditing } = useMutation({
+  const { mutate: editTenantAction, isLoading: isEditting } = useMutation({
     mutationFn: (data: FormData) => {
       return createTenantService(data);
     },
     onSuccess: () => {
       toast.success('تم انشاء الشركة بنجاح');
       queryClient.invalidateQueries({
-        queryKey: ['tenants'],
+        queryKey: ['tenantDetails'],
       });
       navigate('/tenants');
     },
@@ -62,32 +53,31 @@ export const AddTenant = () => {
 
   const handleSubmit = (values: z.infer<typeof addTenantSchema>) => {
     const formData = new FormData();
-
-    const companyManager = {
-      username: values.phone,
-      name: `مدير شركة ${values.name}`,
-      phone: values.phone,
-      password: values.password,
-    };
-
-    const companyData = {
-      name: values.name,
-      phone: values.phone,
-      website: values.website,
-      logo: values.logo[0],
-      registrationText: values.registrationText,
-      governoratePrice: values.governoratePrice,
-      deliveryAgentFee: values.deliveryAgentFee,
-      baghdadPrice: values.baghdadPrice,
-      additionalPriceForEvery500000IraqiDinar:
-        values.additionalPriceForEvery500000IraqiDinar,
-      additionalPriceForEveryKilogram: values.additionalPriceForEveryKilogram,
-      additionalPriceForRemoteAreas: values.additionalPriceForRemoteAreas,
-      orderStatusAutomaticUpdate: values.orderStatusAutomaticUpdate,
-    };
-    formData.append('companyData', JSON.stringify(companyData));
-    formData.append('companyManager', JSON.stringify(companyManager));
-    createTenantAction(formData);
+    formData.append('name', values.name);
+    formData.append('phone', values.phone);
+    formData.append('website', values.website);
+    formData.append('logo', values.logo[0]);
+    formData.append('registrationText', values.registrationText);
+    formData.append('governoratePrice', values.governoratePrice);
+    formData.append('deliveryAgentFee', values.deliveryAgentFee);
+    formData.append('baghdadPrice', values.baghdadPrice);
+    formData.append(
+      'additionalPriceForEvery500000IraqiDinar',
+      values.additionalPriceForEvery500000IraqiDinar
+    );
+    formData.append(
+      'additionalPriceForEveryKilogram',
+      values.additionalPriceForEveryKilogram
+    );
+    formData.append(
+      'additionalPriceForRemoteAreas',
+      values.additionalPriceForRemoteAreas
+    );
+    formData.append(
+      'orderStatusAutomaticUpdate',
+      values.orderStatusAutomaticUpdate ? 'true' : 'false'
+    );
+    editTenantAction(formData);
   };
 
   return (
@@ -190,33 +180,13 @@ export const AddTenant = () => {
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <PasswordInput
-              label="كلمة المرور"
-              placeholder="*******"
-              mt="md"
-              size="md"
-              className="w-full"
-              {...form.getInputProps('password')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <PasswordInput
-              label="تأكيد كلمة المرور"
-              placeholder="*******"
-              mt="md"
-              size="md"
-              className="w-full"
-              {...form.getInputProps('confirmPassword')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Button
               type="submit"
               fullWidth
               mt="xl"
               size="md"
-              loading={isEditing}
-              disabled={isEditing}
+              loading={isEditting}
+              disabled={isEditting}
             >
               اضافة
             </Button>

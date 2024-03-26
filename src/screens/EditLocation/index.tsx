@@ -11,7 +11,7 @@ import {
   EditLocationPayload,
   editLocationService,
 } from '@/services/editLocation';
-import { Button, MultiSelect, Select, Switch, TextInput } from '@mantine/core';
+import { Button, MultiSelect, Select, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -39,7 +39,6 @@ export const EditLocation = () => {
       governorate: '',
       branch: '',
       deliveryAgentsIDs: [''],
-      remote: false,
     },
   });
   const {
@@ -65,13 +64,11 @@ export const EditLocation = () => {
     const transformedDeliveries = locationDetails?.data?.deliveryAgents.map(
       (delivery) => delivery.id.toString()
     );
-
     form.setValues({
       name: locationDetails?.data.name || '',
       governorate: locationDetails?.data?.governorate || '',
       branch: locationDetails?.data?.branch.id.toString() || '',
       deliveryAgentsIDs: transformedDeliveries || [],
-      remote: locationDetails?.data?.remote,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationDetails]);
@@ -82,7 +79,6 @@ export const EditLocation = () => {
       deliveryAgentsIDs,
       governorate,
       name,
-      remote,
     }: EditLocationPayload) => {
       return editLocationService({
         data: {
@@ -90,7 +86,6 @@ export const EditLocation = () => {
           deliveryAgentsIDs,
           governorate,
           name,
-          remote,
         },
         id: parseInt(id),
       });
@@ -100,7 +95,7 @@ export const EditLocation = () => {
       queryClient.invalidateQueries({
         queryKey: ['locations'],
       });
-      form.reset();
+      navigate('/locations');
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
@@ -113,7 +108,6 @@ export const EditLocation = () => {
       deliveryAgentsIDs: values.deliveryAgentsIDs.map((id) => Number(id)),
       governorate: values.governorate as keyof typeof governorateArabicNames,
       name: values.name,
-      remote: values.remote,
     });
   };
 
@@ -133,15 +127,6 @@ export const EditLocation = () => {
         onSubmit={form.onSubmit(handleSubmit)}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10"
       >
-        <div className="col-span-2 flex justify-between">
-          <Switch
-            label="منطقة نائية"
-            checked={form.values.remote}
-            onChange={(event) => {
-              form.setFieldValue('remote', event.currentTarget.checked);
-            }}
-          />
-        </div>
         <TextInput
           label="الاسم"
           placeholder=""

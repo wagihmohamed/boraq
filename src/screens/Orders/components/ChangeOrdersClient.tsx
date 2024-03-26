@@ -35,7 +35,6 @@ export const ChangeOrdersClient = () => {
         queryKey: ['timeline'],
       });
       deleteAllOrders();
-      setSelectedClient(null);
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');

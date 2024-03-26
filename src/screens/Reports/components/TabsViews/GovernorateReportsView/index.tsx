@@ -12,7 +12,6 @@ import { useOrders } from '@/hooks/useOrders';
 import { GovernorateOrdersStatistics } from './GovernorateOrdersStatistics';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
-import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const GovernorateReportsView = () => {
   const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>({
@@ -38,9 +37,7 @@ export const GovernorateReportsView = () => {
   } = useOrders(
     {
       ...governorateFilter,
-      statuses: governorateFilter.statuses?.length
-        ? governorateFilter.statuses
-        : initialReportOrderStatuses,
+      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
     },
     !!governorateFilter.governorate
   );

@@ -6,7 +6,6 @@ export interface CreateLocationPayload {
   governorate: string;
   branchID: number;
   deliveryAgentsIDs: number[];
-  remote: boolean;
 }
 
 export const createLocationService = async (data: CreateLocationPayload) => {

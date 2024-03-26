@@ -15,21 +15,9 @@ export type CreateClientReportPDFByIDsPayload = {
   type: 'CLIENT';
 };
 
-export type CreateAllTreasuryReportPDFPayload = {
-  reportsIDs: '*';
-  params: ReportsFilters;
-};
-
-export type CreateTreasuryReportPDFByIDsPayload = {
-  reportsIDs: number[];
-  params: ReportsFilters;
-};
-
 export type CreateClientReportPDFPayload =
   | CreateAllClientReportPDFPayload
-  | CreateClientReportPDFByIDsPayload
-  | CreateAllTreasuryReportPDFPayload
-  | CreateTreasuryReportPDFByIDsPayload;
+  | CreateClientReportPDFByIDsPayload;
 
 export const createClientPDFService = async (
   data: CreateClientReportPDFPayload

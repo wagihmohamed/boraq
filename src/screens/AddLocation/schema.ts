@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const addLocationSchema = z.object({
+export const adddLocationSchema = z.object({
   name: z.string().min(3, { message: 'الاسم يجب ان يكون اكثر من 3 احرف' }),
   governorate: z.string().min(1, { message: 'يجب اختيار المحافظة' }),
   branch: z
@@ -11,5 +11,4 @@ export const addLocationSchema = z.object({
   deliveryAgentsIDs: z
     .array(z.string())
     .min(1, { message: 'يجب اختيار على الاقل عامل توصيل واحد' }),
-  remote: z.boolean(),
 });

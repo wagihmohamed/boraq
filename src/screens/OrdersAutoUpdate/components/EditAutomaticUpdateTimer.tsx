@@ -7,7 +7,6 @@ import {
   ActionIcon,
   rem,
   Switch,
-  Radio,
 } from '@mantine/core';
 import {
   governorateArabicNames,
@@ -23,7 +22,6 @@ import { getSelectOptions } from '@/lib/getSelectOptions';
 import { AutomaticUpdate } from '@/services/getAutomaticUpdates';
 import { IconPencil } from '@tabler/icons-react';
 import { useEditAutomaticUpdateTimer } from '@/hooks/useEditAutomaticUpdateTimer';
-import { orderReturnConditionArray } from '@/lib/orderReturnConditionArabicNames';
 
 export const EditAutomaticUpdateTimer = ({
   branch,
@@ -34,7 +32,6 @@ export const EditAutomaticUpdateTimer = ({
   orderStatus,
   checkAfter,
   updateAt,
-  returnCondition,
 }: AutomaticUpdate) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -48,7 +45,6 @@ export const EditAutomaticUpdateTimer = ({
       branchID: String(branch.id),
       enabled,
       updateAt: Number(updateAt),
-      returnCondition: returnCondition || 'UNKNOWN',
     },
   });
 
@@ -85,10 +81,6 @@ export const EditAutomaticUpdateTimer = ({
             values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
           updateAt: values.updateAt,
           enabled: values.enabled,
-          returnCondition:
-            values.returnCondition === 'UNKNOWN'
-              ? undefined
-              : (values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition']),
         },
       },
       {
@@ -165,19 +157,6 @@ export const EditAutomaticUpdateTimer = ({
             {...form.getInputProps('enabled')}
             defaultChecked={enabled}
           />
-          <Radio.Group
-            name="orderReturnCondition"
-            label="اختر حالة الارجاع"
-            withAsterisk
-            {...form.getInputProps('returnCondition')}
-          >
-            <div className="flex items-center gap-4">
-              {orderReturnConditionArray.map((item) => (
-                <Radio key={item.value} value={item.value} label={item.label} />
-              ))}
-              <Radio value="UNKNOWN" label="غير محدد" />
-            </div>
-          </Radio.Group>
           <div className="flex items-center gap-4">
             <Button loading={isLoading} disabled={isLoading} type="submit">
               تعديل
