@@ -24,6 +24,7 @@ import {
   IconCheck,
   IconCoin,
   IconSend,
+  IconPlayerTrackNext,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -167,7 +168,14 @@ export const navSections: NavSection[] = [
     label: 'الطلبات المحالة للشركة',
     enLabel: 'forwarded orders',
     icon: IconSend,
-    roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
+    roles: ['COMPANY_MANAGER'],
+  },
+  {
+    link: '/forwarded-to-company',
+    label: 'الطلبات المحالة من للشركة',
+    enLabel: 'forwarded orders to company',
+    icon: IconPlayerTrackNext,
+    roles: ['COMPANY_MANAGER'],
   },
   {
     link: '/client-orders-confirm',

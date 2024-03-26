@@ -58,6 +58,7 @@ import { RepositoryEntries } from './screens/RepositoryEntries';
 import { ConfirmClientOrders } from './screens/ConfirmClientOrders';
 import { TreasuryScreen } from './screens/Treasury';
 import { ForwardedOrders } from './screens/ForwardedOrders';
+import { ForwardedOrdersToCompany } from './screens/ForwardedOrdersToCompany';
 
 function App() {
   const navigate = useNavigate();
@@ -243,6 +244,10 @@ function App() {
           <Route element={<RolesRoute roles={['COMPANY_MANAGER']} />}>
             <Route path="/treasury" element={<TreasuryScreen />} />
             <Route path="/forwarded" element={<ForwardedOrders />} />
+            <Route
+              path="/forwarded-to-company"
+              element={<ForwardedOrdersToCompany />}
+            />
             <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/clients" element={<ClientsScreen />} />
             <Route path="/clients/add" element={<AddClient />} />
