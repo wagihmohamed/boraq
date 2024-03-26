@@ -42,7 +42,7 @@ export const editClientAssistantStoresService = async (
 ) => {
   const response = await api.patch<FormData>(
     editEmployeeEndpoint + data.id,
-    data,
+    data.data,
     {
       headers: {
         'Content-Type': 'application/json',

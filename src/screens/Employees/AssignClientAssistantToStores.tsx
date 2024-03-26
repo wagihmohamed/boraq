@@ -1,13 +1,13 @@
 import { useEditEmployee } from '@/hooks/useEditEmployee';
 import { useStores } from '@/hooks/useStores';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { Button, Modal, MultiSelect } from '@mantine/core';
+import { Button, LoadingOverlay, Modal, MultiSelect } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 
 interface AssignClientAssistantToStoresProps {
   id: number;
-  managedStores: { id: number; name: string }[];
+  managedStores: string[];
 }
 
 export const AssignClientAssistantToStores = ({
@@ -15,27 +15,33 @@ export const AssignClientAssistantToStores = ({
   managedStores,
 }: AssignClientAssistantToStoresProps) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: storesData } = useStores({
+  const { data: storesData, isLoading: isFetchingStores } = useStores({
     size: 100000,
     minified: true,
   });
-  const stringifiedManagedStores = managedStores.map((store) =>
-    store.id.toString()
-  );
-  const [selectedStores, setSelectedStores] = useState<string[]>(
-    stringifiedManagedStores
-  );
+
+  const [selectedStores, setSelectedStores] = useState<string[]>(managedStores);
 
   const { mutate: editClientAssistantStores, isLoading } = useEditEmployee();
 
   const handleSubmit = () => {
     const selectedStoresIDs = selectedStores?.map((store) => Number(store));
-    editClientAssistantStores({
-      id,
-      data: {
-        storesIDs: selectedStoresIDs || [],
+    editClientAssistantStores(
+      {
+        id,
+        data: {
+          storesIDs: selectedStoresIDs || [],
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          close();
+        },
+        onError: () => {
+          setSelectedStores(managedStores);
+        },
+      }
+    );
   };
 
   return (
@@ -46,38 +52,41 @@ export const AssignClientAssistantToStores = ({
         onClose={close}
         centered
       >
-        <MultiSelect
-          value={selectedStores}
-          label="المتاجر"
-          searchable
-          clearable
-          onChange={(e) => {
-            setSelectedStores(e);
-          }}
-          placeholder="اختر المتجر"
-          data={getSelectOptions(storesData?.data || [])}
-          limit={100}
-        />
-        <div className="flex justify-between mt-4 gap-6">
-          <Button
-            loading={false}
-            disabled={isLoading}
-            fullWidth
-            onClick={handleSubmit}
-            type="submit"
-          >
-            تعديل
-          </Button>
-
-          <Button
-            onClick={() => {
-              close();
+        <div className="relative">
+          <LoadingOverlay zIndex={10000000000} visible={isFetchingStores} />
+          <MultiSelect
+            value={selectedStores}
+            label="المتاجر"
+            searchable
+            clearable
+            onChange={(e) => {
+              setSelectedStores(e);
             }}
-            fullWidth
-            variant="outline"
-          >
-            الغاء
-          </Button>
+            placeholder="اختر المتجر"
+            data={getSelectOptions(storesData?.data || [])}
+            limit={100}
+          />
+          <div className="flex justify-between mt-4 gap-6">
+            <Button
+              loading={false}
+              disabled={isLoading}
+              fullWidth
+              onClick={handleSubmit}
+              type="submit"
+            >
+              تعديل
+            </Button>
+
+            <Button
+              onClick={() => {
+                close();
+              }}
+              fullWidth
+              variant="outline"
+            >
+              الغاء
+            </Button>
+          </div>
         </div>
       </Modal>
 

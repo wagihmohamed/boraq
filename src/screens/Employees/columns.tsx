@@ -53,10 +53,13 @@ export const columns: ColumnDef<Employee>[] = [
     cell: ({ row }) => {
       const { role, id, managedStores } = row.original;
       if (role === 'CLIENT_ASSISTANT') {
+        const stringifiedManagedStores = managedStores.map((store) =>
+          store.id.toString()
+        );
         return (
           <AssignClientAssistantToStores
             id={id}
-            managedStores={managedStores}
+            managedStores={stringifiedManagedStores}
           />
         );
       }
