@@ -24,3 +24,25 @@ export const editStoreService = async ({
   });
   return response.data;
 };
+
+export interface EditStoreClientAssistantPayload {
+  id: number;
+  data: {
+    clientAssistantID: number;
+  };
+}
+
+export const editStoreClientAssistantService = async ({
+  data,
+  id,
+}: EditStoreClientAssistantPayload) => {
+  const response = await api.patch<{
+    title: string;
+    id: number;
+  }>(editStoreEndpoint + id, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};

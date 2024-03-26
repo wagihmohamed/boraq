@@ -36,6 +36,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   branch_id: '',
   automatic_update_id: '',
   minified: false,
+  confirmed: true,
 };
 
 interface OrdersSearchParameters {
@@ -49,9 +50,11 @@ interface OrdersSearchParameters {
 export const OrdersScreen = () => {
   const { role } = useAuth();
   const location = useLocation();
-  const [filters, setFilters] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [filters, setFilters] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    confirmed: true,
+    forwarded: true,
+  });
   const [search, setSearch] = useDebouncedState('', 300);
 
   const locationState = location.state as OrdersSearchParameters;

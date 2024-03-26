@@ -14,10 +14,22 @@ interface Props {
   opened: boolean;
   close: () => void;
   open: () => void;
+  closeMenu: () => void;
 }
 
-export const OrderTimelineModal = ({ id, close, open, opened }: Props) => {
+export const OrderTimelineModal = ({
+  id,
+  close,
+  open,
+  opened,
+  closeMenu,
+}: Props) => {
   const { data: orderTimelineDate, isLoading } = useOrderTimeline(id);
+
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
 
   return (
     <>
@@ -25,7 +37,7 @@ export const OrderTimelineModal = ({ id, close, open, opened }: Props) => {
         withinPortal
         opened={opened}
         centered
-        onClose={close}
+        onClose={handleClose}
         title="مسار الطلب"
       >
         {isLoading ? (

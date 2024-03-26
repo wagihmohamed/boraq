@@ -75,7 +75,7 @@ export const GovernorateOrdersFilters = ({
               });
               setReportsFilters({
                 ...reportsFilters,
-                store_id: e || '',
+                governorate: e || '',
               });
             }}
             placeholder="اختر المحافظة"

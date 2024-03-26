@@ -1,12 +1,8 @@
 import { useAuthorization } from '@/hooks/useAuthorized';
-import { rolesArabicNames } from '@/lib/rolesArabicNames';
+import { JWTRole } from '@/store/authStore';
 import { Navigate, Outlet } from 'react-router-dom';
 
-export const RolesRoute = ({
-  roles,
-}: {
-  roles: (keyof typeof rolesArabicNames)[];
-}) => {
+export const RolesRoute = ({ roles }: { roles: JWTRole[] }) => {
   const isAuthorized = useAuthorization(roles);
 
   return isAuthorized ? <Outlet /> : <Navigate replace to="/orders" />;

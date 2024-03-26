@@ -12,6 +12,7 @@ import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { useOrders } from '@/hooks/useOrders';
 import { BranchesOrdersStatistics } from './BranchesOrdersStatistics';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
+import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const BranchReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -33,7 +34,15 @@ export const BranchReportsView = () => {
       pagesCount: 0,
     },
     isInitialLoading: isOrdersInitialLoading,
-  } = useOrders(ordersFilter, !!ordersFilter.branch_id);
+  } = useOrders(
+    {
+      ...ordersFilter,
+      statuses: ordersFilter.statuses?.length
+        ? ordersFilter.statuses
+        : initialReportOrderStatuses,
+    },
+    !!ordersFilter.branch_id
+  );
 
   return (
     <>

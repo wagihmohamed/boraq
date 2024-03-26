@@ -12,6 +12,7 @@ import { CompanyOrdersFilter } from './CompanyOrders';
 import { OrdersTable } from '@/screens/Orders/components/OrdersTable';
 import { CompanyOrdersStatistics } from './CompanyOrdersStatistics';
 import { reportsOrdersColumns } from '../reportsOrdersColumns';
+import { initialReportOrderStatuses } from '@/lib/transformOrdersFilterToMatchReportParams';
 
 export const CompanyReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
@@ -37,7 +38,9 @@ export const CompanyReportsView = () => {
   } = useOrders(
     {
       ...ordersFilter,
-      statuses: ['DELIVERED', 'PARTIALLY_RETURNED', 'REPLACED'],
+      statuses: ordersFilter.statuses?.length
+        ? ordersFilter.statuses
+        : initialReportOrderStatuses,
     },
     !!ordersFilter.company_id
   );

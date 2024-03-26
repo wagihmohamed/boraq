@@ -161,7 +161,7 @@ export const CustomOrdersFilter = ({
         params: filters || {},
       }),
       {
-        loading: 'جاري تحميل تقرير بكلل المنتجات',
+        loading: 'جاري تحميل تقرير بكل المنتجات',
         success: 'تم تحميل تقرير بكل المنتجات بنجاح',
         error: (error) => error.message || 'حدث خطأ ما',
       }

@@ -17,6 +17,10 @@ export interface Store {
     id: number;
     name: string;
   };
+  clientAssistant: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface GetStoresResponse {

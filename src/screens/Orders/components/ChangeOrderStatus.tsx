@@ -23,6 +23,7 @@ interface Props {
   close: () => void;
   open: () => void;
   status: keyof typeof orderStatusArabicNames;
+  closeMenu: () => void;
 }
 
 export const ChangeOrderStatus = ({
@@ -31,12 +32,18 @@ export const ChangeOrderStatus = ({
   open,
   opened,
   status,
+  closeMenu,
 }: Props) => {
   const [orderStatus, setOrderStatus] = useState<
     keyof typeof orderStatusArabicNames | undefined
   >(status);
 
   const { mutate: changeStatus, isLoading } = useChangeOrderStatus();
+
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
 
   const handleChangeStatus = () => {
     if (!orderStatus) {
@@ -50,7 +57,7 @@ export const ChangeOrderStatus = ({
       {
         onSuccess: () => {
           toast.success('تم تعديل حالة الطلب بنجاح');
-          close();
+          handleClose();
         },
       }
     );
@@ -58,7 +65,7 @@ export const ChangeOrderStatus = ({
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="مسح الطلب" centered>
+      <Modal opened={opened} onClose={handleClose} title="مسح الطلب" centered>
         <Card>
           <CardHeader>
             <CardTitle>تعديل حالة الطلب</CardTitle>

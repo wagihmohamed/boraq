@@ -14,6 +14,7 @@ export interface Report {
   };
   type: keyof typeof reportTypeArabicNames;
   createdAt: string;
+  companyNet: number;
   updatedAt: string;
   confirm: boolean;
   companyReport: {
@@ -138,6 +139,7 @@ export interface ReportsFilters extends Filters {
   governorate?: string;
   status?: string;
   type?: string;
+  types?: (keyof typeof reportTypeArabicNames)[];
   created_by_id?: string;
   company_id?: string;
 }
@@ -158,6 +160,7 @@ export const getReportsService = async (
     page = 1,
     size = 10,
     created_by_id,
+    types,
   }: ReportsFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetReportsResponse>(getReportsEndpoint, {
@@ -176,6 +179,7 @@ export const getReportsService = async (
       size,
       created_by_id: created_by_id || undefined,
       deleted: deleted || undefined,
+      types: types?.join(',') || undefined,
     },
   });
   return response.data;

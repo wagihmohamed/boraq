@@ -9,9 +9,8 @@ enum Role {
   EMERGENCY_EMPLOYEE = 'موظف طوارئ',
   DATA_ENTRY = 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE = 'موظف مخزن',
-  INQUIRY_EMPLOYEE = 'موظف استفسارات',
+  INQUIRY_EMPLOYEE = 'موظف دعم',
   ADMIN_ASSISTANT = 'مساعد ادمن',
-  CLIENT = 'عميل',
   CLIENT_ASSISTANT = 'مساعد عميل',
 }
 
@@ -26,9 +25,8 @@ export const rolesArabicNames = {
   EMERGENCY_EMPLOYEE: 'موظف طوارئ', // need to clarify
   DATA_ENTRY: 'مدخل بيانات',
   REPOSITORIY_EMPLOYEE: 'موظف مخزن',
-  INQUIRY_EMPLOYEE: 'موظف استفسارات', // need to clarify
+  INQUIRY_EMPLOYEE: 'موظف دعم', // need to clarify
   ADMIN_ASSISTANT: 'مساعد ادمن',
-  CLIENT: 'عميل',
   CLIENT_ASSISTANT: 'مساعد عميل',
 };
 

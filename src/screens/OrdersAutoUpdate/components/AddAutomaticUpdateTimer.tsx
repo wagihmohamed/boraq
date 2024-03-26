@@ -1,5 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Select, NumberInput } from '@mantine/core';
+import { Modal, Button, Select, NumberInput, Radio } from '@mantine/core';
 import {
   governorateArabicNames,
   governorateArray,
@@ -18,6 +18,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { useBranches } from '@/hooks/useBranches';
 import { getSelectOptions } from '@/lib/getSelectOptions';
+import { orderReturnConditionArray } from '@/lib/orderReturnConditionArabicNames';
 
 export const AddAutomaticUpdateTimer = () => {
   const queryClient = useQueryClient();
@@ -32,6 +33,7 @@ export const AddAutomaticUpdateTimer = () => {
       checkAfter: 0,
       branchID: '',
       updateAt: 0,
+      returnCondition: 'UNKNOWN',
     },
   });
 
@@ -77,8 +79,10 @@ export const AddAutomaticUpdateTimer = () => {
         values.orderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
       newOrderStatus:
         values.newOrderStatus as CreateAutomaticUpdateDatePayload['orderStatus'],
-      // returnCondition:
-      //   values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition'],
+      returnCondition:
+        values.returnCondition === 'UNKNOWN'
+          ? undefined
+          : (values.returnCondition as CreateAutomaticUpdateDatePayload['returnCondition']),
     });
   };
 
@@ -143,7 +147,7 @@ export const AddAutomaticUpdateTimer = () => {
             max={24}
             {...form.getInputProps('updateAt')}
           />
-          {/* <Radio.Group
+          <Radio.Group
             name="orderReturnCondition"
             label="اختر حالة الارجاع"
             withAsterisk
@@ -153,8 +157,9 @@ export const AddAutomaticUpdateTimer = () => {
               {orderReturnConditionArray.map((item) => (
                 <Radio key={item.value} value={item.value} label={item.label} />
               ))}
+              <Radio value="UNKNOWN" label="غير محدد" />
             </div>
-          </Radio.Group> */}
+          </Radio.Group>
           <div className="flex items-center gap-4">
             <Button loading={isLoading} disabled={isLoading} type="submit">
               اضافة

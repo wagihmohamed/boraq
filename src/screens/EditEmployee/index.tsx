@@ -29,7 +29,7 @@ import { editEmployeeSchema } from './schema';
 
 export const EditEmployee = () => {
   const { id = '' } = useParams();
-  const { role, companyID: loggedInComapnyId } = useAuth();
+  const { role, companyID: loggedInCompanyId } = useAuth();
   const isAdminOrAdminAssistant =
     role === 'ADMIN' || role === 'ADMIN_ASSISTANT';
   const navigate = useNavigate();
@@ -46,10 +46,6 @@ export const EditEmployee = () => {
     size: 100000,
     minified: true,
   });
-  // const { data: tenants = { data: [] } } = useTenants(
-  //   { size: 100000, minified: true },
-  //   !isAdminOrAdminAssistant
-  // );
 
   const form = useForm({
     validate: zodResolver(editEmployeeSchema),
@@ -57,7 +53,6 @@ export const EditEmployee = () => {
       username: '',
       name: '',
       phone: '',
-      salary: 0,
       branch: '',
       repository: '',
       role: '',
@@ -66,7 +61,6 @@ export const EditEmployee = () => {
       confirmPassword: '',
       companyID: '',
       avatar: [] as unknown as FileWithPath[],
-      deliveryCost: 0,
     },
   });
 
@@ -77,14 +71,12 @@ export const EditEmployee = () => {
         username: employeeDetails.data.username,
         name: employeeDetails.data.name,
         phone: employeeDetails.data.phone,
-        salary: employeeDetails.data.salary,
         branch: employeeDetails.data.branch?.id.toString(),
         repository: employeeDetails.data.repository?.id.toString(),
         role: employeeDetails.data.role,
         companyID: employeeDetails.data.company?.id.toString(),
         permissions: employeeDetails.data?.permissions,
         avatar: [avatarAddress] as unknown as FileWithPath[],
-        deliveryCost: employeeDetails.data.deliveryCost,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,11 +91,6 @@ export const EditEmployee = () => {
     value: branch.id.toString(),
     label: branch.name,
   }));
-
-  // const transformedTenants = tenants.data?.map((tenant) => ({
-  //   value: tenant.id.toString(),
-  //   label: tenant.name,
-  // }));
 
   const queryClient = useQueryClient();
   const { mutate: editEmployeeAction, isLoading: isEditing } = useMutation({
@@ -127,17 +114,16 @@ export const EditEmployee = () => {
 
   const handleSubmit = (values: z.infer<typeof editEmployeeSchema>) => {
     const formData = new FormData();
-    formData.append('username', values.username);
+    formData.append('username', values.phone);
     formData.append('name', values.name);
     formData.append('phone', values.phone);
-    formData.append('salary', String(values.salary));
     formData.append('branchID', values.branch);
     formData.append('repositoryID', values.repository);
     formData.append('role', values.role);
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
     } else {
-      formData.append('companyID', loggedInComapnyId.toString());
+      formData.append('companyID', loggedInCompanyId.toString());
     }
     formData.append('permissions', JSON.stringify(values.permissions));
     if (values.password) {
@@ -146,7 +132,6 @@ export const EditEmployee = () => {
     if (values.avatar[0] instanceof File) {
       formData.append('avatar', (values?.avatar[0] as File) || '');
     }
-    formData.append('deliveryCost', String(values.deliveryCost));
     editEmployeeAction(formData);
   };
 
@@ -175,40 +160,11 @@ export const EditEmployee = () => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <TextInput
-              label="اسم المستخدم"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('username')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
               label="رقم الهاتف"
               placeholder=""
               size="md"
               className="w-full"
               {...form.getInputProps('phone')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="الراتب"
-              type="number"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('salary')}
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
-              label="أجرة التوصيل"
-              type="number"
-              placeholder=""
-              size="md"
-              className="w-full"
-              {...form.getInputProps('deliveryCost')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
@@ -231,18 +187,6 @@ export const EditEmployee = () => {
               {...form.getInputProps('repository')}
             />
           </Grid.Col>
-          {/* {isAdminOrAdminAssistant && (
-            <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-              <Select
-                searchable
-                label="الشركة"
-                placeholder="اختار الشركة"
-                data={transformedTenants}
-                limit={100}
-                {...form.getInputProps('companyID')}
-              />
-            </Grid.Col>
-          )} */}
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               label="الادوار"

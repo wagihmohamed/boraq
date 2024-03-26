@@ -31,6 +31,9 @@ export const ordersFilterInitialState: OrdersFilter = {
   deleted: true,
   statuses: [],
   from: 'DELETED',
+  forwarded: false,
+  forwarded_by_id: undefined,
+  forwarded_from_id: undefined,
 };
 
 export const DeletedOrdersView = () => {

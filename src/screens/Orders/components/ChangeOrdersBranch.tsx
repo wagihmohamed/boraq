@@ -35,6 +35,7 @@ export const ChangeOrdersBranch = () => {
         queryKey: ['timeline'],
       });
       deleteAllOrders();
+      setSelectedBranch(null);
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
