@@ -199,6 +199,7 @@ export const CreateBulkOrders = () => {
           recipientName: order.recipientName || 'افتراضي',
           recipientPhones: order.recipientPhones.map((phone) => phone.phone),
           storeID: Number(selectedStore || order.storeID),
+          locationID: Number(order.locationID),
           details: order.details,
           notes: order.notes,
           products: order.products?.map((product) => {
@@ -221,6 +222,7 @@ export const CreateBulkOrders = () => {
         storeID: Number(selectedStore || order.storeID),
         details: order.details,
         notes: order.notes,
+        locationID: Number(order.locationID),
         totalCost: Number(order.totalCost),
       };
     });

@@ -4,11 +4,11 @@ import { Order } from '@/services/getOrders';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
 import { useOrdersStore } from '@/store/ordersStore';
-import { DeleteOrder } from '../Orders/components/DeleteOrder';
-import { useDisclosure } from '@mantine/hooks';
 import { OrdersBadge } from '@/components/OrdersBadge';
 import { useEditOrder } from '@/hooks/useEditOrder';
-import { IconRotate } from '@tabler/icons-react';
+import { IconCheck, IconTrash } from '@tabler/icons-react';
+import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
+import toast from 'react-hot-toast';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -80,20 +80,35 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
+    accessorKey: 'client.name',
+    header: 'العميل',
+  },
+  {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
-      return recipientPhones.length > 1 ? (
-        <Flex gap="xs">
-          <Text size="sm">{recipientPhones[0]}</Text>
-          <Badge color="blue" variant="light">
-            {recipientPhones.length - 1}
-          </Badge>
-        </Flex>
-      ) : (
-        <Text size="sm">لا يوجد</Text>
-      );
+      let phoneElement;
+      switch (recipientPhones.length) {
+        case 0:
+          phoneElement = <Text size="sm">لا يوجد</Text>;
+          break;
+        case 1:
+          phoneElement = <Text size="sm">{recipientPhones[0]}</Text>;
+          break;
+        default:
+          phoneElement = (
+            <Flex gap="xs">
+              <Text size="sm">{recipientPhones[0]}</Text>
+              <Badge color="blue" variant="light">
+                {recipientPhones.length - 1}
+              </Badge>
+            </Flex>
+          );
+          break;
+      }
+
+      return phoneElement;
     },
   },
   {
@@ -134,11 +149,20 @@ export const columns: ColumnDef<Order>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;
-      const [deleteOpened, { open: openDelete, close: closeDelete }] =
-        useDisclosure(false);
+
+      const { mutate: deleteOrder, isLoading: isDeleteLoading } =
+        useDeactivateOrder();
 
       const { mutate: editOrderStatus, isLoading: isEditingOrderLoading } =
         useEditOrder();
+
+      const handleDeleteOrder = () => {
+        deleteOrder(id, {
+          onSuccess: () => {
+            toast.success('تم حذف الطلب بنجاح');
+          },
+        });
+      };
 
       const handleApproveOrder = () => {
         editOrderStatus({
@@ -151,13 +175,6 @@ export const columns: ColumnDef<Order>[] = [
 
       return (
         <div className="flex justify-center gap-5">
-          <DeleteOrder
-            closeMenu={() => {}}
-            id={id}
-            opened={deleteOpened}
-            close={closeDelete}
-            open={openDelete}
-          />
           <ActionIcon
             disabled={isEditingOrderLoading}
             variant="filled"
@@ -165,7 +182,16 @@ export const columns: ColumnDef<Order>[] = [
             color="green"
             aria-label="Settings"
           >
-            <IconRotate />
+            <IconCheck />
+          </ActionIcon>
+          <ActionIcon
+            disabled={isDeleteLoading}
+            variant="filled"
+            onClick={handleDeleteOrder}
+            color="red"
+            aria-label="delete order"
+          >
+            <IconTrash />
           </ActionIcon>
         </div>
       );
