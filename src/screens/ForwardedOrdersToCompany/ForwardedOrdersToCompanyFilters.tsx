@@ -18,8 +18,8 @@ import {
 import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { useEmployees } from '@/hooks/useEmployees';
-import { useEditOrder } from '@/hooks/useEditOrder';
 import { useOrdersForwardedToCompany } from '@/store/ordersForwardedToCompany';
+import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
 
 interface ForwardedOrdersToCompanyFiltersProps {
   filters: IOrdersFilter;
@@ -70,8 +70,8 @@ export const ForwardedOrdersToCompanyFilters = ({
     ],
   });
 
-  const { mutateAsync: editOrderStatus, isLoading: isEditingOrderLoading } =
-    useEditOrder();
+  const { mutateAsync: deactivateOrder, isLoading: isEditingOrderLoading } =
+    useDeactivateOrder();
 
   const handleResetRangeDate = () => {
     setFilters({
@@ -92,12 +92,7 @@ export const ForwardedOrdersToCompanyFilters = ({
   const handleConfirmSelectedOrders = async () => {
     await Promise.all(
       orders.map(async (order) => {
-        await editOrderStatus({
-          id: Number(order.id),
-          data: {
-            confirmed: false,
-          },
-        });
+        await deactivateOrder(Number(order.id));
       })
     );
   };
