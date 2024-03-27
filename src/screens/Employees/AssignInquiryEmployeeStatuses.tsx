@@ -1,27 +1,27 @@
 import { useEditEmployee } from '@/hooks/useEditEmployee';
-import { governorateArray } from '@/lib/governorateArabicNames ';
+import { orderStatusArray } from '@/lib/orderStatusArabicNames';
 import { Button, Modal, MultiSelect } from '@mantine/core';
 import { useState } from 'react';
 
-interface AssignInquiryEmployeeToGovernorateProps {
+interface AssignInquiryEmployeeStatusesProps {
   id: number;
-  managedGovernorate: string[];
+  managedStatuses: string[];
   opened: boolean;
   close: () => void;
   open: () => void;
   closeMenu: () => void;
 }
 
-export const AssignInquiryEmployeeGovernorate = ({
+export const AssignInquiryEmployeeStatuses = ({
   id,
-  managedGovernorate,
+  managedStatuses,
   close,
   closeMenu,
   open,
   opened,
-}: AssignInquiryEmployeeToGovernorateProps) => {
-  const [selectedGovernorate, setSelectedGovernorate] =
-    useState<string[]>(managedGovernorate);
+}: AssignInquiryEmployeeStatusesProps) => {
+  const [selectedStatuses, setSelectedStatuses] =
+    useState<string[]>(managedStatuses);
 
   const { mutate: editEmployeeCompanies, isLoading } = useEditEmployee();
 
@@ -32,7 +32,7 @@ export const AssignInquiryEmployeeGovernorate = ({
 
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append('inquiryGovernorates', JSON.stringify(selectedGovernorate));
+    formData.append('inquiryStatuses', JSON.stringify(selectedStatuses));
     editEmployeeCompanies(
       {
         id,
@@ -43,7 +43,7 @@ export const AssignInquiryEmployeeGovernorate = ({
           handleClose();
         },
         onError: () => {
-          setSelectedGovernorate(managedGovernorate);
+          setSelectedStatuses(managedStatuses);
         },
       }
     );
@@ -58,15 +58,15 @@ export const AssignInquiryEmployeeGovernorate = ({
         centered
       >
         <MultiSelect
-          value={selectedGovernorate}
-          label="المحافظات"
+          value={selectedStatuses}
+          label="الحالات"
           searchable
           clearable
           onChange={(e) => {
-            setSelectedGovernorate(e);
+            setSelectedStatuses(e);
           }}
-          placeholder="اختر المحافظة"
-          data={governorateArray}
+          placeholder="اختر الحالة"
+          data={orderStatusArray}
           limit={100}
         />
         <div className="flex justify-between mt-4 gap-6">
@@ -93,7 +93,7 @@ export const AssignInquiryEmployeeGovernorate = ({
       </Modal>
 
       <Button fullWidth onClick={open}>
-        تغير المحافظات
+        تغير الحالات
       </Button>
     </>
   );

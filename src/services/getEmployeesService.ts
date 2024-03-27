@@ -61,14 +61,8 @@ export interface Employee {
     id: number;
     name: string;
   }[];
-  inquiryGovernorates: {
-    id: number;
-    name: string;
-  }[];
-  inquiryStatuses: {
-    id: number;
-    name: string;
-  }[];
+  inquiryGovernorates: string[];
+  inquiryStatuses: string[];
 }
 
 export interface GetEmployeesResponse {

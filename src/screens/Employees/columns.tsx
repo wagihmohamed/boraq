@@ -16,6 +16,7 @@ import { AssignInquiryEmployeeLocations } from './AssignInquiryEmployeeLocations
 import { AssignInquiryEmployeeStores } from './AssignInquiryEmployeeStores';
 import { AssignInquiryEmployeeCompanies } from './AssignInquiryEmployeeCompanies';
 import { AssignInquiryEmployeeGovernorate } from './AssignInquiryEmployeeGovernorate';
+import { AssignInquiryEmployeeStatuses } from './AssignInquiryEmployeeStatuses';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -126,10 +127,6 @@ export const columns: ColumnDef<Employee>[] = [
         (company) => company.id.toString()
       );
 
-      const stringifiedGovernorates = row.original.inquiryGovernorates.map(
-        (governorate) => governorate.id.toString()
-      );
-
       return (
         <Menu
           zIndex={150}
@@ -219,9 +216,16 @@ export const columns: ColumnDef<Employee>[] = [
                   open={openInquiryGovernorates}
                   id={id}
                   closeMenu={() => setMenuOpen(false)}
-                  managedGovernorate={stringifiedGovernorates}
+                  managedGovernorate={row.original.inquiryGovernorates}
                 />
-                <div>dw</div>
+                <AssignInquiryEmployeeStatuses
+                  opened={inquiryStatusesOpened}
+                  close={closeInquiryStatuses}
+                  open={openInquiryStatuses}
+                  id={id}
+                  closeMenu={() => setMenuOpen(false)}
+                  managedStatuses={row.original.inquiryStatuses}
+                />
               </>
             )}
           </Menu.Dropdown>
