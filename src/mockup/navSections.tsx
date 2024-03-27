@@ -187,6 +187,7 @@ export const navSections: NavSection[] = [
       'ADMIN_ASSISTANT',
       'COMPANY_MANAGER',
       'REPOSITORIY_EMPLOYEE',
+      'DATA_ENTRY',
     ],
   },
   {

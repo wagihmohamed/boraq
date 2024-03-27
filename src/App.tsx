@@ -325,6 +325,10 @@ function App() {
               path="/agents-manifest"
               element={<DeliveryAgentsManifest />}
             />
+            <Route
+              path="/client-orders-confirm"
+              element={<ConfirmClientOrders />}
+            />
           </Route>
         ) : null}
 
