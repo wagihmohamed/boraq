@@ -14,6 +14,8 @@ import { useState } from 'react';
 import { AssignInquiryEmployeeBranches } from './AssignInquiryEmployeeBranches';
 import { AssignInquiryEmployeeLocations } from './AssignInquiryEmployeeLocations';
 import { AssignInquiryEmployeeStores } from './AssignInquiryEmployeeStores';
+import { AssignInquiryEmployeeCompanies } from './AssignInquiryEmployeeCompanies';
+import { AssignInquiryEmployeeGovernorate } from './AssignInquiryEmployeeGovernorate';
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -120,6 +122,14 @@ export const columns: ColumnDef<Employee>[] = [
         store.id.toString()
       );
 
+      const stringifiedCompanies = row.original.inquiryCompanies.map(
+        (company) => company.id.toString()
+      );
+
+      const stringifiedGovernorates = row.original.inquiryGovernorates.map(
+        (governorate) => governorate.id.toString()
+      );
+
       return (
         <Menu
           zIndex={150}
@@ -194,6 +204,22 @@ export const columns: ColumnDef<Employee>[] = [
                   id={id}
                   closeMenu={() => setMenuOpen(false)}
                   managedStores={stringifiedStores}
+                />
+                <AssignInquiryEmployeeCompanies
+                  opened={inquiryCompaniesOpened}
+                  close={closeInquiryCompanies}
+                  open={openInquiryCompanies}
+                  id={id}
+                  closeMenu={() => setMenuOpen(false)}
+                  managedCompanies={stringifiedCompanies}
+                />
+                <AssignInquiryEmployeeGovernorate
+                  opened={inquiryGovernoratesOpened}
+                  close={closeInquiryGovernorates}
+                  open={openInquiryGovernorates}
+                  id={id}
+                  closeMenu={() => setMenuOpen(false)}
+                  managedGovernorate={stringifiedGovernorates}
                 />
                 <div>dw</div>
               </>
