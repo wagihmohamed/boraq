@@ -18,6 +18,11 @@ export const ClientReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     client_report: '0',
+    governorate_report: undefined,
+    branch_report: undefined,
+    delivery_agent_report: undefined,
+    repository_report: undefined,
+    company_report: undefined,
   });
 
   const [reportsFilter, setReportFilters] = useState<ReportsFilters>({
