@@ -18,6 +18,11 @@ export const GovernorateReportsView = () => {
   const [governorateFilter, setGovernorateFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     governorate_report: '0',
+    branch_report: undefined,
+    client_report: undefined,
+    delivery_agent_report: undefined,
+    repository_report: undefined,
+    company_report: undefined,
   });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
