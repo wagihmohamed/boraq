@@ -3,17 +3,18 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Order } from '@/services/getOrders';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
-import { useOrdersStore } from '@/store/ordersStore';
 import { OrdersBadge } from '@/components/OrdersBadge';
 import { IconRotate } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
 import { useEditOrder } from '@/hooks/useEditOrder';
+import { useOrdersForwardedToCompany } from '@/store/ordersForwardedToCompany';
 
 export const columns: ColumnDef<Order>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
+      const { deleteAllOrders, setAllOrders, isOrderExist } =
+        useOrdersForwardedToCompany();
 
       return (
         <Checkbox
@@ -43,7 +44,8 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
     cell: ({ row }) => {
-      const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
+      const { addOrder, deleteOrder, isOrderExist } =
+        useOrdersForwardedToCompany();
       return (
         <Checkbox
           checked={isOrderExist(row.original.id.toString())}
