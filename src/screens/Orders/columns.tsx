@@ -111,8 +111,9 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { recipientAddress, governorate } = row.original;
       return (
-        <Text truncate maw={rem(200)} size="sm">
-          {governorateArabicNames[governorate]} - {recipientAddress}
+        <Text truncate maw={rem(150)} size="sm">
+          {governorateArabicNames[governorate]}{' '}
+          {recipientAddress && `- ${recipientAddress}`}
         </Text>
       );
     },
@@ -131,6 +132,10 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'paidAmount',
     header: 'المبلغ المدفوع',
+  },
+  {
+    accessorKey: 'client.name',
+    header: 'العميل',
   },
   {
     accessorKey: 'companyNet',
