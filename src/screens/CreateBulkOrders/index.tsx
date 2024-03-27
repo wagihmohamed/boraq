@@ -1,7 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { createBulkOfOrdersSchema } from './schema';
-import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
 import { Button, Grid, Select, TextInput } from '@mantine/core';
 import { useState } from 'react';
@@ -12,10 +11,7 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
-import {
-  governorateArabicNames,
-  governorateArray,
-} from '@/lib/governorateArabicNames ';
+import { governorateArray } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { z } from 'zod';
 import { CreateStoreModal } from './components/CreateStoreModal';
@@ -104,17 +100,6 @@ export const CreateBulkOrders = () => {
       ],
     },
     validate: zodResolver(createBulkOfOrdersSchema),
-  });
-
-  const {
-    data: locationsData = {
-      data: [],
-    },
-  } = useLocations({
-    size: 100000,
-    minified: true,
-    governorate:
-      (selectedGovernorate as keyof typeof governorateArabicNames) || undefined,
   });
 
   const {
@@ -259,6 +244,7 @@ export const CreateBulkOrders = () => {
       <Grid>
         <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           <Select
+            allowDeselect={false}
             data={createBulkOrdersSelect}
             value={createBulkOrdersBy}
             label="ادخال حسب"
@@ -274,6 +260,7 @@ export const CreateBulkOrders = () => {
         <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           {createBulkOrdersBy === 'governorate' && (
             <Select
+              clearable
               data={governorateArray}
               label="المحافظة"
               value={selectedGovernorate}
@@ -288,6 +275,7 @@ export const CreateBulkOrders = () => {
           )}
           {createBulkOrdersBy === 'page' && (
             <Select
+              clearable
               data={getSelectOptions(storesData?.data || [])}
               label="المتجر"
               searchable
@@ -303,6 +291,7 @@ export const CreateBulkOrders = () => {
         </Grid.Col>
         <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           <Select
+            clearable
             data={getSelectOptions(companiesData?.data || [])}
             label="الشركة المسند اليها الطلبات"
             searchable
@@ -319,10 +308,10 @@ export const CreateBulkOrders = () => {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
+            selectedGovernorate={selectedGovernorate}
             form={form}
             handleDeleteOrder={handleDeleteOrder}
             index={index}
-            locationsData={locationsData.data}
             storesData={storesData.data}
             createBulkOrdersBy={createBulkOrdersBy}
             key={order.id}
