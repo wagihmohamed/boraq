@@ -86,7 +86,10 @@ export const CustomOrdersFilter = ({
   });
 
   const { data: automaticUpdatesData } = useAutomaticUpdates(
-    filters,
+    {
+      size: 100000,
+      minified: true,
+    },
     role === 'COMPANY_MANAGER'
   );
 
