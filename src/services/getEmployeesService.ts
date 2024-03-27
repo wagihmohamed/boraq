@@ -45,6 +45,30 @@ export interface Employee {
     id: number;
     name: string;
   }[];
+  inquiryBranches: {
+    id: number;
+    name: string;
+  }[];
+  inquiryLocations: {
+    id: number;
+    name: string;
+  }[];
+  inquiryCompanies: {
+    id: number;
+    name: string;
+  }[];
+  inquiryStores: {
+    id: number;
+    name: string;
+  }[];
+  inquiryGovernorates: {
+    id: number;
+    name: string;
+  }[];
+  inquiryStatuses: {
+    id: number;
+    name: string;
+  }[];
 }
 
 export interface GetEmployeesResponse {
