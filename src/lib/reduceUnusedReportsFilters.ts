@@ -4,7 +4,6 @@ export const reduceUnusedReportsFilters = <T>(params?: T) => {
     Object.keys(params).reduce((acc, key) => {
       if (
         params &&
-        params[key as keyof T] !== '0' &&
         params[key as keyof T] !== '' &&
         params[key as keyof T] !== undefined &&
         params[key as keyof T] !== 0 &&
@@ -17,6 +16,19 @@ export const reduceUnusedReportsFilters = <T>(params?: T) => {
             statuses: (params[key as keyof T] as string[])?.length
               ? (params[key as keyof T] as string[]).join(',')
               : undefined,
+          };
+        }
+        if (
+          key === 'branch_report' ||
+          key === 'client_report' ||
+          key === 'company_report' ||
+          key === 'delivery_agent_report' ||
+          key === 'governorate_report' ||
+          key === 'repository_report'
+        ) {
+          return {
+            ...acc,
+            [key]: params[key as keyof T] === '1',
           };
         }
         if (key === 'confirmed') {

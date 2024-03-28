@@ -1,17 +1,17 @@
 import { APIError } from '@/models';
 import {
-  IEditEmployeePayload,
-  editEmployeeService,
+  EditClientAssistantStoresPayload,
+  editClientAssistantStoresService,
 } from '@/services/editEmployee';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
-export const useEditEmployee = () => {
+export const useEditClientAssistantEmployee = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: IEditEmployeePayload) => {
-      return editEmployeeService(data);
+    mutationFn: (data: EditClientAssistantStoresPayload) => {
+      return editClientAssistantStoresService(data);
     },
     onSuccess: () => {
       toast.success('تم تعديل الموظف بنجاح');

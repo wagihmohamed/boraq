@@ -1,4 +1,3 @@
-import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -6,9 +5,28 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { deactivateEmployeeService } from '@/services/deactivateEmployee';
 
-export const DeleteEmployee = ({ id }: { id: number }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface Props {
+  id: number;
+  opened: boolean;
+  close: () => void;
+  open: () => void;
+  closeMenu: () => void;
+}
+
+export const DeleteEmployee = ({
+  id,
+  close,
+  closeMenu,
+  open,
+  opened,
+}: Props) => {
   const queryClient = useQueryClient();
+
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
+
   const { mutate: deleteEmployee, isLoading } = useMutation({
     mutationFn: (id: number) => deactivateEmployeeService({ id }),
     onSuccess: () => {
@@ -16,7 +34,7 @@ export const DeleteEmployee = ({ id }: { id: number }) => {
         queryKey: ['employees'],
       });
       toast.success('تم اضافة الموظف لقائمة المحذوفات');
-      close();
+      handleClose();
     },
     onError: (error: AxiosError<APIError>) => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
@@ -29,7 +47,7 @@ export const DeleteEmployee = ({ id }: { id: number }) => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="مسح الموظف" centered>
+      <Modal opened={opened} onClose={handleClose} title="مسح الموظف" centered>
         هل انت متأكد من مسح الموظف؟
         <div className="mt-4 flex items-center gap-4">
           <Button
@@ -40,7 +58,7 @@ export const DeleteEmployee = ({ id }: { id: number }) => {
           >
             مسح
           </Button>
-          <Button variant="outline" onClick={close} className="mr-4">
+          <Button variant="outline" onClick={handleClose} className="mr-4">
             إلغاء
           </Button>
         </div>

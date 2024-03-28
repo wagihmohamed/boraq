@@ -50,7 +50,6 @@ export const createReportService = async (data: CreateReportPayload) => {
       createReportEndpoint,
       {
         ...data,
-        params: undefined,
       },
       {
         responseType: 'arraybuffer',

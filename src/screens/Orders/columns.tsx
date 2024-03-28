@@ -27,7 +27,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
-import { OrderInquiryEmployees } from './components/OrderInquiryEmployees';
+import { OrdersFullDetails } from './components/OrdersFullDetails';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -65,20 +65,23 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
       return (
-        <Checkbox
-          checked={isOrderExist(row.original.id.toString())}
-          onChange={(value) => {
-            const isChecked = value.currentTarget.checked;
-            const { id, recipientName } = row.original;
-            if (isChecked) {
-              addOrder({ id: id.toString(), name: recipientName });
-              row.toggleSelected(true);
-            } else {
-              row.toggleSelected(false);
-              deleteOrder(id.toString());
-            }
-          }}
-        />
+        <div className="flex items-center gap-4">
+          <Checkbox
+            checked={isOrderExist(row.original.id.toString())}
+            onChange={(value) => {
+              const isChecked = value.currentTarget.checked;
+              const { id, recipientName } = row.original;
+              if (isChecked) {
+                addOrder({ id: id.toString(), name: recipientName });
+                row.toggleSelected(true);
+              } else {
+                row.toggleSelected(false);
+                deleteOrder(id.toString());
+              }
+            }}
+          />
+          <OrdersFullDetails order={row.original} />
+        </div>
       );
     },
   },
@@ -112,8 +115,9 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { recipientAddress, governorate } = row.original;
       return (
-        <Text truncate maw={rem(200)} size="sm">
-          {governorateArabicNames[governorate]} - {recipientAddress}
+        <Text truncate maw={rem(150)} size="sm">
+          {governorateArabicNames[governorate]}{' '}
+          {recipientAddress && `- ${recipientAddress}`}
         </Text>
       );
     },
@@ -132,6 +136,10 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'paidAmount',
     header: 'المبلغ المدفوع',
+  },
+  {
+    accessorKey: 'client.name',
+    header: 'العميل',
   },
   {
     accessorKey: 'companyNet',
@@ -373,7 +381,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { id, recipientName, status, inquiryEmployees } = row.original;
+      const { id, recipientName, status } = row.original;
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
@@ -394,11 +402,6 @@ export const columns: ColumnDef<Order>[] = [
         { open: openChangeStatus, close: closeChangeStatus },
       ] = useDisclosure(false);
 
-      const [
-        editInquiryEmployeesOpened,
-        { open: openEditInquiryEmployees, close: closeEditInquiryEmployees },
-      ] = useDisclosure(false);
-
       const [isMenuOpen, setMenuOpen] = useState(false);
 
       return (
@@ -406,13 +409,7 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (
-              timelineOpened ||
-              deleteOpened ||
-              changeStatusOpened ||
-              editInquiryEmployeesOpened
-            )
-              return;
+            if (timelineOpened || deleteOpened || changeStatusOpened) return;
             setMenuOpen(!isMenuOpen);
           }}
         >
@@ -462,7 +459,7 @@ export const columns: ColumnDef<Order>[] = [
               open={openChangeStatus}
               status={status}
             />
-            <OrderInquiryEmployees
+            {/* <OrderInquiryEmployees
               closeMenu={() => setMenuOpen(false)}
               orderID={id}
               inquiryEmployees={inquiryEmployees.map((employee) => ({
@@ -472,7 +469,7 @@ export const columns: ColumnDef<Order>[] = [
               opened={editInquiryEmployeesOpened}
               close={closeEditInquiryEmployees}
               open={openEditInquiryEmployees}
-            />
+            /> */}
             <div className="flex justify-center mt-2">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>

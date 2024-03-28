@@ -23,6 +23,7 @@ export const createBulkOfOrdersSchema = z.object({
     z
       .object({
         recipientName: z.string(),
+        forwardedCompanyID: z.string().optional(),
         recipientPhones: z.array(
           z.object(
             {

@@ -1,22 +1,27 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useOrders } from '@/hooks/useOrders';
 import { OrdersFilter } from '@/services/getOrders';
+import { useAuth } from '@/store/authStore';
+import { useDebouncedState } from '@mantine/hooks';
 import { useState } from 'react';
 import { ordersFilterInitialState } from '../Orders';
-import { useDebouncedState } from '@mantine/hooks';
-import { OrdersTable } from '../Orders/components/OrdersTable';
 import { LoadingOverlay } from '@mantine/core';
+import { OrdersTable } from '../Orders/components/OrdersTable';
 import { columns } from './columns';
-import { ForwardedOrdersFilters } from './ForwardedOrdersFilters';
+import { ForwardedOrdersToCompanyFilters } from './ForwardedOrdersToCompanyFilters';
 
-// NEW PAGE IN THE COMMENT BELOW
-// from our company to other company forwarded:true, forwarded_from_id from the useAuth companyID
-export const ForwardedOrders = () => {
-  // from other company to our company
+export const ForwardedOrdersToCompany = () => {
+  const { companyID } = useAuth();
   const [filters, setFilters] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     forwarded: true,
-    confirmed: false,
+    forwarded_from_id: companyID,
+    branch_report: undefined,
+    client_report: undefined,
+    company_report: undefined,
+    delivery_agent_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
   });
 
   const [search, setSearch] = useDebouncedState('', 300);
@@ -37,7 +42,7 @@ export const ForwardedOrders = () => {
 
   return (
     <AppLayout isError={isError}>
-      <ForwardedOrdersFilters
+      <ForwardedOrdersToCompanyFilters
         filters={filters}
         search={search}
         setFilters={setFilters}

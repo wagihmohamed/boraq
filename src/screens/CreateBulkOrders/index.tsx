@@ -1,7 +1,6 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { createBulkOfOrdersSchema } from './schema';
-import { useLocations } from '@/hooks/useLocations';
 import { useStores } from '@/hooks/useStores';
 import { Button, Grid, Select, TextInput } from '@mantine/core';
 import { useState } from 'react';
@@ -12,14 +11,12 @@ import { AxiosError } from 'axios';
 import { APIError } from '@/models';
 import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
-import {
-  governorateArabicNames,
-  governorateArray,
-} from '@/lib/governorateArabicNames ';
+import { governorateArray } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { z } from 'zod';
 import { CreateStoreModal } from './components/CreateStoreModal';
 import { CreateClientAndStoreModal } from './components/CreateClientAndStoreModal';
+import { useTenants } from '@/hooks/useTenants';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -40,6 +37,7 @@ export interface OrderBulkFormValues {
     recipientAddress: string;
     receiptNumber: string;
     details: string;
+    forwardedCompanyID?: string;
     products?: {
       productID: string;
       quantity: string;
@@ -69,6 +67,9 @@ export const CreateBulkOrders = () => {
   const [selectedGovernorate, setSelectedGovernorate] = useState<
     string | null
   >();
+  const [selectedForwardedCompany, setSelectedForwardedCompany] = useState<
+    string | null
+  >();
   const [selectedStore, setSelectedStore] = useState<string | null>();
   const queryClient = useQueryClient();
   const form = useForm<OrderBulkFormValues>({
@@ -94,6 +95,7 @@ export const CreateBulkOrders = () => {
           recipientAddress: '',
           receiptNumber: '',
           details: '',
+          forwardedCompanyID: '',
         },
       ],
     },
@@ -101,21 +103,15 @@ export const CreateBulkOrders = () => {
   });
 
   const {
-    data: locationsData = {
-      data: [],
-    },
-  } = useLocations({
-    size: 100000,
-    minified: true,
-    governorate:
-      (selectedGovernorate as keyof typeof governorateArabicNames) || undefined,
-  });
-
-  const {
     data: storesData = {
       data: [],
     },
   } = useStores({ size: 100000, minified: true });
+  const {
+    data: companiesData = {
+      data: [],
+    },
+  } = useTenants({ size: 100000, minified: true });
 
   const ordersArray = form.values.orders;
 
@@ -182,11 +178,13 @@ export const CreateBulkOrders = () => {
       if (order.withProducts) {
         return {
           withProducts: order.withProducts,
+          forwardedCompanyID: Number(selectedForwardedCompany) || undefined,
           governorate: selectedGovernorate || order.governorate || '',
           recipientAddress: order.details,
           recipientName: order.recipientName || 'افتراضي',
           recipientPhones: order.recipientPhones.map((phone) => phone.phone),
           storeID: Number(selectedStore || order.storeID),
+          locationID: Number(order.locationID),
           details: order.details,
           notes: order.notes,
           products: order.products?.map((product) => {
@@ -201,6 +199,7 @@ export const CreateBulkOrders = () => {
       }
       return {
         withProducts: order.withProducts,
+        forwardedCompanyID: Number(selectedForwardedCompany) || undefined,
         governorate: selectedGovernorate || order.governorate || '',
         recipientAddress: order.details,
         recipientName: order.recipientName || 'افتراضي',
@@ -208,6 +207,7 @@ export const CreateBulkOrders = () => {
         storeID: Number(selectedStore || order.storeID),
         details: order.details,
         notes: order.notes,
+        locationID: Number(order.locationID),
         totalCost: Number(order.totalCost),
       };
     });
@@ -242,8 +242,9 @@ export const CreateBulkOrders = () => {
         </Button>
       </div>
       <Grid>
-        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+        <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           <Select
+            allowDeselect={false}
             data={createBulkOrdersSelect}
             value={createBulkOrdersBy}
             label="ادخال حسب"
@@ -256,9 +257,10 @@ export const CreateBulkOrders = () => {
             size="md"
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>
+        <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           {createBulkOrdersBy === 'governorate' && (
             <Select
+              clearable
               data={governorateArray}
               label="المحافظة"
               value={selectedGovernorate}
@@ -273,6 +275,7 @@ export const CreateBulkOrders = () => {
           )}
           {createBulkOrdersBy === 'page' && (
             <Select
+              clearable
               data={getSelectOptions(storesData?.data || [])}
               label="المتجر"
               searchable
@@ -286,14 +289,29 @@ export const CreateBulkOrders = () => {
             />
           )}
         </Grid.Col>
+        <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
+          <Select
+            clearable
+            data={getSelectOptions(companiesData?.data || [])}
+            label="الشركة المسند اليها الطلبات"
+            searchable
+            allowDeselect={false}
+            placeholder="اختر الشركة"
+            size="md"
+            value={selectedForwardedCompany}
+            onChange={(e) => {
+              setSelectedForwardedCompany(e);
+            }}
+          />
+        </Grid.Col>
       </Grid>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
+            selectedGovernorate={selectedGovernorate}
             form={form}
             handleDeleteOrder={handleDeleteOrder}
             index={index}
-            locationsData={locationsData.data}
             storesData={storesData.data}
             createBulkOrdersBy={createBulkOrdersBy}
             key={order.id}

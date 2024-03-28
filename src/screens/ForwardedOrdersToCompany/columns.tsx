@@ -4,18 +4,17 @@ import { Order } from '@/services/getOrders';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
 import { OrdersBadge } from '@/components/OrdersBadge';
-import { useEditOrder } from '@/hooks/useEditOrder';
-import { IconCheck, IconTrash } from '@tabler/icons-react';
-import { useDeactivateOrder } from '@/hooks/useDeactivateOrder';
+import { IconRotate } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
-import { useForwardedOrdersStore } from '@/store/forwardedOrders';
+import { useEditOrder } from '@/hooks/useEditOrder';
+import { useOrdersForwardedToCompany } from '@/store/ordersForwardedToCompany';
 
 export const columns: ColumnDef<Order>[] = [
   {
     id: 'select',
     header: ({ table }) => {
       const { deleteAllOrders, setAllOrders, isOrderExist } =
-        useForwardedOrdersStore();
+        useOrdersForwardedToCompany();
 
       return (
         <Checkbox
@@ -45,7 +44,8 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
     cell: ({ row }) => {
-      const { addOrder, deleteOrder, isOrderExist } = useForwardedOrdersStore();
+      const { addOrder, deleteOrder, isOrderExist } =
+        useOrdersForwardedToCompany();
       return (
         <Checkbox
           checked={isOrderExist(row.original.id.toString())}
@@ -74,7 +74,7 @@ export const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'forwardedBy.name',
-    header: 'قام باضافتها',
+    header: 'قام بتحويلها',
     cell: ({ row }) => {
       const { forwardedBy } = row.original;
       return <Text size="sm">{forwardedBy?.name || ''}</Text>;
@@ -151,27 +151,23 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { id } = row.original;
 
-      const { mutate: deleteOrder, isLoading: isDeleteLoading } =
-        useDeactivateOrder();
-
       const { mutate: editOrderStatus, isLoading: isEditingOrderLoading } =
         useEditOrder();
 
-      const handleDeleteOrder = () => {
-        deleteOrder(id, {
-          onSuccess: () => {
-            toast.success('تم حذف الطلب بنجاح');
+      const handleReturnOrder = () => {
+        editOrderStatus(
+          {
+            id,
+            data: {
+              forwarded: false,
+            },
           },
-        });
-      };
-
-      const handleApproveOrder = () => {
-        editOrderStatus({
-          id,
-          data: {
-            confirmed: true,
-          },
-        });
+          {
+            onSuccess: () => {
+              toast.success('تم حذف الطلب بنجاح');
+            },
+          }
+        );
       };
 
       return (
@@ -179,20 +175,11 @@ export const columns: ColumnDef<Order>[] = [
           <ActionIcon
             disabled={isEditingOrderLoading}
             variant="filled"
-            onClick={handleApproveOrder}
-            color="green"
-            aria-label="Settings"
-          >
-            <IconCheck />
-          </ActionIcon>
-          <ActionIcon
-            disabled={isDeleteLoading}
-            variant="filled"
-            onClick={handleDeleteOrder}
-            color="red"
+            onClick={handleReturnOrder}
+            color="teal"
             aria-label="delete order"
           >
-            <IconTrash />
+            <IconRotate />
           </ActionIcon>
         </div>
       );

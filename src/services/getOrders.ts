@@ -98,6 +98,8 @@ export interface Order {
     id: number;
     name: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OrderInquiryEmployee {
@@ -130,7 +132,7 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
-  forwarded_by_id?: number;
+  forwarded_by_id?: string;
   forwarded_from_id?: string;
   search?: string;
   sort?: string;

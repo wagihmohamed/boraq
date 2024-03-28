@@ -1,20 +1,26 @@
-import { useEditClientAssistantEmployee } from '@/hooks/useEditClientAssistantEmployee';
+import { useEditEmployee } from '@/hooks/useEditEmployee';
 import { useStores } from '@/hooks/useStores';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { Button, LoadingOverlay, Modal, MultiSelect } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 
-interface AssignClientAssistantToStoresProps {
+interface AssignInquiryEmployeeToStoresProps {
   id: number;
   managedStores: string[];
+  opened: boolean;
+  close: () => void;
+  open: () => void;
+  closeMenu: () => void;
 }
 
-export const AssignClientAssistantToStores = ({
+export const AssignInquiryEmployeeStores = ({
   id,
   managedStores,
-}: AssignClientAssistantToStoresProps) => {
-  const [opened, { open, close }] = useDisclosure(false);
+  close,
+  closeMenu,
+  open,
+  opened,
+}: AssignInquiryEmployeeToStoresProps) => {
   const { data: storesData, isLoading: isFetchingStores } = useStores({
     size: 100000,
     minified: true,
@@ -22,21 +28,25 @@ export const AssignClientAssistantToStores = ({
 
   const [selectedStores, setSelectedStores] = useState<string[]>(managedStores);
 
-  const { mutate: editClientAssistantStores, isLoading } =
-    useEditClientAssistantEmployee();
+  const { mutate: editEmployeeStores, isLoading } = useEditEmployee();
+
+  const handleClose = () => {
+    close();
+    closeMenu();
+  };
 
   const handleSubmit = () => {
     const selectedStoresIDs = selectedStores?.map((store) => Number(store));
-    editClientAssistantStores(
+    const formData = new FormData();
+    formData.append('inquiryStoresIDs', JSON.stringify(selectedStoresIDs));
+    editEmployeeStores(
       {
         id,
-        data: {
-          storesIDs: selectedStoresIDs || [],
-        },
+        data: formData,
       },
       {
         onSuccess: () => {
-          close();
+          handleClose();
         },
         onError: () => {
           setSelectedStores(managedStores);
@@ -50,7 +60,7 @@ export const AssignClientAssistantToStores = ({
       <Modal
         title="اضافة متاجر لمساعد العميل"
         opened={opened}
-        onClose={close}
+        onClose={handleClose}
         centered
       >
         <div className="relative">
@@ -80,7 +90,7 @@ export const AssignClientAssistantToStores = ({
 
             <Button
               onClick={() => {
-                close();
+                handleClose();
               }}
               fullWidth
               variant="outline"
@@ -91,7 +101,9 @@ export const AssignClientAssistantToStores = ({
         </div>
       </Modal>
 
-      <Button onClick={open}>تغير المتاجر</Button>
+      <Button fullWidth onClick={open}>
+        تغير المتاجر
+      </Button>
     </>
   );
 };

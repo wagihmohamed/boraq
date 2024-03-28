@@ -23,6 +23,7 @@ export interface CreateOrderItem {
   }[];
   receiptNumber?: number;
   branchID?: number;
+  forwardedCompanyID?: number;
 }
 
 export type CreateOrderPayload = CreateOrderItem | CreateOrderItem[];
