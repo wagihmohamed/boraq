@@ -141,6 +141,11 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'deliveryAgent.deliveryCost',
     header: 'صافي المندوب',
+    cell: ({ row }) => {
+      if (!row.original.deliveryAgent) return <Text size="sm">لا يوجد</Text>;
+      const { deliveryCost } = row.original.deliveryAgent;
+      return deliveryCost;
+    },
   },
   {
     accessorKey: 'deliveryCost',

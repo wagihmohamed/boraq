@@ -107,6 +107,7 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المندوب',
     cell: ({ row }) => {
       const { deliveryAgent } = row.original;
+      if (!deliveryAgent) return <Text size="sm">--</Text>;
       return <Text size="sm">{deliveryAgent?.name || '--'}</Text>;
     },
   },

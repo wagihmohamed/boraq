@@ -42,15 +42,22 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
         centered
       >
         <Grid grow gutter="sm">
-          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
-            <OrderDetailCard title="المندوب" value={order.deliveryAgent.name} />
-          </Grid.Col>
-          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
-            <OrderDetailCard
-              title="رقم المندوب"
-              value={order.deliveryAgent.phone}
-            />
-          </Grid.Col>
+          {order.deliveryAgent && (
+            <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+              <OrderDetailCard
+                title="المندوب"
+                value={order.deliveryAgent.name}
+              />
+            </Grid.Col>
+          )}
+          {order.deliveryAgent && (
+            <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+              <OrderDetailCard
+                title="رقم المندوب"
+                value={order.deliveryAgent.phone}
+              />
+            </Grid.Col>
+          )}
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
             <OrderDetailCard title="الوزن" value={order.weight.toString()} />
           </Grid.Col>
@@ -83,12 +90,14 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
               value={order.recipientPhones.map((phone) => phone).join(', ')}
             />
           </Grid.Col>
-          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
-            <OrderDetailCard
-              title="صافي المندوب"
-              value={order.deliveryAgent.deliveryCost}
-            />
-          </Grid.Col>
+          {order.deliveryAgent && (
+            <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+              <OrderDetailCard
+                title="صافي المندوب"
+                value={order.deliveryAgent.deliveryCost}
+              />
+            </Grid.Col>
+          )}
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
             <OrderDetailCard
               title="التفاصيل"

@@ -39,7 +39,7 @@ export interface Order {
     name: string;
     phone: string;
     deliveryCost: string;
-  };
+  } | null;
   products: {
     productID: number;
     quantity: number;

@@ -170,6 +170,7 @@ export const columns: ColumnDef<Order>[] = [
     header: 'صافي المندوب',
     cell: ({ row }) => {
       const { deliveryAgent } = row.original;
+      if (!deliveryAgent) return <Text size="sm">لا يوجد</Text>;
       return <Text size="sm">{deliveryAgent?.deliveryCost || 0}</Text>;
     },
   },
