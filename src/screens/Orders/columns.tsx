@@ -27,6 +27,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
+import { OrdersFullDetails } from './components/OrdersFullDetails';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -64,20 +65,23 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
       return (
-        <Checkbox
-          checked={isOrderExist(row.original.id.toString())}
-          onChange={(value) => {
-            const isChecked = value.currentTarget.checked;
-            const { id, recipientName } = row.original;
-            if (isChecked) {
-              addOrder({ id: id.toString(), name: recipientName });
-              row.toggleSelected(true);
-            } else {
-              row.toggleSelected(false);
-              deleteOrder(id.toString());
-            }
-          }}
-        />
+        <div className="flex items-center gap-4">
+          <Checkbox
+            checked={isOrderExist(row.original.id.toString())}
+            onChange={(value) => {
+              const isChecked = value.currentTarget.checked;
+              const { id, recipientName } = row.original;
+              if (isChecked) {
+                addOrder({ id: id.toString(), name: recipientName });
+                row.toggleSelected(true);
+              } else {
+                row.toggleSelected(false);
+                deleteOrder(id.toString());
+              }
+            }}
+          />
+          <OrdersFullDetails order={row.original} />
+        </div>
       );
     },
   },

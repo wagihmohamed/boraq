@@ -98,6 +98,8 @@ export interface Order {
     id: number;
     name: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OrderInquiryEmployee {
