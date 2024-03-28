@@ -78,7 +78,7 @@ export const BulkOrdersItem = ({
             key={phone.key}
             label={`رقم المستلم ${phoneArrayIndex + 1}`}
             placeholder=""
-            size="sm"
+            size="xs"
             type="text"
             withAsterisk
             style={{ flex: 1 }}
@@ -166,7 +166,7 @@ export const BulkOrdersItem = ({
           <TextInput
             label="الاسم"
             placeholder=""
-            size="sm"
+            size="xs"
             className="w-full"
             {...form.getInputProps(
               `orders.${index}.products.${productsIndex}.label`
@@ -177,7 +177,7 @@ export const BulkOrdersItem = ({
             label="الكمية"
             placeholder=""
             type="number"
-            size="sm"
+            size="xs"
             className="w-full"
             {...form.getInputProps(
               `orders.${index}.products.${productsIndex}.quantity`
@@ -185,7 +185,7 @@ export const BulkOrdersItem = ({
           />
           <Select
             searchable
-            size="sm"
+            size="xs"
             clearable
             label="اللون"
             placeholder="اختار اللون"
@@ -197,7 +197,7 @@ export const BulkOrdersItem = ({
           />
           <Select
             searchable
-            size="sm"
+            size="xs"
             clearable
             label="المقاس"
             placeholder="اختار المقاس"
@@ -244,7 +244,7 @@ export const BulkOrdersItem = ({
           <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
             <Select
               searchable
-              size="sm"
+              size="xs"
               label="المتجر"
               placeholder="اختار المتجر"
               limit={100}
@@ -259,7 +259,7 @@ export const BulkOrdersItem = ({
               label="مبلغ الوصل "
               placeholder=""
               thousandSeparator=","
-              size="sm"
+              size="xs"
               allowNegative={false}
               className="w-full"
               {...form.getInputProps(`orders.${index}.totalCost`)}
@@ -270,7 +270,7 @@ export const BulkOrdersItem = ({
           <NumberInput
             label="رقم الوصل"
             placeholder=""
-            size="sm"
+            size="xs"
             allowNegative={false}
             className="w-full"
             {...form.getInputProps(`orders.${index}.receiptNumber`)}
@@ -281,7 +281,7 @@ export const BulkOrdersItem = ({
             <Select
               searchable
               label="المحافظة"
-              size="sm"
+              size="xs"
               clearable
               placeholder="اختار المحافظة"
               limit={100}
@@ -298,7 +298,7 @@ export const BulkOrdersItem = ({
           <Select
             key={currentFormValues.governorate}
             searchable
-            size="sm"
+            size="xs"
             clearable
             label="المنطقة"
             limit={100}
@@ -316,7 +316,7 @@ export const BulkOrdersItem = ({
             label="تفاصيل اكثر عن العنوان"
             {...form.getInputProps(`orders.${index}.details`)}
             autosize
-            size="sm"
+            size="xs"
             minRows={2}
             maxRows={4}
           />
@@ -329,7 +329,7 @@ export const BulkOrdersItem = ({
             label="الملاحظات"
             {...form.getInputProps(`orders.${index}.notes`)}
             autosize
-            size="sm"
+            size="xs"
             minRows={2}
             maxRows={4}
           />
@@ -338,7 +338,7 @@ export const BulkOrdersItem = ({
           <TextInput
             label="اسم المستلم"
             placeholder=""
-            size="sm"
+            size="xs"
             className="w-full"
             {...form.getInputProps(`orders.${index}.recipientName`)}
           />
@@ -350,7 +350,7 @@ export const BulkOrdersItem = ({
                 label="الكمية"
                 type="number"
                 placeholder=""
-                size="sm"
+                size="xs"
                 className="w-full"
                 {...form.getInputProps(`orders.${index}.quantity`)}
               />
@@ -360,7 +360,7 @@ export const BulkOrdersItem = ({
                 label="الوزن"
                 allowDecimal={false}
                 placeholder=""
-                size="sm"
+                size="xs"
                 className="w-full"
                 {...form.getInputProps(`orders.${index}.weight`)}
               />
@@ -373,7 +373,7 @@ export const BulkOrdersItem = ({
               <MultiSelect
                 searchable
                 label="المنتجات"
-                size="sm"
+                size="xs"
                 placeholder="اختار المنتجات"
                 data={productsOptions}
                 limit={100}

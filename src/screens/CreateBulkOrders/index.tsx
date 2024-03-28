@@ -225,7 +225,7 @@ export const CreateBulkOrders = () => {
         <TextInput
           label="عدد الطلبات"
           type="number"
-          size="md"
+          size="xs"
           value={ordersTotals}
           onChange={(e) => {
             setOrdersTotals(parseInt(e.currentTarget.value));
@@ -245,6 +245,7 @@ export const CreateBulkOrders = () => {
         <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
           <Select
             allowDeselect={false}
+            size="xs"
             data={createBulkOrdersSelect}
             value={createBulkOrdersBy}
             label="ادخال حسب"
@@ -254,7 +255,6 @@ export const CreateBulkOrders = () => {
               setSelectedGovernorate(null);
               setSelectedStore(null);
             }}
-            size="md"
           />
         </Grid.Col>
         <Grid.Col span={{ xs: 12, sm: 6, md: 4 }}>
@@ -270,7 +270,7 @@ export const CreateBulkOrders = () => {
               searchable
               allowDeselect={false}
               placeholder="اختر المحافظة"
-              size="md"
+              size="xs"
             />
           )}
           {createBulkOrdersBy === 'page' && (
@@ -285,7 +285,7 @@ export const CreateBulkOrders = () => {
               }}
               allowDeselect={false}
               placeholder="اختر المتجر"
-              size="md"
+              size="xs"
             />
           )}
         </Grid.Col>
@@ -297,7 +297,7 @@ export const CreateBulkOrders = () => {
             searchable
             allowDeselect={false}
             placeholder="اختر الشركة"
-            size="md"
+            size="xs"
             value={selectedForwardedCompany}
             onChange={(e) => {
               setSelectedForwardedCompany(e);
