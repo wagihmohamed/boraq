@@ -63,6 +63,10 @@ export interface Employee {
   }[];
   inquiryGovernorates: string[];
   inquiryStatuses: string[];
+  createdBy: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface GetEmployeesResponse {

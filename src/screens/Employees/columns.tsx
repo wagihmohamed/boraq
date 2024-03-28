@@ -54,6 +54,13 @@ export const columns: ColumnDef<Employee>[] = [
     },
   },
   {
+    accessorKey: 'createdBy.name',
+    header: 'المنشئ',
+    accessorFn: ({ createdBy }) => {
+      return createdBy?.name ?? 'لا يوجد';
+    },
+  },
+  {
     header: 'المتاجر',
     cell: ({ row }) => {
       const { role, id, managedStores } = row.original;
