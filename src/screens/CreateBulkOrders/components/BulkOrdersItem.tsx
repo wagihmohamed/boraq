@@ -16,6 +16,7 @@ import {
   Switch,
   TextInput,
   Textarea,
+  rem,
 } from '@mantine/core';
 import { X } from 'lucide-react';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
@@ -73,7 +74,7 @@ export const BulkOrdersItem = ({
       phoneArrayIndex: number
     ) => {
       return (
-        <Group key={phone.key}>
+        <Group style={{ width: rem(280) }} key={phone.key}>
           <TextInput
             key={phone.key}
             label={`رقم المستلم ${phoneArrayIndex + 1}`}
@@ -254,7 +255,9 @@ export const BulkOrdersItem = ({
           </Grid.Col>
         )}
         {!hasProducts && (
-          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+          <Grid.Col
+            span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}
+          >
             <NumberInput
               label="مبلغ الوصل "
               placeholder=""
@@ -266,7 +269,7 @@ export const BulkOrdersItem = ({
             />
           </Grid.Col>
         )}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}>
           <NumberInput
             label="رقم الوصل"
             placeholder=""
@@ -318,10 +321,9 @@ export const BulkOrdersItem = ({
             autosize
             size="xs"
             minRows={2}
-            maxRows={4}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           {numberFields}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
