@@ -46,6 +46,12 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
             <OrderDetailCard title="المندوب" value={order.deliveryAgent.name} />
           </Grid.Col>
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+            <OrderDetailCard
+              title="رقم المندوب"
+              value={order.deliveryAgent.phone}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
             <OrderDetailCard title="الوزن" value={order.weight.toString()} />
           </Grid.Col>
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
