@@ -146,6 +146,7 @@ function App() {
 
         {role === 'CLIENT' ? (
           <Route element={<RolesRoute roles={['CLIENT']} />}>
+            <Route path="/orders/add" element={<AddOrder />} />
             <Route path="/statistics" element={<Home />} />
             <Route path="/home" element={<Products />} />
             <Route path="/home/add" element={<AddProduct />} />

@@ -130,7 +130,10 @@ export const OrdersScreen = () => {
         <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
         <OrdersTable
           navigationURL={
-            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+            // eslint-disable-next-line no-nested-ternary
+            role === 'CLIENT'
+              ? '/orders/add'
+              : role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
               ? '/orders-bulk-create'
               : ''
           }

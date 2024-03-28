@@ -72,6 +72,13 @@ export const navSections: NavSection[] = [
     roles: ['ACCOUNTANT', 'DATA_ENTRY', 'COMPANY_MANAGER'],
   },
   {
+    link: '/orders/add',
+    label: 'انشاء طلب',
+    enLabel: 'orders bulk create',
+    icon: IconPackages,
+    roles: ['CLIENT'],
+  },
+  {
     link: '/orders-sheet',
     label: 'استيراد طلبات من اكسل',
     enLabel: 'orders sheet',
