@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Employee } from '@/services/getEmployeesService';
 import { ColumnDef } from '@tanstack/react-table';

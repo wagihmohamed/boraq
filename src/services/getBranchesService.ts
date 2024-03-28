@@ -6,8 +6,6 @@ import { Filters } from './getEmployeesService';
 export interface Branch {
   id: number;
   name: string;
-  email: string;
-  phone: string;
   governorate: keyof typeof governorateArabicNames;
   company: {
     id: number;
