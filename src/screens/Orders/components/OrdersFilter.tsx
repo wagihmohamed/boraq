@@ -38,6 +38,7 @@ import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumenta
 import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
 import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
+import { useBranches } from '@/hooks/useBranches';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -83,6 +84,15 @@ export const CustomOrdersFilter = ({
     size: 100000,
     minified: true,
     roles: ['DELIVERY_AGENT'],
+  });
+
+  const {
+    data: branchesData = {
+      data: [],
+    },
+  } = useBranches({
+    size: 100000,
+    minified: true,
   });
 
   const { data: automaticUpdatesData } = useAutomaticUpdates(
@@ -272,6 +282,23 @@ export const CustomOrdersFilter = ({
                   }}
                   placeholder="اختر نوع التوصيل"
                   data={deliveryTypesArray}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+                <Select
+                  value={filters.branch_id}
+                  allowDeselect
+                  label="الفرع"
+                  searchable
+                  clearable
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      branch_id: e || '',
+                    });
+                  }}
+                  placeholder="اختر الفرع"
+                  data={getSelectOptions(branchesData.data)}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>

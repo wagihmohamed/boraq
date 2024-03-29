@@ -15,7 +15,7 @@ const OrderDetailCard = ({
   value,
 }: {
   title: string;
-  value: string;
+  value?: string;
 }) => (
   <Card withBorder radius="md" padding="xl" bg="var(--mantine-color-body)">
     <div className="flex w-full gap-1">
@@ -23,7 +23,7 @@ const OrderDetailCard = ({
         {title}:{' '}
       </Text>
       <Text fz="lg" fw={400}>
-        {value}
+        {value || 'لا يوجد'}
       </Text>
     </div>
   </Card>
@@ -35,21 +35,20 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
   return (
     <>
       <Modal
-        size="70%"
+        size="auto"
         opened={opened}
         onClose={close}
         title="تفاصيل الطلب"
         centered
       >
         <Grid grow gutter="sm">
-          {order.deliveryAgent && (
-            <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
-              <OrderDetailCard
-                title="المندوب"
-                value={order.deliveryAgent.name}
-              />
-            </Grid.Col>
-          )}
+          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+            <OrderDetailCard
+              title="المندوب"
+              value={order?.deliveryAgent?.name || 'لا يوجد مندوب'}
+            />
+          </Grid.Col>
+
           {order.deliveryAgent && (
             <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
               <OrderDetailCard
@@ -80,6 +79,9 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
           </Grid.Col>
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
             <OrderDetailCard title="المتجر" value={order.store.name} />
+          </Grid.Col>
+          <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
+            <OrderDetailCard title="الفرع" value={order?.branch?.name} />
           </Grid.Col>
           <Grid.Col span={{ sm: 6, xs: 12, md: 4, lg: 3 }}>
             <OrderDetailCard title="العميل" value={order.client.name} />

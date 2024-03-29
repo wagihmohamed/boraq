@@ -32,6 +32,10 @@ export interface Order {
   locationID: number;
   storeID: number;
   deliveryCost: string;
+  branch: {
+    id: number;
+    name: string;
+  } | null;
   clientNet: string;
   companyNet: string;
   deliveryAgent: {
