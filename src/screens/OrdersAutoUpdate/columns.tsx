@@ -3,7 +3,10 @@ import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { orderStatusArabicNames } from '@/lib/orderStatusArabicNames';
 import { APIError } from '@/models';
 import { deleteAutomaticUpdateDateService } from '@/services/deleteAutomaticUpdateDate';
-import { AutomaticUpdate } from '@/services/getAutomaticUpdates';
+import {
+  AutomaticUpdate,
+  returnConditionArabicNames,
+} from '@/services/getAutomaticUpdates';
 import { ActionIcon, Button, Switch, rem } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -25,6 +28,15 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
     header: 'الاسم',
     cell: ({ row }) => {
       return <div>{orderStatusArabicNames[row.original.orderStatus]}</div>;
+    },
+  },
+  {
+    accessorKey: 'returnCondition',
+    header: 'شرط الراجع',
+    cell: ({ row }) => {
+      return (
+        <div>{returnConditionArabicNames[row.original.returnCondition]}</div>
+      );
     },
   },
   {
