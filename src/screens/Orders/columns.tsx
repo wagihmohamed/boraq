@@ -117,10 +117,11 @@ export const columns: ColumnDef<Order>[] = [
   {
     header: 'العنوان',
     cell: ({ row }) => {
-      const { recipientAddress, governorate } = row.original;
+      const { recipientAddress, governorate, location } = row.original;
       return (
         <Text truncate maw={rem(150)} size="sm">
           {governorateArabicNames[governorate]}{' '}
+          {location?.name && `- ${location?.name}`}{' '}
           {recipientAddress && `- ${recipientAddress}`}
         </Text>
       );

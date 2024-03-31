@@ -29,6 +29,10 @@ export interface Order {
   deliveryAgentID: number;
   deliveryDate: string | null;
   governorate: keyof typeof governorateArabicNames;
+  location: {
+    id: number;
+    name: string;
+  } | null;
   locationID: number;
   storeID: number;
   deliveryCost: string;
