@@ -48,11 +48,11 @@ export const columns: ColumnDef<AutomaticUpdate>[] = [
   },
   {
     accessorKey: 'updateAt',
-    header: 'التحقق بعد',
+    header: 'يوميا علي الساعة',
   },
   {
     accessorKey: 'checkAfter',
-    header: 'القيمة بالساعة',
+    header: 'القيمة (بالساعة)',
   },
   {
     accessorKey: 'enabled',
