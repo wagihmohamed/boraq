@@ -70,7 +70,7 @@ export const NotificationsList = () => {
     <Menu position="bottom-end" shadow="md" width={rem(338)}>
       <Menu.Target>
         <Button variant="subtle" className="relative">
-          <IconBell className="text-white" />
+          <IconBell className="text-foreground" />
           {isUnseen && (
             <div className="absolute top-0 right-2 w-3 h-3 bg-primary rounded-full animate-pulse" />
           )}
