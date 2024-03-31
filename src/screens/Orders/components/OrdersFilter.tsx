@@ -39,6 +39,7 @@ import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
 import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
 import { useBranches } from '@/hooks/useBranches';
+import { DeleteAllSelectedOrdersModal } from './DeleteAllSelectedOrdersModal';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -216,6 +217,7 @@ export const CustomOrdersFilter = ({
             <ChangeOrdersDelivery />
             <ChangeOrdersStatus />
             <ForwardOrdersToCompany />
+            {role === 'COMPANY_MANAGER' && <DeleteAllSelectedOrdersModal />}
           </div>
         </Grid.Col>
       </Grid>
