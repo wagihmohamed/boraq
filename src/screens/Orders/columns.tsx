@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
@@ -98,13 +99,17 @@ export const columns: ColumnDef<Order>[] = [
     header: 'رقم الهاتف',
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
-      return recipientPhones.length > 1 ? (
-        <Flex gap="xs">
+      return recipientPhones.length > 0 ? (
+        recipientPhones.length === 1 ? (
           <Text size="sm">{recipientPhones[0]}</Text>
-          <Badge color="blue" variant="light">
-            {recipientPhones.length - 1}
-          </Badge>
-        </Flex>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Text size="sm">{recipientPhones[0]}</Text>
+            <Badge color="blue" variant="light">
+              +{recipientPhones.length - 1}
+            </Badge>
+          </div>
+        )
       ) : (
         <Text size="sm">لا يوجد</Text>
       );

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { columns } from './components/columns';
 import { AppLayout } from '@/components/AppLayout';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SheetUploader } from './components/SheetUploader';
 import * as XLSX from 'xlsx';
 import { DataTable } from './components/Table';
@@ -43,7 +44,7 @@ export const OrdersSheet = () => {
   const [orders, setOrders] = useState<OrderSheet[]>([]);
   const { data: publicLocationData } = usePublicLocations();
 
-  const handleDrop = async (files: File[]) => {
+  const handleDrop = useCallback((files: File[]) => {
     setFiles(files);
     const reader = new FileReader();
     reader.readAsBinaryString(files[0]);
@@ -67,7 +68,8 @@ export const OrdersSheet = () => {
 
       setOrders(transformedJson);
     };
-  };
+  }, []);
+
   const {
     data: storesData = {
       data: [],
@@ -91,15 +93,6 @@ export const OrdersSheet = () => {
       toast.error(error.response?.data.message || 'حدث خطأ ما');
     },
   });
-
-  const publicLocationMap: Record<string, number> | undefined =
-    publicLocationData?.reduce(
-      (acc, curr) => ({
-        ...acc,
-        [curr.name]: curr.id,
-      }),
-      {}
-    );
 
   const governorateMapArabicToEnglish: Record<string, string> = {
     الأنبار: 'AL_ANBAR',
@@ -129,7 +122,9 @@ export const OrdersSheet = () => {
       withProducts: false,
       storeID: Number(selectedStore),
       receiptNumber: Number(order.orderNumber),
-      locationID: publicLocationMap?.[order.city] || 1,
+      locationID: publicLocationData?.find(
+        (location) => location.name === order.city
+      )?.id,
       governorate: governorateMapArabicToEnglish[order.Governorate],
       notes: order.notes,
       recipientName: order.customerName,
@@ -166,7 +161,7 @@ export const OrdersSheet = () => {
           w={rem(200)}
           onClick={handleCreateOrders}
           loading={isLoading}
-          // disabled={isLoading || !orders.length}
+          disabled={isLoading || !orders.length}
         >
           اضافة الطلبات
         </Button>
