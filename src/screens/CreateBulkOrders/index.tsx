@@ -13,7 +13,7 @@ import { randomId } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { z } from 'zod';
+// import { z } from 'zod';
 import { CreateStoreModal } from './components/CreateStoreModal';
 import { CreateClientAndStoreModal } from './components/CreateClientAndStoreModal';
 import { useTenants } from '@/hooks/useTenants';
@@ -173,7 +173,8 @@ export const CreateBulkOrders = () => {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof createBulkOfOrdersSchema>) => {
+  const handleSubmit = () => {
+    const { values } = form;
     const ordersArray = values.orders.map((order) => {
       if (order.withProducts) {
         return {
@@ -186,7 +187,7 @@ export const CreateBulkOrders = () => {
           storeID: Number(selectedStore || order.storeID),
           locationID: Number(order.locationID),
           details: order.details,
-          notes: order.notes,
+          notes: order.details,
           products: order.products?.map((product) => {
             return {
               productID: Number(product.productID),
@@ -206,7 +207,7 @@ export const CreateBulkOrders = () => {
         recipientPhones: order.recipientPhones.map((phone) => phone.phone),
         storeID: Number(selectedStore || order.storeID),
         details: order.details,
-        notes: order.notes,
+        notes: order.details,
         locationID: Number(order.locationID),
         totalCost: Number(order.totalCost),
       };
@@ -305,7 +306,7 @@ export const CreateBulkOrders = () => {
           />
         </Grid.Col>
       </Grid>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
+      <div>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
             selectedGovernorate={selectedGovernorate}
@@ -319,6 +320,9 @@ export const CreateBulkOrders = () => {
         ))}
         <Button
           loading={isLoading}
+          onClick={() => {
+            form.onSubmit(handleSubmit)();
+          }}
           disabled={
             isLoading ||
             (createBulkOrdersBy === 'page' && !selectedStore) ||
@@ -331,7 +335,7 @@ export const CreateBulkOrders = () => {
         >
           رفع وتأكيد
         </Button>
-      </form>
+      </div>
     </AppLayout>
   );
 };
