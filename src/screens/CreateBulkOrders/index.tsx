@@ -9,7 +9,7 @@ import { CreateOrderPayload, createOrderService } from '@/services/createOrder';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
-import { randomId } from '@mantine/hooks';
+import { randomId, useDisclosure } from '@mantine/hooks';
 import { BulkOrdersItem } from './components/BulkOrdersItem';
 import { governorateArray } from '@/lib/governorateArabicNames ';
 import { getSelectOptions } from '@/lib/getSelectOptions';
@@ -60,6 +60,9 @@ const createBulkOrdersSelect = [
 ];
 
 export const CreateBulkOrders = () => {
+  const [active, { toggle }] = useDisclosure(false);
+  const [focusedFormItem, setFocusedFormItem] = useState<number | null>(null);
+
   const [ordersTotals, setOrdersTotals] = useState(1);
   const [createBulkOrdersBy, setCreateBulkOrdersBy] = useState<string | null>(
     'governorate'
@@ -216,6 +219,12 @@ export const CreateBulkOrders = () => {
     createOrder(ordersArray);
   };
 
+  const onKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      toggle();
+    }
+  };
+
   return (
     <AppLayout>
       <div className="flex gap-4 flex-wrap">
@@ -309,6 +318,13 @@ export const CreateBulkOrders = () => {
       <div>
         {ordersArray.map((order, index) => (
           <BulkOrdersItem
+            onKeyUp={(e) => {
+              if (ordersArray.length - 1 > index) {
+                onKeyUp(e);
+                setFocusedFormItem(index + 1);
+              }
+            }}
+            active={active && focusedFormItem === index}
             selectedGovernorate={selectedGovernorate}
             form={form}
             handleDeleteOrder={handleDeleteOrder}

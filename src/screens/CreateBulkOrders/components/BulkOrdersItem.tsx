@@ -8,6 +8,7 @@ import {
   ActionIcon,
   Chip,
   Fieldset,
+  FocusTrap,
   Grid,
   Group,
   MultiSelect,
@@ -28,6 +29,8 @@ import { formatMobileNumber } from '@/lib/formateMobileNumber';
 import { useLocations } from '@/hooks/useLocations';
 
 interface BulkOrdersItemProps {
+  active: boolean;
+  onKeyUp: (e: React.KeyboardEvent<HTMLDivElement>) => void;
   index: number;
   form: UseFormReturnType<OrderBulkFormValues>;
   handleDeleteOrder: (index: number) => void;
@@ -38,6 +41,8 @@ interface BulkOrdersItemProps {
 
 export const BulkOrdersItem = ({
   form,
+  active,
+  onKeyUp,
   handleDeleteOrder,
   index,
   storesData,
@@ -76,6 +81,8 @@ export const BulkOrdersItem = ({
       return (
         <Group style={{ width: rem(280) }} key={phone.key}>
           <TextInput
+            onKeyUp={onKeyUp}
+            onKeyDown={onKeyUp}
             key={phone.key}
             label={`رقم المستلم ${phoneArrayIndex + 1}`}
             placeholder=""
@@ -243,30 +250,34 @@ export const BulkOrdersItem = ({
       <Grid grow gutter="lg">
         {createBulkOrdersBy !== 'page' && (
           <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              size="xs"
-              label="المتجر"
-              placeholder="اختار المتجر"
-              limit={100}
-              data={getSelectOptions(storesData)}
-              {...form.getInputProps(`orders.${index}.storeID`)}
-            />
+            <FocusTrap active={createBulkOrdersBy !== 'page' && active}>
+              <Select
+                searchable
+                size="xs"
+                label="المتجر"
+                placeholder="اختار المتجر"
+                limit={100}
+                data={getSelectOptions(storesData)}
+                {...form.getInputProps(`orders.${index}.storeID`)}
+              />
+            </FocusTrap>
           </Grid.Col>
         )}
         {!hasProducts && (
           <Grid.Col
             span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}
           >
-            <NumberInput
-              label="مبلغ الوصل "
-              placeholder=""
-              thousandSeparator=","
-              size="xs"
-              allowNegative={false}
-              className="w-full"
-              {...form.getInputProps(`orders.${index}.totalCost`)}
-            />
+            <FocusTrap active={createBulkOrdersBy === 'page' && active}>
+              <NumberInput
+                label="مبلغ الوصل "
+                placeholder=""
+                thousandSeparator=","
+                size="xs"
+                allowNegative={false}
+                className="w-full"
+                {...form.getInputProps(`orders.${index}.totalCost`)}
+              />
+            </FocusTrap>
           </Grid.Col>
         )}
         <Grid.Col span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}>
