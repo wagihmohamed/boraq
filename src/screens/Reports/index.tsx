@@ -9,6 +9,7 @@ import { BranchReportsView } from './components/TabsViews/BranchReportsView';
 import { RepositoryReportsView } from './components/TabsViews/RepositoryReportsView';
 import { GovernorateReportsView } from './components/TabsViews/GovernorateReportsView';
 import { DeliveryAgentReportsView } from './components/TabsViews/DeliveryAgentReportsView';
+import { useAuth } from '@/store/authStore';
 
 type ReportsTabsTypes =
   | 'COMPANY'
@@ -34,6 +35,7 @@ export const reportsFilterInitialState: ReportsFilters = {
 };
 
 export const ReportsScreen = () => {
+  const { role } = useAuth();
   const [activeTab, setActiveTab] = useState<ReportsTabsTypes>('CLIENT');
 
   const { isError, isInitialLoading } = useReports();
@@ -54,12 +56,16 @@ export const ReportsScreen = () => {
       >
         <Paper className="mb-6 py-2 rounded px-3" withBorder>
           <Tabs.List grow>
-            <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
-            <Tabs.Tab value="GOVERNORATE">محافظة</Tabs.Tab>
-            <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
-            <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
             <Tabs.Tab value="CLIENT">عميل</Tabs.Tab>
-            <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
+            {role !== 'CLIENT' && (
+              <>
+                <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
+                <Tabs.Tab value="GOVERNORATE">محافظة</Tabs.Tab>
+                <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
+                <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
+                <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
+              </>
+            )}
           </Tabs.List>
         </Paper>
         <Tabs.Panel value="COMPANY">

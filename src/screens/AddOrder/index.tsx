@@ -173,7 +173,7 @@ export const AddOrder = () => {
       <TextInput
         label={`رقم المستلم ${index + 1}`}
         placeholder=""
-        size="md"
+        size="sm"
         withAsterisk
         style={{ flex: 1 }}
         {...form.getInputProps(`recipientPhone.${index}.number`)}
@@ -243,7 +243,7 @@ export const AddOrder = () => {
         <TextInput
           label="الاسم"
           placeholder=""
-          size="md"
+          size="sm"
           className="w-full"
           {...form.getInputProps(`products.${index}.label`)}
           disabled
@@ -252,13 +252,15 @@ export const AddOrder = () => {
           label="الكمية"
           placeholder=""
           type="number"
-          size="md"
+          size="sm"
           className="w-full"
           {...form.getInputProps(`products.${index}.quantity`)}
         />
         <Select
           searchable
+          clearable
           label="اللون"
+          size="sm"
           placeholder="اختار اللون"
           data={getSelectedProductColors(product.productID)}
           limit={100}
@@ -266,6 +268,8 @@ export const AddOrder = () => {
         />
         <Select
           searchable
+          clearable
+          size="sm"
           label="المقاس"
           placeholder="اختار المقاس"
           data={getSelectedProductSizes(product.productID)}
@@ -305,7 +309,7 @@ export const AddOrder = () => {
                   placeholder=""
                   allowNegative={false}
                   thousandSeparator=","
-                  size="md"
+                  size="sm"
                   className="w-full"
                   {...form.getInputProps('totalCost')}
                 />
@@ -315,7 +319,7 @@ export const AddOrder = () => {
                   label="الكمية"
                   type="number"
                   placeholder=""
-                  size="md"
+                  size="sm"
                   className="w-full"
                   {...form.getInputProps('quantity')}
                 />
@@ -325,7 +329,7 @@ export const AddOrder = () => {
                   label="الوزن"
                   type="number"
                   placeholder=""
-                  size="md"
+                  size="sm"
                   className="w-full"
                   {...form.getInputProps('weight')}
                 />
@@ -336,7 +340,7 @@ export const AddOrder = () => {
             <TextInput
               label="اسم المستلم"
               placeholder=""
-              size="md"
+              size="sm"
               className="w-full"
               {...form.getInputProps('recipientName')}
             />
@@ -347,6 +351,7 @@ export const AddOrder = () => {
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
             <Select
               searchable
+              size="sm"
               label="المحافظة"
               placeholder="اختار المحافظة"
               limit={100}
@@ -359,6 +364,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="المناطق"
+              size="sm"
               clearable
               limit={100}
               placeholder="اختار المنطقة"
@@ -370,6 +376,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="الفرع"
+              size="sm"
               clearable
               placeholder="اختار الفرع"
               limit={100}
@@ -381,7 +388,7 @@ export const AddOrder = () => {
             <TextInput
               label="العنوان"
               placeholder=""
-              size="md"
+              size="sm"
               className="w-full"
               {...form.getInputProps('recipientAddress')}
             />
@@ -390,6 +397,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="المتجر"
+              size="sm"
               placeholder="اختار المتجر"
               limit={100}
               data={getSelectOptions(storesData.data)}
@@ -401,6 +409,7 @@ export const AddOrder = () => {
             <Select
               searchable
               label="نوع التوصيل"
+              size="sm"
               limit={100}
               placeholder="اختار نوع التوصيل"
               data={deliveryTypesArray}
@@ -414,6 +423,7 @@ export const AddOrder = () => {
                 searchable
                 label="المنتجات"
                 placeholder="اختار المنتجات"
+                size="sm"
                 data={productsOptions}
                 limit={100}
                 onChange={(selectedProductsIds) => {

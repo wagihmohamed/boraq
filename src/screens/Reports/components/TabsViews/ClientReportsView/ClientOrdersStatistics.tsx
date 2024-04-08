@@ -7,6 +7,7 @@ import { CreateReportPayload } from '@/services/createReport';
 import { useClientByStoreId } from '@/hooks/useClients';
 import { useState } from 'react';
 import { transformOrdersFilterToMatchReportParams } from '@/lib/transformOrdersFilterToMatchReportParams';
+import { useAuth } from '@/store/authStore';
 
 interface ClientOrdersStatisticsProps {
   storeID: string;
@@ -21,6 +22,7 @@ export const ClientOrdersStatistics = ({
   ordersLength,
   ordersParams,
 }: ClientOrdersStatisticsProps) => {
+  const { role } = useAuth();
   const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<
     number | string
   >(0);
@@ -111,31 +113,35 @@ export const ClientOrdersStatistics = ({
           }
         />
       </Grid.Col>
-      <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <NumberInput
-          label="اجور توصيل بغداد"
-          value={baghdadDeliveryCost}
-          onChange={(e) => setBaghdadDeliveryCost(e)}
-          placeholder="اجور توصيل بغداد"
-        />
-      </Grid.Col>
-      <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <NumberInput
-          label="اجور توصيل المحافظات"
-          value={governoratesDeliveryCost}
-          onChange={(e) => setGovernoratesDeliveryCost(e)}
-          placeholder="اجور توصيل المحافظات"
-        />
-      </Grid.Col>
-      <Grid.Col className="mt-6" span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
-        <Button
-          disabled={ordersLength === 0 || isLoading || !storeID}
-          onClick={handleCreateReport}
-          loading={isLoading}
-        >
-          انشاء كشف عميل
-        </Button>
-      </Grid.Col>
+      {role !== 'CLIENT' && (
+        <>
+          <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
+            <NumberInput
+              label="اجور توصيل بغداد"
+              value={baghdadDeliveryCost}
+              onChange={(e) => setBaghdadDeliveryCost(e)}
+              placeholder="اجور توصيل بغداد"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
+            <NumberInput
+              label="اجور توصيل المحافظات"
+              value={governoratesDeliveryCost}
+              onChange={(e) => setGovernoratesDeliveryCost(e)}
+              placeholder="اجور توصيل المحافظات"
+            />
+          </Grid.Col>
+          <Grid.Col className="mt-6" span={{ md: 3, lg: 2, sm: 6, xs: 6 }}>
+            <Button
+              disabled={ordersLength === 0 || isLoading || !storeID}
+              onClick={handleCreateReport}
+              loading={isLoading}
+            >
+              انشاء كشف عميل
+            </Button>
+          </Grid.Col>
+        </>
+      )}
     </Grid>
   );
 };

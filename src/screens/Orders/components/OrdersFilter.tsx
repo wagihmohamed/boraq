@@ -37,6 +37,9 @@ import { useAuth } from '@/store/authStore';
 import { useCreateReportsDocumentation } from '@/hooks/useCreateReportsDocumentation';
 import toast from 'react-hot-toast';
 import { useOrdersStore } from '@/store/ordersStore';
+import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
+import { useBranches } from '@/hooks/useBranches';
+import { DeleteAllSelectedOrdersModal } from './DeleteAllSelectedOrdersModal';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -84,8 +87,20 @@ export const CustomOrdersFilter = ({
     roles: ['DELIVERY_AGENT'],
   });
 
+  const {
+    data: branchesData = {
+      data: [],
+    },
+  } = useBranches({
+    size: 100000,
+    minified: true,
+  });
+
   const { data: automaticUpdatesData } = useAutomaticUpdates(
-    filters,
+    {
+      size: 100000,
+      minified: true,
+    },
     role === 'COMPANY_MANAGER'
   );
 
@@ -201,6 +216,8 @@ export const CustomOrdersFilter = ({
             <ChangeOrdersClient />
             <ChangeOrdersDelivery />
             <ChangeOrdersStatus />
+            <ForwardOrdersToCompany />
+            {role === 'COMPANY_MANAGER' && <DeleteAllSelectedOrdersModal />}
           </div>
         </Grid.Col>
       </Grid>
@@ -267,6 +284,23 @@ export const CustomOrdersFilter = ({
                   }}
                   placeholder="اختر نوع التوصيل"
                   data={deliveryTypesArray}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+                <Select
+                  value={filters.branch_id}
+                  allowDeselect
+                  label="الفرع"
+                  searchable
+                  clearable
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      branch_id: e || '',
+                    });
+                  }}
+                  placeholder="اختر الفرع"
+                  data={getSelectOptions(branchesData.data)}
                 />
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>

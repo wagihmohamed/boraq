@@ -1,11 +1,14 @@
 import { getSelectOptions } from '@/lib/getSelectOptions';
-import { governorateArray } from '@/lib/governorateArabicNames ';
-import { Location } from '@/services/getLocations';
+import {
+  governorateArabicNames,
+  governorateArray,
+} from '@/lib/governorateArabicNames ';
 import { Store } from '@/services/getStores';
 import {
   ActionIcon,
   Chip,
   Fieldset,
+  FocusTrap,
   Grid,
   Group,
   MultiSelect,
@@ -14,6 +17,7 @@ import {
   Switch,
   TextInput,
   Textarea,
+  rem,
 } from '@mantine/core';
 import { X } from 'lucide-react';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
@@ -22,29 +26,49 @@ import { UseFormReturnType } from '@mantine/form';
 import { OrderBulkFormValues } from '..';
 import { useProducts } from '@/hooks/useProducts';
 import { formatMobileNumber } from '@/lib/formateMobileNumber';
+import { useLocations } from '@/hooks/useLocations';
 
 interface BulkOrdersItemProps {
+  active: boolean;
+  onKeyUp: (e: React.KeyboardEvent<HTMLDivElement>) => void;
   index: number;
   form: UseFormReturnType<OrderBulkFormValues>;
   handleDeleteOrder: (index: number) => void;
   storesData: Store[];
-  locationsData: Location[];
   createBulkOrdersBy: string | null;
+  selectedGovernorate?: string | null;
 }
 
 export const BulkOrdersItem = ({
   form,
+  active,
+  onKeyUp,
   handleDeleteOrder,
   index,
-  locationsData,
   storesData,
   createBulkOrdersBy,
+  selectedGovernorate,
 }: BulkOrdersItemProps) => {
   const {
     data: productsData = {
       data: [],
     },
   } = useProducts({ size: 100000, minified: true });
+
+  const currentFormValues = form.values.orders[index];
+
+  const {
+    data: locationsData = {
+      data: [],
+    },
+  } = useLocations({
+    size: 100000,
+    minified: true,
+    governorate:
+      createBulkOrdersBy === 'governorate'
+        ? (selectedGovernorate as keyof typeof governorateArabicNames)
+        : (currentFormValues.governorate as keyof typeof governorateArabicNames),
+  });
 
   const numberFields = form.values.orders[index].recipientPhones.map(
     (
@@ -55,12 +79,14 @@ export const BulkOrdersItem = ({
       phoneArrayIndex: number
     ) => {
       return (
-        <Group key={phone.key}>
+        <Group style={{ width: rem(280) }} key={phone.key}>
           <TextInput
+            onKeyUp={onKeyUp}
+            onKeyDown={onKeyUp}
             key={phone.key}
             label={`رقم المستلم ${phoneArrayIndex + 1}`}
             placeholder=""
-            size="md"
+            size="xs"
             type="text"
             withAsterisk
             style={{ flex: 1 }}
@@ -148,7 +174,7 @@ export const BulkOrdersItem = ({
           <TextInput
             label="الاسم"
             placeholder=""
-            size="md"
+            size="xs"
             className="w-full"
             {...form.getInputProps(
               `orders.${index}.products.${productsIndex}.label`
@@ -159,7 +185,7 @@ export const BulkOrdersItem = ({
             label="الكمية"
             placeholder=""
             type="number"
-            size="md"
+            size="xs"
             className="w-full"
             {...form.getInputProps(
               `orders.${index}.products.${productsIndex}.quantity`
@@ -167,6 +193,8 @@ export const BulkOrdersItem = ({
           />
           <Select
             searchable
+            size="xs"
+            clearable
             label="اللون"
             placeholder="اختار اللون"
             data={getSelectedProductColors(product.productID)}
@@ -177,6 +205,8 @@ export const BulkOrdersItem = ({
           />
           <Select
             searchable
+            size="xs"
+            clearable
             label="المقاس"
             placeholder="اختار المقاس"
             data={getSelectedProductSizes(product.productID)}
@@ -220,34 +250,41 @@ export const BulkOrdersItem = ({
       <Grid grow gutter="lg">
         {createBulkOrdersBy !== 'page' && (
           <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-            <Select
-              searchable
-              label="المتجر"
-              placeholder="اختار المتجر"
-              limit={100}
-              data={getSelectOptions(storesData)}
-              {...form.getInputProps(`orders.${index}.storeID`)}
-            />
+            <FocusTrap active={createBulkOrdersBy !== 'page' && active}>
+              <Select
+                searchable
+                size="xs"
+                label="المتجر"
+                placeholder="اختار المتجر"
+                limit={100}
+                data={getSelectOptions(storesData)}
+                {...form.getInputProps(`orders.${index}.storeID`)}
+              />
+            </FocusTrap>
           </Grid.Col>
         )}
         {!hasProducts && (
-          <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
-            <NumberInput
-              label="مبلغ الوصل "
-              placeholder=""
-              thousandSeparator=","
-              size="md"
-              allowNegative={false}
-              className="w-full"
-              {...form.getInputProps(`orders.${index}.totalCost`)}
-            />
+          <Grid.Col
+            span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}
+          >
+            <FocusTrap active={createBulkOrdersBy === 'page' && active}>
+              <NumberInput
+                label="مبلغ الوصل "
+                placeholder=""
+                thousandSeparator=","
+                size="xs"
+                allowNegative={false}
+                className="w-full"
+                {...form.getInputProps(`orders.${index}.totalCost`)}
+              />
+            </FocusTrap>
           </Grid.Col>
         )}
-        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 1.5, xl: 1.5, sm: 12, xs: 12 }}>
           <NumberInput
             label="رقم الوصل"
             placeholder=""
-            size="md"
+            size="xs"
             allowNegative={false}
             className="w-full"
             {...form.getInputProps(`orders.${index}.receiptNumber`)}
@@ -258,20 +295,33 @@ export const BulkOrdersItem = ({
             <Select
               searchable
               label="المحافظة"
+              size="xs"
+              clearable
               placeholder="اختار المحافظة"
               limit={100}
               data={governorateArray}
               {...form.getInputProps(`orders.${index}.governorate`)}
+              onChange={(value) => {
+                form.setFieldValue(`orders.${index}.locationID`, '');
+                form.setFieldValue(`orders.${index}.governorate`, value);
+              }}
             />
           </Grid.Col>
         )}
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           <Select
+            key={currentFormValues.governorate}
             searchable
+            size="xs"
+            clearable
             label="المنطقة"
             limit={100}
             placeholder="اختار المنطقة"
-            data={getSelectOptions(locationsData)}
+            disabled={
+              (createBulkOrdersBy === 'governorate' && !selectedGovernorate) ||
+              (createBulkOrdersBy === 'page' && !currentFormValues.governorate)
+            }
+            data={getSelectOptions(locationsData.data)}
             {...form.getInputProps(`orders.${index}.locationID`)}
           />
         </Grid.Col>
@@ -280,11 +330,11 @@ export const BulkOrdersItem = ({
             label="تفاصيل اكثر عن العنوان"
             {...form.getInputProps(`orders.${index}.details`)}
             autosize
+            size="xs"
             minRows={2}
-            maxRows={4}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6, lg: 3, xl: 3, sm: 12, xs: 12 }}>
+        <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
           {numberFields}
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
@@ -292,6 +342,7 @@ export const BulkOrdersItem = ({
             label="الملاحظات"
             {...form.getInputProps(`orders.${index}.notes`)}
             autosize
+            size="xs"
             minRows={2}
             maxRows={4}
           />
@@ -300,7 +351,7 @@ export const BulkOrdersItem = ({
           <TextInput
             label="اسم المستلم"
             placeholder=""
-            size="md"
+            size="xs"
             className="w-full"
             {...form.getInputProps(`orders.${index}.recipientName`)}
           />
@@ -312,7 +363,7 @@ export const BulkOrdersItem = ({
                 label="الكمية"
                 type="number"
                 placeholder=""
-                size="md"
+                size="xs"
                 className="w-full"
                 {...form.getInputProps(`orders.${index}.quantity`)}
               />
@@ -322,7 +373,7 @@ export const BulkOrdersItem = ({
                 label="الوزن"
                 allowDecimal={false}
                 placeholder=""
-                size="md"
+                size="xs"
                 className="w-full"
                 {...form.getInputProps(`orders.${index}.weight`)}
               />
@@ -335,6 +386,7 @@ export const BulkOrdersItem = ({
               <MultiSelect
                 searchable
                 label="المنتجات"
+                size="xs"
                 placeholder="اختار المنتجات"
                 data={productsOptions}
                 limit={100}

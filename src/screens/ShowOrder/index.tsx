@@ -131,7 +131,7 @@ export const ShowOrder = () => {
             label="مندوب التوصيل"
             size="md"
             className="w-full"
-            value={orederDetails.data?.deliveryAgent?.name}
+            value={orederDetails.data?.deliveryAgent?.name || 'لم يتم الاختيار'}
             disabled
           />
         </Grid.Col>

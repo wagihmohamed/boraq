@@ -18,6 +18,11 @@ export const DeliveryAgentReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     delivery_agent_report: '0',
+    branch_report: '0',
+    client_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
+    company_report: undefined,
   });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,

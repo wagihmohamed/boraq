@@ -25,13 +25,11 @@ export const EditBranch = () => {
   } = useBranchDetails(parseInt(id));
   const queryClient = useQueryClient();
   const { mutate: editBranch, isLoading: isEditing } = useMutation({
-    mutationFn: ({ email, governorate, name, phone }: EditBranchPayload) =>
+    mutationFn: ({ governorate, name }: EditBranchPayload) =>
       editBranchService({
         data: {
-          email,
           governorate,
           name,
-          phone,
         },
         id: parseInt(id),
       }),
@@ -49,8 +47,6 @@ export const EditBranch = () => {
     initialValues: {
       location: '',
       name: '',
-      email: '',
-      phone: '',
     },
   });
 
@@ -59,18 +55,11 @@ export const EditBranch = () => {
       (item) => item.value === branchDetails?.data?.governorate
     );
     form.setValues({
-      email: branchDetails?.data?.email,
       name: branchDetails?.data?.name,
-      phone: branchDetails?.data?.phone,
       location: transformedLocation?.label,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    branchDetails?.data?.email,
-    branchDetails?.data?.governorate,
-    branchDetails?.data?.name,
-    branchDetails?.data?.phone,
-  ]);
+  }, [branchDetails?.data?.governorate, branchDetails?.data?.name]);
 
   const handleSubmit = (values: z.infer<typeof editBranchSchema>) => {
     const enBranch = governorateArray.find(
@@ -81,10 +70,8 @@ export const EditBranch = () => {
       return;
     }
     editBranch({
-      email: values.email,
       governorate: enBranch.value,
       name: values.name,
-      phone: values.phone,
     });
   };
 
@@ -117,21 +104,14 @@ export const EditBranch = () => {
           data={governorateArray}
           {...form.getInputProps('location')}
         />
-        <TextInput
-          label="البريد الالكتروني"
-          placeholder=""
+        <Button
+          loading={isEditing}
+          disabled={isEditing}
+          type="submit"
+          fullWidth
+          mt="xl"
           size="md"
-          className="w-full"
-          {...form.getInputProps('email')}
-        />
-        <TextInput
-          label="رقم الهاتف"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('phone')}
-        />
-        <Button loading={isEditing} type="submit" fullWidth mt="xl" size="md">
+        >
           تعديل
         </Button>
         <Button

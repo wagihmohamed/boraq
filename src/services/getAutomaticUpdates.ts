@@ -6,6 +6,11 @@ import { Filters } from './getEmployeesService';
 
 export type ReturnCondition = 'WITH_AGENT' | 'IN_REPOSITORY';
 
+export const returnConditionArabicNames = {
+  WITH_AGENT: 'مع المندوب',
+  IN_REPOSITORY: 'في المخزن',
+};
+
 export interface AutomaticUpdate {
   id: number;
   createdAt: string;
@@ -21,7 +26,7 @@ export interface AutomaticUpdate {
     name: string;
   };
   newOrderStatus: keyof typeof governorateArabicNames;
-  returnCondition: keyof typeof orderStatusArabicNames;
+  returnCondition: ReturnCondition;
   checkAfter: number;
   updateAt: string;
   enabled: boolean;

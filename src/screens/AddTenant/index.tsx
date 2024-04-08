@@ -74,7 +74,6 @@ export const AddTenant = () => {
       name: values.name,
       phone: values.phone,
       website: values.website,
-      logo: values.logo[0],
       registrationText: values.registrationText,
       governoratePrice: values.governoratePrice,
       deliveryAgentFee: values.deliveryAgentFee,
@@ -87,6 +86,7 @@ export const AddTenant = () => {
     };
     formData.append('companyData', JSON.stringify(companyData));
     formData.append('companyManager', JSON.stringify(companyManager));
+    formData.append('logo', values.logo[0]);
     createTenantAction(formData);
   };
 

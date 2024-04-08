@@ -37,9 +37,15 @@ export const ordersFilterInitialState: OrdersFilter = {
 };
 
 export const DeletedOrdersView = () => {
-  const [ordersFilters, setOrdersFilters] = useState<OrdersFilter>(
-    ordersFilterInitialState
-  );
+  const [ordersFilters, setOrdersFilters] = useState<OrdersFilter>({
+    ...ordersFilterInitialState,
+    branch_report: undefined,
+    client_report: undefined,
+    company_report: undefined,
+    delivery_agent_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
+  });
   const [search, setSearch] = useDebouncedState('', 300);
 
   const {

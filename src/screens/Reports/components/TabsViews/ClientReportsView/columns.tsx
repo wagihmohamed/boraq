@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
-// import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { Report as IReport } from '@/services/getReports';
 import { reportStatusArabicNames } from '@/lib/reportStatusArabicNames';
-import { reportTypeArabicNames } from '@/lib/reportTypeArabicNames';
 import { format, parseISO } from 'date-fns';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
-import { ActionIcon, Checkbox, HoverCard, Text, rem } from '@mantine/core';
+import { ActionIcon, Checkbox } from '@mantine/core';
 import { IconFileTypePdf } from '@tabler/icons-react';
 import {
   DropdownMenuContent,
@@ -21,6 +19,37 @@ import { DeleteReport } from '../../DeleteReport';
 import { ChangeReportStatus } from '../../ChangeReportStatus';
 import Arabic from 'date-fns/locale/ar-EG';
 import { useClientReportStoreStore } from '@/store/useClientReportsStore';
+
+const getReportName = (type: IReport['type'], row: IReport): string => {
+  const {
+    repositoryReport,
+    branchReport,
+    clientReport,
+    deliveryAgentReport,
+    governorateReport,
+  } = row;
+
+  switch (type) {
+    case 'REPOSITORY':
+      return repositoryReport?.repository.name || '';
+    case 'BRANCH':
+      return branchReport?.branch.name || '';
+    case 'CLIENT':
+      return clientReport?.client.name || '';
+    case 'DELIVERY_AGENT':
+      return deliveryAgentReport?.deliveryAgent.name || '';
+    case 'GOVERNORATE':
+      return (
+        (governorateReport &&
+          governorateArabicNames[governorateReport?.governorate]) ||
+        ''
+      );
+    case 'COMPANY':
+      return '';
+    default:
+      return '';
+  }
+};
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -152,32 +181,10 @@ export const columns: ColumnDef<IReport>[] = [
     },
   },
   {
-    id: 'actions',
+    header: 'الملف',
     cell: ({ row }) => {
-      const {
-        id,
-        branchReport,
-        clientReport,
-        deliveryAgentReport,
-        governorateReport,
-        repositoryReport,
-        type,
-        status,
-      } = row.original;
-
-      const reportNameMap: Record<IReport['type'], string> = {
-        REPOSITORY: repositoryReport?.repository.name || '',
-        BRANCH: branchReport?.branch.name || '',
-        CLIENT: clientReport?.client.name || '',
-        DELIVERY_AGENT: deliveryAgentReport?.deliveryAgent.name || '',
-        GOVERNORATE:
-          (governorateReport &&
-            governorateArabicNames[governorateReport?.governorate]) ||
-          '',
-        COMPANY: '',
-      } as const;
-
-      const pdfTitle = `${reportNameMap[type]} - ${reportTypeArabicNames[type]}`;
+      const { id, type } = row.original;
+      const pdfTitle = getReportName(type, row.original);
 
       const { mutateAsync: getReportPDF } = useReportsPDF(pdfTitle);
 
@@ -188,6 +195,17 @@ export const columns: ColumnDef<IReport>[] = [
           error: (error) => error.message || 'حدث خطأ ما',
         });
       };
+      return (
+        <ActionIcon variant="filled" onClick={handleDownload}>
+          <IconFileTypePdf />
+        </ActionIcon>
+      );
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const { id, status } = row.original;
 
       return (
         <DropdownMenu dir="rtl">
@@ -199,18 +217,6 @@ export const columns: ColumnDef<IReport>[] = [
           <DropdownMenuContent align="center">
             <DeleteReport id={id} />
             <ChangeReportStatus initialStatus={status} id={id} />
-            <div className="flex justify-center">
-              <HoverCard width={rem(120)} shadow="md">
-                <HoverCard.Target>
-                  <ActionIcon variant="filled" onClick={handleDownload}>
-                    <IconFileTypePdf />
-                  </ActionIcon>
-                </HoverCard.Target>
-                <HoverCard.Dropdown>
-                  <Text size="sm">تحميل الكشف</Text>
-                </HoverCard.Dropdown>
-              </HoverCard>
-            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       );

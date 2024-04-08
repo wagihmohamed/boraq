@@ -29,9 +29,17 @@ export interface Order {
   deliveryAgentID: number;
   deliveryDate: string | null;
   governorate: keyof typeof governorateArabicNames;
+  location: {
+    id: number;
+    name: string;
+  } | null;
   locationID: number;
   storeID: number;
   deliveryCost: string;
+  branch: {
+    id: number;
+    name: string;
+  } | null;
   clientNet: string;
   companyNet: string;
   deliveryAgent: {
@@ -39,7 +47,7 @@ export interface Order {
     name: string;
     phone: string;
     deliveryCost: string;
-  };
+  } | null;
   products: {
     productID: number;
     quantity: number;
@@ -98,6 +106,8 @@ export interface Order {
     id: number;
     name: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OrderInquiryEmployee {
@@ -130,7 +140,7 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
-  forwarded_by_id?: number;
+  forwarded_by_id?: string;
   forwarded_from_id?: string;
   search?: string;
   sort?: string;

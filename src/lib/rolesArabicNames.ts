@@ -28,6 +28,7 @@ export const rolesArabicNames = {
   INQUIRY_EMPLOYEE: 'موظف دعم', // need to clarify
   ADMIN_ASSISTANT: 'مساعد ادمن',
   CLIENT_ASSISTANT: 'مساعد عميل',
+  CLIENT: 'عميل',
 };
 
 export const rolesArray: { label: string; value: string }[] = Object.entries(

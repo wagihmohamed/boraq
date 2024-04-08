@@ -3,8 +3,6 @@ import { createBranchEndpoint } from '@/api/apisUrl';
 
 export interface CreateBranchPayload {
   name: string;
-  email: string;
-  phone: string;
   governorate: string;
 }
 

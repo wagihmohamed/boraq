@@ -37,6 +37,12 @@ export const ordersFilterInitialState: OrdersFilter = {
   automatic_update_id: '',
   minified: false,
   confirmed: true,
+  branch_report: '0',
+  client_report: '0',
+  company_report: '0',
+  delivery_agent_report: '0',
+  governorate_report: '0',
+  repository_report: '0',
 };
 
 interface OrdersSearchParameters {
@@ -52,8 +58,12 @@ export const OrdersScreen = () => {
   const location = useLocation();
   const [filters, setFilters] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
-    confirmed: true,
-    forwarded: true,
+    branch_report: undefined,
+    client_report: undefined,
+    company_report: undefined,
+    delivery_agent_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
   });
   const [search, setSearch] = useDebouncedState('', 300);
 
@@ -120,7 +130,10 @@ export const OrdersScreen = () => {
         <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
         <OrdersTable
           navigationURL={
-            role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
+            // eslint-disable-next-line no-nested-ternary
+            role === 'CLIENT'
+              ? '/orders/add'
+              : role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
               ? '/orders-bulk-create'
               : ''
           }

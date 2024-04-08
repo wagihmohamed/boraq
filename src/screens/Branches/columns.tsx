@@ -23,15 +23,6 @@ export const columns: ColumnDef<Branch>[] = [
     accessorKey: 'governorate',
     header: 'المحافظة',
   },
-
-  {
-    accessorKey: 'email',
-    header: 'البريد الالكتروني',
-  },
-  {
-    accessorKey: 'phone',
-    header: 'رقم الهاتف',
-  },
   {
     id: 'actions',
     cell: ({ row }) => {

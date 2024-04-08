@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
@@ -10,7 +11,6 @@ import {
   ActionIcon,
   Badge,
   Checkbox,
-  Flex,
   HoverCard,
   Menu,
   Text,
@@ -27,7 +27,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
-import { OrderInquiryEmployees } from './components/OrderInquiryEmployees';
+import { OrdersFullDetails } from './components/OrdersFullDetails';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -65,20 +65,23 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
       return (
-        <Checkbox
-          checked={isOrderExist(row.original.id.toString())}
-          onChange={(value) => {
-            const isChecked = value.currentTarget.checked;
-            const { id, recipientName } = row.original;
-            if (isChecked) {
-              addOrder({ id: id.toString(), name: recipientName });
-              row.toggleSelected(true);
-            } else {
-              row.toggleSelected(false);
-              deleteOrder(id.toString());
-            }
-          }}
-        />
+        <div className="flex items-center gap-4">
+          <Checkbox
+            checked={isOrderExist(row.original.id.toString())}
+            onChange={(value) => {
+              const isChecked = value.currentTarget.checked;
+              const { id, recipientName } = row.original;
+              if (isChecked) {
+                addOrder({ id: id.toString(), name: recipientName });
+                row.toggleSelected(true);
+              } else {
+                row.toggleSelected(false);
+                deleteOrder(id.toString());
+              }
+            }}
+          />
+          <OrdersFullDetails order={row.original} />
+        </div>
       );
     },
   },
@@ -95,13 +98,17 @@ export const columns: ColumnDef<Order>[] = [
     header: 'رقم الهاتف',
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
-      return recipientPhones.length > 1 ? (
-        <Flex gap="xs">
+      return recipientPhones.length > 0 ? (
+        recipientPhones.length === 1 ? (
           <Text size="sm">{recipientPhones[0]}</Text>
-          <Badge color="blue" variant="light">
-            {recipientPhones.length - 1}
-          </Badge>
-        </Flex>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Text size="sm">{recipientPhones[0]}</Text>
+            <Badge color="blue" variant="light">
+              +{recipientPhones.length - 1}
+            </Badge>
+          </div>
+        )
       ) : (
         <Text size="sm">لا يوجد</Text>
       );
@@ -110,10 +117,12 @@ export const columns: ColumnDef<Order>[] = [
   {
     header: 'العنوان',
     cell: ({ row }) => {
-      const { recipientAddress, governorate } = row.original;
+      const { recipientAddress, governorate, location } = row.original;
       return (
-        <Text truncate maw={rem(200)} size="sm">
-          {governorateArabicNames[governorate]} - {recipientAddress}
+        <Text truncate maw={rem(150)} size="sm">
+          {governorateArabicNames[governorate]}{' '}
+          {location?.name && `- ${location?.name}`}{' '}
+          {recipientAddress && `- ${recipientAddress}`}
         </Text>
       );
     },
@@ -132,6 +141,10 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'paidAmount',
     header: 'المبلغ المدفوع',
+  },
+  {
+    accessorKey: 'client.name',
+    header: 'العميل',
   },
   {
     accessorKey: 'companyNet',
@@ -162,6 +175,7 @@ export const columns: ColumnDef<Order>[] = [
     header: 'صافي المندوب',
     cell: ({ row }) => {
       const { deliveryAgent } = row.original;
+      if (!deliveryAgent) return <Text size="sm">لا يوجد</Text>;
       return <Text size="sm">{deliveryAgent?.deliveryCost || 0}</Text>;
     },
   },
@@ -373,7 +387,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { id, recipientName, status, inquiryEmployees } = row.original;
+      const { id, recipientName, status } = row.original;
       const { mutateAsync: getReceipt } = useOrderReceipt(recipientName);
 
       const handleDownload = () => {
@@ -394,11 +408,6 @@ export const columns: ColumnDef<Order>[] = [
         { open: openChangeStatus, close: closeChangeStatus },
       ] = useDisclosure(false);
 
-      const [
-        editInquiryEmployeesOpened,
-        { open: openEditInquiryEmployees, close: closeEditInquiryEmployees },
-      ] = useDisclosure(false);
-
       const [isMenuOpen, setMenuOpen] = useState(false);
 
       return (
@@ -406,13 +415,7 @@ export const columns: ColumnDef<Order>[] = [
           zIndex={150}
           opened={isMenuOpen}
           onChange={() => {
-            if (
-              timelineOpened ||
-              deleteOpened ||
-              changeStatusOpened ||
-              editInquiryEmployeesOpened
-            )
-              return;
+            if (timelineOpened || deleteOpened || changeStatusOpened) return;
             setMenuOpen(!isMenuOpen);
           }}
         >
@@ -462,7 +465,7 @@ export const columns: ColumnDef<Order>[] = [
               open={openChangeStatus}
               status={status}
             />
-            <OrderInquiryEmployees
+            {/* <OrderInquiryEmployees
               closeMenu={() => setMenuOpen(false)}
               orderID={id}
               inquiryEmployees={inquiryEmployees.map((employee) => ({
@@ -472,7 +475,7 @@ export const columns: ColumnDef<Order>[] = [
               opened={editInquiryEmployeesOpened}
               close={closeEditInquiryEmployees}
               open={openEditInquiryEmployees}
-            />
+            /> */}
             <div className="flex justify-center mt-2">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>

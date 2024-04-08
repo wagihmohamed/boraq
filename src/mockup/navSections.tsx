@@ -24,6 +24,7 @@ import {
   IconCheck,
   IconCoin,
   IconSend,
+  IconPlayerTrackNext,
 } from '@tabler/icons-react';
 
 interface NavSection {
@@ -69,6 +70,13 @@ export const navSections: NavSection[] = [
     enLabel: 'orders bulk create',
     icon: IconPackages,
     roles: ['ACCOUNTANT', 'DATA_ENTRY', 'COMPANY_MANAGER'],
+  },
+  {
+    link: '/orders/add',
+    label: 'انشاء طلب',
+    enLabel: 'orders bulk create',
+    icon: IconPackages,
+    roles: ['CLIENT'],
   },
   {
     link: '/orders-sheet',
@@ -167,7 +175,14 @@ export const navSections: NavSection[] = [
     label: 'الطلبات المحالة للشركة',
     enLabel: 'forwarded orders',
     icon: IconSend,
-    roles: ['ADMIN', 'ADMIN_ASSISTANT', 'COMPANY_MANAGER'],
+    roles: ['COMPANY_MANAGER'],
+  },
+  {
+    link: '/forwarded-to-company',
+    label: 'الطلبات المحالة من للشركة',
+    enLabel: 'forwarded orders to company',
+    icon: IconPlayerTrackNext,
+    roles: ['COMPANY_MANAGER'],
   },
   {
     link: '/client-orders-confirm',
@@ -179,6 +194,7 @@ export const navSections: NavSection[] = [
       'ADMIN_ASSISTANT',
       'COMPANY_MANAGER',
       'REPOSITORIY_EMPLOYEE',
+      'DATA_ENTRY',
     ],
   },
   {

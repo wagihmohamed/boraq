@@ -18,13 +18,11 @@ import { governorateArray } from '@/lib/governorateArabicNames ';
 export const AddBranch = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { mutate: createBranch } = useMutation({
-    mutationFn: ({ email, governorate, name, phone }: CreateBranchPayload) => {
+  const { mutate: createBranch, isLoading } = useMutation({
+    mutationFn: ({ governorate, name }: CreateBranchPayload) => {
       return createBranchService({
-        email,
         governorate,
         name,
-        phone,
       });
     },
     onSuccess: () => {
@@ -44,8 +42,6 @@ export const AddBranch = () => {
     initialValues: {
       location: '',
       name: '',
-      email: '',
-      phone: '',
     },
   });
 
@@ -58,10 +54,8 @@ export const AddBranch = () => {
       return;
     }
     createBranch({
-      email: values.email,
       governorate: enLocation.value,
       name: values.name,
-      phone: values.phone,
     });
   };
   return (
@@ -93,21 +87,14 @@ export const AddBranch = () => {
           data={governorateArray}
           {...form.getInputProps('location')}
         />
-        <TextInput
-          label="البريد الالكتروني"
-          placeholder=""
+        <Button
+          loading={isLoading}
+          disabled={isLoading}
+          type="submit"
+          fullWidth
+          mt="xl"
           size="md"
-          className="w-full"
-          {...form.getInputProps('email')}
-        />
-        <TextInput
-          label="رقم الهاتف"
-          placeholder=""
-          size="md"
-          className="w-full"
-          {...form.getInputProps('phone')}
-        />
-        <Button type="submit" fullWidth mt="xl" size="md">
+        >
           اضافة
         </Button>
         <Button

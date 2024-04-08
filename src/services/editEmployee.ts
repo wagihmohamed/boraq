@@ -15,13 +15,15 @@ export interface EditEmployeePayload {
   permissions: keyof (typeof permissionsArabicNames)[];
 }
 
+export interface IEditEmployeePayload {
+  data: FormData;
+  id: number;
+}
+
 export const editEmployeeService = async ({
   data,
   id,
-}: {
-  data: FormData;
-  id: number;
-}) => {
+}: IEditEmployeePayload) => {
   const response = await api.patch<FormData>(editEmployeeEndpoint + id, data, {
     headers: {
       'Content-Type': 'multipart/form-data',

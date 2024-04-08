@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ColumnDef } from '@tanstack/react-table';
 import { Order } from '@/services/getOrders';
-import { deliveryTypesArabicNames } from '@/lib/deliveryTypesArabicNames';
 import { governorateArabicNames } from '@/lib/governorateArabicNames ';
 import { ActionIcon, Badge, Checkbox, Flex, Text, rem } from '@mantine/core';
-import { useOrdersStore } from '@/store/ordersStore';
-import { PermanentlyDeleteOrder } from './PermanentlyDeleteOrder';
-import { format, parseISO } from 'date-fns';
-import { IconRotate } from '@tabler/icons-react';
-import { useActivateOrder } from '@/hooks/useActivateOrder';
 import { OrdersBadge } from '@/components/OrdersBadge';
+import { IconRotate } from '@tabler/icons-react';
+import toast from 'react-hot-toast';
+import { useEditOrder } from '@/hooks/useEditOrder';
+import { useOrdersForwardedToCompany } from '@/store/ordersForwardedToCompany';
 
 export const columns: ColumnDef<Order>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const { deleteAllOrders, setAllOrders, isOrderExist } = useOrdersStore();
+      const { deleteAllOrders, setAllOrders, isOrderExist } =
+        useOrdersForwardedToCompany();
+
       return (
         <Checkbox
           checked={
@@ -44,7 +44,8 @@ export const columns: ColumnDef<Order>[] = [
       );
     },
     cell: ({ row }) => {
-      const { addOrder, deleteOrder, isOrderExist } = useOrdersStore();
+      const { addOrder, deleteOrder, isOrderExist } =
+        useOrdersForwardedToCompany();
       return (
         <Checkbox
           checked={isOrderExist(row.original.id.toString())}
@@ -72,20 +73,43 @@ export const columns: ColumnDef<Order>[] = [
     header: 'اسم المستلم',
   },
   {
+    accessorKey: 'forwardedBy.name',
+    header: 'قام بتحويلها',
+    cell: ({ row }) => {
+      const { forwardedBy } = row.original;
+      return <Text size="sm">{forwardedBy?.name || ''}</Text>;
+    },
+  },
+  {
+    accessorKey: 'client.name',
+    header: 'العميل',
+  },
+  {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
-      return recipientPhones.length > 1 ? (
-        <Flex gap="xs">
-          <Text size="sm">{recipientPhones[0]}</Text>
-          <Badge color="blue" variant="light">
-            {recipientPhones.length - 1}
-          </Badge>
-        </Flex>
-      ) : (
-        <Text size="sm">لا يوجد</Text>
-      );
+      let phoneElement;
+      switch (recipientPhones.length) {
+        case 0:
+          phoneElement = <Text size="sm">لا يوجد</Text>;
+          break;
+        case 1:
+          phoneElement = <Text size="sm">{recipientPhones[0]}</Text>;
+          break;
+        default:
+          phoneElement = (
+            <Flex gap="xs">
+              <Text size="sm">{recipientPhones[0]}</Text>
+              <Badge color="blue" variant="light">
+                {recipientPhones.length - 1}
+              </Badge>
+            </Flex>
+          );
+          break;
+      }
+
+      return phoneElement;
     },
   },
   {
@@ -107,44 +131,7 @@ export const columns: ColumnDef<Order>[] = [
       const formattedNumber = totalCost
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return formattedNumber || '0';
-    },
-  },
-  {
-    accessorKey: 'paidAmount',
-    header: 'المبلغ المدفوع',
-  },
-  {
-    accessorKey: 'companyNet',
-    header: 'صافي الشركة',
-    cell: ({ row }) => {
-      const { companyNet } = row.original;
-      return (
-        <Text dir={Number(companyNet) > 0 ? 'rtl' : 'ltr'} size="sm">
-          {companyNet}
-        </Text>
-      );
-    },
-  },
-  {
-    accessorKey: 'clientNet',
-    header: 'صافي العميل',
-    cell: ({ row }) => {
-      const { clientNet } = row.original;
-      return (
-        <Text dir={Number(clientNet) > 0 ? 'rtl' : 'ltr'} size="sm">
-          {clientNet}
-        </Text>
-      );
-    },
-  },
-  {
-    accessorKey: 'deliveryAgent.deliveryCost',
-    header: 'صافي المندوب',
-    cell: ({ row }) => {
-      if (!row.original.deliveryAgent) return <Text size="sm">لا يوجد</Text>;
-      const { deliveryCost } = row.original.deliveryAgent;
-      return deliveryCost;
+      return formattedNumber;
     },
   },
   {
@@ -160,45 +147,37 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
-    accessorKey: 'deliveryType',
-    header: 'نوع التوصيل',
-    accessorFn: ({ deliveryType }) => {
-      return deliveryTypesArabicNames[deliveryType];
-    },
-  },
-  {
-    accessorKey: 'deletedAt',
-    header: 'تاريخ الحذف',
-    accessorFn: ({ deletedAt }) => {
-      if (deletedAt) {
-        return format(parseISO(deletedAt), 'yyyy-MM-dd');
-      }
-      return '';
-    },
-  },
-  {
-    accessorKey: 'deletedBy.name',
-    header: 'من قبل',
-  },
-  {
     id: 'actions',
     cell: ({ row }) => {
       const { id } = row.original;
 
-      const { mutate: activate } = useActivateOrder();
+      const { mutate: editOrderStatus, isLoading: isEditingOrderLoading } =
+        useEditOrder();
 
-      const handleActivate = () => {
-        activate(id);
+      const handleReturnOrder = () => {
+        editOrderStatus(
+          {
+            id,
+            data: {
+              forwarded: false,
+            },
+          },
+          {
+            onSuccess: () => {
+              toast.success('تم حذف الطلب بنجاح');
+            },
+          }
+        );
       };
 
       return (
         <div className="flex justify-center gap-5">
-          <PermanentlyDeleteOrder id={id} />
           <ActionIcon
+            disabled={isEditingOrderLoading}
             variant="filled"
-            onClick={handleActivate}
-            color="green"
-            aria-label="Settings"
+            onClick={handleReturnOrder}
+            color="teal"
+            aria-label="delete order"
           >
             <IconRotate />
           </ActionIcon>

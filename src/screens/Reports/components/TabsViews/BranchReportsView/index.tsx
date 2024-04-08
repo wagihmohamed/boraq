@@ -18,6 +18,11 @@ export const BranchReportsView = () => {
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     branch_report: '0',
+    client_report: undefined,
+    delivery_agent_report: undefined,
+    governorate_report: undefined,
+    repository_report: undefined,
+    company_report: undefined,
   });
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
