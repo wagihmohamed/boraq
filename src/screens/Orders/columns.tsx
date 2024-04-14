@@ -90,8 +90,8 @@ export const columns: ColumnDef<Order>[] = [
     header: 'رقم الفاتورة',
   },
   {
-    accessorKey: 'recipientName',
-    header: 'اسم المستلم',
+    accessorKey: 'client.name',
+    header: 'العميل',
   },
   {
     accessorKey: 'recipientPhone',
@@ -143,8 +143,8 @@ export const columns: ColumnDef<Order>[] = [
     header: 'المبلغ المدفوع',
   },
   {
-    accessorKey: 'client.name',
-    header: 'العميل',
+    accessorKey: 'store.name',
+    header: 'المتجر',
   },
   {
     accessorKey: 'companyNet',
