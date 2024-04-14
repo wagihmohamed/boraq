@@ -36,7 +36,7 @@ export const ImageUploader = ({
           size={33}
         />
         <Image
-          h={500}
+          h={200}
           radius="md"
           fit="contain"
           src={imageUrl}
@@ -65,7 +65,7 @@ export const ImageUploader = ({
           <Group
             justify="center"
             gap="xl"
-            mih={220}
+            mih={200}
             style={{ pointerEvents: 'none' }}
           >
             <Dropzone.Accept>
