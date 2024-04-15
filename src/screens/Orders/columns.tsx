@@ -215,7 +215,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!clientReport) return 'لا يوجد';
-      return (
+      return clientReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>
@@ -246,7 +248,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!branchReport) return 'لا يوجد';
-      return (
+      return branchReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>
@@ -277,7 +281,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!deliveryAgentReport) return 'لا يوجد';
-      return (
+      return deliveryAgentReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>
@@ -308,7 +314,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!repositoryReport) return 'لا يوجد';
-      return (
+      return repositoryReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>
@@ -339,7 +347,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!governorateReport) return 'لا يوجد';
-      return (
+      return governorateReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>
@@ -370,7 +380,9 @@ export const columns: ColumnDef<Order>[] = [
       };
 
       if (!companyReport) return 'لا يوجد';
-      return (
+      return companyReport.deleted ? (
+        <Text size="sm">تم حذف الكشف</Text>
+      ) : (
         <HoverCard width={rem(120)} shadow="md">
           <HoverCard.Target>
             <ActionIcon variant="filled" onClick={handleDownload}>

@@ -61,27 +61,33 @@ export interface Order {
     name: string;
   };
   clientReport: {
+    deleted: boolean;
     id: number;
     clientId: number;
     storeId: number;
   } | null;
   repositoryReport: {
+    deleted: boolean;
     id: number;
     repositoryId: number;
   } | null;
   governorateReport: {
+    deleted: boolean;
     id: number;
     governorate: keyof typeof governorateArabicNames;
   };
   branchReport: {
+    deleted: boolean;
     id: number;
     branchId: number;
   };
   deliveryAgentReport: {
+    deleted: boolean;
     id: number;
     deliveryAgentId: number;
   };
   companyReport: {
+    deleted: boolean;
     id: number;
     companyId: number;
   };
