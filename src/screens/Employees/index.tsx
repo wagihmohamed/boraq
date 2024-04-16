@@ -9,6 +9,7 @@ import {
   LoadingOverlay,
   MultiSelect,
   Select,
+  TextInput,
 } from '@mantine/core';
 import { rolesArabicNames, rolesArray } from '@/lib/rolesArabicNames';
 import { useBranches } from '@/hooks/useBranches';
@@ -18,8 +19,11 @@ import {
   permissionsArabicNames,
   permissionsArray,
 } from '@/lib/persmissionArabicNames';
+import { useDebouncedState } from '@mantine/hooks';
 
 export const Employees = () => {
+  const [name, setName] = useDebouncedState('', 300);
+  const [phone, setPhone] = useDebouncedState('', 300);
   const [filters, setFilters] = useState<EmployeesFilters>({
     page: 1,
     size: 10,
@@ -34,7 +38,11 @@ export const Employees = () => {
     },
     isError,
     isInitialLoading,
-  } = useEmployees(filters);
+  } = useEmployees({
+    ...filters,
+    name,
+    phone,
+  });
 
   const handleSelect = (value: (keyof typeof rolesArabicNames)[]) => {
     setFilters({
@@ -136,6 +144,24 @@ export const Employees = () => {
                       ...filters,
                       location_id: e,
                     });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <TextInput
+                  label="الاسم"
+                  defaultValue={name}
+                  onChange={(e) => {
+                    setName(e.currentTarget.value);
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, xs: 12, md: 6, lg: 6 }}>
+                <TextInput
+                  label="رقم الهاتف"
+                  defaultValue={phone}
+                  onChange={(e) => {
+                    setPhone(e.currentTarget.value);
                   }}
                 />
               </Grid.Col>

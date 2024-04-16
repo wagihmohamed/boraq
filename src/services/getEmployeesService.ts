@@ -97,6 +97,8 @@ export const getEmployeesService = async (
     location_id,
     minified,
     permissions,
+    name,
+    phone,
   }: EmployeesFilters = {
     page: 1,
     size: 10,
@@ -112,6 +114,8 @@ export const getEmployeesService = async (
       location_id: Number(location_id) || undefined,
       minified,
       permissions: permissions?.join(',') || undefined,
+      name: name || undefined,
+      phone: phone || undefined,
     },
   });
   return response.data;

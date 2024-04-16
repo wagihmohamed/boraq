@@ -6,6 +6,8 @@ export interface EmployeesFilters extends Filters {
   roles?: (keyof typeof rolesArabicNames)[];
   branch_id?: string | null;
   location_id?: string | null;
+  phone?: string;
+  name?: string;
 }
 
 export const useEmployees = (
