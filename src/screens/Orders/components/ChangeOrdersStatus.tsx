@@ -52,7 +52,7 @@ export const ChangeOrdersStatus = () => {
           },
         });
       });
-      toast.success('تم تعديل الفرع بنجاح');
+      toast.success('تم تعديل الحالة بنجاح');
     }
   };
 

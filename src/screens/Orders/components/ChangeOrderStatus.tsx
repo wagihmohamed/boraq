@@ -65,7 +65,12 @@ export const ChangeOrderStatus = ({
 
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="مسح الطلب" centered>
+      <Modal
+        opened={opened}
+        onClose={handleClose}
+        title="تعديل حالة الطلب"
+        centered
+      >
         <Card>
           <CardHeader>
             <CardTitle>تعديل حالة الطلب</CardTitle>
