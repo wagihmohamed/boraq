@@ -50,6 +50,10 @@ export const columns: ColumnDef<IReport>[] = [
     header: 'طلبات المحافظات',
   },
   {
+    accessorKey: 'governorateReport.deliveryAgentDeliveryCost',
+    header: 'أجور توصيل المحافظة',
+  },
+  {
     accessorKey: 'status',
     header: 'الحالة',
     accessorFn: ({ status }) => {

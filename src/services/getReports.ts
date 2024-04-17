@@ -23,6 +23,8 @@ export interface Report {
       id: number;
       name: string;
     };
+    baghdadDeliveryCost: number;
+    governoratesDeliveryCost: number;
     companyReportOrders: {
       id: number;
       receiptNumber: string;
@@ -44,6 +46,8 @@ export interface Report {
       id: number;
       name: string;
     } | null;
+    baghdadDeliveryCost: number;
+    governoratesDeliveryCost: number;
     clientReportOrders: {
       id: number;
       receiptNumber: string;
@@ -68,6 +72,7 @@ export interface Report {
       id: number;
       name: string;
     };
+    deliveryAgentDeliveryCost: number;
     branchReportOrders: {
       id: number;
       receiptNumber: string;
@@ -77,6 +82,7 @@ export interface Report {
   governorateReport: {
     reportNumber: string;
     governorate: keyof typeof governorateArabicNames;
+    deliveryAgentDeliveryCost: number;
     governorateReportOrders: {
       id: number;
       receiptNumber: string;
@@ -89,6 +95,7 @@ export interface Report {
       id: number;
       name: string;
     };
+    deliveryAgentDeliveryCost: number;
     deliveryAgentReportOrders: {
       id: number;
       receiptNumber: string;
