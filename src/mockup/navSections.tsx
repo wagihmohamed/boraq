@@ -220,7 +220,6 @@ export const navSections: NavSection[] = [
       'ADMIN',
       'ADMIN_ASSISTANT',
       'REPOSITORIY_EMPLOYEE',
-      'BRANCH_MANAGER',
       'ACCOUNTANT',
       'COMPANY_MANAGER',
     ],
@@ -246,7 +245,7 @@ export const navSections: NavSection[] = [
     label: 'ادخال رواجع المخزن',
     enLabel: 'repository entries',
     icon: IconArrowBackUp,
-    roles: ['COMPANY_MANAGER', 'REPOSITORIY_EMPLOYEE'],
+    roles: ['COMPANY_MANAGER', 'REPOSITORIY_EMPLOYEE', 'BRANCH_MANAGER'],
   },
   {
     link: '/banners',

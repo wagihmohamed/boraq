@@ -182,7 +182,6 @@ function App() {
           <Route element={<RolesRoute roles={['BRANCH_MANAGER']} />}>
             <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/employees/add" element={<AddEmployee />} />
-            <Route path="/repositories" element={<RepositoriesScreen />} />
             <Route path="/repositories/add" element={<AddRepositoryScreen />} />
             <Route
               path="/repositories/:id/edit"
