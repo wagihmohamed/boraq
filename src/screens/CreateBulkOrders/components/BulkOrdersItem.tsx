@@ -257,6 +257,17 @@ export const BulkOrdersItem = ({
             form.setFieldValue(`orders.${index}.unique`, !currentUniqueValue);
           }}
         />
+        <Switch
+          className="mt-8 mb-3"
+          label="تسليم مبلغ"
+          checked={form.values.orders[index].orderDelivery}
+          onChange={(e) => {
+            form.setFieldValue(
+              `orders.${index}.orderDelivery`,
+              e.target.checked
+            );
+          }}
+        />
       </div>
       <Grid grow gutter="lg">
         {createBulkOrdersBy !== 'page' && (

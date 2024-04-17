@@ -21,6 +21,7 @@ import { useTenants } from '@/hooks/useTenants';
 export interface OrderBulkFormValues {
   orders: {
     unique: boolean;
+    orderDelivery: boolean;
     id: string;
     withProducts: boolean;
     recipientPhones: {
@@ -101,6 +102,7 @@ export const CreateBulkOrders = () => {
           details: '',
           forwardedCompanyID: '',
           unique: true,
+          orderDelivery: false,
         },
       ],
     },
@@ -145,6 +147,7 @@ export const CreateBulkOrders = () => {
         receiptNumber: '',
         details: '',
         unique: true,
+        orderDelivery: false,
       });
     }
 
@@ -215,7 +218,9 @@ export const CreateBulkOrders = () => {
         details: order.details,
         notes: order.details,
         locationID: Number(order.locationID),
-        totalCost: Number(order.totalCost),
+        totalCost: order.orderDelivery
+          ? Number(-order.totalCost)
+          : Number(order.totalCost),
       };
     });
 
