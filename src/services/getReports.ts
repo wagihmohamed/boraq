@@ -43,7 +43,7 @@ export interface Report {
     branch: {
       id: number;
       name: string;
-    };
+    } | null;
     clientReportOrders: {
       id: number;
       receiptNumber: string;

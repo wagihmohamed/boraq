@@ -123,14 +123,14 @@ export const columns: ColumnDef<IReport>[] = [
     accessorKey: 'clientReport.client.name',
     header: 'العميل',
     accessorFn: ({ clientReport }) => {
-      return clientReport?.client.name || '';
+      return clientReport?.client?.name || '';
     },
   },
   {
     accessorKey: 'clientReport.client.phone',
     header: 'رقم العميل',
     accessorFn: ({ clientReport }) => {
-      return clientReport?.client.phone || '';
+      return clientReport?.client?.phone || '';
     },
   },
   {
@@ -144,7 +144,7 @@ export const columns: ColumnDef<IReport>[] = [
     accessorKey: 'clientReport.branch.name',
     header: 'الفرع',
     accessorFn: ({ clientReport }) => {
-      return clientReport?.branch.name || '';
+      return clientReport?.branch?.name || '';
     },
   },
   {
