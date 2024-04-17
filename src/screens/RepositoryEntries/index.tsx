@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import { useCreateReport } from '@/hooks/useCreateReport';
 import { ChangeOrdersRepositories } from './components/ChangeOrdersRepositories';
 import { DeleteSelectedRepositoryEntriesModal } from './components/DeleteSelectedRepositoryEntriesModal';
+import { useRepositoryOrdersStore } from '@/store/repositoryEntriesOrders';
 
 const repositoryEntriesInitialStatuses = [
   'RETURNED',
@@ -21,6 +22,8 @@ const repositoryEntriesInitialStatuses = [
 ];
 
 export const RepositoryEntries = () => {
+  const { deleteAllRepositoryOrders, repositoryOrders } =
+    useRepositoryOrdersStore();
   const [filters, setFilters] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     confirmed: true,
@@ -56,19 +59,28 @@ export const RepositoryEntries = () => {
   const { mutateAsync: createReport, isLoading: isCreateReportLoading } =
     useCreateReport();
 
+  const isRepositoryOrdersSelected = repositoryOrders.length;
+
   const handleCreateGeneralReport = () => {
     toast.promise(
-      createGeneralReport({
-        type: 'GENERAL',
-        ordersIDs: '*',
-        params: {
-          ...filters,
-          statuses: filters.statuses?.length
-            ? filters.statuses
-            : repositoryEntriesInitialStatuses,
-          search,
+      createGeneralReport(
+        {
+          type: 'GENERAL',
+          ordersIDs: isRepositoryOrdersSelected
+            ? repositoryOrders.map((order) => Number(order.id))
+            : '*',
+          params: {
+            ...filters,
+            statuses: filters.statuses?.length
+              ? filters.statuses
+              : repositoryEntriesInitialStatuses,
+            search,
+          },
         },
-      }),
+        {
+          onSuccess: () => deleteAllRepositoryOrders(),
+        }
+      ),
       {
         loading: 'جاري تحميل تقرير...',
         success: 'تم تحميل تقرير بنجاح',
@@ -79,22 +91,30 @@ export const RepositoryEntries = () => {
 
   const handleCreateReport = (type: 'CLIENT' | 'COMPANY' | 'REPOSITORY') => {
     toast.promise(
-      createReport({
-        type,
-        companyID: type === 'COMPANY' ? Number(filters.company_id) : undefined,
-        clientID: type === 'CLIENT' ? Number(filters.client_id) : undefined,
-        storeID: type === 'CLIENT' ? Number(filters.store_id) : undefined,
-        repositoryID:
-          type === 'REPOSITORY' ? Number(filters.repository_id) : undefined,
-        ordersIDs: '*',
-        params: {
-          ...filters,
-          statuses: filters.statuses?.length
-            ? filters.statuses
-            : repositoryEntriesInitialStatuses,
-          search,
+      createReport(
+        {
+          type,
+          companyID:
+            type === 'COMPANY' ? Number(filters.company_id) : undefined,
+          clientID: type === 'CLIENT' ? Number(filters.client_id) : undefined,
+          storeID: type === 'CLIENT' ? Number(filters.store_id) : undefined,
+          repositoryID:
+            type === 'REPOSITORY' ? Number(filters.repository_id) : undefined,
+          ordersIDs: isRepositoryOrdersSelected
+            ? repositoryOrders.map((order) => Number(order.id))
+            : '*',
+          params: {
+            ...filters,
+            statuses: filters.statuses?.length
+              ? filters.statuses
+              : repositoryEntriesInitialStatuses,
+            search,
+          },
         },
-      }),
+        {
+          onSuccess: () => deleteAllRepositoryOrders(),
+        }
+      ),
       {
         loading: 'جاري تحميل الكشف...',
         success: 'تم تحميل الكشف بنجاح',
@@ -126,13 +146,8 @@ export const RepositoryEntries = () => {
         <Button
           disabled={isCreateReportLoading}
           onClick={() => {
-            if (!filters.client_id) {
-              toast.error('يجب اختيار عميل');
-              return;
-            }
-
-            if (filters.client_id && !filters.store_id) {
-              toast.error('يجب اختيار العميل و المتجر');
+            if (!filters.store_id) {
+              toast.error('يجب اختيار المتجر');
               return;
             }
             handleCreateReport('CLIENT');

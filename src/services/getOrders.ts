@@ -33,6 +33,10 @@ export interface Order {
     id: number;
     name: string;
   } | null;
+  repository: {
+    id: number;
+    name: string;
+  } | null;
   locationID: number;
   storeID: number;
   deliveryCost: string;

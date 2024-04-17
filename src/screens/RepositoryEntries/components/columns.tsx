@@ -133,10 +133,10 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'status',
     header: 'الحالة',
-    accessorFn: ({ status, secondaryStatus }) => {
+    accessorFn: ({ status, secondaryStatus, repository }) => {
       return `${orderStatusArabicNames[status]}  ${
         orderSecondaryStatusArabicNames[secondaryStatus]
-          ? ` - ${orderSecondaryStatusArabicNames[secondaryStatus]}`
+          ? ` - ${orderSecondaryStatusArabicNames[secondaryStatus]} -  ${repository?.name}`
           : ''
       }`;
     },
