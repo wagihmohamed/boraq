@@ -20,6 +20,7 @@ import { useTenants } from '@/hooks/useTenants';
 
 export interface OrderBulkFormValues {
   orders: {
+    unique: boolean;
     id: string;
     withProducts: boolean;
     recipientPhones: {
@@ -99,6 +100,7 @@ export const CreateBulkOrders = () => {
           receiptNumber: '',
           details: '',
           forwardedCompanyID: '',
+          unique: true,
         },
       ],
     },
@@ -142,6 +144,7 @@ export const CreateBulkOrders = () => {
         recipientAddress: '',
         receiptNumber: '',
         details: '',
+        unique: true,
       });
     }
 

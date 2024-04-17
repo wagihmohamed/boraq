@@ -242,11 +242,22 @@ export const BulkOrdersItem = ({
       >
         <X />
       </ActionIcon>
-      <Switch
-        className="mt-8 mb-3"
-        label="مع منتجات"
-        {...form.getInputProps(`orders.${index}.withProducts`)}
-      />
+      <div className="flex items-center gap-4">
+        <Switch
+          className="mt-8 mb-3"
+          label="مع منتجات"
+          {...form.getInputProps(`orders.${index}.withProducts`)}
+        />
+        <Switch
+          className="mt-8 mb-3"
+          label="اضافة علي كل حال"
+          checked={form.values.orders[index].unique === false}
+          onChange={() => {
+            const currentUniqueValue = form.values.orders[index].unique;
+            form.setFieldValue(`orders.${index}.unique`, !currentUniqueValue);
+          }}
+        />
+      </div>
       <Grid grow gutter="lg">
         {createBulkOrdersBy !== 'page' && (
           <Grid.Col span={{ base: 12, md: 6, lg: 2, xl: 2, sm: 12, xs: 12 }}>
