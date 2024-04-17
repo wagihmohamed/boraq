@@ -28,6 +28,7 @@ import { useState } from 'react';
 import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
 import { OrdersFullDetails } from './components/OrdersFullDetails';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -446,22 +447,35 @@ export const columns: ColumnDef<Order>[] = [
             >
               عرض
             </Link>
-            <Link
-              className={buttonVariants({
-                variant: 'ghost',
-                className: 'w-full',
-              })}
-              to={`/orders/${id}/edit`}
-            >
-              تعديل
-            </Link>
-            <DeleteOrder
-              closeMenu={() => setMenuOpen(false)}
-              id={id}
-              opened={deleteOpened}
-              close={closeDelete}
-              open={openDelete}
-            />
+            {hideChildrenBasedOnRole(
+              ['CLIENT'],
+              <>
+                <Link
+                  className={buttonVariants({
+                    variant: 'ghost',
+                    className: 'w-full',
+                  })}
+                  to={`/orders/${id}/edit`}
+                >
+                  تعديل
+                </Link>
+                <DeleteOrder
+                  closeMenu={() => setMenuOpen(false)}
+                  id={id}
+                  opened={deleteOpened}
+                  close={closeDelete}
+                  open={openDelete}
+                />
+                <ChangeOrderStatus
+                  closeMenu={() => setMenuOpen(false)}
+                  id={id}
+                  opened={changeStatusOpened}
+                  close={closeChangeStatus}
+                  open={openChangeStatus}
+                  status={status}
+                />
+              </>
+            )}
             <OrderTimelineModal
               closeMenu={() => setMenuOpen(false)}
               opened={timelineOpened}
@@ -469,25 +483,6 @@ export const columns: ColumnDef<Order>[] = [
               open={openTimeline}
               id={id}
             />
-            <ChangeOrderStatus
-              closeMenu={() => setMenuOpen(false)}
-              id={id}
-              opened={changeStatusOpened}
-              close={closeChangeStatus}
-              open={openChangeStatus}
-              status={status}
-            />
-            {/* <OrderInquiryEmployees
-              closeMenu={() => setMenuOpen(false)}
-              orderID={id}
-              inquiryEmployees={inquiryEmployees.map((employee) => ({
-                name: employee.name,
-                id: employee.id,
-              }))}
-              opened={editInquiryEmployeesOpened}
-              close={closeEditInquiryEmployees}
-              open={openEditInquiryEmployees}
-            /> */}
             <div className="flex justify-center mt-2">
               <HoverCard width={rem(120)} shadow="md">
                 <HoverCard.Target>

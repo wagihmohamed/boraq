@@ -40,6 +40,7 @@ import { useOrdersStore } from '@/store/ordersStore';
 import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
 import { useBranches } from '@/hooks/useBranches';
 import { DeleteAllSelectedOrdersModal } from './DeleteAllSelectedOrdersModal';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -212,11 +213,16 @@ export const CustomOrdersFilter = ({
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-            <ChangeOrdersBranch />
-            <ChangeOrdersClient />
-            <ChangeOrdersDelivery />
-            <ChangeOrdersStatus />
-            <ForwardOrdersToCompany />
+            {hideChildrenBasedOnRole(
+              ['CLIENT'],
+              <>
+                <ChangeOrdersBranch />
+                <ChangeOrdersClient />
+                <ChangeOrdersDelivery />
+                <ChangeOrdersStatus />
+                <ForwardOrdersToCompany />
+              </>
+            )}
             {role === 'COMPANY_MANAGER' && <DeleteAllSelectedOrdersModal />}
           </div>
         </Grid.Col>
