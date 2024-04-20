@@ -72,7 +72,7 @@ export const navSections: NavSection[] = [
     roles: ['ACCOUNTANT', 'DATA_ENTRY', 'COMPANY_MANAGER'],
   },
   {
-    link: '/orders/add',
+    link: '/orders-bulk-create',
     label: 'انشاء طلب',
     enLabel: 'orders bulk create',
     icon: IconPackages,

@@ -17,6 +17,7 @@ import { getSelectOptions } from '@/lib/getSelectOptions';
 import { CreateStoreModal } from './components/CreateStoreModal';
 import { CreateClientAndStoreModal } from './components/CreateClientAndStoreModal';
 import { useTenants } from '@/hooks/useTenants';
+import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
 
 export interface OrderBulkFormValues {
   orders: {
@@ -237,7 +238,7 @@ export const CreateBulkOrders = () => {
     <AppLayout>
       <div className="flex gap-4 flex-wrap">
         <CreateStoreModal />
-        <CreateClientAndStoreModal />
+        {hideChildrenBasedOnRole(['CLIENT'], <CreateClientAndStoreModal />)}
       </div>
       <div className="flex items-center gap-4 mb-6">
         <TextInput
