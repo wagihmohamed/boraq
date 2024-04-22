@@ -132,7 +132,7 @@ export const OrdersScreen = () => {
           navigationURL={
             // eslint-disable-next-line no-nested-ternary
             role === 'CLIENT'
-              ? '/orders/add'
+              ? '/orders-bulk-create'
               : role !== 'ADMIN_ASSISTANT' && role !== 'ADMIN'
               ? '/orders-bulk-create'
               : ''
