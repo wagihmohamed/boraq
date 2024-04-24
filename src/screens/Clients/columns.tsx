@@ -14,6 +14,10 @@ import { EditDeliveryCostsModal } from './EditDeliveryCostsModal';
 
 export const columns: ColumnDef<Client>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'avatar',
     header: 'الصورة',
     cell: ({ row }) => {

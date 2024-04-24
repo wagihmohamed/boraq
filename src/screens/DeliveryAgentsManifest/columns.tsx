@@ -10,6 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 export const columns: ColumnDef<IDeliveryAgentManifest>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'name',
     header: 'اسم المندوب',
   },

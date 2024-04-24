@@ -12,6 +12,10 @@ import Arabic from 'date-fns/locale/ar-EG';
 
 export const columns: ColumnDef<IReport>[] = [
   {
+    accessorKey: 'id',
+    header: 'رقم الكشف',
+  },
+  {
     accessorKey: 'createdBy.name',
     header: 'الناشئ',
   },
@@ -54,8 +58,8 @@ export const columns: ColumnDef<IReport>[] = [
     accessorFn: ({ deletedAt }) => {
       if (deletedAt) {
         const stringToDate = parseISO(deletedAt);
-        const formatedDate = format(stringToDate, 'dd/MM/yyyy HH:mm');
-        return formatedDate;
+        const formattedDate = format(stringToDate, 'dd/MM/yyyy HH:mm');
+        return formattedDate;
       }
       return 'لا يوجد';
     },

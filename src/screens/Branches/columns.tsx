@@ -13,6 +13,10 @@ import { mapEnumToArabic } from '@/lib/mapGovernateEnumToArabic';
 
 export const columns: ColumnDef<Branch>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'name',
     header: 'الاسم',
   },

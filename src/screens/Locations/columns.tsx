@@ -70,6 +70,10 @@ export const columns: ColumnDef<Location>[] = [
     },
   },
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'name',
     header: 'الاسم',
   },

@@ -14,6 +14,10 @@ import { ChangeStoreClientAssistant } from './ChangeStoreClientAssistant';
 
 export const columns: ColumnDef<Store>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'logo',
     header: 'الصورة',
     cell: ({ row }) => {

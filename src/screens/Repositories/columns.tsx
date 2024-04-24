@@ -12,6 +12,10 @@ import { Repository } from '@/services/getRepositoriesService';
 
 export const columns: ColumnDef<Repository>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'name',
     header: 'الاسم',
   },

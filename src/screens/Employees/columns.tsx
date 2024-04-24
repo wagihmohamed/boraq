@@ -19,6 +19,10 @@ import { AssignInquiryEmployeeStatuses } from './AssignInquiryEmployeeStatuses';
 
 export const columns: ColumnDef<Employee>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'avatar',
     header: 'الصورة',
     cell: ({ row }) => {

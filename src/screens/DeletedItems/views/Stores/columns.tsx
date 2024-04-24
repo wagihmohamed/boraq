@@ -10,6 +10,10 @@ import { IconRotate } from '@tabler/icons-react';
 
 export const columns: ColumnDef<Store>[] = [
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'logo',
     header: 'الصورة',
     cell: ({ row }) => {
