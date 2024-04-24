@@ -5,7 +5,7 @@ export const columns: ColumnDef<OrderSheet>[] = [
   {
     id: 'orderNumber',
     accessorKey: 'orderNumber',
-    header: 'رقم الاوردر',
+    header: 'رقم الوصل',
   },
   {
     accessorKey: 'city',
