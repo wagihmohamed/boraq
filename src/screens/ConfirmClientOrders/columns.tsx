@@ -68,12 +68,12 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
-    accessorKey: 'receiptNumber',
-    header: 'رقم الفاتورة',
+    accessorKey: 'id',
+    header: '#',
   },
   {
-    accessorKey: 'id',
-    header: 'رقم الطلب',
+    accessorKey: 'receiptNumber',
+    header: 'رقم الوصل',
   },
   {
     accessorKey: 'client.name',

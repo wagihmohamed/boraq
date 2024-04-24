@@ -64,8 +64,12 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
+    accessorKey: 'id',
+    header: '#',
+  },
+  {
     accessorKey: 'receiptNumber',
-    header: 'رقم الفاتورة',
+    header: 'رقم الوصل',
   },
   {
     accessorKey: 'recipientName',
