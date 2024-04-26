@@ -20,6 +20,7 @@ import {
   Menu,
   MultiSelect,
   Select,
+  TagsInput,
   TextInput,
   rem,
 } from '@mantine/core';
@@ -232,7 +233,20 @@ export const CustomOrdersFilter = ({
           <Accordion.Control> الفلاتر</Accordion.Control>
           <Accordion.Panel>
             <Grid align="center" gutter="lg">
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
+                <TagsInput
+                  placeholder="برقم الوصل"
+                  value={filters.receipt_numbers}
+                  label="بحث برقم الوصل"
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      receipt_numbers: e,
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <TextInput
                   placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
                   defaultValue={search}
@@ -242,7 +256,7 @@ export const CustomOrdersFilter = ({
                   }}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.governorate}
                   allowDeselect
@@ -259,7 +273,7 @@ export const CustomOrdersFilter = ({
                   data={governorateArray}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <MultiSelect
                   value={filters.statuses}
                   label="الحالة"
@@ -275,7 +289,7 @@ export const CustomOrdersFilter = ({
                   data={orderStatusArray}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.delivery_type}
                   allowDeselect
@@ -292,7 +306,7 @@ export const CustomOrdersFilter = ({
                   data={deliveryTypesArray}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.branch_id}
                   allowDeselect
@@ -309,7 +323,7 @@ export const CustomOrdersFilter = ({
                   data={getSelectOptions(branchesData.data)}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.client_id}
                   allowDeselect
@@ -327,7 +341,7 @@ export const CustomOrdersFilter = ({
                   limit={100}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.delivery_agent_id?.toString()}
                   allowDeselect
@@ -345,7 +359,7 @@ export const CustomOrdersFilter = ({
                   limit={100}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.store_id}
                   allowDeselect
@@ -363,7 +377,7 @@ export const CustomOrdersFilter = ({
                   limit={100}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.location_id}
                   allowDeselect
@@ -381,7 +395,7 @@ export const CustomOrdersFilter = ({
                   limit={100}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Select
                   value={filters.sort}
                   allowDeselect
@@ -408,7 +422,7 @@ export const CustomOrdersFilter = ({
                 />
               </Grid.Col>
               {role === 'COMPANY_MANAGER' && (
-                <Grid.Col span={{ base: 12, md: 6, lg: 4, sm: 12, xs: 12 }}>
+                <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                   <Select
                     value={filters.automatic_update_id}
                     allowDeselect
