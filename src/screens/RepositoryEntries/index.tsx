@@ -14,6 +14,7 @@ import { useCreateReport } from '@/hooks/useCreateReport';
 import { ChangeOrdersRepositories } from './components/ChangeOrdersRepositories';
 import { DeleteSelectedRepositoryEntriesModal } from './components/DeleteSelectedRepositoryEntriesModal';
 import { useRepositoryOrdersStore } from '@/store/repositoryEntriesOrders';
+import { SendOrderToRepository } from './components/SendOrderToRepository';
 
 const repositoryEntriesInitialStatuses = [
   'RETURNED',
@@ -174,6 +175,7 @@ export const RepositoryEntries = () => {
         search={search}
         setSearch={setSearch}
       />
+      <SendOrderToRepository />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
         <DataTable
