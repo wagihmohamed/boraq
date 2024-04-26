@@ -29,6 +29,7 @@ import { ChangeOrderStatus } from './components/ChangeOrderStatus';
 import { OrdersBadge } from '@/components/OrdersBadge';
 import { OrdersFullDetails } from './components/OrdersFullDetails';
 import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
+import { EditableTableCell } from '@/components/EditableTableCell';
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -93,6 +94,14 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'receiptNumber',
     header: 'رقم الوصل ',
+    cell: ({ row }) => (
+      <EditableTableCell
+        typeOfValue="number"
+        id={row.original.id}
+        type="receiptNumber"
+        value={row.original.receiptNumber}
+      />
+    ),
   },
   {
     accessorKey: 'client.name',
@@ -135,13 +144,21 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'totalCost',
     header: 'المبلغ',
-    cell: ({ row }) => {
-      const { totalCost } = row.original;
-      const formattedNumber = totalCost
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return formattedNumber;
-    },
+    // cell: ({ row }) => {
+    //   const { totalCost } = row.original;
+    //   const formattedNumber = totalCost
+    //     .toString()
+    //     .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    //   return formattedNumber;
+    // },
+    cell: ({ row }) => (
+      <EditableTableCell
+        id={row.original.id}
+        type="totalCost"
+        value={row.original.totalCost}
+        typeOfValue="number"
+      />
+    ),
   },
   {
     accessorKey: 'paidAmount',
