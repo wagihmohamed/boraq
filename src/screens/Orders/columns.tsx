@@ -110,21 +110,49 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
+    // cell: ({ row }) => {
+    //   const { recipientPhones } = row.original;
+    //   return recipientPhones.length > 0 ? (
+    //     recipientPhones.length === 1 ? (
+    //       <Text size="sm">{recipientPhones[0]}</Text>
+    //     ) : (
+    //       <div className="flex items-center gap-2">
+    //         <Text size="sm">{recipientPhones[0]}</Text>
+    //         <Badge color="blue" variant="light">
+    //           +{recipientPhones.length - 1}
+    //         </Badge>
+    //       </div>
+    //     )
+    //   ) : (
+    //     <Text size="sm">لا يوجد</Text>
+    //   );
+    // },
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
-      return recipientPhones.length > 0 ? (
-        recipientPhones.length === 1 ? (
-          <Text size="sm">{recipientPhones[0]}</Text>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Text size="sm">{recipientPhones[0]}</Text>
-            <Badge color="blue" variant="light">
-              +{recipientPhones.length - 1}
-            </Badge>
-          </div>
-        )
-      ) : (
-        <Text size="sm">لا يوجد</Text>
+      return (
+        <EditableTableCell
+          id={row.original.id}
+          type="recipientPhones"
+          value={row.original.recipientPhones[0]}
+          typeOfValue="string"
+          recipientPhones={recipientPhones}
+          renderCell={
+            recipientPhones.length > 0 ? (
+              recipientPhones.length === 1 ? (
+                <Text size="sm">{recipientPhones[0]}</Text>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Text size="sm">{recipientPhones[0]}</Text>
+                  <Badge color="blue" variant="light">
+                    +{recipientPhones.length - 1}
+                  </Badge>
+                </div>
+              )
+            ) : (
+              <Text size="sm">لا يوجد</Text>
+            )
+          }
+        />
       );
     },
   },
@@ -151,14 +179,20 @@ export const columns: ColumnDef<Order>[] = [
     //     .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     //   return formattedNumber;
     // },
-    cell: ({ row }) => (
-      <EditableTableCell
-        id={row.original.id}
-        type="totalCost"
-        value={row.original.totalCost}
-        typeOfValue="number"
-      />
-    ),
+    cell: ({ row }) => {
+      const formattedNumber = row.original.totalCost
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+      return (
+        <EditableTableCell
+          id={row.original.id}
+          type="totalCost"
+          value={formattedNumber}
+          typeOfValue="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'paidAmount',
