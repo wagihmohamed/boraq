@@ -150,6 +150,7 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
+  receipt_numbers?: string[];
   forwarded_by_id?: string;
   forwarded_from_id?: string;
   search?: string;
@@ -226,6 +227,7 @@ export const getOrdersService = async (
     forwarded,
     forwarded_by_id,
     forwarded_from_id,
+    receipt_numbers,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
@@ -266,6 +268,9 @@ export const getOrdersService = async (
       forwarded: forwarded || undefined,
       forwarded_by_id: forwarded_by_id || undefined,
       forwarded_from_id: forwarded_from_id || undefined,
+      receipt_numbers: receipt_numbers?.length
+        ? receipt_numbers.join(',')
+        : undefined,
     },
   });
   return response.data;

@@ -16,6 +16,7 @@ import {
   Grid,
   MultiSelect,
   Select,
+  TagsInput,
   TextInput,
 } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
@@ -81,8 +82,21 @@ export const RepositoryEntriesFilters = ({
           <Accordion.Panel>
             <Grid gutter="lg">
               <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
+                <TagsInput
+                  placeholder="برقم الوصل"
+                  value={filters.receipt_numbers}
+                  label="بحث برقم الوصل"
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      receipt_numbers: e,
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
                 <TextInput
-                  placeholder="رقم الكشف, اسم, عنوان او رقم هاتف المستلم"
+                  placeholder="رقم, اسم, عنوان او رقم هاتف المستلم"
                   defaultValue={search}
                   label="بحث"
                   onChange={(e) => {
