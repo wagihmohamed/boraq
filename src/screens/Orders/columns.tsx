@@ -110,23 +110,6 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'recipientPhone',
     header: 'رقم الهاتف',
-    // cell: ({ row }) => {
-    //   const { recipientPhones } = row.original;
-    //   return recipientPhones.length > 0 ? (
-    //     recipientPhones.length === 1 ? (
-    //       <Text size="sm">{recipientPhones[0]}</Text>
-    //     ) : (
-    //       <div className="flex items-center gap-2">
-    //         <Text size="sm">{recipientPhones[0]}</Text>
-    //         <Badge color="blue" variant="light">
-    //           +{recipientPhones.length - 1}
-    //         </Badge>
-    //       </div>
-    //     )
-    //   ) : (
-    //     <Text size="sm">لا يوجد</Text>
-    //   );
-    // },
     cell: ({ row }) => {
       const { recipientPhones } = row.original;
       return (
@@ -172,13 +155,6 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'totalCost',
     header: 'المبلغ',
-    // cell: ({ row }) => {
-    //   const { totalCost } = row.original;
-    //   const formattedNumber = totalCost
-    //     .toString()
-    //     .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    //   return formattedNumber;
-    // },
     cell: ({ row }) => {
       const formattedNumber = row.original.totalCost
         .toString()
@@ -201,6 +177,19 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'store.name',
     header: 'المتجر',
+  },
+  {
+    header: 'معالج',
+    cell: ({ row }) => {
+      const { processed, processedBy } = row.original;
+      return (
+        <Text size="sm" c={processed ? 'teal' : undefined}>
+          {processed
+            ? `معالج- ${processedBy?.name || 'غير محدد'}`
+            : 'غير معالج'}
+        </Text>
+      );
+    },
   },
   {
     accessorKey: 'companyNet',

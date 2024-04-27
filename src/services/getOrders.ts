@@ -118,6 +118,13 @@ export interface Order {
   } | null;
   createdAt: string;
   updatedAt: string;
+  processed: boolean;
+  processedAt: string | null;
+  processedBy: {
+    id: number;
+    name: string;
+    phone: string;
+  } | null;
 }
 
 export interface OrderInquiryEmployee {
@@ -150,6 +157,7 @@ export interface GetOrdersResponse {
 }
 
 export interface OrdersFilter extends Filters {
+  processed?: string | null;
   receipt_numbers?: string[];
   forwarded_by_id?: string;
   forwarded_from_id?: string;
@@ -228,6 +236,7 @@ export const getOrdersService = async (
     forwarded_by_id,
     forwarded_from_id,
     receipt_numbers,
+    processed,
   }: OrdersFilter = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
@@ -252,6 +261,7 @@ export const getOrdersService = async (
       recipient_phone: recipient_phone || undefined,
       recipient_address: recipient_address || undefined,
       deleted,
+      processed: getReportParam(processed),
       statuses: statuses?.join(',') || undefined,
       secondaryStatuses: secondaryStatuses?.join(',') || undefined,
       client_report: getReportParam(client_report),

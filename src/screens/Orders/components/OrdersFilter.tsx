@@ -28,7 +28,10 @@ import { OrdersFilter as IOrdersFilter } from '@/services/getOrders';
 import { getSelectOptions } from '@/lib/getSelectOptions';
 import { ExportReportModal } from './ExportReportModal';
 import { useEmployees } from '@/hooks/useEmployees';
-import { withReportsDataOptions } from '@/lib/getReportParam';
+import {
+  processedOrdersOptions,
+  withReportsDataOptions,
+} from '@/lib/getReportParam';
 import { ChangeOrdersBranch } from './ChangeOrdersBranch';
 import { ChangeOrdersClient } from './ChangeOrdersClient';
 import { ChangeOrdersDelivery } from './ChangeOrdersDelivery';
@@ -526,6 +529,21 @@ export const CustomOrdersFilter = ({
                     setFilters({
                       ...filters,
                       governorate_report: e,
+                    });
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 4, lg: 3, sm: 12, xs: 12 }}>
+                <Select
+                  label="معالجة"
+                  placeholder="اختر الحالة"
+                  data={processedOrdersOptions}
+                  clearable
+                  defaultValue={filters.processed}
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      processed: e,
                     });
                   }}
                 />

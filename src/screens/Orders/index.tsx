@@ -43,6 +43,7 @@ export const ordersFilterInitialState: OrdersFilter = {
   delivery_agent_report: '0',
   governorate_report: '0',
   repository_report: '0',
+  processed: '0',
 };
 
 interface OrdersSearchParameters {
@@ -64,6 +65,7 @@ export const OrdersScreen = () => {
     delivery_agent_report: undefined,
     governorate_report: undefined,
     repository_report: undefined,
+    processed: undefined,
   });
   const [search, setSearch] = useDebouncedState('', 300);
 
