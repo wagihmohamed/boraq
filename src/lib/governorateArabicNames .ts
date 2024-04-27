@@ -17,6 +17,7 @@ export const governorateArabicNames = {
   SALAH_AL_DIN: 'صلاح الدين',
   SULAYMANIYAH: 'السليمانية',
   WASIT: 'واسط',
+  BABIL_COMPANIES: 'شركات بابل',
 };
 
 export enum GovernorateEnum {
@@ -38,6 +39,7 @@ export enum GovernorateEnum {
   SALAH_AL_DIN = 'صلاح الدين',
   SULAYMANIYAH = 'السليمانية',
   WASIT = 'واسط',
+  BABIL_COMPANIES = 'شركات بابل',
 }
 
 export const governorateArray: { label: string; value: string }[] =
