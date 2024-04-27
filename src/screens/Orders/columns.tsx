@@ -144,7 +144,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { recipientAddress, governorate, location } = row.original;
       return (
-        <Text truncate maw={rem(150)} size="sm">
+        <Text truncate maw={rem(100)} size="sm">
           {governorateArabicNames[governorate]}{' '}
           {location?.name && `- ${location?.name}`}{' '}
           {recipientAddress && `- ${recipientAddress}`}
@@ -183,7 +183,12 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const { processed, processedBy } = row.original;
       return (
-        <Text size="sm" c={processed ? 'teal' : undefined}>
+        <Text
+          w={rem(100)}
+          truncate
+          size="sm"
+          c={processed ? 'teal' : undefined}
+        >
           {processed
             ? `معالج- ${processedBy?.name || 'غير محدد'}`
             : 'غير معالج'}

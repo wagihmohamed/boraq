@@ -22,6 +22,7 @@ export interface EditOrderPayload {
   inquiryEmployeesIDs?: number[];
   forwarded?: boolean;
   forwardedCompanyID?: number;
+  processed?: boolean;
 }
 
 export const editOrderService = async ({

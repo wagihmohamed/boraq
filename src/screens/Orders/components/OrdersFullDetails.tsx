@@ -128,6 +128,32 @@ export const OrdersFullDetails = ({ order }: OrdersFullDetailsProps) => {
           </Grid.Col>
           <Grid.Col span={{ sm: 6, xs: 12, md: 6, lg: 4 }}>
             <OrderDetailCard
+              title="معالج"
+              value={order.processed ? 'نعم' : 'لا'}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ sm: 6, xs: 12, md: 6, lg: 4 }}>
+            <OrderDetailCard
+              title="معالج من قبل"
+              value={order.processedBy?.name || 'لا يوجد'}
+            />
+          </Grid.Col>
+          {order?.processedAt && (
+            <Grid.Col span={{ sm: 6, xs: 12, md: 6, lg: 4 }}>
+              <OrderDetailCard
+                title="تم المعالجة في"
+                value={format(
+                  parseISO(order.processedAt),
+                  'dd/MM/yyyy HH:mm a',
+                  {
+                    locale: Arabic,
+                  }
+                )}
+              />
+            </Grid.Col>
+          )}
+          <Grid.Col span={{ sm: 6, xs: 12, md: 6, lg: 4 }}>
+            <OrderDetailCard
               title="تم التعديل في"
               value={format(parseISO(order.updatedAt), 'dd/MM/yyyy HH:mm a', {
                 locale: Arabic,

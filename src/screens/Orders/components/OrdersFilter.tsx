@@ -45,6 +45,7 @@ import { ForwardOrdersToCompany } from './ForwardOrdersToCompany';
 import { useBranches } from '@/hooks/useBranches';
 import { DeleteAllSelectedOrdersModal } from './DeleteAllSelectedOrdersModal';
 import { hideChildrenBasedOnRole } from '@/hooks/useAuthorized';
+import { ProcessedSelectedOrders } from './ProcessedSelectedOrders';
 
 interface OrdersFilter {
   filters: IOrdersFilter;
@@ -227,6 +228,13 @@ export const CustomOrdersFilter = ({
                 <ForwardOrdersToCompany />
               </>
             )}
+            {role === 'EMERGENCY_EMPLOYEE' ||
+              (role === 'INQUIRY_EMPLOYEE' && (
+                <>
+                  <ProcessedSelectedOrders proceedValue />
+                  <ProcessedSelectedOrders proceedValue={false} />
+                </>
+              ))}
             {role === 'COMPANY_MANAGER' && <DeleteAllSelectedOrdersModal />}
           </div>
         </Grid.Col>
