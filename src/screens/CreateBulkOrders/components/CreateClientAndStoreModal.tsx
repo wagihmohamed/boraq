@@ -40,7 +40,6 @@ export const CreateClientAndStoreModal = () => {
       clientName: '',
       phone: '',
       branch: '',
-      username: '',
       type: '' as (typeof clientTypeArabicNames)['CLIENT'],
       avatar: [] as unknown as FileWithPath[],
       password: '',
@@ -106,7 +105,7 @@ export const CreateClientAndStoreModal = () => {
     formData.append('branchID', values.branch);
     formData.append('role', values.type);
     formData.append('password', values.password);
-    formData.append('username', values.username);
+    formData.append('username', values.phone);
     formData.append('avatar', values?.avatar[0] || '');
     if (isAdminOrAdminAssistant) {
       formData.append('companyID', values.companyID);
@@ -146,14 +145,6 @@ export const CreateClientAndStoreModal = () => {
                 placeholder=""
                 className="w-full"
                 {...form.getInputProps('clientName')}
-              />
-            </Grid.Col>
-            <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
-              <TextInput
-                label="اسم المستخدم"
-                placeholder=""
-                className="w-full"
-                {...form.getInputProps('username')}
               />
             </Grid.Col>
             <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
@@ -244,16 +235,6 @@ export const CreateClientAndStoreModal = () => {
                 label={<Box>المتجر</Box>}
               />
             </Grid.Col>
-            {/* <Grid.Col span={{ xs: 12, sm: 12, md: 6 }}>
-              <Select
-                searchable
-                label="العملاء"
-                placeholder="اختر العميل"
-                data={clientOptions}
-                limit={100}
-                {...form.getInputProps('client')}
-              />
-            </Grid.Col> */}
           </Grid>
           <ImageUploader
             image={form.values.logo}
