@@ -1,6 +1,13 @@
 import { AppLayout } from '@/components/AppLayout';
 import { useTenantDetails } from '@/hooks/useTenantDetails';
-import { Button, Grid, Switch, TextInput, Textarea } from '@mantine/core';
+import {
+  Button,
+  Grid,
+  PasswordInput,
+  Switch,
+  TextInput,
+  Textarea,
+} from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { ChevronRight } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -40,6 +47,8 @@ export const EditTenant = () => {
       additionalPriceForEveryKilogram: 0,
       additionalPriceForRemoteAreas: 0,
       orderStatusAutomaticUpdate: false,
+      password: '',
+      confirmPassword: '',
     },
   });
 
@@ -104,7 +113,9 @@ export const EditTenant = () => {
     formData.append('baghdadPrice', String(values.baghdadPrice));
     formData.append('deliveryAgentFee', String(values.deliveryAgentFee));
     formData.append('governoratePrice', String(values.governoratePrice));
-    formData.append('logo', values.logo[0] || '');
+    if (values.logo[0] instanceof File) {
+      formData.append('logo', (values.logo[0] as File) || '');
+    }
     formData.append('name', values.name);
     formData.append(
       'orderStatusAutomaticUpdate',
@@ -113,6 +124,9 @@ export const EditTenant = () => {
     formData.append('phone', values.phone);
     formData.append('registrationText', values.registrationText);
     formData.append('website', values.website);
+    if (values.password) {
+      formData.append('password', values.password);
+    }
     editTenantAction(formData);
   };
 
@@ -219,6 +233,26 @@ export const EditTenant = () => {
               {...form.getInputProps('registrationText')}
               rows={10}
               maxRows={10}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('password')}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+            <PasswordInput
+              label="تأكيد كلمة المرور"
+              placeholder="*******"
+              mt="md"
+              size="md"
+              className="w-full"
+              {...form.getInputProps('confirmPassword')}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
