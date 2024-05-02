@@ -1,4 +1,5 @@
 import { refreshTokenService } from '@/services/refreshToken';
+import { signOutService } from '@/services/signOut';
 import { authStore } from '@/store/authStore';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -39,12 +40,13 @@ api.interceptors.response.use(
       if (refreshToken) {
         try {
           const response = await refreshTokenService(refreshToken);
-
           localStorage.setItem('token', response.token);
           return await api.request(error.config);
         } catch (e) {
-          authStore.getState().logout();
-          toast.error('تم انتهاء الجلسة');
+          await signOutService(Number(authStore.getState().id)).then(() => {
+            authStore.getState().logout();
+            toast.error('تم انتهاء الجلسة');
+          });
         }
       } else {
         authStore.getState().logout();

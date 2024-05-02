@@ -82,3 +82,4 @@ export const deleteAutomaticUpdateEndpoint = '/automatic-updates/';
 export const exportClientReportEndpoint = '/reports/pdf';
 export const createOrdersDocumentationEndpoint = '/orders/pdf';
 export const refreshTokensEndpoint = '/auth/refresh-token';
+export const signOutEndpoint = '/auth/signout';

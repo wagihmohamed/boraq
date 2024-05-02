@@ -10,11 +10,6 @@ import {
 
 import {
   IconLogout,
-  // IconHeart,
-  // IconStar,
-  // IconMessage,
-  // IconSettings,
-  // IconSwitchHorizontal,
   IconDots,
   IconChevronLeft,
   IconSunHigh,
@@ -23,10 +18,17 @@ import {
 import classes from './UserButton.module.css';
 import { useTheme } from '@/hooks/theme-provider';
 import { useAuth } from '@/store/authStore';
+import { useSignOut } from '@/hooks/useSignOut';
 
 export const UserNavCard = () => {
-  const { logout, name, username } = useAuth();
+  const { name, username } = useAuth();
   const { theme: displayTheme, setTheme } = useTheme();
+  const { mutate: signOut } = useSignOut();
+
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <UnstyledButton component="a" className={classes.user}>
       <Group>
@@ -81,54 +83,6 @@ export const UserNavCard = () => {
                   </div>
                 </Group>
               </Menu.Item>
-
-              {/* <Menu.Divider />
-
-              <Menu.Item
-                leftSection={
-                  <IconHeart
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
-                    color={theme.colors.red[6]}
-                  />
-                }
-              >
-                Liked posts
-              </Menu.Item>
-              <Menu.Item
-                leftSection={
-                  <IconStar
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
-                    color={theme.colors.yellow[6]}
-                  />
-                }
-              >
-                Saved posts
-              </Menu.Item>
-              <Menu.Item
-                leftSection={
-                  <IconMessage
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
-                    color={theme.colors.blue[6]}
-                  />
-                }
-              >
-                Your comments
-              </Menu.Item> */}
-
-              {/* <Menu.Label>Settings</Menu.Label>
-              <Menu.Item
-                leftSection={
-                  <IconSettings
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
-                  />
-                }
-              >
-                Account settings
-              </Menu.Item> */}
               <Menu.Item
                 onClick={() => {
                   setTheme(displayTheme === 'dark' ? 'light' : 'dark');
@@ -149,18 +103,8 @@ export const UserNavCard = () => {
               >
                 وضع {displayTheme === 'dark' ? 'النهاري' : 'الليلي'}
               </Menu.Item>
-              {/* <Menu.Item
-                leftSection={
-                  <IconSwitchHorizontal
-                    style={{ width: rem(16), height: rem(16) }}
-                    stroke={1.5}
-                  />
-                }
-              >
-                Change account
-              </Menu.Item> */}
               <Menu.Item
-                onClick={logout}
+                onClick={handleSignOut}
                 leftSection={
                   <IconLogout
                     style={{ width: rem(16), height: rem(16) }}
