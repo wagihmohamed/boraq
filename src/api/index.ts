@@ -1,10 +1,11 @@
+import { refreshTokenService } from '@/services/refreshToken';
 import { authStore } from '@/store/authStore';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const baseURL = import.meta.env.VITE_DEV_BASE_URL as string;
 export const IMAGE_BASE_URL = import.meta.env.VITE_DEV_IMAGE_BASE_URL as string;
-// HI
+
 export const api = axios.create({
   baseURL,
   headers: {
@@ -33,8 +34,22 @@ api.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 401) {
-      authStore.getState().logout();
-      toast.error('لقد انتهت صلاحية الجلسة الرجاء تسجيل الدخول مرة أخرى');
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      if (refreshToken) {
+        try {
+          const response = await refreshTokenService(refreshToken);
+
+          localStorage.setItem('token', response.token);
+          return await api.request(error.config);
+        } catch (e) {
+          authStore.getState().logout();
+          toast.error('تم انتهاء الجلسة');
+        }
+      } else {
+        authStore.getState().logout();
+        toast.error('تم انتهاء الجلسة');
+      }
     }
 
     return Promise.reject(error);

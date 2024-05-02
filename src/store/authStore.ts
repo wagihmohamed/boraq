@@ -39,6 +39,7 @@ export const authStore = create<IAuthStore>()(
       status: '',
       token: '',
       companyName: '',
+      refreshToken: '',
       companyID: '',
       id: '',
       name: '',
@@ -52,17 +53,20 @@ export const authStore = create<IAuthStore>()(
           token: data.token,
           id: decodedToken.id,
           name: decodedToken.name,
+          refreshToken: data.refreshToken,
           username: decodedToken.username,
           role: decodedToken.role,
           companyID: decodedToken.companyID || '',
         });
         localStorage.setItem('token', data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
       },
       logout: () => {
         set({
           status: '',
           token: '',
           companyName: '',
+          refreshToken: '',
           id: '',
           name: '',
           username: '',
@@ -70,6 +74,7 @@ export const authStore = create<IAuthStore>()(
           companyID: '',
         });
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         queryClient.clear();
         router.navigate('/');
       },

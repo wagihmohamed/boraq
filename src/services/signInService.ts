@@ -9,6 +9,7 @@ export interface SignInRequest {
 export interface SignInResponse {
   status: string;
   token: string;
+  refreshToken: string;
 }
 
 export const signInService = async (data: SignInRequest) => {
