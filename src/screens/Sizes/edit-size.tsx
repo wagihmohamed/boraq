@@ -1,5 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, TextInput } from '@mantine/core';
+import { Modal, Button, TextInput, ActionIcon } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
@@ -67,12 +67,9 @@ export const EditSize = ({
           </div>
         </form>
       </Modal>
-
-      <IconPencil
-        onClick={open}
-        className="text-yellow-200 cursor-pointer"
-        size={24}
-      />
+      <ActionIcon size="lg" color="yellow" onClick={open}>
+        <IconPencil className="text-white" />
+      </ActionIcon>
     </>
   );
 };

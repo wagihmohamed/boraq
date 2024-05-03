@@ -1,5 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
+import { Modal, Button, ActionIcon } from '@mantine/core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { APIError } from '@/models';
@@ -47,11 +47,9 @@ export const DeleteColor = ({ colorId }: { colorId: number }) => {
         </div>
       </Modal>
 
-      <IconTrash
-        onClick={open}
-        className="text-primary cursor-pointer"
-        size={24}
-      />
+      <ActionIcon size="lg" color="red" onClick={open}>
+        <IconTrash className="text-white" />
+      </ActionIcon>
     </>
   );
 };
