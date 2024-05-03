@@ -3,9 +3,9 @@ import { useAuth } from '@/store/authStore';
 import { signOutService } from '@/services/signOut';
 
 export const useSignOut = () => {
-  const { logout, id } = useAuth();
+  const { logout } = useAuth();
   return useMutation({
-    mutationFn: () => signOutService(Number(id)),
+    mutationFn: () => signOutService(),
     onSuccess: () => {
       logout();
     },
