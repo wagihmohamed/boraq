@@ -29,6 +29,11 @@ enum Permission {
   DELETE_CLIENT_REPORT = 'مسح كشف عميل',
   DELETE_BRANCH_REPORT = 'مسح كشف فرع',
   CONFIRM_ORDER = 'تأكيد طلب',
+
+  CHANGE_ORDER_DATA = 'تعديل بيانات طلبية',
+  CHANGE_ORDER_PAID_AMOUNT = 'تعديل المبلغ المدفوع لطلبية',
+  CHANGE_ORDER_RECEIPT_NUMBER = 'تعديل رقم الايصال لطلبية',
+  CHANGE_ORDER_RECEPIENT_NUMBER = 'تعديل رقم الاستلام لطلبية',
 }
 
 export const permissionsArabicNames = {
@@ -62,6 +67,11 @@ export const permissionsArabicNames = {
   DELETE_CLIENT_REPORT: 'مسح كشف عميل',
   DELETE_BRANCH_REPORT: 'مسح كشف فرع',
   CONFIRM_ORDER: 'تأكيد طلب',
+
+  CHANGE_ORDER_DATA: 'تعديل بيانات طلبية',
+  CHANGE_ORDER_PAID_AMOUNT: 'تعديل المبلغ المدفوع لطلبية',
+  CHANGE_ORDER_RECEIPT_NUMBER: 'تعديل رقم الايصال لطلبية',
+  CHANGE_ORDER_RECEPIENT_NUMBER: 'تعديل رقم الاستلام لطلبية',
 };
 
 export const permissionsArray: { label: string; value: string }[] =
