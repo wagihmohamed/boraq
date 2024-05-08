@@ -74,6 +74,7 @@ export const OrderTimelineModal = ({
                   type: item.type,
                   reportType: item?.reportType,
                   by: item?.by,
+                  message: item?.message,
                 })}
                 <Text size="xs" mt={4}>
                   {format(parseISO(item.date), 'yyyy-MM-dd HH:mm:ss')}

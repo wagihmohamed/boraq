@@ -8,10 +8,15 @@ export type OrderTimelineType =
   | 'STATUS_CHANGE'
   | 'DELIVERY_AGENT_CHANGE'
   | 'CURRENT_LOCATION_CHANGE'
-  | 'ORDER_DELIVERY'
+  | 'PAID_AMOUNT_CHANGE'
+  | 'REPOSITORY_CHANGE'
+  | 'BRANCH_CHANGE'
+  | 'CLIENT_CHANGE'
+  | 'STATUS_CHANGE'
   | 'REPORT_CREATE'
   | 'REPORT_DELETE'
-  | 'PAID_AMOUNT_CHANGE';
+  | 'ORDER_DELIVERY'
+  | 'OTHER';
 
 export const orderTimelineTypeArabicNames = {
   STATUS_CHANGE: 'تغيير حالة الطلب',
@@ -24,6 +29,7 @@ export const orderTimelineTypeArabicNames = {
   REPOSITORY_CHANGE: 'تغيير المخزن',
   BRANCH_CHANGE: 'تغيير الفرع',
   CLIENT_CHANGE: 'تغيير العميل',
+  OTHER: 'أخرى',
 };
 
 export interface OrderTimeline {
@@ -40,6 +46,7 @@ export interface OrderTimeline {
     type: OrderTimelineType;
     reportID: number | null;
     reportType: keyof typeof reportTypeArabicNames | null;
+    message: string | null;
   }[];
 }
 
