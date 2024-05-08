@@ -29,7 +29,6 @@ export const renderTimelineDescription = ({
   type,
   old,
   new: newStatus,
-  reportType,
   by,
   message,
 }) => {
@@ -55,7 +54,9 @@ export const renderTimelineDescription = ({
         ? ` تم تغير مبلغ الطلب من ${old.value} الى ${newStatus.value} بواسطة ${by.name}`
         : ` تم تغير مبلغ الطلب الى ${newStatus.value} بواسطة ${by.name}`;
     case 'REPORT_CREATE':
-      return `تم انشاء كشف ${reportTypeArabicNames[reportType]} بواسطة ${by.name}`;
+      return `تم انشاء كشف ${reportTypeArabicNames[newStatus.type]} بواسطة ${
+        by.name
+      }`;
     case 'REPORT_DELETE':
       return ` تم حذف كشف  بواسطة ${by.name}`;
     case 'REPOSITORY_CHANGE':

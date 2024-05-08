@@ -72,7 +72,6 @@ export const OrderTimelineModal = ({
                   old: item?.old,
                   new: item?.new,
                   type: item.type,
-                  reportType: item?.reportType,
                   by: item?.by,
                   message: item?.message,
                 })}
