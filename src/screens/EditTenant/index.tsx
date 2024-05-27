@@ -3,6 +3,7 @@ import { useTenantDetails } from '@/hooks/useTenantDetails';
 import {
   Button,
   Grid,
+  NumberInput,
   PasswordInput,
   Switch,
   TextInput,
@@ -123,7 +124,7 @@ export const EditTenant = () => {
     );
     formData.append('phone', values.phone);
     formData.append('registrationText', values.registrationText);
-    formData.append('website', values.website);
+    formData.append('website', values?.website || '');
     if (values.password) {
       formData.append('password', values.password);
     }
@@ -158,45 +159,45 @@ export const EditTenant = () => {
             <TextInput label="الموقع" {...form.getInputProps('website')} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="سعر توصيل لبغداد"
               {...form.getInputProps('baghdadPrice')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="سعر توصيل للمحافظات"
               {...form.getInputProps('governoratePrice')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="تكلفة المندوب"
               {...form.getInputProps('deliveryAgentFee')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="السعر الاضافي لكل 500000 دينار عراقي"
               {...form.getInputProps('additionalPriceForEvery500000IraqiDinar')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="السعر الاضافي لكل كيلوغرام"
               {...form.getInputProps('additionalPriceForEveryKilogram')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
-            <TextInput
+            <NumberInput
               label="السعر الاضافي للمناطق النائية"
               {...form.getInputProps('additionalPriceForRemoteAreas')}
-              type="number"
+              allowNegative={false}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>

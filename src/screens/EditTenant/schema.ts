@@ -7,7 +7,7 @@ export const editTenantSchema = z
     phone: z.string().refine(isValidIraqiPhoneNumber, {
       message: 'رقم الهاتف يجب ان يكون رقم عراقي',
     }),
-    website: z.string().url({ message: 'يجب ان يكون رابط صحيح' }),
+    website: z.string().optional(),
     logo: z.any(),
     registrationText: z.string().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
     governoratePrice: z.number().min(1, { message: 'يجب ان يكون اكتر من حرف' }),
